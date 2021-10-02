@@ -8,8 +8,6 @@ public class PlayerInputManager : MonoBehaviour
 {
     private void Awake()
     {
-        Cursor.lockState = CursorLockMode.Locked;
-        Cursor.visible = false;
     }
 
 
@@ -20,7 +18,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnMove(CallbackContext c)
     {
         moveInput = c.ReadValue<Vector2>();
-        if (!inventoryView.Visible)
+        if (!UIManager.IsUIOpen)
         {
             movement.Move(moveInput);
         }
@@ -32,7 +30,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnLook(CallbackContext c)
     {
         lookInput = c.ReadValue<Vector2>();
-        if(!inventoryView.Visible)
+        if (!UIManager.IsUIOpen)
         {
             movement.Look(lookInput);
         }
@@ -48,31 +46,19 @@ public class PlayerInputManager : MonoBehaviour
     public void OnInteract(CallbackContext value)
     {
         interactPressed = value.performed;
-        if (interactPressed && !inventoryView.Visible)
+        if (interactPressed && !UIManager.IsUIOpen)
         {
             interactor.Interact();
         }
     }
 
     bool inventoryPressed = false;
-    public InventoryView inventoryView;
     public void OnInventory(CallbackContext value)
     {
         inventoryPressed = value.performed;
         if(inventoryPressed)
         {
-            if (inventoryView.Visible)
-            {
-                inventoryView.Hide();
-                Cursor.lockState = CursorLockMode.Locked;
-                Cursor.visible = false;
-            }
-            else
-            {
-                inventoryView.Show();
-                Cursor.lockState = CursorLockMode.None;
-                Cursor.visible = true;
-            }
+            UIManager.instance.ToggleInventory();
         }
     }
 

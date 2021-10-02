@@ -95,8 +95,8 @@ GameObject:
   - component: {fileID: 2214350726589380327}
   - component: {fileID: 2960324924968008002}
   - component: {fileID: 1076879952028306824}
-  - component: {fileID: 1815035576938527252}
   - component: {fileID: 1815035576938527243}
+  - component: {fileID: 4578999662191638705}
   m_Layer: 0
   m_Name: workbench
   m_TagString: Untagged
@@ -172,20 +172,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!114 &1815035576938527252
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1581085541972880477}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9b9e269d5e6b5a458c460651d4372d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Workbench
-  interaction: Use
 --- !u!64 &1815035576938527243
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -200,6 +186,21 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: 2080382624509420758, guid: e9d273203cbf0df44a0d54d455f4bb23, type: 3}
+--- !u!114 &4578999662191638705
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1581085541972880477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06626f5c4872ddd46986870cd085e8c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  recipes: []
 --- !u!1 &6973291280610988594
 GameObject:
   m_ObjectHideFlags: 0

@@ -96,12 +96,53 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public Stack RemoveStackFromSlot(int index)
+    public Stack GrabFromSlot(int index)
     {
         Stack result = new Stack(slots[index]);
         slots[index] = null;
         onSlotUpdated.Invoke(index);
         return result;
+    }
+
+    /// <summary>
+    /// Remove the required number from the stack
+    /// </summary>
+    /// <param name="index"></param>
+    /// <param name="stack"></param>
+    /// <returns>Returns the number of items that could not be removed (overflow) </returns>
+    public int DeleteCountFromSlot(int index, int count)
+    {
+        Stack s = slots[index];
+        if(s.count > count)
+        {
+            s.count -= count;
+            onSlotUpdated(index);
+            return 0;
+        }
+        else
+        {
+            count -= s.count;
+            s.count = 0;
+            s.item = null;
+            onSlotUpdated(index);
+            return count;
+        }
+    }
+
+    public void Delete(Stack stack)
+    {
+        if(Contains(stack))
+        {
+            int totalCount = stack.count;
+            //Look through all stacks and remove until totalCount == 0
+            for (int i = slots.Length-1; i >= 0 && totalCount > 0; i--)
+            {
+                if (slots[i].item == stack.item)
+                {
+                    totalCount = DeleteCountFromSlot(i, totalCount);
+                }
+            }
+        }
     }
 
     public void AddStackToSlot(Stack stack, int slotIndex)
@@ -117,5 +158,20 @@ public class Inventory : MonoBehaviour
             slots[slotIndex].Add(stack);
         }
         onSlotUpdated.Invoke(slotIndex);
+    }
+
+    public bool Contains(Stack stack)
+    {
+        int totalCount = 0;
+        //Look through all stacks and check recipes
+        for(int i = 0; i < slots.Length; i++)
+        {
+            if(slots[i].item == stack.item)
+            {
+                totalCount += slots[i].count;
+            }
+        }
+        return totalCount >= stack.count;
+
     }
 }
