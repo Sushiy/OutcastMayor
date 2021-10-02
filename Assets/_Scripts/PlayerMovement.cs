@@ -17,6 +17,7 @@ public class PlayerMovement : MonoBehaviour
 
     Animator animator;
     int hashRunning = Animator.StringToHash("bIsRunning");
+    int hashSpeed = Animator.StringToHash("fSpeed");
 
     #region Input
     Vector2 moveInput;
@@ -24,13 +25,13 @@ public class PlayerMovement : MonoBehaviour
 
     public Transform followTransform;
 
-    public void OnMove(InputValue c)
+    public void Move(Vector2 move)
     {
-        moveInput = c.Get<Vector2>();
+        moveInput = move;
     }
-    public void OnLook(InputValue c)
+    public void Look(Vector2 look)
     {
-        lookInput = c.Get<Vector2>();
+        lookInput = look;
     }
     #endregion
 
@@ -46,6 +47,7 @@ public class PlayerMovement : MonoBehaviour
         if(movement.sqrMagnitude > 0.0f)
         {
             animator.SetBool(hashRunning, true);
+            animator.SetFloat(hashSpeed, movement.magnitude);
         }
         else
         {
