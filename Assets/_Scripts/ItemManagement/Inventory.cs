@@ -134,18 +134,23 @@ public class Inventory : MonoBehaviour
         Stack s = slots[index];
         if(s.count > count)
         {
+            print("Delete " + count + "/" + s.count + " from slot " + index);
             s.count -= count;
             onSlotUpdated(index);
             shouldUpdate = true;
+            slots[index] = s;
             return 0;
         }
         else
         {
+            print("Delete " + count + "/" + s.count + " from slot " + index);
             count -= s.count;
             s.count = 0;
             s.item = null;
             onSlotUpdated(index);
             shouldUpdate = true;
+            slots[index] = s;
+            print("Slot "+ index + " is now null:" + (slots[index].item == null).ToString());
             return count;
         }
     }
@@ -160,9 +165,14 @@ public class Inventory : MonoBehaviour
             {
                 if (slots[i].item == stack.item)
                 {
+                    print("Deleting " + stack.count + " " + stack.item.Name + " from slot " + i);
                     totalCount = DeleteCountFromSlot(i, totalCount);
                 }
             }
+        }
+        else
+        {
+            Debug.LogError("The ressources to delete are not here");
         }
     }
 

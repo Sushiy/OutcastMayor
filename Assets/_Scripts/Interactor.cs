@@ -19,20 +19,19 @@ public class Interactor : MonoBehaviour
         }
     }
 
-    private void Update()
+    public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
     {
-        RaycastHit raycastHit;
-        if(Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out raycastHit, 10.0f))
+        if(raycastHit)
         {
             //If this is the same collider as last time, 
-            if (raycastHit.collider == hoveredCollider)
+            if (hitInfo.collider == hoveredCollider)
             {
                 return;
             }
 
             //Check what we have hit
-            hoveredCollider = raycastHit.collider;
-            hoveredInteractable = raycastHit.collider.GetComponent<Interactable>();
+            hoveredCollider = hitInfo.collider;
+            hoveredInteractable = hitInfo.collider.GetComponent<Interactable>();
             if(hoveredInteractable != null)
             {
                 if(hoverUIController != null)
