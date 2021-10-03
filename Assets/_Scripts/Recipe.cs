@@ -5,8 +5,20 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewRecipe", menuName = "ScriptableObjects/Recipe", order = 1)]
 public class Recipe : ScriptableObject
 {
-    public string Name;
-    public Sprite icon;
+    public string Name
+    {
+        get
+        {
+            return output.item.Name;
+        }
+    }
+    public Sprite Icon
+    {
+        get
+        {
+            return output.item.icon;
+        }
+    }
 
     public Inventory.Stack[] inputs;
     public Inventory.Stack output;

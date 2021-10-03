@@ -19,16 +19,17 @@ public class UIPanel : MonoBehaviour
         canvasGroup.blocksRaycasts = false;
     }
 
-    public void Show()
+    public virtual void Show()
     {
         canvasGroup.DOFade(1.0f, 0.25f);
         canvasGroup.blocksRaycasts = true;
         Visible = true;
     }
-    public void Hide()
+    public virtual void Hide()
     {
         canvasGroup.DOFade(0.0f, 0.25f);
         canvasGroup.blocksRaycasts = false;
         Visible = false;
+        UIManager.OnHidePanel();
     }
 }

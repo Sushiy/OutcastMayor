@@ -9,6 +9,7 @@ public class Item: ScriptableObject
     [Header("Info")]
     public string Name;
     public int ID = -1;
+    public Sprite icon;
 
     public float weight;
     public int stackLimit;

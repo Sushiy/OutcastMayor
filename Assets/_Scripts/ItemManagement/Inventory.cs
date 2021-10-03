@@ -9,10 +9,16 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [System.Serializable]
-    public class Stack
+    public struct Stack
     {
         public Item item;
         public int count;
+
+        public Stack(Item item, int count)
+        {
+            this.item = item;
+            this.count = count;
+        }
 
         public Stack(Stack other)
         {
@@ -37,7 +43,7 @@ public class Inventory : MonoBehaviour
                 {
                     //Add to stack
                     count += stack.count;
-                    return null;
+                    return new Stack(null, 0);
                 }
                 else
                 {
@@ -59,9 +65,18 @@ public class Inventory : MonoBehaviour
 
     public Stack[] slots;
 
-    public Stack heldStack;
-
     public System.Action<int> onSlotUpdated;
+    public bool shouldUpdate = false;
+    public System.Action onInventoryUpdated;
+
+    private void Update()
+    {
+        if(shouldUpdate)
+        {
+            shouldUpdate = false;
+            onInventoryUpdated?.Invoke();
+        }
+    }
 
     public bool Add(Stack stack)
     {
@@ -73,8 +88,9 @@ public class Inventory : MonoBehaviour
             {
                 stack = slots[i].Add(stack);
                 onSlotUpdated.Invoke(i);
+                shouldUpdate = true;
                 print("Stack added onto slot " + firstFreeSlotIndex);
-                if (stack == null)
+                if (stack.item == null)
                 {
                     return true;
                 }
@@ -84,11 +100,12 @@ public class Inventory : MonoBehaviour
                 firstFreeSlotIndex = i;
             }
         }
-        if(stack != null && firstFreeSlotIndex >= 0)
+        if(stack.item != null && firstFreeSlotIndex >= 0)
         {
             print("Stack added to free slot " + firstFreeSlotIndex);
             slots[firstFreeSlotIndex] = stack;
             onSlotUpdated.Invoke(firstFreeSlotIndex);
+            shouldUpdate = true;
             return true;
         }
 
@@ -99,8 +116,10 @@ public class Inventory : MonoBehaviour
     public Stack GrabFromSlot(int index)
     {
         Stack result = new Stack(slots[index]);
-        slots[index] = null;
+        slots[index].item = null;
+        slots[index].count = 0;
         onSlotUpdated.Invoke(index);
+        shouldUpdate = true;
         return result;
     }
 
@@ -117,6 +136,7 @@ public class Inventory : MonoBehaviour
         {
             s.count -= count;
             onSlotUpdated(index);
+            shouldUpdate = true;
             return 0;
         }
         else
@@ -125,6 +145,7 @@ public class Inventory : MonoBehaviour
             s.count = 0;
             s.item = null;
             onSlotUpdated(index);
+            shouldUpdate = true;
             return count;
         }
     }
@@ -145,12 +166,13 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void AddStackToSlot(Stack stack, int slotIndex)
+    public Stack AddStackToSlot(Stack stack, int slotIndex)
     {
+        Stack result = new Stack(null,0);
         if(stack.item != slots[slotIndex].item)
         {
             //Replace stack
-            heldStack = slots[slotIndex];
+            result = slots[slotIndex];
             slots[slotIndex] = stack;
         }
         else
@@ -158,6 +180,8 @@ public class Inventory : MonoBehaviour
             slots[slotIndex].Add(stack);
         }
         onSlotUpdated.Invoke(slotIndex);
+        shouldUpdate = true;
+        return result;
     }
 
     public bool Contains(Stack stack)
