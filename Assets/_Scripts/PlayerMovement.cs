@@ -19,6 +19,10 @@ public class PlayerMovement : MonoBehaviour
     int hashRunning = Animator.StringToHash("bIsRunning");
     int hashSpeed = Animator.StringToHash("fSpeed");
 
+    CharacterController characterController;
+
+    private float verticalSpeed;
+
     #region Input
     Vector2 moveInput;
     Vector2 lookInput;
@@ -38,6 +42,7 @@ public class PlayerMovement : MonoBehaviour
     private void Awake()
     {
         animator = GetComponentInChildren<Animator>();
+        characterController = GetComponent<CharacterController>();
     }
 
     // Update is called once per frame
@@ -92,13 +97,21 @@ public class PlayerMovement : MonoBehaviour
 
         //Move player based on Input
         float frameSpeed = moveSpeed * Time.deltaTime;
+        if(characterController.isGrounded)
+        {
+            verticalSpeed = 0.0f;
+        }
+        verticalSpeed -= 9.8f * Time.deltaTime * Time.deltaTime;
         movementDelta = transform.forward * (moveInput.y * frameSpeed) + transform.right * (moveInput.x * frameSpeed);
-        transform.position += movementDelta;
+        movementDelta.y = verticalSpeed;
+        characterController.Move(movementDelta);
+
 
         //Rotate player in movementDirection
-        if(moveInput.x != 0 || moveInput.y != 0)
+        if (moveInput.x != 0 || moveInput.y != 0)
         {
-            rotationTarget.rotation = Quaternion.LookRotation(movementDelta, Vector3.up);
+            Quaternion lookRot = Quaternion.LookRotation(movementDelta, Vector3.up);
+            rotationTarget.rotation = Quaternion.Euler(0, lookRot.eulerAngles.y, 0);
         }
 
         if (moveInput.x != 0)

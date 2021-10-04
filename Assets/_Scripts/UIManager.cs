@@ -10,12 +10,14 @@ public class UIManager : MonoBehaviour
     private InventoryView inventoryView;
     [SerializeField]
     private CraftingTableView craftingTableView;
+    [SerializeField]
+    private BuildingView buildingView;
 
     public static bool IsUIOpen
     {
         get
         {
-            return instance.inventoryView.Visible || instance.craftingTableView.Visible;
+            return instance.inventoryView.Visible || instance.craftingTableView.Visible || instance.buildingView.Visible;
         }
     }
 
@@ -74,6 +76,20 @@ public class UIManager : MonoBehaviour
         else
         {
             craftingTableView.Show();
+            ShowCursor();
+        }
+    }
+    public void ToggleBuildingView()
+    {
+        if (buildingView.Visible)
+        {
+            buildingView.Hide();
+            if (!IsUIOpen)
+                HideCursor();
+        }
+        else
+        {
+            buildingView.Show();
             ShowCursor();
         }
     }

@@ -8,10 +8,11 @@ public class Buildable : MonoBehaviour
     Material[][] originalMaterials;
 
     SnappingPoint[] snappingPoints;
-    public Collider mainCollider;
+    public BoxCollider mainCollider;
 
     private void Awake()
     {
+        /*
         originalMaterials = new Material[meshRenderers.Length][];
         for (int m = 0; m < meshRenderers.Length; m++)
         {
@@ -20,7 +21,7 @@ public class Buildable : MonoBehaviour
             {
                 originalMaterials[m][i] = meshRenderers[m].materials[i];
             }
-        }
+        }*/
 
         snappingPoints = GetComponentsInChildren<SnappingPoint>();
     }
@@ -85,8 +86,6 @@ public class Buildable : MonoBehaviour
         //Draw bounds
         if(mainCollider)
         {
-            Gizmos.color = Color.red;
-            Gizmos.DrawWireCube(mainCollider.bounds.center,  mainCollider.bounds.size);
         }
     }
 }

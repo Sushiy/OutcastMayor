@@ -14,6 +14,7 @@ public class PlayerInputManager : MonoBehaviour
     public Interactor interactor;
 
     bool inventoryPressed = false;
+    bool secondaryPressed = false;
 
     public BuildingMode buildingMode;
 
@@ -50,6 +51,14 @@ public class PlayerInputManager : MonoBehaviour
             interactor.Interact();
         }
     }
+    public void OnSecondary(CallbackContext value)
+    {
+        secondaryPressed = value.performed;
+        if (secondaryPressed && buildingMode.isActive)
+        {
+            UIManager.instance.ToggleBuildingView();
+        }
+    }
 
     public void OnInventory(CallbackContext value)
     {
@@ -65,7 +74,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnFire(CallbackContext value)
     {
         firePressed = value.performed;
-        if(firePressed)
+        if(firePressed && !UIManager.IsUIOpen)
         {
             if(buildingMode.isActive)
             {

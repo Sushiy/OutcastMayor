@@ -29,7 +29,7 @@ public class CraftingTableView : UIPanel
                 Recipe r = craftingTable.recipes[i];
                 recipeButtons[i].gameObject.SetActive(true);
                 recipeButtons[i].button.interactable = r.IsValid(inventory);
-                recipeButtons[i].SetRecipe(r);
+                recipeButtons[i].SetData(r.Name, r.Icon);
             }
             else
             {

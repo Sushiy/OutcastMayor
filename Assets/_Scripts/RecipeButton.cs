@@ -10,9 +10,9 @@ public class RecipeButton : MonoBehaviour
     public TMPro.TMP_Text name;
     public Button button;
 
-    public void SetRecipe(Recipe recipe)
+    public void SetData(string name, Sprite icon)
     {
-        icon.sprite = recipe.Icon;
-        name.text = recipe.Name;
+        this.icon.sprite = icon;
+        this.name.text = name;
     }
 }
