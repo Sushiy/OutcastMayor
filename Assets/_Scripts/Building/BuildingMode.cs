@@ -29,6 +29,8 @@ public class BuildingMode : MonoBehaviour
 
     public float rotateSpeed = 10.0f;
 
+    public CurrentBuildPanel currentBuildPanel;
+
     public void ChooseBuildRecipe(BuildRecipe buildRecipe)
     {
         if(ghostBuilding != null)
@@ -47,6 +49,9 @@ public class BuildingMode : MonoBehaviour
         sensorBuilding.SetInvisible();
         sensorBuilding.gameObject.name = "Sensor";
         sensorBuilding.SetLayerForAllColliders(6);
+
+        currentBuildPanel.Show();
+        currentBuildPanel.SetData(buildRecipe);
     }
 
     public void EnterBuildMode()
@@ -157,13 +162,13 @@ public class BuildingMode : MonoBehaviour
 
             sensorBuilding.transform.SetPositionAndRotation(rayCastPosition + offset, buildRotation);
 
-            buildPosition += offset;
+            buildPosition = rayCastPosition + offset;
+
             if (sensorBuilding.ownSnapReference != null)
             {
                 Debug.DrawLine(sensorBuilding.ownSnapReference.position, sensorBuilding.otherSnapReference.position, Color.red);
                 buildPosition += sensorBuilding.otherSnapReference.position - sensorBuilding.ownSnapReference.position;
             }
-
             ghostBuilding.transform.SetPositionAndRotation(buildPosition, buildRotation);
         }
     }
@@ -175,7 +180,6 @@ public class BuildingMode : MonoBehaviour
         if(raycastHit)
         {
             rayCastPosition = hitInfo.point;
-            buildPosition = hitInfo.point;
             surfaceNormal.origin = hitInfo.point;
             surfaceNormal.direction = hitInfo.normal;
         }
@@ -184,6 +188,7 @@ public class BuildingMode : MonoBehaviour
     public void EndBuildMode()
     {
         isActive = false;
+        currentBuildPanel.Hide();
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
     }
