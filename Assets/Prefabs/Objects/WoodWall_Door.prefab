@@ -52,7 +52,8 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 7359007576330169282}
   - {fileID: 872188070401952044}
-  mainCollider: {fileID: 8114385352117892352}
+  buildCollider: {fileID: 8114385352117892352}
+  room: {fileID: 0}
   ownSnapReference: {fileID: 0}
   otherSnapReference: {fileID: 0}
 --- !u!54 &6731145750637575630

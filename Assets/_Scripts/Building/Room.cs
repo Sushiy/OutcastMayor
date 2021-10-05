@@ -3,17 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class Room
+public class Room : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    List<Floor> floors;
+
+    public Room()
     {
-        
+        floors = new List<Floor>();
     }
 
-    // Update is called once per frame
-    void Update()
+    public void AddFloor(Floor f)
     {
-        
+        floors.Add(f);
     }
 }

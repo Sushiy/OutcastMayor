@@ -5,29 +5,32 @@ using UnityEngine;
 public class BuildingMode : MonoBehaviour
 {
     public bool isActive = false;
-
+    [Header("References")]
     public Inventory inventory;
-    public BuildRecipe[] recipes;
     public Material ghostMaterial;
     public Material sensorMaterial;
+    public Transform buildingParent;
 
-    public BuildRecipe selectedRecipe;
 
-    public Vector3 buildPosition;
-    public Vector3 rayCastPosition;
-    public Quaternion buildRotation;
+    [Header("BuildMode Settings")]
+    public BuildRecipe[] recipes;
+    private BuildRecipe selectedRecipe;
+
+    private Vector3 buildPosition;
+    private Vector3 rayCastPosition;
+    private Quaternion buildRotation;
+    public float rotateSpeed = 10.0f;
     private float buildAngle = 0;
+
 
     /// <summary>
     /// This copy snaps to where the player wants to build
     /// </summary>
-    public Buildable ghostBuilding;
+    private Buildable ghostBuilding;
     /// <summary>
     /// This Copy stays exactly where the mouse is aimed, but is invisible
     /// </summary>
-    public Buildable sensorBuilding;
-
-    public float rotateSpeed = 10.0f;
+    private Buildable sensorBuilding;
 
     public CurrentBuildPanel currentBuildPanel;
 
@@ -38,17 +41,13 @@ public class BuildingMode : MonoBehaviour
             Destroy(ghostBuilding.gameObject);
             Destroy(sensorBuilding.gameObject);
         }
+
         selectedRecipe = buildRecipe;
         ghostBuilding = GameObject.Instantiate(buildRecipe.prefab, buildPosition, buildRotation);
-        ghostBuilding.SetMaterials(ghostMaterial);
-        ghostBuilding.gameObject.name = "Ghost";
-        ghostBuilding.SetLayerForAllColliders(2);
+        ghostBuilding.SetGhostMode(ghostMaterial);
 
         sensorBuilding = GameObject.Instantiate(buildRecipe.prefab, buildPosition, buildRotation);
-        sensorBuilding.SetMaterials(sensorMaterial);
-        sensorBuilding.SetInvisible();
-        sensorBuilding.gameObject.name = "Sensor";
-        sensorBuilding.SetLayerForAllColliders(6);
+        sensorBuilding.SetSensorMode(sensorMaterial);
 
         currentBuildPanel.Show();
         currentBuildPanel.SetData(buildRecipe);
@@ -69,18 +68,19 @@ public class BuildingMode : MonoBehaviour
 
     public void Build()
     {
-        if(sensorBuilding.otherSnapReference != null)
-        {
-            Buildable snappedBuilding = sensorBuilding.otherSnapReference.buildable;
-        }
         if (selectedRecipe.IsValid(inventory))
         {
+            Buildable snappedBuilding = null;
+            if (sensorBuilding.otherSnapReference != null)
+            {
+                snappedBuilding = sensorBuilding.otherSnapReference.buildable;
+            }
             for (int i = 0; i < selectedRecipe.materials.Length; i++)
             {      
                 inventory.Delete(selectedRecipe.materials[i]);
             }
-            GameObject.Instantiate(selectedRecipe.prefab, buildPosition, buildRotation);
-
+            Buildable b = GameObject.Instantiate(selectedRecipe.prefab, buildPosition, buildRotation, buildingParent);
+            b.SetBuildMode(snappedBuilding);
         }
     }
 
@@ -98,21 +98,21 @@ public class BuildingMode : MonoBehaviour
             }
             sensorBuilding.transform.SetPositionAndRotation(rayCastPosition, buildRotation);
             //Calculate where to put the mesh, so that it doesnt poke through the other mesh
-            Vector3 c = sensorBuilding.mainCollider.center;
-            Vector3 cw = sensorBuilding.mainCollider.transform.TransformPoint(c);
-            float sX = sensorBuilding.mainCollider.size.x / 2.0f;
-            float sY = sensorBuilding.mainCollider.size.y / 2.0f;
-            float sZ = sensorBuilding.mainCollider.size.z / 2.0f;
+            Vector3 c = sensorBuilding.buildCollider.center;
+            Vector3 cw = sensorBuilding.buildCollider.transform.TransformPoint(c);
+            float sX = sensorBuilding.buildCollider.size.x / 2.0f;
+            float sY = sensorBuilding.buildCollider.size.y / 2.0f;
+            float sZ = sensorBuilding.buildCollider.size.z / 2.0f;
 
             Vector3[] v = new Vector3[8];
-            v[0] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(-sX, sY, -sZ));
-            v[1] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(-sX, -sY, -sZ));
-            v[2] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(-sX, sY, sZ));
-            v[3] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(-sX, -sY, sZ));
-            v[4] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(sX, sY, sZ));
-            v[5] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(sX, -sY, sZ));
-            v[6] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(sX, -sY, -sZ));
-            v[7] = sensorBuilding.mainCollider.transform.TransformPoint(c + new Vector3(sX, sY, -sZ));
+            v[0] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(-sX, sY, -sZ));
+            v[1] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(-sX, -sY, -sZ));
+            v[2] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(-sX, sY, sZ));
+            v[3] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(-sX, -sY, sZ));
+            v[4] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(sX, sY, sZ));
+            v[5] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(sX, -sY, sZ));
+            v[6] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(sX, -sY, -sZ));
+            v[7] = sensorBuilding.buildCollider.transform.TransformPoint(c + new Vector3(sX, sY, -sZ));
             Vector3[] p = new Vector3[8];
 
             p[0] = Vector3.Project(v[0] - surfaceNormal.origin, surfaceNormal.direction);

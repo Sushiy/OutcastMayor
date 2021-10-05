@@ -8,13 +8,33 @@ public class Buildable : MonoBehaviour
     public MeshRenderer[] meshRenderers;
 
     SnappingPoint[] snappingPoints;
-    public BoxCollider mainCollider;
+    public BoxCollider buildCollider;
 
     public Room room;
 
     private void Awake()
     {
         snappingPoints = GetComponentsInChildren<SnappingPoint>();
+    }
+
+    public void SetGhostMode(Material ghostMaterial)
+    {
+        SetMaterials(ghostMaterial);
+        gameObject.name = "Ghost";
+        SetLayerForAllColliders(2);
+    }
+
+    public void SetSensorMode(Material sensorMaterial)
+    {
+        SetMaterials(sensorMaterial);
+        SetInvisible();
+        gameObject.name = "Sensor";
+        SetLayerForAllColliders(6);
+    }
+
+    public void SetBuildMode(Buildable snappedToObject)
+    {
+        CheckForRoom(snappedToObject);
     }
 
     public void SetInvisible()
@@ -62,14 +82,6 @@ public class Buildable : MonoBehaviour
         {
             ownSnapReference = null;
             otherSnapReference = null;
-        }
-    }
-
-    private void OnDrawGizmosSelected()
-    {
-        //Draw bounds
-        if(mainCollider)
-        {
         }
     }
 
