@@ -24,8 +24,32 @@ public class PlayerInputManager : MonoBehaviour
     bool inventoryPressed = false;
     bool secondaryPressed = false;
 
+    bool firePressed = false;
+
     public BuildingMode buildingMode;
     public bool topDownBuilding = false;
+
+    public Cinemachine.CinemachineVirtualCamera camOTS;
+    public Cinemachine.CinemachineVirtualCamera camTD;
+
+    [Header("Raycast")]
+    public LayerMask buildRaycastLayerMask;
+    public LayerMask interactRaycastLayerMask;
+    public Transform rayCastOrigin;
+    public bool raycastHit
+    {
+        private set;
+        get;
+    }
+    private RaycastHit hitInfo;
+    public RaycastHit HitInfo
+    {
+        get
+        {
+            return hitInfo;
+        }
+    }
+
     public void OnMove(CallbackContext c)
     {
         moveInput = c.ReadValue<Vector2>();
@@ -77,8 +101,6 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
-    bool firePressed = false;
-
     public void OnFire(CallbackContext value)
     {
         firePressed = value.performed;
@@ -90,9 +112,6 @@ public class PlayerInputManager : MonoBehaviour
             }
         }
     }
-
-    public Cinemachine.CinemachineVirtualCamera camOTS;
-    public Cinemachine.CinemachineVirtualCamera camTD;
 
     public void OnBuildMode(CallbackContext value)
     {
@@ -143,39 +162,26 @@ public class PlayerInputManager : MonoBehaviour
         mousePosition = c.ReadValue<Vector2>();
     }
 
-    public bool raycastHit
-    {
-        private set;
-        get;
-    }
-    private RaycastHit hitInfo;
-    public RaycastHit HitInfo
-    {
-        get
-        {
-            return hitInfo;
-        }
-    }
-
-    public LayerMask raycastLayerMask;
-    public Transform rayCastOrigin;
-
     public void Update()
     {
-        if(topDownBuilding && buildingMode.isActive)
+        if(buildingMode.isActive)
         {
-            raycastHit = Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out hitInfo, 10.0f, raycastLayerMask);
+            if(topDownBuilding)
+            {
+                raycastHit = Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out hitInfo, 10.0f, buildRaycastLayerMask);
+            }
+            else
+            {
+                raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, buildRaycastLayerMask);
+            }
+            buildingMode.ProcessRayCast(raycastHit, hitInfo);
         }
         else
         {
-            raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, raycastLayerMask);
+            raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
             interactor.ProcessRayCast(raycastHit, hitInfo);
-            Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
         }
+        //Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
 
-        if (buildingMode.isActive)
-        {
-            buildingMode.ProcessRayCast(raycastHit, hitInfo);
-        }
     }
 }
