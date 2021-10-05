@@ -87,6 +87,17 @@ public class Buildable : MonoBehaviour
 
     public virtual void CheckForRoom(Buildable snappedTo)
     {
-
+        if (snappedTo == null || snappedTo.room == null)
+        {
+            GameObject g = new GameObject("Room");
+            g.transform.parent = transform.parent;
+            room = g.AddComponent<Room>();
+            transform.parent = room.transform;
+        }
+        else
+        {
+            room = snappedTo.room;
+            transform.parent = room.transform;
+        }
     }
 }
