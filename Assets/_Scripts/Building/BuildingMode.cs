@@ -69,6 +69,10 @@ public class BuildingMode : MonoBehaviour
 
     public void Build()
     {
+        if(sensorBuilding.otherSnapReference != null)
+        {
+            Buildable snappedBuilding = sensorBuilding.otherSnapReference.buildable;
+        }
         if (selectedRecipe.IsValid(inventory))
         {
             for (int i = 0; i < selectedRecipe.materials.Length; i++)
@@ -76,6 +80,7 @@ public class BuildingMode : MonoBehaviour
                 inventory.Delete(selectedRecipe.materials[i]);
             }
             GameObject.Instantiate(selectedRecipe.prefab, buildPosition, buildRotation);
+
         }
     }
 
@@ -199,6 +204,7 @@ public class BuildingMode : MonoBehaviour
         this.rotateInput = rotateInput;
         if(rotateInput != 0)
         {
+            print("Rotate:" + Mathf.Sign(rotateInput));
             buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
             buildRotation = Quaternion.Euler(0, buildAngle, 0);
         }

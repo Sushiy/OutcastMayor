@@ -6,6 +6,14 @@ using static UnityEngine.InputSystem.InputAction;
 
 public class PlayerInputManager : MonoBehaviour
 {
+    public bool IsPointerOverUI
+    {
+        get
+        {
+            return UnityEngine.EventSystems.EventSystem.current.IsPointerOverGameObject();
+        }
+    }
+
     Vector2 moveInput;
     Vector2 lookInput;
     public PlayerMovement movement;
@@ -17,7 +25,7 @@ public class PlayerInputManager : MonoBehaviour
     bool secondaryPressed = false;
 
     public BuildingMode buildingMode;
-
+    public bool topDownBuilding = false;
     public void OnMove(CallbackContext c)
     {
         moveInput = c.ReadValue<Vector2>();
@@ -33,13 +41,13 @@ public class PlayerInputManager : MonoBehaviour
     public void OnLook(CallbackContext c)
     {
         lookInput = c.ReadValue<Vector2>();
-        if (!UIManager.IsUIOpen)
+        if (UIManager.IsUIOpen || (topDownBuilding && buildingMode.isActive))
         {
-            movement.Look(lookInput);
+            movement.Look(Vector2.zero);
         }
         else
         {
-            movement.Look(Vector2.zero);
+            movement.Look(lookInput);
         }
     }
 
@@ -74,7 +82,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnFire(CallbackContext value)
     {
         firePressed = value.performed;
-        if(firePressed && !UIManager.IsUIOpen)
+        if(firePressed && (!UIManager.IsUIOpen || buildingMode.isActive && topDownBuilding && !IsPointerOverUI))
         {
             if(buildingMode.isActive)
             {
@@ -83,28 +91,57 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    public Cinemachine.CinemachineVirtualCamera camOTS;
+    public Cinemachine.CinemachineVirtualCamera camTD;
+
     public void OnBuildMode(CallbackContext value)
     {
         if(value.performed)
         {
             if (!buildingMode.isActive)
+            {
                 buildingMode.EnterBuildMode();
+                if(topDownBuilding)
+                {
+                    UIManager.forceCursor = true;
+                    UIManager.ShowCursor();
+                    camOTS.Priority = 0;
+                    camTD.Priority = 10;
+                }
+            }
             else
+            {
                 buildingMode.EndBuildMode();
+                if(topDownBuilding)
+                {
+                    UIManager.forceCursor = false;
+                    UIManager.HideCursor();
+                    camOTS.Priority = 10;
+                    camTD.Priority = 0;
+                }
+            }
         }
     }
 
     float rotateValue;
     public void OnRotate(CallbackContext value)
     {
-        rotateValue = value.ReadValue<float>();
-        print(rotateValue);
+        float v = value.ReadValue<float>();
+        if (v != 0 && !value.performed)
+            return;
+        rotateValue = v;
+        //print(rotateValue + ";" + value.performed.ToString());
         if(buildingMode.isActive)
         {
             buildingMode.Rotate(rotateValue);
         }
     }
 
+    Vector2 mousePosition;
+    public void OnPosition(CallbackContext c)
+    {
+        mousePosition = c.ReadValue<Vector2>();
+    }
 
     public bool raycastHit
     {
@@ -125,12 +162,20 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Update()
     {
-        raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, raycastLayerMask);
-        interactor.ProcessRayCast(raycastHit, hitInfo);
-        if(buildingMode.isActive)
+        if(topDownBuilding && buildingMode.isActive)
+        {
+            raycastHit = Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out hitInfo, 10.0f, raycastLayerMask);
+        }
+        else
+        {
+            raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, raycastLayerMask);
+            interactor.ProcessRayCast(raycastHit, hitInfo);
+            Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
+        }
+
+        if (buildingMode.isActive)
         {
             buildingMode.ProcessRayCast(raycastHit, hitInfo);
         }
-        Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
     }
 }

@@ -2,37 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Rigidbody))]
 public class Buildable : MonoBehaviour
 {
     public MeshRenderer[] meshRenderers;
-    Material[][] originalMaterials;
 
     SnappingPoint[] snappingPoints;
     public BoxCollider mainCollider;
 
+    public Room room;
+
     private void Awake()
     {
-        /*
-        originalMaterials = new Material[meshRenderers.Length][];
-        for (int m = 0; m < meshRenderers.Length; m++)
-        {
-            originalMaterials[m] = new Material[meshRenderers[m].materials.Length];
-            for (int i = 0; i < originalMaterials.Length; i++)
-            {
-                originalMaterials[m][i] = meshRenderers[m].materials[i];
-            }
-        }*/
-
         snappingPoints = GetComponentsInChildren<SnappingPoint>();
     }
 
-    public void ResetMaterials()
-    {
-        for (int m = 0; m < meshRenderers.Length; m++)
-        {
-            meshRenderers[m].materials = originalMaterials[m];
-        }
-    }
     public void SetInvisible()
     {
         for (int m = 0; m < meshRenderers.Length; m++)
@@ -63,16 +47,16 @@ public class Buildable : MonoBehaviour
         }
     }
 
-    public Transform ownSnapReference;
-    public Transform otherSnapReference;
+    public SnappingPoint ownSnapReference;
+    public SnappingPoint otherSnapReference;
 
-    public void SnapPoints(Transform own, Transform other)
+    public void SnapPoints(SnappingPoint own, SnappingPoint other)
     {
         ownSnapReference = own;
         otherSnapReference = other;
     }
 
-    public void StopSnap(Transform own, Transform other)
+    public void StopSnap(SnappingPoint own, SnappingPoint other)
     {
         if(ownSnapReference == own && otherSnapReference == other)
         {
@@ -87,5 +71,10 @@ public class Buildable : MonoBehaviour
         if(mainCollider)
         {
         }
+    }
+
+    public virtual void CheckForRoom(Buildable snappedTo)
+    {
+
     }
 }

@@ -8,10 +8,4 @@ public class CustomCursor : MonoBehaviour
     {
         Cursor.SetCursor(t, new Vector2(4, 4), CursorMode.Auto);
     }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

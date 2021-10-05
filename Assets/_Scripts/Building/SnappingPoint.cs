@@ -7,12 +7,35 @@ public class SnappingPoint : MonoBehaviour
 {
     public enum SnapType
     {
-        Vertical,
-        Horizontal
+        Vertical = 0,
+        Horizontal = 1
     }
 
+    public int status = 0;
+
+    private Color[] gizmoColors =
+    {
+        Color.red,
+        Color.yellow,
+        Color.blue,
+        Color.green
+    };
+
     public SnapType snapType;
-    Buildable buildable;
+    public Buildable buildable
+    {
+        private set;
+        get;
+    }
+
+    public Vector3 position
+    {
+        get
+        {
+            return transform.position;
+        }
+    }
+
     private void Awake()
     {
         buildable = GetComponentInParent<Buildable>();
@@ -24,13 +47,28 @@ public class SnappingPoint : MonoBehaviour
     {
         if(other.gameObject.layer == 6)
         {
+            UpgradeStatus(1);
             SnappingPoint p = other.GetComponent<SnappingPoint>();
-            if(p!= null && p.snapType == snapType)
+            if(p!= null)
             {
-                buildable.SnapPoints(transform, other.transform);
+                UpgradeStatus(2);
+                if (p.snapType == snapType)
+                {
+                    UpgradeStatus(3);
+                    buildable.SnapPoints(this, p);
+                }
             }
         }
     }
+
+    void UpgradeStatus(int newStatus)
+    {
+        if(newStatus > status)
+        {
+            status = newStatus;
+        }
+    }
+
     private void OnTriggerExit(Collider other)
     {
         if (other.gameObject.layer == 6)
@@ -38,8 +76,15 @@ public class SnappingPoint : MonoBehaviour
             SnappingPoint p = other.GetComponent<SnappingPoint>();
             if (p != null && p.snapType == snapType)
             {
-                buildable.StopSnap(transform, other.transform);
+                buildable.StopSnap(this, p);
             }
+            status = 0;
         }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = gizmoColors[status];
+        Gizmos.DrawWireSphere(transform.position, 0.25f);
     }
 }

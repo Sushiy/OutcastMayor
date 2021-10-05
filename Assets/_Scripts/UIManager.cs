@@ -13,6 +13,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private BuildingView buildingView;
 
+    public static bool forceCursor = false;
+
     public static bool IsUIOpen
     {
         get
@@ -56,8 +58,6 @@ public class UIManager : MonoBehaviour
         if (inventoryView.Visible)
         {
             inventoryView.Hide();
-            if (!IsUIOpen)
-                HideCursor();
         }
         else
         {
@@ -70,8 +70,6 @@ public class UIManager : MonoBehaviour
         if (craftingTableView.Visible)
         {
             craftingTableView.Hide();
-            if (!IsUIOpen)
-                HideCursor();
         }
         else
         {
@@ -84,8 +82,6 @@ public class UIManager : MonoBehaviour
         if (buildingView.Visible)
         {
             buildingView.Hide();
-            if (!IsUIOpen)
-                HideCursor();
         }
         else
         {
@@ -96,7 +92,7 @@ public class UIManager : MonoBehaviour
 
     public static void OnHidePanel()
     {
-        if (!IsUIOpen)
+        if (!IsUIOpen && !forceCursor)
             HideCursor();
     }
 }
