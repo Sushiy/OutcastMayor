@@ -31,7 +31,7 @@ public class Interactor : MonoBehaviour
 
             //Check what we have hit
             hoveredCollider = hitInfo.collider;
-            hoveredInteractable = hitInfo.collider.GetComponent<Interactable>();
+            hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
             if(hoveredInteractable != null)
             {
                 if(hoverUIController != null)

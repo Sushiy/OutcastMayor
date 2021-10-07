@@ -17,4 +17,6 @@ MonoBehaviour:
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 1
-  prefab: {fileID: 20916324578604607, guid: 019eaaa6fd31fab45842dca8774a6617, type: 3}
+  actionPoints: 0
+  buildingPrefab: {fileID: 20916324578604607, guid: 019eaaa6fd31fab45842dca8774a6617, type: 3}
+  constructionPrefab: {fileID: 0}

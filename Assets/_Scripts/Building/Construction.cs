@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class Construction : Interactable
 {
-    public GameObject constructionObject;
-    public GameObject finishedObject;
+    private Buildable finishedObject;
 
     [Header("Building Progress")]
     private int currentActionPoints;
@@ -15,16 +14,21 @@ public class Construction : Interactable
     private Animator constructionAnimator;
     int hashProgress = Animator.StringToHash("fProgress");
 
+    [SerializeField]
+    private ParticleSystem progressPS;
+    [SerializeField]
+    private ParticleSystem completePS;
+
     public BuildRecipe buildRecipe
     {
         private set;
         get;
     }
 
-    public void SetConstruction(BuildRecipe recipe)
+    public void SetConstruction(BuildRecipe recipe, Buildable finishedObject)
     {
         //Data Setup
-        constructionAnimator.enabled = true;
+        this.finishedObject = finishedObject;
         this.buildRecipe = recipe;
         stockpiledMaterials = new Inventory.Stack[recipe.materials.Length];
         for(int i = 0; i < stockpiledMaterials.Length; i++)
@@ -80,6 +84,8 @@ public class Construction : Interactable
     {
         currentActionPoints += i;
         constructionAnimator.SetFloat(hashProgress, (float)currentActionPoints / (float)buildRecipe.actionPoints);
+        if (progressPS)
+            progressPS.Play();
         if(currentActionPoints >= buildRecipe.actionPoints)
         {
             Complete();
@@ -90,10 +96,11 @@ public class Construction : Interactable
     {
         //Remove the construction object
         //Activate the normal object
-
+        finishedObject.SetDefaultLayer();
+        if(completePS)
+            completePS.Play();
         //Remove the constructionHandlers
-        Destroy(constructionAnimator);
-        Destroy(this);
+        Destroy(gameObject);
     }
 
     public bool IsNeeded(Item m)

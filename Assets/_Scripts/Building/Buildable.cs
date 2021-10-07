@@ -50,7 +50,7 @@ public class Buildable : MonoBehaviour
 
     public void SetBuildMode(Buildable snappedToObject)
     {
-        SetRendererLayers(0);
+        SetBlueprintLayer();
         CheckForRoom(snappedToObject);
     }
 
@@ -61,6 +61,17 @@ public class Buildable : MonoBehaviour
             meshRenderers[m].gameObject.layer = i;
         }
     }
+
+    public void SetDefaultLayer()
+    {
+        SetRendererLayers(0);
+    }
+
+    public void SetBlueprintLayer()
+    {
+        SetRendererLayers(7);
+    }
+
     private void SetInvisible()
     {
         for (int m = 0; m < meshRenderers.Length; m++)

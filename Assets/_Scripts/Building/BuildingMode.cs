@@ -18,7 +18,9 @@ public class BuildingMode : MonoBehaviour
     private Material sensorMaterial;
     [SerializeField]
     private Transform buildingParent;
-
+    [SerializeField]
+    private LayerMask buildModeCullingMask;
+    private LayerMask defaultCullingMask;
 
     [Header("BuildMode Settings")]
     [SerializeField]
@@ -54,10 +56,10 @@ public class BuildingMode : MonoBehaviour
         }
 
         selectedRecipe = buildRecipe;
-        ghostBuilding = GameObject.Instantiate(buildRecipe.prefab, buildPosition, buildRotation);
+        ghostBuilding = GameObject.Instantiate(buildRecipe.buildingPrefab, buildPosition, buildRotation);
         ghostBuilding.SetGhostMode(ghostMaterial);
 
-        sensorBuilding = GameObject.Instantiate(buildRecipe.prefab, buildPosition, buildRotation);
+        sensorBuilding = GameObject.Instantiate(buildRecipe.buildingPrefab, buildPosition, buildRotation);
         sensorBuilding.SetSensorMode(sensorMaterial);
 
         currentBuildPanel.Show();
@@ -67,6 +69,8 @@ public class BuildingMode : MonoBehaviour
     public void EnterBuildMode()
     {
         isActive = true;
+        defaultCullingMask = Camera.main.cullingMask;
+        Camera.main.cullingMask = buildModeCullingMask;
         if(selectedRecipe == null)
         {
             ChooseBuildRecipe(recipes[0]);
@@ -79,6 +83,7 @@ public class BuildingMode : MonoBehaviour
 
     public void ExitBuildMode()
     {
+        Camera.main.cullingMask = defaultCullingMask;
         isActive = false;
         currentBuildPanel.Hide();
         Destroy(ghostBuilding.gameObject);
@@ -98,8 +103,10 @@ public class BuildingMode : MonoBehaviour
             {      
                 inventory.Delete(selectedRecipe.materials[i]);
             }
-            Buildable b = GameObject.Instantiate(selectedRecipe.prefab, buildPosition, buildRotation, buildingParent);
+            Buildable b = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
             b.SetBuildMode(snappedBuilding);
+            Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, buildPosition, buildRotation, b.transform);
+            c.SetConstruction(selectedRecipe, b);
         }
     }
 
