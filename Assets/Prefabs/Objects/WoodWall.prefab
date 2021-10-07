@@ -13,6 +13,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.24999994, y: 2.4999998, z: 2.4999995}
   m_Center: {x: -1.1249999, y: 1.2499999, z: 0}
+--- !u!95 &9140435775011006886
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 284097445481300704}
+  m_Enabled: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 889ab346a05d3f642b2c27a6302023de, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1094437169021688351
 GameObject:
   m_ObjectHideFlags: 0
@@ -24,6 +43,8 @@ GameObject:
   - component: {fileID: 1094437169021688345}
   - component: {fileID: 1094437169021688344}
   - component: {fileID: 1250326990634802075}
+  - component: {fileID: 2659674548153265412}
+  - component: {fileID: 6620208714568009413}
   m_Layer: 0
   m_Name: WoodWall
   m_TagString: Untagged
@@ -66,8 +87,6 @@ MonoBehaviour:
   - {fileID: 1797408419107169077}
   buildCollider: {fileID: 6698110185424354175}
   room: {fileID: 0}
-  ownSnapReference: {fileID: 0}
-  otherSnapReference: {fileID: 0}
 --- !u!54 &1250326990634802075
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -84,6 +103,36 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
+--- !u!114 &2659674548153265412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094437169021688351}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c08c5138824e51d41816d5e662bb04cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Construction
+  interaction: Use
+  constructionObject: {fileID: 0}
+  finishedObject: {fileID: 284097445481300704}
+  constructionAnimator: {fileID: 9140435775011006886}
+--- !u!65 &6620208714568009413
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1094437169021688351}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1, y: 1, z: 1}
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &1094437170951716785
 PrefabInstance:
   m_ObjectHideFlags: 0
