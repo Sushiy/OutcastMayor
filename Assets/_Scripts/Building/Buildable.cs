@@ -5,11 +5,27 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class Buildable : MonoBehaviour
 {
-    public MeshRenderer[] meshRenderers;
-
-    SnappingPoint[] snappingPoints;
+    [Header("Placement System")]
+    [SerializeField]
+    private MeshRenderer[] meshRenderers;
+    [SerializeField]
     public BoxCollider buildCollider;
+    SnappingPoint[] snappingPoints;
 
+    Construction c;
+
+    public SnappingPoint snappedPointSelf
+    {
+        private set;
+        get;
+    }
+    public SnappingPoint snappedPointOther
+    {
+        private set;
+        get;
+    }
+
+    [Header("Room Recognition")]
     public Room room;
 
     private void Awake()
@@ -34,10 +50,18 @@ public class Buildable : MonoBehaviour
 
     public void SetBuildMode(Buildable snappedToObject)
     {
+        SetRendererLayers(0);
         CheckForRoom(snappedToObject);
     }
 
-    public void SetInvisible()
+    private void SetRendererLayers(int i)
+    {
+        for (int m = 0; m < meshRenderers.Length; m++)
+        {
+            meshRenderers[m].gameObject.layer = i;
+        }
+    }
+    private void SetInvisible()
     {
         for (int m = 0; m < meshRenderers.Length; m++)
         {
@@ -45,7 +69,7 @@ public class Buildable : MonoBehaviour
         }
     }
 
-    public void SetMaterials(Material material)
+    private void SetMaterials(Material material)
     {
         for (int m = 0; m < meshRenderers.Length; m++)
         {
@@ -58,7 +82,7 @@ public class Buildable : MonoBehaviour
         }
     }
 
-    public void SetLayerForAllColliders(int layer)
+    private void SetLayerForAllColliders(int layer)
     {
         Collider[] colliders = GetComponentsInChildren<Collider>();
         for(int i = 0; i < colliders.Length; i++)
@@ -67,26 +91,38 @@ public class Buildable : MonoBehaviour
         }
     }
 
-    public SnappingPoint ownSnapReference;
-    public SnappingPoint otherSnapReference;
-
-    public void SnapPoints(SnappingPoint own, SnappingPoint other)
+    public void StartSnapping(SnappingPoint own, SnappingPoint other)
     {
-        ownSnapReference = own;
-        otherSnapReference = other;
+        snappedPointSelf = own;
+        snappedPointOther = other;
     }
 
-    public void StopSnap(SnappingPoint own, SnappingPoint other)
+    public void StopSnapping(SnappingPoint own, SnappingPoint other)
     {
-        if(ownSnapReference == own && otherSnapReference == other)
+        if(snappedPointSelf == own && snappedPointOther == other)
         {
-            ownSnapReference = null;
-            otherSnapReference = null;
+            snappedPointSelf = null;
+            snappedPointOther = null;
+        }
+        else
+        {
+            Debug.LogWarning("We tried to stop snapping the wrong points.");
         }
     }
 
+    /// <summary>
+    /// This method tries to sort Buildables into rooms. Rooms should eventually be used to validate buildings.
+    /// For now it just keeps the scene hiearchy a little cleaner
+    /// </summary>
+    /// <param name="snappedTo"></param>
     public virtual void CheckForRoom(Buildable snappedTo)
     {
+        //Proposed Function:
+        //1. Check the buildcollider "as trigger" for all overlapping objects
+        //2. Step through all of the objects and try to find out if they are from the same room/building
+        //3. Add this Object to an existing room OR create a new one.
+        //4. If this Object connects multiple rooms, consolidate them into one
+
         if (snappedTo == null || snappedTo.room == null)
         {
             GameObject g = new GameObject("Room");

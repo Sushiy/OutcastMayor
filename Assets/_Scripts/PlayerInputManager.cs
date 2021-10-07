@@ -130,7 +130,7 @@ public class PlayerInputManager : MonoBehaviour
             }
             else
             {
-                buildingMode.EndBuildMode();
+                buildingMode.ExitBuildMode();
                 if(topDownBuilding)
                 {
                     UIManager.forceCursor = false;

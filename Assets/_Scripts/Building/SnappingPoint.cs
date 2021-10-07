@@ -55,7 +55,7 @@ public class SnappingPoint : MonoBehaviour
                 if (p.snapType == snapType)
                 {
                     UpgradeStatus(3);
-                    buildable.SnapPoints(this, p);
+                    buildable.StartSnapping(this, p);
                 }
             }
         }
@@ -76,7 +76,7 @@ public class SnappingPoint : MonoBehaviour
             SnappingPoint p = other.GetComponent<SnappingPoint>();
             if (p != null && p.snapType == snapType)
             {
-                buildable.StopSnap(this, p);
+                buildable.StopSnapping(this, p);
             }
             status = 0;
         }
