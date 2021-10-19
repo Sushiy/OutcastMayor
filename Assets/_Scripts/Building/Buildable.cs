@@ -12,7 +12,7 @@ public class Buildable : MonoBehaviour
     public BoxCollider buildCollider;
     SnappingPoint[] snappingPoints;
 
-    Construction c;
+    //Construction c;
 
     public SnappingPoint snappedPointSelf
     {
