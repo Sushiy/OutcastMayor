@@ -10,7 +10,11 @@ public class Buildable : MonoBehaviour
     private MeshRenderer[] meshRenderers;
     [SerializeField]
     public BoxCollider buildCollider;
-    SnappingPoint[] snappingPoints;
+    public SnappingPoint[] snappingPoints
+    {
+        private set;
+        get;
+    }
 
     //Construction c;
 
@@ -106,7 +110,7 @@ public class Buildable : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("We tried to stop snapping the wrong points.");
+            //Debug.LogWarning("We tried to stop snapping the wrong points.");
         }
     }
 
@@ -132,8 +136,63 @@ public class Buildable : MonoBehaviour
         }
         else
         {
+            anchorParent = snappedTo;
             room = snappedTo.room;
             transform.parent = room.transform;
         }
+
+        room.AddBuildable(this);
     }
+
+    /// <summary>
+    /// Get the snapping point with the lowest local z coordinate
+    /// </summary>
+    /// <returns>snapping point with the lowest local z coordinate</returns>
+    Transform startPoint = null;
+    public Vector3 StartPoint
+    {
+        get
+        {
+            if(startPoint == null)
+            {
+                float localZ = Mathf.Infinity;
+                for (int i = 0; i < snappingPoints.Length; i++)
+                {
+                    if(snappingPoints[i].transform.localPosition.z < localZ)
+                    {
+                        localZ = snappingPoints[i].transform.localPosition.z;
+                        startPoint = snappingPoints[i].transform;
+                    }
+                }
+            }
+            return startPoint.position;
+        }
+    }
+
+    /// <summary>
+    /// Get the snapping point with the highest local z coordinate
+    /// </summary>
+    /// <returns>snapping point with the highest local z coordinate</returns>
+    Transform endPoint = null;
+    public Vector3 EndPoint
+    {
+        get
+        {
+            if (endPoint == null)
+            {
+                float localZ = -Mathf.Infinity;
+                for (int i = 0; i < snappingPoints.Length; i++)
+                {
+                    if (snappingPoints[i].transform.localPosition.z > localZ)
+                    {
+                        localZ = snappingPoints[i].transform.localPosition.z;
+                        endPoint = snappingPoints[i].transform;
+                    }
+                }
+            }
+            return endPoint.position;
+        }
+    }
+
+    public Buildable anchorParent;
 }
