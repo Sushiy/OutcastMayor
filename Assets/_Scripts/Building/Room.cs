@@ -60,67 +60,49 @@ public class Room : MonoBehaviour
         bool valid = true;
 
         //1. Check for a roof
-        if(Physics.Raycast(f.transform.position, Vector3.up, out roofCheck, 30.0f, buildLayer))
-        {
-            //you hit a buildable above!
-            Debug.DrawLine(f.transform.position, roofCheck.point, Color.green, 5.0f);
-        }
-        else
-        {
-            //you didn't hit a buildable above!
-            Debug.DrawRay(f.transform.position, Vector3.up, Color.red, 5.0f);
-            valid = false;
-        }
+        valid = CheckDirectionForBuildable(f.transform.position, Vector3.up, out roofCheck, 30.0f);
 
         //2. Check for walls (at mid height)
-        if (Physics.Raycast(f.transform.position + new Vector3(0,1,0), f.transform.forward, out northCheck, 1.1f, buildLayer))
-        {
-            //you hit a buildable above!
-            Debug.DrawLine(f.transform.position + new Vector3(0, 1, 0), northCheck.point, Color.green, 5.0f);
-        }
-        else
-        {
-            //you didn't hit a buildable above!
-            Debug.DrawRay(f.transform.position + new Vector3(0, 1, 0), f.transform.forward, Color.red, 5.0f);
-            valid = false;
-        }
+        valid = CheckDirectionForBuildable(f.transform.position + new Vector3(0, 1, 0), f.transform.forward, out northCheck, 1.1f);
+        valid = CheckDirectionForBuildable(f.transform.position + new Vector3(0, 1, 0), f.transform.right, out eastCheck, 1.1f);
+        valid = CheckDirectionForBuildable(f.transform.position + new Vector3(0, 1, 0), -f.transform.forward, out southCheck, 1.1f);
+        valid = CheckDirectionForBuildable(f.transform.position + new Vector3(0, 1, 0), -f.transform.right, out westCheck, 1.1f);
 
-        if (Physics.Raycast(f.transform.position + new Vector3(0, 1, 0), f.transform.right, out eastCheck, 1.1f, buildLayer))
-        {
-            //you hit a buildable above!
-            Debug.DrawLine(f.transform.position + new Vector3(0, 1, 0), eastCheck.point, Color.green, 5.0f);
-        }
-        else
-        {
-            //you didn't hit a buildable above!
-            Debug.DrawRay(f.transform.position + new Vector3(0, 1, 0), f.transform.right, Color.red, 5.0f);
-            valid = false;
-        }
 
-        if (Physics.Raycast(f.transform.position + new Vector3(0, 1, 0), -f.transform.forward, out southCheck, 1.1f, buildLayer))
+        //3. Check for floors if there are any
+        if (northCheck.collider == null)
         {
-            //you hit a buildable above!
-            Debug.DrawLine(f.transform.position + new Vector3(0, 1, 0), southCheck.point, Color.green, 5.0f);
+            valid = CheckDirectionForBuildable(f.transform.position, f.transform.forward, out northCheck, 1.1f) && northCheck.collider.GetComponentInParent<Floor>() != null;
         }
-        else
+        if (eastCheck.collider == null)
         {
-            //you didn't hit a buildable above!
-            Debug.DrawRay(f.transform.position + new Vector3(0, 1, 0), -f.transform.forward, Color.red, 5.0f);
-            valid = false;
+            valid = CheckDirectionForBuildable(f.transform.position, f.transform.right, out eastCheck, 1.1f) && eastCheck.collider.GetComponentInParent<Floor>() != null;
         }
-
-        if (Physics.Raycast(f.transform.position + new Vector3(0, 1, 0), -f.transform.right, out westCheck, 1.1f, buildLayer))
+        if (southCheck.collider == null)
         {
-            //you hit a buildable above!
-            Debug.DrawLine(f.transform.position + new Vector3(0, 1, 0), westCheck.point, Color.green, 5.0f);
+            valid = CheckDirectionForBuildable(f.transform.position, -f.transform.forward, out southCheck, 1.1f) && southCheck.collider.GetComponentInParent<Floor>() != null;
         }
-        else
+        if (westCheck.collider == null)
         {
-            //you didn't hit a buildable above!
-            Debug.DrawRay(f.transform.position + new Vector3(0, 1, 0), -f.transform.right, Color.red, 5.0f);
-            valid = false;
+            valid = CheckDirectionForBuildable(f.transform.position, -f.transform.right, out westCheck, 1.1f) && westCheck.collider.GetComponentInParent<Floor>() != null;
         }
 
         return valid;
+    }
+
+    private bool CheckDirectionForBuildable(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float range)
+    {
+        if (Physics.Raycast(origin, direction, out hitInfo, range, buildLayer))
+        {
+            //you hit a buildable above!
+            Debug.DrawLine(origin, hitInfo.point, Color.green, 5.0f);
+            return true;
+        }
+        else
+        {
+            //you didn't hit a buildable above!
+            Debug.DrawRay(origin, direction * range, Color.red, 5.0f);
+            return false;
+        }
     }
 }
