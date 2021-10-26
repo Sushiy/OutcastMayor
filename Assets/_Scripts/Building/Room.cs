@@ -68,6 +68,8 @@ public class Room : MonoBehaviour
                 Floor f = uncheckedFloors[uncheckedFloorCount - 1];
                 currentRoomFloors.Enqueue(f);
                 uncheckedFloors.Remove(f);
+                if(roomCounter > 1)
+                    yield return new WaitForSeconds(1.0f);
             }
             //work down the queue
             valid = CheckFloorValidity(currentRoomFloors.Dequeue(), ref currentRoomFloors, ref checkedFloors);
@@ -75,7 +77,7 @@ public class Room : MonoBehaviour
             checkCounter++;
 
             //skip to next frame (one floor per frame)
-            yield return new WaitForSeconds(.25f);
+            yield return new WaitForSeconds(.125f);
         }
         print("Found " + roomCounter + " rooms with " + checkCounter + " floors");
         UIManager.SetRoomCounter(roomCounter);
