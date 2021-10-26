@@ -22,7 +22,7 @@ public class Floor : Buildable
         {
             GameObject g = new GameObject("Room");
             g.transform.parent = transform.parent;
-            room = g.AddComponent<Room>();
+            room = g.AddComponent<RoomBuilder>();
             transform.parent = room.transform;
         }
         else

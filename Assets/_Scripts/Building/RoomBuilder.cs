@@ -3,17 +3,40 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-public class Room : MonoBehaviour
+/// <summary>
+/// A Roombuilder collects connected floors and other buildables.
+/// This is also the parent of all those connected floors and buildables!
+/// It partitions floorplans into rooms, which are used for NPC-related Stuff!
+/// </summary>
+public class RoomBuilder : MonoBehaviour
 {
+    public class Room
+    {
+        /// <summary>
+        /// All Floors that make up the layout of the room 
+        /// </summary>
+        public List<Floor> floors;
+        /// <summary>
+        /// All the detected buildables, that make up the walls of the room
+        /// </summary>
+        public List<Buildable> walls;
+
+        public Room()
+        {
+            floors = new List<Floor>();
+            walls = new List<Buildable>();
+        }
+    }
+
+
     public List<Floor> floors;
-    public List<Buildable> walls;
+    public List<Buildable> buildables;
     public LayerMask buildLayer = 1 << 7 | 1;
 
-    public Room()
+    public RoomBuilder()
     {
         floors = new List<Floor>();
-        walls = new List<Buildable>();
+        buildables = new List<Buildable>();
     }
 
     public void AddFloor(Floor f)
@@ -24,7 +47,7 @@ public class Room : MonoBehaviour
 
     public void AddBuildable(Buildable b)
     {
-        walls.Add(b);
+        buildables.Add(b);
         StartCoroutine(CheckRoomValidity(OnRoomCheckComplete));
     }
 
@@ -38,9 +61,9 @@ public class Room : MonoBehaviour
     {
         Gizmos.color = Color.cyan;
         //Draw a line along the snapping points of the walls to see if we get a circle!
-        for(int i = 0; i < walls.Count; i++)
+        for(int i = 0; i < buildables.Count; i++)
         {
-            Gizmos.DrawLine(walls[i].StartPoint, walls[i].EndPoint);
+            Gizmos.DrawLine(buildables[i].StartPoint, buildables[i].EndPoint);
         }
     }
 

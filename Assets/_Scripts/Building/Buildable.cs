@@ -29,7 +29,7 @@ public class Buildable : MonoBehaviour
     }
 
     [Header("Room Recognition")]
-    public Room room;
+    public RoomBuilder room;
     public Buildable anchorParent;
     public UnityEvent OnChecked;
 
@@ -132,7 +132,7 @@ public class Buildable : MonoBehaviour
         {
             GameObject g = new GameObject("Room");
             g.transform.parent = transform.parent;
-            room = g.AddComponent<Room>();
+            room = g.AddComponent<RoomBuilder>();
             transform.parent = room.transform;
         }
         else
