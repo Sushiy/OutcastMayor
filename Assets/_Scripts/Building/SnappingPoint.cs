@@ -84,7 +84,7 @@ public class SnappingPoint : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.color = gizmoColors[status];
-        Gizmos.DrawWireSphere(transform.position, 0.25f);
+        //Gizmos.color = gizmoColors[status];
+        //Gizmos.DrawWireSphere(transform.position, 0.25f);
     }
 }

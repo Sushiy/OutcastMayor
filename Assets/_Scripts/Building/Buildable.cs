@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 [RequireComponent(typeof(Rigidbody))]
 public class Buildable : MonoBehaviour
@@ -16,8 +17,6 @@ public class Buildable : MonoBehaviour
         get;
     }
 
-    //Construction c;
-
     public SnappingPoint snappedPointSelf
     {
         private set;
@@ -31,6 +30,8 @@ public class Buildable : MonoBehaviour
 
     [Header("Room Recognition")]
     public Room room;
+    public Buildable anchorParent;
+    public UnityEvent OnChecked;
 
     private void Awake()
     {
@@ -193,6 +194,4 @@ public class Buildable : MonoBehaviour
             return endPoint.position;
         }
     }
-
-    public Buildable anchorParent;
 }

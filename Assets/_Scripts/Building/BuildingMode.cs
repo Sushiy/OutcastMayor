@@ -45,6 +45,7 @@ public class BuildingMode : MonoBehaviour
     [SerializeField]
     private CurrentBuildPanel currentBuildPanel;
 
+
     public void ChooseBuildRecipe(BuildRecipe buildRecipe)
     {
         if(ghostBuilding != null)
@@ -233,7 +234,7 @@ public class BuildingMode : MonoBehaviour
     {
         if(rotateInput != 0)
         {
-            print("Rotate:" + Mathf.Sign(rotateInput));
+            //print("Rotate:" + Mathf.Sign(rotateInput));
             buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
             buildRotation = Quaternion.Euler(0, buildAngle, 0);
         }

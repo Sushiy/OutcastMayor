@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     private CraftingTableView craftingTableView;
     [SerializeField]
     private BuildingView buildingView;
+    [SerializeField]
+    private TMPro.TMP_Text DEBUG_roomCounter;
 
     public static bool forceCursor = false;
 
@@ -94,5 +96,10 @@ public class UIManager : MonoBehaviour
     {
         if (!IsUIOpen && !forceCursor)
             HideCursor();
+    }
+
+    public static void SetRoomCounter(int i)
+    {
+        instance.DEBUG_roomCounter.text = "Rooms: " + i;
     }
 }

@@ -134,7 +134,7 @@ public class Inventory : MonoBehaviour
         Stack s = slots[index];
         if(s.count > count)
         {
-            print("Delete " + count + "/" + s.count + " from slot " + index);
+            //print("Delete " + count + "/" + s.count + " from slot " + index);
             s.count -= count;
             onSlotUpdated(index);
             shouldUpdate = true;
@@ -143,7 +143,7 @@ public class Inventory : MonoBehaviour
         }
         else
         {
-            print("Delete " + count + "/" + s.count + " from slot " + index);
+            //print("Delete " + count + "/" + s.count + " from slot " + index);
             count -= s.count;
             s.count = 0;
             s.item = null;
@@ -165,7 +165,7 @@ public class Inventory : MonoBehaviour
             {
                 if (slots[i].item == stack.item)
                 {
-                    print("Deleting " + stack.count + " " + stack.item.Name + " from slot " + i);
+                    //print("Deleting " + stack.count + " " + stack.item.Name + " from slot " + i);
                     totalCount = DeleteCountFromSlot(i, totalCount);
                 }
             }
