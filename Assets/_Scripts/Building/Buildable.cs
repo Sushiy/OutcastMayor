@@ -29,9 +29,9 @@ public class Buildable : MonoBehaviour
     }
 
     [Header("Room Recognition")]
-    public RoomBuilder room;
     public Buildable anchorParent;
     public UnityEvent OnChecked;
+    protected static LayerMask buildLayer = 1 << 7;
 
     private void Awake()
     {
@@ -66,6 +66,15 @@ public class Buildable : MonoBehaviour
             meshRenderers[m].gameObject.layer = i;
         }
     }
+
+    public void SetRenderColor(Color c)
+    {
+        for (int m = 0; m < meshRenderers.Length; m++)
+        {
+            meshRenderers[m].material.color = c;
+        }
+    }
+
     private void SetInvisible()
     {
         for (int m = 0; m < meshRenderers.Length; m++)
@@ -90,7 +99,7 @@ public class Buildable : MonoBehaviour
     private void SetLayerForAllColliders(int layer)
     {
         Collider[] colliders = GetComponentsInChildren<Collider>();
-        for(int i = 0; i < colliders.Length; i++)
+        for (int i = 0; i < colliders.Length; i++)
         {
             colliders[i].gameObject.layer = layer;
         }
@@ -104,7 +113,7 @@ public class Buildable : MonoBehaviour
 
     public void StopSnapping(SnappingPoint own, SnappingPoint other)
     {
-        if(snappedPointSelf == own && snappedPointOther == other)
+        if (snappedPointSelf == own && snappedPointOther == other)
         {
             snappedPointSelf = null;
             snappedPointOther = null;
@@ -124,26 +133,39 @@ public class Buildable : MonoBehaviour
     {
         //Proposed Function:
         //1. Check the buildcollider "as trigger" for all overlapping objects
-        //2. Step through all of the objects and try to find out if they are from the same room/building
-        //3. Add this Object to an existing room OR create a new one.
-        //4. If this Object connects multiple rooms, consolidate them into one
-
-        if (snappedTo == null || snappedTo.room == null)
+        OverlapResult o = CheckOverlap();
+        for(int i = 0; i < o.touchedRooms.Count; i++)
         {
-            GameObject g = new GameObject("Room");
-            g.transform.parent = transform.parent;
-            room = g.AddComponent<RoomBuilder>();
-            transform.parent = room.transform;
+            RoomManager.CheckRoomIntegrity(o.touchedRooms[i]);
         }
-        else
-        {
-            anchorParent = snappedTo;
-            room = snappedTo.room;
-            transform.parent = room.transform;
-        }
-
-        room.AddBuildable(this);
     }
+
+    public virtual OverlapResult CheckOverlap()
+    {
+        OverlapResult result;
+        result.touchedFloors = new List<Floor>();
+        result.touchedRooms = new List<Room>();
+
+        Collider[] colliders = Physics.OverlapBox(transform.position, buildCollider.size / 2.0f, transform.rotation, buildLayer);
+        print("Touched: " + colliders.Length + " buildables");
+        //2. Step through all of the objects, find floors and tell them to check their rooms!
+        for (int i = 0; i < colliders.Length; i++)
+        {
+            Floor f = colliders[i].GetComponentInParent<Floor>();
+            if (f == this) continue;
+            if (f)
+            {
+                result.touchedFloors.Add(f);
+                if (!result.touchedRooms.Contains(f.room))
+                {
+                    result.touchedRooms.Add(f.room);
+                }
+            }
+        }
+        print("Touched: " + result.touchedFloors.Count + " floors & " + result.touchedRooms.Count + " rooms");
+        return result;
+    }
+
 
     /// <summary>
     /// Get the snapping point with the lowest local z coordinate
@@ -154,12 +176,12 @@ public class Buildable : MonoBehaviour
     {
         get
         {
-            if(startPoint == null)
+            if (startPoint == null)
             {
                 float localZ = Mathf.Infinity;
                 for (int i = 0; i < snappingPoints.Length; i++)
                 {
-                    if(snappingPoints[i].transform.localPosition.z < localZ)
+                    if (snappingPoints[i].transform.localPosition.z < localZ)
                     {
                         localZ = snappingPoints[i].transform.localPosition.z;
                         startPoint = snappingPoints[i].transform;
@@ -193,5 +215,11 @@ public class Buildable : MonoBehaviour
             }
             return endPoint.position;
         }
+    }
+
+    public struct OverlapResult
+    {
+        public List<Floor> touchedFloors;
+        public List<Room> touchedRooms;
     }
 }
