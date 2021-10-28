@@ -9,6 +9,9 @@ public class RoomManager : MonoBehaviour
     [SerializeField]
     private List<Room> rooms;
 
+    [SerializeField]
+    private ParticleSystem validRoomFXPrefab;
+
     private void Awake()
     {
         instance = this;
@@ -21,8 +24,33 @@ public class RoomManager : MonoBehaviour
         return r;
     }
 
+    public static void RemoveRoom(Room r)
+    {
+        instance.rooms.Remove(r);
+    }
+
+    public static void MergeRooms(Room result, Room merger)
+    {
+        int count = 0;
+        for (int i = merger.floors.Count - 1; i >= 0; i--)
+        {
+            count++;
+            merger.floors[i].SetRoom(result);
+        }
+        RemoveRoom(merger);
+    }
+
     public static void CheckRoomIntegrity(Room r)
     {
         instance.StartCoroutine(r.CheckFloorContinuity());
+    }
+    public static void CheckRoomValidity(Room r)
+    {
+        instance.StartCoroutine(r.CheckValidity());
+    }
+
+    public static void SpawnValidRoomFX(Vector3 position)
+    {
+        Instantiate<ParticleSystem>(instance.validRoomFXPrefab, position, Quaternion.identity);
     }
 }

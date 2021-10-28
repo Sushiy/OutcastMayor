@@ -17,7 +17,7 @@ public class Floor : Buildable
         {
             get
             {
-                return hasRoof && northResult != Type.None && eastResult != Type.None && southResult != Type.None && westResult != Type.None;
+                return /*hasRoof && */northResult != Type.None && eastResult != Type.None && southResult != Type.None && westResult != Type.None;
             }
         }
 
@@ -27,12 +27,24 @@ public class Floor : Buildable
         public Type eastResult;
         public Type southResult;
         public Type westResult;
+
+        public Buildable roof;
+        public List<Buildable> walls;
     }
 
     public Room room
     {
         private set;
         get;
+    }
+
+    private ValidityResult validityResult;
+    public ValidityResult LastValidityResult
+    {
+        get
+        {
+            return validityResult;
+        }
     }
 
     /// <summary>
@@ -44,7 +56,7 @@ public class Floor : Buildable
     {
         //1. Check the buildcollider "as trigger" for all overlapping objects
         Collider[] colliders = Physics.OverlapBox(transform.position, (buildCollider.size / 2.0f), transform.rotation, buildLayer);
-        print("Touched: " + colliders.Length + " buildables");
+        //print("Touched: " + colliders.Length + " buildables");
         //2. Step through all of the colliders and try to find floors.
         List<Room> touchedRooms = new List<Room>();
         int floorCount = 0;
@@ -61,27 +73,31 @@ public class Floor : Buildable
                 }
             }
         }
-        print("Touched: " + floorCount + " floors & " + touchedRooms.Count + " rooms");
+        //print("Touched: " + floorCount + " floors & " + touchedRooms.Count + " rooms");
         //3. Add this floor to an existing room OR create a new one.
-        //3a. If this floor touched no room, create a new Room
         if (touchedRooms.Count == 0)
         {
+            //3a. If this floor belongs to no room, create a new Room
             SetRoom(RoomManager.CreateRoom());
         }
         else if(touchedRooms.Count == 1)
         {
+            //3b. If this floor  belongs to only one room, join that room
             SetRoom(touchedRooms[0]);
         }
         else
         {
+            //3c. If this floor  belongs to multiple rooms, join the first and merge them to one room
             SetRoom(touchedRooms[0]);
             for (int i = 1; i < touchedRooms.Count; i++)
             {
-                touchedRooms[0].MergeRoom(touchedRooms[i]);
+                RoomManager.MergeRooms(touchedRooms[0], touchedRooms[i]);
             }
         }
-        //4. If this Object connects multiple rooms, consolidate them into one
 
+        //4. Check the room you just joined!
+        RoomManager.CheckRoomIntegrity(room);
+        RoomManager.CheckRoomValidity(room);
     }
 
     /// <summary>
@@ -114,139 +130,90 @@ public class Floor : Buildable
     /// <param name="roomFloors"></param>
     /// <param name="checkedFloors"></param>
     /// <returns></returns>
-    public ValidityResult CheckValidity(ref Queue<Floor> roomFloors, ref HashSet<Floor> checkedFloors)
+    public void CheckValidity()
     {
-        ValidityResult result = new ValidityResult();
+        validityResult = new ValidityResult();
+        validityResult.walls = new List<Buildable>();
+        Buildable lastBuidable;
 
         //RaycastMethod: 1 Raycast Up, 4 raycasts at medium height, 0-4 raycasts at floor height
         RaycastHit roofCheck, northCheck, eastCheck, southCheck, westCheck;
-        bool valid = true;
         OnChecked?.Invoke();
-
-        Buildable lastBuildable;
 
         //1. Check for a roof
         //valid = CheckDirectionForBuildable(f.transform.position, Vector3.up, out roofCheck, 30.0f, out lastBuildable);
 
         //2. Check for walls (at mid height)
-        valid = CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.forward, out northCheck, 1.1f, out lastBuildable) && valid;
-        if (lastBuildable != null)
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.forward, out northCheck, 1.1f, out lastBuidable))
         {
-            lastBuildable.OnChecked?.Invoke();
+            validityResult.northResult = ValidityResult.Type.Wall;
+            validityResult.walls.Add(lastBuidable);
+            lastBuidable.OnChecked?.Invoke();
         }
-        valid = CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.right, out eastCheck, 1.1f, out lastBuildable) && valid;
-        if (lastBuildable != null)
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.right, out eastCheck, 1.1f, out lastBuidable))
         {
-            lastBuildable.OnChecked?.Invoke();
+            validityResult.eastResult = ValidityResult.Type.Wall;
+            validityResult.walls.Add(lastBuidable);
+            lastBuidable.OnChecked?.Invoke();
         }
-        valid = CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.forward, out southCheck, 1.1f, out lastBuildable) && valid;
-        if (lastBuildable != null)
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.forward, out southCheck, 1.1f, out lastBuidable))
         {
-            lastBuildable.OnChecked?.Invoke();
+            validityResult.southResult = ValidityResult.Type.Wall;
+            validityResult.walls.Add(lastBuidable);
+            lastBuidable.OnChecked?.Invoke();
         }
-        valid = CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.right, out westCheck, 1.1f, out lastBuildable) && valid;
-        if (lastBuildable != null)
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.right, out westCheck, 1.1f, out lastBuidable))
         {
-            lastBuildable.OnChecked?.Invoke();
+            validityResult.westResult = ValidityResult.Type.Wall;
+            validityResult.walls.Add(lastBuidable);
+            lastBuidable.OnChecked?.Invoke();
         }
-
 
         //3. Check for floors if there are any
         if (northCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, transform.forward, out northCheck, 1.1f, out lastBuildable))
+            if (CheckDirectionForBuildable(transform.position, transform.forward, out northCheck, 1.1f, out lastBuidable))
             {
                 Floor neighboringFloor = northCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
                 {
-                    if (!checkedFloors.Contains(neighboringFloor) && !roomFloors.Contains(neighboringFloor))
-                    {
-                        roomFloors.Enqueue(neighboringFloor);
-                    }
+                    validityResult.northResult = ValidityResult.Type.Floor;
                 }
-                else
-                {
-                    print("Found a buildable at groundLevel that is not a floor");
-                    valid = false;
-                }
-            }
-            else
-            {
-                valid = false;
             }
         }
         if (eastCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, transform.right, out eastCheck, 1.1f, out lastBuildable))
+            if (CheckDirectionForBuildable(transform.position, transform.right, out eastCheck, 1.1f, out lastBuidable))
             {
                 Floor neighboringFloor = eastCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
                 {
-                    if (!checkedFloors.Contains(neighboringFloor) && !roomFloors.Contains(neighboringFloor))
-                    {
-                        roomFloors.Enqueue(neighboringFloor);
-                    }
+                    validityResult.eastResult = ValidityResult.Type.Floor;
                 }
-                else
-                {
-                    print("Found a buildable at groundLevel that is not a floor");
-                    valid = false;
-                }
-            }
-            else
-            {
-                valid = false;
             }
         }
         if (southCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, -transform.forward, out southCheck, 1.1f, out lastBuildable))
+            if (CheckDirectionForBuildable(transform.position, -transform.forward, out southCheck, 1.1f, out lastBuidable))
             {
                 Floor neighboringFloor = southCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
                 {
-                    if (!checkedFloors.Contains(neighboringFloor) && !roomFloors.Contains(neighboringFloor))
-                    {
-                        roomFloors.Enqueue(neighboringFloor);
-                    }
+                    validityResult.southResult = ValidityResult.Type.Floor;
                 }
-                else
-                {
-                    print("Found a buildable at groundLevel that is not a floor");
-                    valid = false;
-                }
-            }
-            else
-            {
-                valid = false;
             }
         }
         if (westCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, -transform.right, out westCheck, 1.1f, out lastBuildable))
+            if (CheckDirectionForBuildable(transform.position, -transform.right, out westCheck, 1.1f, out lastBuidable))
             {
                 Floor neighboringFloor = westCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
                 {
-                    if (!checkedFloors.Contains(neighboringFloor) && !roomFloors.Contains(neighboringFloor))
-                    {
-                        roomFloors.Enqueue(neighboringFloor);
-                    }
+                    validityResult.westResult = ValidityResult.Type.Floor;
                 }
-                else
-                {
-                    print("Found a buildable at groundLevel that is not a floor");
-                    valid = false;
-                }
-            }
-            else
-            {
-                valid = false;
             }
         }
-
-        checkedFloors.Add(this);
-        return result;
     }
 
     private bool CheckDirectionForBuildable(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float range, out Buildable buildable)

@@ -14,7 +14,19 @@ public class Room
     /// </summary>
     public List<Buildable> walls;
 
+    /// <summary>
+    /// Was the last validity check sucessful or not?
+    /// </summary>
+    public bool isValid = false;
+    /// <summary>
+    /// Has the room changed since the last validitycheck?
+    /// </summary>
+    public bool IsDirty = false;
+
     public Color roomColor;
+
+    private Vector3 roomCenter;
+
     public Room()
     {
         floors = new List<Floor>();
@@ -32,16 +44,6 @@ public class Room
         floors.Remove(f);
     }
 
-    public void MergeRoom(Room r)
-    {
-        int count = 0;
-        for(int i = r.floors.Count-1; i >= 0; i--)
-        {
-            count++;
-            r.floors[i].SetRoom(this);
-        }
-        Debug.Log("Merged " + count + "floors");
-    }
 
     public void SplitRoom(Floor[] separatedFloors)
     {
@@ -51,6 +53,17 @@ public class Room
             separatedFloors[i].SetRoom(r);
         }
         RoomManager.CheckRoomIntegrity(r);
+        RoomManager.CheckRoomValidity(r);
+    }
+
+    private void OnValidityCheckComplete(bool valid)
+    {
+        isValid = valid;
+        Debug.Log("Validity: " + isValid);
+        if (isValid)
+        {
+            RoomManager.SpawnValidRoomFX(roomCenter);
+        }
     }
 
     /// <summary>
@@ -59,12 +72,28 @@ public class Room
     /// <returns></returns>
     public IEnumerator CheckValidity()
     {
+        bool valid = true;
         //Proposed function
+        //0.Clear walls?
+        walls.Clear();
+        Vector3 floorPosSum = Vector3.zero;
         //1. Check all of your floors validities
-        //2. Gather the walls from the floor validity checks
-        //3. Try to find a circular path around the walls
-        //4. Anything extra we might add (chimneys?)
+        for(int i = 0; i < floors.Count; i++)
+        {
+            floorPosSum += floors[i].transform.position;
+            floors[i].CheckValidity();
+            //1b. Gather the walls from the floor validity checks
+            walls.AddRange(floors[i].LastValidityResult.walls);
+            //1c. If any of the floors are invalid, the room is invalid
+            if (!floors[i].LastValidityResult.isValid)
+                valid = false;
+            yield return null;
+        }
+        roomCenter = floorPosSum / floors.Count;
+        //2. Try to find a circular path around the walls
+        //3. Anything extra we might add (chimneys?)
         yield return null;
+        OnValidityCheckComplete(valid);
     }
 
     /// <summary>
@@ -83,7 +112,7 @@ public class Room
         uncheckedFloors.RemoveAt(0);
         while (floorQueue.Count > 0)
         {
-            Debug.Log("Unchecked Floors: " + uncheckedFloorCount + " Queue Count = " + floorQueue.Count);
+            //Debug.Log("Unchecked Floors: " + uncheckedFloorCount + " Queue Count = " + floorQueue.Count);
 
             //work down the queue
             Floor activeFloor = floorQueue.Dequeue();
@@ -118,17 +147,17 @@ public class Room
 
         if(uncheckedFloorCount == 0)
         {
-            Debug.Log("Room still okay");
+            Debug.Log("FloorContinuity: Okay");
         }
         else if( uncheckedFloorCount > 0)
         {
             //All those which were not checked are a new room!
-            Debug.Log("Room needs to be split");
+            Debug.Log("FloorContinuity: Split");
             SplitRoom(uncheckedFloors.ToArray());
         }
         else if(checkCounter > floors.Count)
         {
-            Debug.Log("Room found additional Floors");
+            Debug.Log("FloorContinuity: Merge");
         }
 
     }

@@ -137,6 +137,7 @@ public class Buildable : MonoBehaviour
         for(int i = 0; i < o.touchedRooms.Count; i++)
         {
             RoomManager.CheckRoomIntegrity(o.touchedRooms[i]);
+            RoomManager.CheckRoomValidity(o.touchedRooms[i]);
         }
     }
 
@@ -147,7 +148,7 @@ public class Buildable : MonoBehaviour
         result.touchedRooms = new List<Room>();
 
         Collider[] colliders = Physics.OverlapBox(transform.position, buildCollider.size / 2.0f, transform.rotation, buildLayer);
-        print("Touched: " + colliders.Length + " buildables");
+        //print("Touched: " + colliders.Length + " buildables");
         //2. Step through all of the objects, find floors and tell them to check their rooms!
         for (int i = 0; i < colliders.Length; i++)
         {
@@ -162,7 +163,7 @@ public class Buildable : MonoBehaviour
                 }
             }
         }
-        print("Touched: " + result.touchedFloors.Count + " floors & " + result.touchedRooms.Count + " rooms");
+        //print("Touched: " + result.touchedFloors.Count + " floors & " + result.touchedRooms.Count + " rooms");
         return result;
     }
 
