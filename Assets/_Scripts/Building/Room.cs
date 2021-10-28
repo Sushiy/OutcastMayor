@@ -58,12 +58,14 @@ public class Room
 
     private void OnValidityCheckComplete(bool valid)
     {
-        isValid = valid;
-        Debug.Log("Validity: " + isValid);
-        if (isValid)
+        //only spawn particles if the room was not valid before!
+        if (valid && !isValid)
         {
             RoomManager.SpawnValidRoomFX(roomCenter);
         }
+
+        isValid = valid;
+        Debug.Log("Validity: " + isValid);
     }
 
     /// <summary>
