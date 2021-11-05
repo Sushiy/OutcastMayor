@@ -17,7 +17,8 @@ public class PlayerMovement : MonoBehaviour
 
     Animator animator;
     int hashRunning = Animator.StringToHash("bIsRunning");
-    int hashSpeed = Animator.StringToHash("fSpeed");
+    int hashSpeedForward = Animator.StringToHash("fSpeedForward");
+    int hashSpeedSide = Animator.StringToHash("fSpeedSide");
 
     CharacterController characterController;
 
@@ -51,7 +52,8 @@ public class PlayerMovement : MonoBehaviour
         if(moveInput.sqrMagnitude > 0.0f)
         {
             animator.SetBool(hashRunning, true);
-            animator.SetFloat(hashSpeed, moveInput.magnitude);
+            animator.SetFloat(hashSpeedForward, moveInput.x);
+            animator.SetFloat(hashSpeedSide, moveInput.y);
         }
         else
         {
