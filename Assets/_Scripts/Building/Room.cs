@@ -27,11 +27,11 @@ public class Room
 
     private Vector3 roomCenter;
 
-    public Room()
+    public Room(Color c)
     {
         floors = new List<Floor>();
         walls = new List<Buildable>();
-        roomColor = Random.ColorHSV(0,1,1,1,1,1);
+        roomColor = c;
     }
 
     public void AddFloor(Floor f)

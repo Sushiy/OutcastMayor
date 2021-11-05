@@ -19,7 +19,7 @@ public class RoomManager : MonoBehaviour
 
     public static Room CreateRoom()
     {
-        Room r = new Room();
+        Room r = new Room(Random.ColorHSV(1,1,1,1));
         instance.rooms.Add(r);
         return r;
     }
