@@ -17,5 +17,12 @@ public class DialogueSystem : MonoBehaviour
     public static void StartDialogue(string node)
     {
         dialogueRunner.StartDialogue(node);
+        CameraController.ChangeToDialogueCamera();
+        dialogueRunner.onDialogueComplete.AddListener(EndDialogue);
+    }
+
+    private static void EndDialogue()
+    {
+        CameraController.ChangeToStandardCamera();
     }
 }

@@ -18,24 +18,27 @@ public class PlayerInputManager : MonoBehaviour
     Vector2 lookInput;
     public PlayerMovement movement;
 
-    bool interactPressed = false;
-    public Interactor interactor;
+    private bool interactPressed = false;
+    [SerializeField]
+    private Interactor interactor;
 
-    bool inventoryPressed = false;
-    bool secondaryPressed = false;
+    private bool inventoryPressed = false;
+    private bool secondaryPressed = false;
 
-    bool firePressed = false;
+    private bool firePressed = false;
 
-    public BuildingMode buildingMode;
-    public bool topDownBuilding = false;
-
-    public Cinemachine.CinemachineVirtualCamera camOTS;
-    public Cinemachine.CinemachineVirtualCamera camTD;
+    [SerializeField]
+    private BuildingMode buildingMode;
+    [SerializeField]
+    private bool topDownBuilding = false;
 
     [Header("Raycast")]
-    public LayerMask buildRaycastLayerMask;
-    public LayerMask interactRaycastLayerMask;
-    public Transform rayCastOrigin;
+    [SerializeField]
+    private LayerMask buildRaycastLayerMask;
+    [SerializeField]
+    private LayerMask interactRaycastLayerMask;
+    [SerializeField]
+    private Transform rayCastOrigin;
     public bool raycastHit
     {
         private set;
@@ -53,7 +56,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnMove(CallbackContext c)
     {
         moveInput = c.ReadValue<Vector2>();
-        if (!UIManager.IsUIOpen)
+        if (!UIManager.IsUIOpen && CameraController.ActiveCamera != CameraController.CameraType.Dialogue)
         {
             movement.Move(moveInput);
         }
@@ -65,7 +68,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnLook(CallbackContext c)
     {
         lookInput = c.ReadValue<Vector2>();
-        if (UIManager.IsUIOpen || (topDownBuilding && buildingMode.isActive))
+        if (UIManager.IsUIOpen || CameraController.ActiveCamera != CameraController.CameraType.Standard)
         {
             movement.Look(Vector2.zero);
         }
@@ -77,6 +80,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void OnInteract(CallbackContext value)
     {
+        print("Interact");
         interactPressed = value.performed;
         if (interactPressed && !UIManager.IsUIOpen)
         {
@@ -104,7 +108,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnFire(CallbackContext value)
     {
         firePressed = value.performed;
-        if(firePressed && (!UIManager.IsUIOpen || buildingMode.isActive && topDownBuilding && !IsPointerOverUI))
+        if(firePressed && (!UIManager.IsUIOpen || (buildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
         {
             if(buildingMode.isActive)
             {
@@ -124,8 +128,7 @@ public class PlayerInputManager : MonoBehaviour
                 {
                     UIManager.forceCursor = true;
                     UIManager.ShowCursor();
-                    camOTS.Priority = 0;
-                    camTD.Priority = 10;
+                    CameraController.ChangeToTopDownCamera();
                 }
             }
             else
@@ -135,8 +138,7 @@ public class PlayerInputManager : MonoBehaviour
                 {
                     UIManager.forceCursor = false;
                     UIManager.HideCursor();
-                    camOTS.Priority = 10;
-                    camTD.Priority = 0;
+                    CameraController.ChangeToStandardCamera();
                 }
             }
         }

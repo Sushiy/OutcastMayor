@@ -3,24 +3,39 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+/// <summary>
+/// This class controls both player movement and camera direction (in normal camera mode)
+/// </summary>
 public class PlayerMovement : MonoBehaviour
 {
-    public float moveSpeed = 1.0f;
-    public float rotationSpeed = 3.0f;
-    public float maxVertical = 340;
-    public float minVertical = 40;
+    [Header("Movement Settings")]
+    [SerializeField]
+    private float moveSpeed = 1.0f;
 
-    public float adjustSpeed = 2.0f;
+    [Header("View Settings")]
+    [SerializeField]
+    private float rotationSpeed = 3.0f;
+    [SerializeField]
+    private float maxVerticalCamAngle = 340;
+    [SerializeField]
+    private float minVerticalCamAngle = 40;
+
+    [SerializeField]
+    private float camToMoveAdjustSpeed = 2.0f;
 
     Vector3 movementDelta;
-    public Transform rotationTarget;
+    [SerializeField]
+    private Transform rotationTarget;
 
-    Animator animator;
-    int hashRunning = Animator.StringToHash("bIsRunning");
-    int hashSpeedForward = Animator.StringToHash("fSpeedForward");
-    int hashSpeedSide = Animator.StringToHash("fSpeedSide");
+    //Animator
+    private Animator animator;
 
-    CharacterController characterController;
+    //Hash values for animator control
+    private int hashRunning = Animator.StringToHash("bIsRunning");
+    private int hashSpeedForward = Animator.StringToHash("fSpeedForward");
+    private int hashSpeedSide = Animator.StringToHash("fSpeedSide");
+
+    private CharacterController characterController;
 
     private float verticalSpeed;
 
@@ -74,13 +89,13 @@ public class PlayerMovement : MonoBehaviour
         var angle = followTransform.localEulerAngles.x;
 
         //Clamp the Up/Down rotation
-        if (angle > 180 && angle < maxVertical)
+        if (angle > 180 && angle < maxVerticalCamAngle)
         {
-            angles.x = maxVertical;
+            angles.x = maxVerticalCamAngle;
         }
-        else if (angle < 180 && angle > minVertical)
+        else if (angle < 180 && angle > minVerticalCamAngle)
         {
-            angles.x = minVertical;
+            angles.x = minVerticalCamAngle;
         }
         followTransform.localEulerAngles = angles;
         #endregion
@@ -111,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
             if (moveInput.x != 0)
             {
                 //Slowly adjust the camera to match the players travel direction
-                float adjustAngle = Vector3.Angle(followTransform.forward, rotationTarget.forward) * Time.deltaTime * adjustSpeed * moveInput.x;
+                float adjustAngle = Vector3.Angle(followTransform.forward, rotationTarget.forward) * Time.deltaTime * camToMoveAdjustSpeed * moveInput.x;
                 followTransform.rotation *= Quaternion.Euler(0, adjustAngle, 0);
             }
         }

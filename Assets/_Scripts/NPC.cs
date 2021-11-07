@@ -4,15 +4,13 @@ using UnityEngine;
 
 public class NPC : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    [SerializeField] private string characterName;
 
-    // Update is called once per frame
-    void Update()
+    public string CharacterName
     {
-        
+        get
+        {
+            return characterName;
+        }
     }
 }

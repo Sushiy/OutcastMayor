@@ -70,7 +70,8 @@ public class CraftingTableView : UIPanel
 
     public void Craft()
     {
-        craftingTable.Craft(selectedRecipe, inventory);
+        if(selectedRecipe != null)
+            craftingTable.Craft(selectedRecipe, inventory);
     }
 
     public override void Show()
