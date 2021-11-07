@@ -9,9 +9,14 @@ public class DialogueSystem : MonoBehaviour
 
     private DialogueSystem instance;
 
+    public GameObject newRequestPanel;
+
+    public LineView view;
+
     private void Awake()
     {
         dialogueRunner = GetComponent<DialogueRunner>();
+        dialogueRunner.AddCommandHandler("NewQuest", OnNewQuest);
     }
 
     public static void StartDialogue(string node)
@@ -24,5 +29,11 @@ public class DialogueSystem : MonoBehaviour
     private static void EndDialogue()
     {
         CameraController.ChangeToStandardCamera();
+    }
+
+    public void OnNewQuest()
+    {
+        newRequestPanel.SetActive(true);
+        //view.ReadyForNextLine();
     }
 }
