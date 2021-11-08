@@ -23,6 +23,8 @@ public class Room
     /// </summary>
     public bool IsDirty = false;
 
+    public HashSet<NPC> assignedNPCs;
+
     public Color roomColor;
 
     private Vector3 roomCenter;

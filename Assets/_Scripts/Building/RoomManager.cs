@@ -53,4 +53,21 @@ public class RoomManager : MonoBehaviour
     {
         Instantiate<ParticleSystem>(instance.validRoomFXPrefab, position, Quaternion.identity);
     }
+
+    /// <summary>
+    /// Check if the given npc has any assigned rooms
+    /// </summary>
+    /// <param name="npc">the NPC to check</param>
+    public static bool DoesNPCHaveValidRoom(NPC npc)
+    {
+        for(int i = 0; i < instance.rooms.Count; i++)
+        {
+            if(instance.rooms[i].assignedNPCs.Contains(npc))
+            {
+                if(instance.rooms[i].isValid)
+                    return true;
+            }
+        }
+        return false;
+    }
 }

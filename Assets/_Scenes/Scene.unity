@@ -1251,7 +1251,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998520731}
-  m_LocalRotation: {x: 0.39271948, y: -0.51126844, z: 0.2826951, w: 0.7102532}
+  m_LocalRotation: {x: 0.39271954, y: -0.51126844, z: 0.28269508, w: 0.7102532}
   m_LocalPosition: {x: 5.6219897, y: 6.51, z: -3.43824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1629,8 +1629,8 @@ Light:
   m_Type: 2
   m_Shape: 0
   m_Color: {r: 0.8113208, g: 0.6371065, b: 0.2946778, a: 1}
-  m_Intensity: 1
-  m_Range: 1
+  m_Intensity: 0.5
+  m_Range: 1.5946797
   m_SpotAngle: 30
   m_InnerSpotAngle: 21.80208
   m_CookieSize: 10
@@ -1687,7 +1687,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1248048048}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.073, y: 0.668, z: 0.299}
+  m_LocalPosition: {x: -2.93, y: 0.586, z: -3.943}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -5083,10 +5083,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 70723335, guid: 27e13ebe5090f3940a1ef699b26152ae, type: 3}
+      propertyPath: m_Name
+      value: HeadAim
+      objectReference: {fileID: 0}
     - target: {fileID: 70723337, guid: 27e13ebe5090f3940a1ef699b26152ae, type: 3}
       propertyPath: m_Data.m_SourceObjects.m_Item0.transform
       value: 
       objectReference: {fileID: 1420994843}
+    - target: {fileID: 961448020, guid: 27e13ebe5090f3940a1ef699b26152ae, type: 3}
+      propertyPath: m_Weight
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 1158231386097804853, guid: 27e13ebe5090f3940a1ef699b26152ae, type: 3}
       propertyPath: m_Name
       value: Vampire_NPC
