@@ -12,6 +12,8 @@ public class RoomManager : MonoBehaviour
     [SerializeField]
     private ParticleSystem validRoomFXPrefab;
 
+    public System.Action OnRoomValidated;
+
     private void Awake()
     {
         instance = this;
@@ -49,6 +51,11 @@ public class RoomManager : MonoBehaviour
         instance.StartCoroutine(r.CheckValidity());
     }
 
+    public static void RoomCheckResult(Room r, bool valid)
+    {
+        instance.OnRoomValidated?.Invoke();
+    }
+
     public static void SpawnValidRoomFX(Vector3 position)
     {
         Instantiate<ParticleSystem>(instance.validRoomFXPrefab, position, Quaternion.identity);
@@ -59,11 +66,13 @@ public class RoomManager : MonoBehaviour
     /// /// </summary>
     public static bool HasValidRoom()
     {
+        int counter = 0;
         for(int i = 0; i < instance.rooms.Count; i++)
         {
-            if(instance.rooms[i].isValid)
-                return true;
+            if (instance.rooms[i].isValid)
+                counter++;
         }
-        return false;
+        print("There are currently: " + counter + "valid rooms");
+        return counter > 0;
     }
 }

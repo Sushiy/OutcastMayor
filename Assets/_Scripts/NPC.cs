@@ -10,7 +10,7 @@ public class NPC : ScriptableObject
 {
     [SerializeField] private string characterName;
 
-    [SerializeField] private Quest[] availableQuests;
+    [SerializeField] private Request[] availableRequests;
     
     public string CharacterName
     {
@@ -20,8 +20,8 @@ public class NPC : ScriptableObject
         }
     }
 
-    public Quest GetQuest(int i)
+    public Request GetQuest(int i)
     {
-        return availableQuests[i];
+        return availableRequests[i];
     }
 }

@@ -18,7 +18,7 @@ public class CameraController : MonoBehaviour
         Dialogue
     }
 
-    private CameraType activeCamera = CameraType.Standard;
+    public CameraType activeCamera = CameraType.Standard;
     public static CameraType ActiveCamera
     {
         get

@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 77fa1f15909edd246a6fab20157da32b, type: 3}
-  m_Name: Wood
+  m_Name: i_Axe
   m_EditorClassIdentifier: 
-  Name: Wood
-  ID: 1
-  icon: {fileID: 21300000, guid: 329ba9f48628f074c8251f07ad41cf14, type: 3}
-  weight: 0.5
-  stackLimit: 20
-  prefab: {fileID: 0}
+  Name: Axe
+  ID: 0
+  icon: {fileID: 21300000, guid: ff0019fff735be44eba64ed5a2a7f6d3, type: 3}
+  weight: 1
+  stackLimit: 1
+  prefab: {fileID: 6405548314826264888, guid: 33abab487d53ba444b242d13f9ed6bba, type: 3}

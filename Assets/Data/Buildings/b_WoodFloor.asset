@@ -9,16 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 59ba698c74bfa51419cda73ae2cb1608, type: 3}
-  m_Name: Axe
+  m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
+  m_Name: b_WoodFloor
   m_EditorClassIdentifier: 
-  Name: Axe
-  icon: {fileID: 21300000, guid: 2311229eec887be4eb935cdf8826678c, type: 3}
-  inputs:
+  Name: WoodFloor
+  Icon: {fileID: 0}
+  materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
-  - item: {fileID: 11400000, guid: a79403a30ae7d794d88b748b37880ba5, type: 2}
-    count: 3
-  output:
-    item: {fileID: 11400000, guid: 130aa80c8bcaacf44a274489d48da332, type: 2}
     count: 1
+  prefab: {fileID: 20916324578604607, guid: 019eaaa6fd31fab45842dca8774a6617, type: 3}

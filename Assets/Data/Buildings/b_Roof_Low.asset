@@ -10,11 +10,11 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: Tent
+  m_Name: b_Roof_Low
   m_EditorClassIdentifier: 
-  Name: Tent
+  Name: Roof
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
-  prefab: {fileID: 3125772605847581528, guid: 65a9394de288f9441b953432ca79a447, type: 3}
+    count: 2
+  prefab: {fileID: 9141218274749744331, guid: e0769e9a88c5d054daf6eda78cf858d1, type: 3}

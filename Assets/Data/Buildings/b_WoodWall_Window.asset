@@ -10,11 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: WoodWall
+  m_Name: b_WoodWall_Window
   m_EditorClassIdentifier: 
-  Name: WoodWall 2x2
+  Name: Wooden Window
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 1
-  prefab: {fileID: 1094437169021688344, guid: d753dbc34622b0b4ebe19ba469ee494c, type: 3}
+  - item: {fileID: 11400000, guid: cc6c8e8d033141a4fb4e24c5eef07d6f, type: 2}
+    count: 2
+  prefab: {fileID: 3370129965885213675, guid: 59c9b8a87b997004dad26948a0082589, type: 3}

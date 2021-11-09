@@ -27,8 +27,9 @@ public class DialogueSystem : MonoBehaviour
 
     public void OnNewQuest(string characterName, int questIndex)
     {
-        Quest q = NPCManager.GetNPCByName(characterName).GetQuest(questIndex);
-        UIManager.Instance.ShowNewRequestView(q.title);
+        Request q = NPCManager.GetNPCByName(characterName).GetQuest(questIndex);
+        q.Init();
+        UIManager.Instance.ShowNewRequestView(q);
         if (Player.Instance == null)
             print("No player");
         Player.Instance.QuestLog.AddQuest(q);

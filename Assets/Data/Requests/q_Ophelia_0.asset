@@ -9,17 +9,18 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f44c1c376d313f4b8f2c902270b53f6, type: 3}
-  m_Name: q_Ophelia1
+  m_Script: {fileID: 11500000, guid: 3a0c59b6242227a44a2409abec90e7f7, type: 3}
+  m_Name: q_Ophelia_0
   m_EditorClassIdentifier: 
-  questgiver: {fileID: 11400000, guid: 6a63df890b54df34685443ba0706caf3, type: 2}
+  requester: {fileID: 11400000, guid: 6a63df890b54df34685443ba0706caf3, type: 2}
   title: Vampire's Rest
-  description: Prepare a suitable shelter for Ophelia
-  reward: 0
+  description: Build a suitable home for Ophelia.
+  reward: Ophelia joins your village.
   goals:
   - goalType: 0
-    description: Construct a valid room
+    description: Build a valid room
     isCompleted: 0
     requiredAmount: 1
     currentAmount: 0
     targetCharacter: {fileID: 0}
+  isCompleted: 0

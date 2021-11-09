@@ -9,9 +9,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc47ef8ce11a0d1468360b17d81a4e52, type: 3}
-  m_Name: Ophelia
+  m_Script: {fileID: 11500000, guid: 77fa1f15909edd246a6fab20157da32b, type: 3}
+  m_Name: i_Wooden Board
   m_EditorClassIdentifier: 
-  characterName: Ophelia
-  availableQuests:
-  - {fileID: 11400000, guid: a72a51886bf3a0e4d89db51a724ed329, type: 2}
+  Name: Wooden Board
+  ID: 2
+  icon: {fileID: 21300000, guid: 2ae38226d210f5f40a4d13e005867273, type: 3}
+  weight: 0.25
+  stackLimit: 20
+  prefab: {fileID: 0}

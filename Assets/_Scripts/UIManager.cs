@@ -23,7 +23,7 @@ public class UIManager : MonoBehaviour
     {
         get
         {
-            return Instance.inventoryView.Visible || Instance.craftingTableView.Visible || Instance.buildingView.Visible || Instance.newRequestView.Visible;
+            return Instance.inventoryView.Visible || Instance.craftingTableView.Visible || Instance.buildingView.Visible;
         }
     }
 
@@ -45,14 +45,14 @@ public class UIManager : MonoBehaviour
     }
     public static void ShowCursor()
     {
-        print("Show Cursor");
+        //print("Show Cursor");
         Cursor.lockState = CursorLockMode.None;
         Cursor.visible = true;
     }
 
     public static void HideCursor()
     {
-        print("Hide Cursor");
+        //print("Hide Cursor");
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
@@ -95,9 +95,9 @@ public class UIManager : MonoBehaviour
         }
     }
 
-    public void ShowNewRequestView(string title)
+    public void ShowNewRequestView(Request q)
     {
-        newRequestView.Show(title);
+        newRequestView.Show(q);
     }
     public void HideNewRequestView()
     {

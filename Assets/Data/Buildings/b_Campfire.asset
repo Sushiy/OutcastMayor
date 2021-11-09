@@ -10,13 +10,13 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: WoodWall_Window
+  m_Name: b_Campfire
   m_EditorClassIdentifier: 
-  Name: Wooden Window
+  Name: Campfire
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 1
-  - item: {fileID: 11400000, guid: cc6c8e8d033141a4fb4e24c5eef07d6f, type: 2}
-    count: 2
-  prefab: {fileID: 3370129965885213675, guid: 59c9b8a87b997004dad26948a0082589, type: 3}
+    count: 4
+  - item: {fileID: 11400000, guid: a79403a30ae7d794d88b748b37880ba5, type: 2}
+    count: 5
+  prefab: {fileID: 498444498743871664, guid: 3f5d877ce04b64c4bbc88f6d770a290b, type: 3}

@@ -6,8 +6,8 @@ public class Player : MonoBehaviour
 {
     public static Player Instance;
 
-    private QuestLog questLog;
-    public QuestLog QuestLog => questLog;
+    private RequestLog questLog;
+    public RequestLog QuestLog => questLog;
     private Inventory inventory;
     public Inventory Inventory => inventory;
     private BuildingMode buildingMode;
@@ -28,7 +28,7 @@ public class Player : MonoBehaviour
             Destroy(this);
         }
 
-        questLog = GetComponent<QuestLog>();
+        questLog = GetComponent<RequestLog>();
         inventory = GetComponent<Inventory>();
         buildingMode = GetComponent<BuildingMode>();
         interactor = GetComponent<Interactor>();

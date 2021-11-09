@@ -68,6 +68,8 @@ public class Room
 
         isValid = valid;
         Debug.Log("Validity: " + isValid);
+
+        RoomManager.RoomCheckResult(this, valid);
     }
 
     /// <summary>
