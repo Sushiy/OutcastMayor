@@ -17,6 +17,8 @@ public class Buildable : MonoBehaviour
         get;
     }
 
+    Construction c;
+
     public SnappingPoint snappedPointSelf
     {
         private set;
@@ -29,6 +31,7 @@ public class Buildable : MonoBehaviour
     }
 
     [Header("Room Recognition")]
+    public Room room;
     public Buildable anchorParent;
     public UnityEvent OnChecked;
     protected static LayerMask buildLayer = 1 << 7;
@@ -55,7 +58,7 @@ public class Buildable : MonoBehaviour
 
     public void SetBuildMode(Buildable snappedToObject)
     {
-        SetRendererLayers(0);
+        SetBlueprintLayer();
         CheckForRoom(snappedToObject);
     }
 
@@ -73,6 +76,16 @@ public class Buildable : MonoBehaviour
         {
             meshRenderers[m].material.color = c;
         }
+    }
+    
+    public void SetDefaultLayer()
+    {
+        SetRendererLayers(0);
+    }
+
+    public void SetBlueprintLayer()
+    {
+        SetRendererLayers(7);
     }
 
     private void SetInvisible()

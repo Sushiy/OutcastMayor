@@ -19,4 +19,6 @@ MonoBehaviour:
     count: 1
   - item: {fileID: 11400000, guid: cc6c8e8d033141a4fb4e24c5eef07d6f, type: 2}
     count: 4
-  prefab: {fileID: 4828949984889715789, guid: 52e58665d2506ed498cee0d0775a9ddf, type: 3}
+  actionPoints: 5
+  buildingPrefab: {fileID: 4828949984889715789, guid: 52e58665d2506ed498cee0d0775a9ddf, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: 68ed0824dce10f7429126f6a3e372e92, type: 3}

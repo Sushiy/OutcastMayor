@@ -22,7 +22,8 @@ public class BuildRecipe : ScriptableObject
     /// <summary>
     /// The prefab to spawn when building this
     /// </summary>
-    public Buildable prefab;
+    public Buildable buildingPrefab;
+    public Construction constructionPrefab;
 
     /// <summary>
     /// Check if the given inventory has all needed materials
