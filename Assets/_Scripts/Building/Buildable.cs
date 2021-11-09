@@ -34,6 +34,7 @@ public class Buildable : MonoBehaviour
     public Room room;
     public Buildable anchorParent;
     public UnityEvent OnChecked;
+    public bool isBlueprint = false;
     protected static LayerMask buildLayer = 1 << 7;
 
     private void Awake()
@@ -59,7 +60,6 @@ public class Buildable : MonoBehaviour
     public void SetBuildMode(Buildable snappedToObject)
     {
         SetBlueprintLayer();
-        CheckForRoom(snappedToObject);
     }
 
     private void SetRendererLayers(int i)
@@ -81,11 +81,14 @@ public class Buildable : MonoBehaviour
     public void SetDefaultLayer()
     {
         SetRendererLayers(0);
+        isBlueprint = false;
+        CheckForRoom();
     }
 
     public void SetBlueprintLayer()
     {
         SetRendererLayers(7);
+        isBlueprint = true;
     }
 
     private void SetInvisible()
@@ -141,9 +144,9 @@ public class Buildable : MonoBehaviour
     /// This method tries to sort Buildables into rooms. Rooms should eventually be used to validate buildings.
     /// For now it just keeps the scene hiearchy a little cleaner
     /// </summary>
-    /// <param name="snappedTo"></param>
-    public virtual void CheckForRoom(Buildable snappedTo)
+    public virtual void CheckForRoom()
     {
+        if (isBlueprint) return;
         //Proposed Function:
         //1. Check the buildcollider "as trigger" for all overlapping objects
         OverlapResult o = CheckOverlap();
@@ -167,7 +170,7 @@ public class Buildable : MonoBehaviour
         {
             Floor f = colliders[i].GetComponentInParent<Floor>();
             if (f == this) continue;
-            if (f)
+            if (f && !f.isBlueprint)
             {
                 result.touchedFloors.Add(f);
                 if (!result.touchedRooms.Contains(f.room))

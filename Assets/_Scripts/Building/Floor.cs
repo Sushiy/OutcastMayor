@@ -51,9 +51,9 @@ public class Floor : Buildable
     /// This method tries to sort Buildables into rooms. Rooms should eventually be used to validate buildings.
     /// For now it just keeps the scene hiearchy a little cleaner
     /// </summary>
-    /// <param name="snappedTo"></param>
-    public override void CheckForRoom(Buildable snappedTo)
+    public override void CheckForRoom()
     {
+        if (isBlueprint) return;
         //1. Check the buildcollider "as trigger" for all overlapping objects
         Collider[] colliders = Physics.OverlapBox(transform.position, (buildCollider.size / 2.0f), transform.rotation, buildLayer);
         //print("Touched: " + colliders.Length + " buildables");
@@ -64,7 +64,7 @@ public class Floor : Buildable
         {
             Floor f = colliders[i].GetComponentInParent<Floor>();
             if (f == this) continue;
-            if (f && CheckVisibility(f))
+            if (f && !f.isBlueprint && CheckVisibility(f))
             {
                 floorCount++;
                 if (!touchedRooms.Contains(f.room))
@@ -223,7 +223,7 @@ public class Floor : Buildable
             //you hit a buildable above!
             Debug.DrawLine(origin, hitInfo.point, Color.green, 1.0f);
             buildable = hitInfo.collider.GetComponentInParent<Buildable>();
-            return true;
+            return !buildable.isBlueprint;
         }
         else
         {

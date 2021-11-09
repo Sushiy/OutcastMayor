@@ -148,6 +148,12 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 2392172980035267946}
   buildCollider: {fileID: 2115625542}
+  room:
+    floors: []
+    walls: []
+    isValid: 0
+    IsDirty: 0
+    roomColor: {r: 0, g: 0, b: 0, a: 0}
   anchorParent: {fileID: 0}
   OnChecked:
     m_PersistentCalls:
