@@ -4,37 +4,37 @@ __PrivCrochet_position: 2364,508
 __PrivCrochet_tags: 
 title: Vampire_Start
 ---
-Vampire: Hello....*sigh*
-Vampire: Ugh...sorry I'm not really of much use right now.
-Vampire: I [shake]HATE[/shake] sunlight and until I have a home to shelter in I won't be moving from this spot!
+Ophelia: Hello....*sigh*
+Ophelia: Ugh...sorry I'm not really of much use right now.
+Ophelia: I [shake]HATE[/shake] sunlight and until I have a home to shelter in I won't be moving from this spot!
 -> No problem! I'll make you a house!
-    <<NewQuest>>
-    Vampire: Really? Well...I'll be waiting.
+    <<NewQuest Ophelia 0>>
+    Ophelia: Really? Well...I'll be waiting.
 -> Okay...whatever emo!
-    Vampire: Tch! Get Lost.
+    Ophelia: Tch! Get Lost.
 ===
 __PrivCrochet_colorID: 0
 __PrivCrochet_position: 2743,510
 __PrivCrochet_tags: 
 title: Vampire_Again
 ---
-Vampire: So? Any progress?
+Ophelia: So? Any progress?
 -> Yes! I have finished your house!
 <<jump Vampire_Quest_01_Complete>>
 -> No sorry. I'm still working on it.
-    Vampire: Alright...sure! Take your time...not like I'm inches away from being incinerated!
+    Ophelia: Alright...sure! Take your time...not like I'm inches away from being incinerated!
 ===
 __PrivCrochet_colorID: 0
-__PrivCrochet_position: 3078,515
+__PrivCrochet_position: 3077,513
 __PrivCrochet_tags: 
 title: Vampire_Quest_01_Complete
 ---
-Vampire: WOW! This is amazing! Did you really make one just for me?
+Ophelia: WOW! This is amazing! Did you really make one just for me?
 -> Yep! It's all yours!
-    Vampire: Thanks so much! I'll totally help out around your village! However...
-    Vampire: ...I only work at night. Sunlight and all that.
+    Ophelia: Thanks so much! I'll totally help out around your village! However...
+    Ophelia: ...I only work at night. Sunlight and all that.
 -> Well... You might get some roommates in the future! Is that alright?
-    Vampire: I've never HAD roommates! My family is kind of solitary, you know.
-    Vampire: How exciting! I'm excited to meet them! Though...
-    Vampire: I'm only really awake at night. Sunlight and all that.
+    Ophelia: I've never HAD roommates! My family is kind of solitary, you know.
+    Ophelia: How exciting! I'm excited to meet them! Though...
+    Ophelia: I'm only really awake at night. Sunlight and all that.
 ===

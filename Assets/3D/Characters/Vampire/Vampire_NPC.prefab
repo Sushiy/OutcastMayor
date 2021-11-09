@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 70723336}
   - component: {fileID: 70723337}
   m_Layer: 0
-  m_Name: GameObject
+  m_Name: HeadAim
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -143,7 +143,6 @@ GameObject:
   m_Component:
   - component: {fileID: 2054397392}
   - component: {fileID: 2054397393}
-  - component: {fileID: 2054397395}
   - component: {fileID: 2054397394}
   m_Layer: 3
   m_Name: Interactable
@@ -180,19 +179,6 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
---- !u!114 &2054397395
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2054397391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dc47ef8ce11a0d1468360b17d81a4e52, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  characterName: 
 --- !u!114 &2054397394
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -208,6 +194,7 @@ MonoBehaviour:
   name: Vampire
   interaction: Speak
   firstDialogueLine: Vampire_Start
+  npc: {fileID: 11400000, guid: 6a63df890b54df34685443ba0706caf3, type: 2}
 --- !u!1 &136840335790002552
 GameObject:
   m_ObjectHideFlags: 0

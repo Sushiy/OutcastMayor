@@ -92,7 +92,7 @@ public class PlayerInputManager : MonoBehaviour
         secondaryPressed = value.performed;
         if (secondaryPressed && buildingMode.isActive)
         {
-            UIManager.instance.ToggleBuildingView();
+            UIManager.Instance.ToggleBuildingView();
         }
     }
 
@@ -101,7 +101,7 @@ public class PlayerInputManager : MonoBehaviour
         inventoryPressed = value.performed;
         if(inventoryPressed)
         {
-            UIManager.instance.ToggleInventory();
+            UIManager.Instance.ToggleInventory();
         }
     }
 

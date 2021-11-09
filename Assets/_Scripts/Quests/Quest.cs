@@ -1,8 +1,13 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Quest
+/// <summary>
+/// Quest
+/// </summary>
+[CreateAssetMenu(fileName = "NewQuest", menuName = "ScriptableObjects/Quest", order = 1)]
+public class Quest : ScriptableObject
 {
     public NPC questgiver;
 
@@ -13,16 +18,15 @@ public class Quest
     public string reward;
 
     public QuestGoal[] goals;
-
-    /*
     public bool CheckGoals()
     {
         for(int i = 0; i < goals.Length; i++)
         {
-            if(current)
+            if (!goals[i].isCompleted)
+                return false;
         }
+        return true;
     }
-    */
 
 }
 
@@ -30,8 +34,11 @@ public class Quest
 /// <summary>
 /// This class describes a QuestCondition. This is proabably some kind of worldstate?
 /// </summary>
+[System.Serializable]
 public class QuestGoal
 {
+    public QuestType goalType;
+
     public string description;
 
     public bool isCompleted;
@@ -40,44 +47,38 @@ public class QuestGoal
 
     public int currentAmount;
 
-    public QuestType goalType;
+    public NPC targetCharacter;
+
+    public Action OnUpdateGoal;
 
     public virtual bool IsGoalCompleted()
     {
-        if (currentAmount >= requiredAmount)
-            return true;
-        else
-            return false;
+        switch(goalType)
+        {
+            case QuestType.FreeValidRoom:
+                return RoomManager.HasValidRoom();
+            case QuestType.ItemDelivery:
+                if (currentAmount >= requiredAmount)
+                    return true;
+                else
+                    return false;
+            case QuestType.FurnitureRequest:
+                return false;
+            default:
+                return false;
+        }
     }
-
-}
-
-/// <summary>
-/// Create at least 1 valid room for this character
-/// </summary>
-public class AssignRoomGoal : QuestGoal
-{
-    /// <summary>
-    /// The character that should get a room assigned
-    /// </summary>
-    public NPC targetCharacter;
-
-    public override bool IsGoalCompleted()
-    {
-        return RoomManager.DoesNPCHaveValidRoom(targetCharacter);
-    }
-}
-
-/// <summary>
-/// Have the following furniture across the rooms assigned to this character.
-/// </summary>
-public class RoomFurnitureGoal : QuestGoal
-{
-
 }
 
 public enum QuestType
 {
-    Shelter,
-    ItemDelivery
+    /// <summary>
+    /// Create at least 1 valid room for this character
+    /// </summary>
+    FreeValidRoom,
+    ItemDelivery,
+    /// <summary>
+    /// Have the following furniture across the rooms assigned to this character.
+    /// </summary>
+    FurnitureRequest
 }

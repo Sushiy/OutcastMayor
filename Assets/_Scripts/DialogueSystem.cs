@@ -7,16 +7,10 @@ public class DialogueSystem : MonoBehaviour
 {
     private static DialogueRunner dialogueRunner;
 
-    private DialogueSystem instance;
-
-    public GameObject newRequestPanel;
-
-    public LineView view;
-
     private void Awake()
     {
         dialogueRunner = GetComponent<DialogueRunner>();
-        dialogueRunner.AddCommandHandler("NewQuest", OnNewQuest);
+        dialogueRunner.AddCommandHandler<string, int>("NewQuest", OnNewQuest);
     }
 
     public static void StartDialogue(string node)
@@ -31,9 +25,12 @@ public class DialogueSystem : MonoBehaviour
         CameraController.ChangeToStandardCamera();
     }
 
-    public void OnNewQuest()
+    public void OnNewQuest(string characterName, int questIndex)
     {
-        newRequestPanel.SetActive(true);
-        //view.ReadyForNextLine();
+        Quest q = NPCManager.GetNPCByName(characterName).GetQuest(questIndex);
+        UIManager.Instance.ShowNewRequestView(q.title);
+        if (Player.Instance == null)
+            print("No player");
+        Player.Instance.QuestLog.AddQuest(q);
     }
 }

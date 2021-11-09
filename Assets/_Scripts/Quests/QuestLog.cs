@@ -18,6 +18,7 @@ public class QuestLog : MonoBehaviour
         for(int i = 0; i < activeQuests.Count; i++)
         {
             //Check each active quest if it is completed/completeable
+
         }
     }
 }

@@ -29,6 +29,6 @@ public class CraftingTable : Interactable
             return;
         }
         uiView.SetTable(this, i);
-        UIManager.instance.ToggleCraftingTable();
+        UIManager.Instance.ToggleCraftingTable();
     }
 }

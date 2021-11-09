@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIManager : MonoBehaviour
 {
-    public static UIManager instance;
+    public static UIManager Instance;
 
     [SerializeField]
     private InventoryView inventoryView;
@@ -12,6 +12,8 @@ public class UIManager : MonoBehaviour
     private CraftingTableView craftingTableView;
     [SerializeField]
     private BuildingView buildingView;
+    [SerializeField]
+    private NewRequestView newRequestView;
     [SerializeField]
     private TMPro.TMP_Text DEBUG_roomCounter;
 
@@ -21,20 +23,20 @@ public class UIManager : MonoBehaviour
     {
         get
         {
-            return instance.inventoryView.Visible || instance.craftingTableView.Visible || instance.buildingView.Visible;
+            return Instance.inventoryView.Visible || Instance.craftingTableView.Visible || Instance.buildingView.Visible || Instance.newRequestView.Visible;
         }
     }
 
     // Start is called before the first frame update
     void Awake()
     {
-        if(instance == null)
+        if(Instance == null)
         {
-            instance = this;
+            Instance = this;
         }
         else
         {
-            Debug.LogError("More than one UIManager");
+            Debug.LogError("There are two UIManagers");
             Destroy(this);
         }
 
@@ -79,6 +81,7 @@ public class UIManager : MonoBehaviour
             ShowCursor();
         }
     }
+
     public void ToggleBuildingView()
     {
         if (buildingView.Visible)
@@ -92,6 +95,16 @@ public class UIManager : MonoBehaviour
         }
     }
 
+    public void ShowNewRequestView(string title)
+    {
+        newRequestView.Show(title);
+    }
+    public void HideNewRequestView()
+    {
+        newRequestView.Hide();
+    }
+
+
     public static void OnHidePanel()
     {
         if (!IsUIOpen && !forceCursor)
@@ -100,6 +113,6 @@ public class UIManager : MonoBehaviour
 
     public static void SetRoomCounter(int i)
     {
-        instance.DEBUG_roomCounter.text = "Rooms: " + i;
+        Instance.DEBUG_roomCounter.text = "Rooms: " + i;
     }
 }

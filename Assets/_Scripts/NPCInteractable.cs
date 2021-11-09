@@ -4,11 +4,14 @@ using UnityEngine;
 
 public class NPCInteractable : Interactable
 {
-    public string firstDialogueLine;
-    NPC npc;
-    private void Awake()
+    [SerializeField] private string firstDialogueLine;
+    [SerializeField] private NPC npc;
+    private void Start()
     {
-        npc = GetComponent<NPC>();
+        if(npc != null)
+        {
+            NPCManager.AddNPC(npc);
+        }
     }
 
     public override void Interact(Interactor interactor)
