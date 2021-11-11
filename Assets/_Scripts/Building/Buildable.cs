@@ -57,9 +57,10 @@ public class Buildable : MonoBehaviour
         SetLayerForAllColliders(6);
     }
 
-    public void SetBuildMode(Buildable snappedToObject)
+    public void SetBlueprintMode(Material ghostMaterial)
     {
         SetBlueprintLayer();
+        SetMaterials(ghostMaterial);
     }
 
     private void SetRendererLayers(int i)

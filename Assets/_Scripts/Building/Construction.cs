@@ -5,6 +5,7 @@ using UnityEngine;
 public class Construction : Interactable
 {
     private Buildable finishedObject;
+    private Buildable blueprintObject;
 
     [Header("Building Progress")]
     private int currentActionPoints;
@@ -25,10 +26,11 @@ public class Construction : Interactable
         get;
     }
 
-    public void SetConstruction(BuildRecipe recipe, Buildable finishedObject)
+    public void SetConstruction(BuildRecipe recipe, Buildable finishedObject, Buildable blueprintObject)
     {
         //Data Setup
         this.finishedObject = finishedObject;
+        this.blueprintObject = blueprintObject;
         this.buildRecipe = recipe;
         stockpiledMaterials = new Inventory.Stack[recipe.materials.Length];
         for(int i = 0; i < stockpiledMaterials.Length; i++)
@@ -95,12 +97,13 @@ public class Construction : Interactable
     public void Complete()
     {
         //Remove the construction object
+
+        Destroy(blueprintObject.gameObject);
         //Activate the normal object
+        finishedObject.gameObject.SetActive(true);
         finishedObject.SetDefaultLayer();
         if(completePS)
             completePS.Play();
-        //Remove the constructionHandlers
-        Destroy(gameObject);
     }
 
     public bool IsNeeded(Item m)

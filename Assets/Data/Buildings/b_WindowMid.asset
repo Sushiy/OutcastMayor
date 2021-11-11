@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
+  m_Name: b_WindowMid
+  m_EditorClassIdentifier: 
+  Name: Window Midsection 1m
+  Icon: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 1
+  - item: {fileID: 11400000, guid: cc6c8e8d033141a4fb4e24c5eef07d6f, type: 2}
+    count: 2
+  actionPoints: 5
+  buildingPrefab: {fileID: 3370129965885213675, guid: b8d845b01f8a71041aac2582b11773e9, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: 3936bf5d9bd893748b41871defa3fbd0, type: 3}

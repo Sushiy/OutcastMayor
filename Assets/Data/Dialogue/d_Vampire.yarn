@@ -1,40 +1,141 @@
 #__PrivCrochet_version:1
 __PrivCrochet_colorID: 0
-__PrivCrochet_position: 2364,508
+__PrivCrochet_position: 1836,502
 __PrivCrochet_tags: 
-title: Vampire_Start
+title: Ophelia_Start
 ---
-Ophelia: Hello....*sigh*
-Ophelia: Ugh...sorry I'm not really of much use right now.
-Ophelia: I [shake]HATE[/shake] sunlight and until I have a home to shelter in I won't be moving from this spot!
--> No problem! I'll make you a house!
-    <<NewQuest Ophelia 0>>
-    Ophelia: Really? Well...I'll be waiting.
--> Okay...whatever emo!
-    Ophelia: Tch! Get Lost.
+<<set $ophelia_spokenTo = $ophelia_spokenTo + 1>>
+<<if $ophelia_spokenTo is 1>>
+    Ophelia: Hello....*sigh*
+    Ophelia: Are you here to recruit me for your "village"?
+    -> Yes, Please!
+        <<jump Ophelia_Quest_0_Start>>
+    -> Not right now...
+        Ophelia: ...I can't join anyways.
+<<else>>
+    <<jump Ophelia_Again>>
+<<endif>>
 ===
 __PrivCrochet_colorID: 0
-__PrivCrochet_position: 2743,510
+__PrivCrochet_position: 2674,819
 __PrivCrochet_tags: 
-title: Vampire_Again
+title: Ophelia_Quest_0_Again
 ---
 Ophelia: So? Any progress?
+<<if $ophelia_quest_0_state is 2>>
 -> Yes! I have finished your house!
-<<jump Vampire_Quest_01_Complete>>
+    <<jump Ophelia_Quest_0_Complete>>
+<<endif>>
+-> What am I supposed to do again?
+    Ophelia: Well, you were offering, but I guess I can explain the problem one more time.
+    Ophelia: I'm allergic to sunlight. And without a proper place to take a rest in, I'm not joining anything!
 -> No sorry. I'm still working on it.
     Ophelia: Alright...sure! Take your time...not like I'm inches away from being incinerated!
 ===
 __PrivCrochet_colorID: 0
-__PrivCrochet_position: 3077,513
+__PrivCrochet_position: 3066,806
 __PrivCrochet_tags: 
-title: Vampire_Quest_01_Complete
+title: Ophelia_Quest_0_Complete
 ---
-Ophelia: WOW! This is amazing! Did you really make one just for me?
+Ophelia: Wait...are you serious? You built a home...for me?
+<<set $ophelia_quest_0_state = 3>>
 -> Yep! It's all yours!
-    Ophelia: Thanks so much! I'll totally help out around your village! However...
-    Ophelia: ...I only work at night. Sunlight and all that.
+    <<jump Ophelia_Quest_0_Complete_1>>
 -> Well... You might get some roommates in the future! Is that alright?
-    Ophelia: I've never HAD roommates! My family is kind of solitary, you know.
-    Ophelia: How exciting! I'm excited to meet them! Though...
-    Ophelia: I'm only really awake at night. Sunlight and all that.
+    <<jump Ophelia_Quest_0_Complete_2>>
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 2338,500
+__PrivCrochet_tags: 
+title: Ophelia_Quest_0_Start
+---
+<<if $ophelia_quest_0_state is 0>>
+Ophelia: Ugh...sorry I'm not really able to right now.
+Ophelia: I [shake]HATE[/shake] sunlight and until I have a home to shelter in I won't be moving from this spot!
+-> No problem! I'll make you a house!
+    <<NewQuest Ophelia 0>>
+    <<set $ophelia_quest_0_state = 1>>
+    Ophelia: Really? Well...I'll be waiting.
+-> Sorry, that must be annoying.
+    <<set $ophelia_quest_0_state = -1>>
+    Ophelia: That doesn't help, but thanks.
+<<else>>
+Ophelia: What are you still doing here?
+-> Tell me about your problem again?
+    Ophelia: Bad Memory? I mean sure...it's not like I'm doing anything else.
+    Ophelia: I [shake]HATE[/shake] the sunlight and until I would really like a place to rest!
+-> No problem! I'll make you a house!
+    <<NewQuest Ophelia 0>>
+    <<set $ophelia_quest_0_state = 1>>
+    Ophelia: Really? Well...I'll be waiting.
+-> Sorry, that must be annoying.
+    <<set $ophelia_quest_0_state = -1>>
+    Ophelia: That doesn't help, but thanks.
+
+<<endif>>
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 2074,816
+__PrivCrochet_tags: 
+title: Ophelia_Again
+---
+<<if $ophelia_quest_0_state is 0>>
+Ophelia: It's you again... *sigh*
+    -> Do you want to join my village?
+        <<jump Ophelia_Quest_0_Start>>
+    -> It's nothing...
+        Ophelia: ...okay?
+<<endif>>
+<<if $ophelia_quest_0_state is 3>>
+    <<jump Ophelia_Quest_0_Final>>
+<<else>>
+    <<jump Ophelia_Quest_0_Again>>
+<<endif>>
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 1838,240
+__PrivCrochet_tags: 
+title: Ophelia_Declarations
+---
+<<declare $ophelia_spokenTo = 0>>
+///Queststates are: declined = -1, open = 0, accepted = 1, completed = 2, turnedIn = 3
+<<declare $ophelia_quest_0_state = 0>>
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 3367,981
+__PrivCrochet_tags: 
+title: Ophelia_Quest_0_Complete_2
+---
+Ophelia: I've never HAD roommates! My family is kind of solitary, you know.
+Ophelia: How exciting! I'm excited to meet them! Though...
+Ophelia: I'm only really awake at night. Sunlight and all that.
+-> Not a problem at all!
+    Ophelia: Awesome!
+-> That's fine. We're all different somehow!
+    Ophelia: That's very sweet of you!
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 3360,559
+__PrivCrochet_tags: 
+title: Ophelia_Quest_0_Complete_1
+---
+Ophelia: Thanks so much! I mean - I'll totally help out around your village!!! 
+Ophelia: However...
+Ophelia: ...I only work at night. Sunlight and all that.
+-> Not a problem at all!
+    Ophelia: Awesome!
+-> That's fine. We're all different somehow!
+    Ophelia: That's very sweet of you!
+===
+__PrivCrochet_colorID: 0
+__PrivCrochet_position: 2252,1116
+__PrivCrochet_tags: 
+title: Ophelia_Quest_0_Final
+---
+Ophelia: Hello!! I'm so excited to check out the house from the inside!
+Ophelia: The sun is still out though, so I won't be able to until dusk.
+-> Can I help you with that?
+    Ophelia: It's fine, I'm used to waiting!
+-> That's a bummer!
+    Ophelia: It really is!
 ===

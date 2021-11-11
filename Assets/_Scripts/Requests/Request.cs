@@ -23,6 +23,8 @@ public class Request : ScriptableObject
 
     public Action<Request> OnUpdateRequest;
 
+    public string CompletedDialogueValue;
+
     public void Init()
     {
         for (int i = 0; i < goals.Length; i++)
@@ -45,6 +47,8 @@ public class Request : ScriptableObject
         }
         Debug.Log("Quest: " + title + " is completed: " + isCompleted);
         OnUpdateRequest?.Invoke(this);
+        if (isCompleted)
+            Complete();
     }
 
     public void Complete()
@@ -53,6 +57,7 @@ public class Request : ScriptableObject
         {
             goals[i].Clear(CheckGoals);
         }
+        DialogueSystem.SetDialogueValue(CompletedDialogueValue, 2);
     }
 
 }

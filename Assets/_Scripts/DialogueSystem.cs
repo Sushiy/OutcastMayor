@@ -34,4 +34,13 @@ public class DialogueSystem : MonoBehaviour
             print("No player");
         Player.Instance.QuestLog.AddQuest(q);
     }
+
+    public static void SetDialogueValue(string valueName, bool boolValue)
+    {
+        dialogueRunner.variableStorage.SetValue(valueName, boolValue);
+    }
+    public static void SetDialogueValue(string valueName, int intValue)
+    {
+        dialogueRunner.variableStorage.SetValue(valueName, intValue);
+    }
 }

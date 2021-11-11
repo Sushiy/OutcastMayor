@@ -134,45 +134,49 @@ public class Floor : Buildable
     {
         validityResult = new ValidityResult();
         validityResult.walls = new List<Buildable>();
-        Buildable lastBuidable;
+        Buildable lastBuildable;
 
         //RaycastMethod: 1 Raycast Up, 4 raycasts at medium height, 0-4 raycasts at floor height
         RaycastHit roofCheck, northCheck, eastCheck, southCheck, westCheck;
         OnChecked?.Invoke();
 
         //1. Check for a roof
-        //valid = CheckDirectionForBuildable(f.transform.position, Vector3.up, out roofCheck, 30.0f, out lastBuildable);
+        if(CheckDirectionForBuildable(transform.position, Vector3.up, out roofCheck, 30.0f, out lastBuildable))
+        {
+            validityResult.hasRoof = true;
+            validityResult.roof = lastBuildable;
+        }
 
         //2. Check for walls (at mid height)
-        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.forward, out northCheck, 1.1f, out lastBuidable))
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.forward, out northCheck, 1.1f, out lastBuildable))
         {
             validityResult.northResult = ValidityResult.Type.Wall;
-            validityResult.walls.Add(lastBuidable);
-            lastBuidable.OnChecked?.Invoke();
+            validityResult.walls.Add(lastBuildable);
+            lastBuildable.OnChecked?.Invoke();
         }
-        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.right, out eastCheck, 1.1f, out lastBuidable))
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), transform.right, out eastCheck, 1.1f, out lastBuildable))
         {
             validityResult.eastResult = ValidityResult.Type.Wall;
-            validityResult.walls.Add(lastBuidable);
-            lastBuidable.OnChecked?.Invoke();
+            validityResult.walls.Add(lastBuildable);
+            lastBuildable.OnChecked?.Invoke();
         }
-        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.forward, out southCheck, 1.1f, out lastBuidable))
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.forward, out southCheck, 1.1f, out lastBuildable))
         {
             validityResult.southResult = ValidityResult.Type.Wall;
-            validityResult.walls.Add(lastBuidable);
-            lastBuidable.OnChecked?.Invoke();
+            validityResult.walls.Add(lastBuildable);
+            lastBuildable.OnChecked?.Invoke();
         }
-        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.right, out westCheck, 1.1f, out lastBuidable))
+        if(CheckDirectionForBuildable(transform.position + new Vector3(0, 1, 0), -transform.right, out westCheck, 1.1f, out lastBuildable))
         {
             validityResult.westResult = ValidityResult.Type.Wall;
-            validityResult.walls.Add(lastBuidable);
-            lastBuidable.OnChecked?.Invoke();
+            validityResult.walls.Add(lastBuildable);
+            lastBuildable.OnChecked?.Invoke();
         }
 
         //3. Check for floors if there are any
         if (northCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, transform.forward, out northCheck, 1.1f, out lastBuidable))
+            if (CheckDirectionForBuildable(transform.position, transform.forward, out northCheck, 1.1f, out lastBuildable))
             {
                 Floor neighboringFloor = northCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
@@ -183,7 +187,7 @@ public class Floor : Buildable
         }
         if (eastCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, transform.right, out eastCheck, 1.1f, out lastBuidable))
+            if (CheckDirectionForBuildable(transform.position, transform.right, out eastCheck, 1.1f, out lastBuildable))
             {
                 Floor neighboringFloor = eastCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
@@ -194,7 +198,7 @@ public class Floor : Buildable
         }
         if (southCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, -transform.forward, out southCheck, 1.1f, out lastBuidable))
+            if (CheckDirectionForBuildable(transform.position, -transform.forward, out southCheck, 1.1f, out lastBuildable))
             {
                 Floor neighboringFloor = southCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)
@@ -205,7 +209,7 @@ public class Floor : Buildable
         }
         if (westCheck.collider == null)
         {
-            if (CheckDirectionForBuildable(transform.position, -transform.right, out westCheck, 1.1f, out lastBuidable))
+            if (CheckDirectionForBuildable(transform.position, -transform.right, out westCheck, 1.1f, out lastBuildable))
             {
                 Floor neighboringFloor = westCheck.collider.GetComponentInParent<Floor>();
                 if (neighboringFloor != null)

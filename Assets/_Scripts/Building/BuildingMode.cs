@@ -104,10 +104,12 @@ public class BuildingMode : MonoBehaviour
             {      
                 inventory.Delete(selectedRecipe.materials[i]);
             }
-            Buildable b = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
-            b.SetBuildMode(snappedBuilding);
-            Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, buildPosition, buildRotation, b.transform);
-            c.SetConstruction(selectedRecipe, b);
+            Buildable build = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
+            build.gameObject.SetActive(false);
+            Buildable blue = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
+            blue.SetBlueprintMode(ghostMaterial);
+            Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, buildPosition, buildRotation, blue.transform);
+            c.SetConstruction(selectedRecipe, build, blue);
         }
     }
 
