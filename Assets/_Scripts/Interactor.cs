@@ -7,7 +7,7 @@ public class Interactor : MonoBehaviour
     public Transform rayCastOrigin;
 
     Collider hoveredCollider;
-    Interactable hoveredInteractable;
+    public Interactable hoveredInteractable;
 
     public void Interact()
     {
@@ -31,13 +31,20 @@ public class Interactor : MonoBehaviour
             //Check what we have hit
             hoveredCollider = hitInfo.collider;
             hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
-            if(hoveredInteractable != null)
+
+            print("Hovered = " + (hoveredInteractable != null) + " previous = " + (previousInteractable != null));
+            if (hoveredInteractable != null)
             {
+                //Start hovering on the next interactable
                 hoveredInteractable.OnStartHover(this);
             }
             else
             {
-                previousInteractable.OnEndHover(this);
+                //if you hovered an interactable last frame, stop
+                if (previousInteractable != null)
+                {
+                    previousInteractable.OnEndHover(this);
+                }
             }
         }
         else

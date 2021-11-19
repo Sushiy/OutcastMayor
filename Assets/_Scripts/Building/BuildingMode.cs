@@ -44,10 +44,6 @@ public class BuildingMode : MonoBehaviour
     /// </summary>
     private Buildable sensorBuilding;
 
-    [SerializeField]
-    private CurrentBuildPanel currentBuildPanel;
-
-
     public void ChooseBuildRecipe(BuildRecipe buildRecipe)
     {
         if(ghostBuilding != null)
@@ -62,9 +58,6 @@ public class BuildingMode : MonoBehaviour
 
         sensorBuilding = GameObject.Instantiate(buildRecipe.buildingPrefab, buildPosition, buildRotation);
         sensorBuilding.SetSensorMode(sensorMaterial);
-
-        currentBuildPanel.Show();
-        currentBuildPanel.SetData(buildRecipe);
     }
 
     public void EnterBuildMode()
@@ -86,7 +79,6 @@ public class BuildingMode : MonoBehaviour
     {
         Camera.main.cullingMask = defaultCullingMask;
         isActive = false;
-        currentBuildPanel.Hide();
         UIManager.Instance.HideBuildingView();
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
@@ -248,14 +240,5 @@ public class BuildingMode : MonoBehaviour
             buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
             buildRotation = Quaternion.Euler(0, buildAngle, 0);
         }
-    }
-
-    public void ShowCurrentBuildPanel()
-    {
-        currentBuildPanel.Show();
-    }
-    public void HideCurrentBuildPanel()
-    {
-        currentBuildPanel.Hide();
     }
 }

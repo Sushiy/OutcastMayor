@@ -311,17 +311,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f38205ce7c90f6b44854e3ce06c8f473, type: 3}
---- !u!114 &126038348 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3614889903807410926, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-  m_PrefabInstance: {fileID: 1420994842}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 97f48cb8903466a4fa30f2605278f551, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &160935733
 GameObject:
   m_ObjectHideFlags: 3
@@ -1240,7 +1229,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 998520731}
-  m_LocalRotation: {x: 0.3927195, y: -0.51126844, z: 0.28269508, w: 0.7102532}
+  m_LocalRotation: {x: 0.39271948, y: -0.51126844, z: 0.2826951, w: 0.7102532}
   m_LocalPosition: {x: 5.6219897, y: 6.51, z: -3.43824}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -1987,46 +1976,6 @@ PrefabInstance:
       propertyPath: buildingParent
       value: 
       objectReference: {fileID: 1768966032}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.size
-      value: 11
-      objectReference: {fileID: 0}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[2]
-      value: 
-      objectReference: {fileID: 11400000, guid: ddd83d8da2d2b6e42905fa50cf2ded47, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[3]
-      value: 
-      objectReference: {fileID: 11400000, guid: 572eae68d791eae448800914cb8a407e, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[4]
-      value: 
-      objectReference: {fileID: 11400000, guid: ce3676f88ff561c418f284610451463c, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[5]
-      value: 
-      objectReference: {fileID: 11400000, guid: 94e23359bc890524ab6eb4c90c7bc91e, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[6]
-      value: 
-      objectReference: {fileID: 11400000, guid: d56310b732291bc4aadb1e6c3f16076b, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[7]
-      value: 
-      objectReference: {fileID: 11400000, guid: 9de7bc21dddd17441b14efebdd69a2cd, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[8]
-      value: 
-      objectReference: {fileID: 11400000, guid: ab12f218b918a4747bcf108205c5a07b, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[9]
-      value: 
-      objectReference: {fileID: 11400000, guid: 22a97dd2b029d0142b063065fd5aeca3, type: 2}
-    - target: {fileID: 1990820250, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: recipes.Array.data[10]
-      value: 
-      objectReference: {fileID: 11400000, guid: b2621803bbc873b48ae2ef85cd66ef40, type: 2}
     - target: {fileID: 366226668372570792, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0
@@ -3527,10 +3476,6 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 8010678393786792287, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: hoverUIController
-      value: 
-      objectReference: {fileID: 126038348}
     - target: {fileID: 8562030623364413327, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_AnchorMax.y
       value: 0

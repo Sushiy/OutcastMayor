@@ -64,12 +64,17 @@ public class Construction : Interactable
                 //if this stack is not full, check if the player has one of its items
                 if(inventory.Contains(stockpiledMaterials[i].item))
                 {
+                    stockpiledMaterials[i].count++;
                     inventory.Delete(stockpiledMaterials[i].item);
 
                     //check if you are done now
                     if ( i == (stockpiledMaterials.Length-1) && stockpiledMaterials[i].count == buildRecipe.materials[i].count)
                     {
                         Complete();
+                    }
+                    else
+                    {
+                        UIManager.UpdateConstructionPanel(interactor, this);
                     }
                 }
             }
@@ -79,46 +84,13 @@ public class Construction : Interactable
     public override void OnStartHover(Interactor interactor)
     {
         base.OnStartHover(interactor);
-        Player.Instance.BuildingMode.ShowCurrentBuildPanel();
+        UIManager.ShowConstructionPanel(interactor, this);
     }
 
     public override void OnEndHover(Interactor interactor)
     {
         base.OnEndHover(interactor);
-        Player.Instance.BuildingMode.HideCurrentBuildPanel();
-    }
-
-    /// <summary>
-    /// Deliver the given stack to the materialstockpile
-    /// The number of delivered items is removed from the stack
-    /// </summary>
-    /// <param name="stack"></param>
-    public Inventory.Stack DeliverMaterial(Inventory.Stack stack)
-    {
-        for (int i = 0; i < stockpiledMaterials.Length; i++)
-        {
-            if (stockpiledMaterials[i].item == stack.item)
-            {
-                int necessaryCount = buildRecipe.materials[i].count - stockpiledMaterials[i].count;
-                if(necessaryCount > 0)
-                {
-                    if(stack.count > necessaryCount)
-                    {
-                        stack.count -= necessaryCount;
-                        return stack;
-                    }
-                    else
-                    {
-                        stack.item = null;
-                        stack.count = 0;
-                        return stack;
-                    }
-                }
-            }
-        }
-
-        Debug.Log("This stack is not necessary");
-        return stack;
+        UIManager.HideConstructionPanel();
     }
 
     public void AddActionpoints(int i)
@@ -136,13 +108,13 @@ public class Construction : Interactable
     public void Complete()
     {
         //Remove the construction object
-
         Destroy(blueprintObject.gameObject);
         //Activate the normal object
         finishedObject.gameObject.SetActive(true);
         finishedObject.SetDefaultLayer();
         if(completePS)
             completePS.Play();
+        OnEndHover(null);
     }
 
     public bool IsNeeded(Item m)
@@ -155,5 +127,14 @@ public class Construction : Interactable
             }
         }
         return false;
+    }
+
+    public string GetCountString(Interactor interactor, int index)
+    {
+        Inventory i = interactor.GetComponent<Inventory>();
+        if (i)
+            return i.GetTotalCount(buildRecipe.materials[index].item) + "/" + (buildRecipe.materials[index].count - stockpiledMaterials[index].count).ToString();
+        else
+            return "-/" + (buildRecipe.materials[index].count - stockpiledMaterials[index].count).ToString();
     }
 }

@@ -17,6 +17,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private HoverUIController hoverUIController;
     [SerializeField]
+    private ConstructionUIPanel constructionPanel;
+    [SerializeField]
     private TMPro.TMP_Text DEBUG_roomCounter;
 
     public static bool forceCursor = false;
@@ -134,5 +136,20 @@ public class UIManager : MonoBehaviour
     {
         Instance.hoverUIController.EndHover();
 
+    }
+
+    public static void ShowConstructionPanel(Interactor interactor, Construction construction)
+    {
+        Instance.constructionPanel.Show();
+        Instance.constructionPanel.SetData(interactor, construction);
+    }
+    public static void UpdateConstructionPanel(Interactor interactor, Construction construction)
+    {
+        Instance.constructionPanel.SetData(interactor, construction);
+    }
+
+    public static void HideConstructionPanel()
+    {
+        Instance.constructionPanel.Hide();
     }
 }

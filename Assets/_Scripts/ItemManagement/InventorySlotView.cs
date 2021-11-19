@@ -16,13 +16,10 @@ public class InventorySlotView : MonoBehaviour
         countText.text = "";
     }
 
-    public void UpdateData(string name, int count, Sprite sprite)
+    public void UpdateData(string name, string count, Sprite sprite)
     {
         nameText.text = name;
-        if (count == 0)
-            countText.text = "";
-        else
-            countText.text = count.ToString();
+        countText.text = count;
         icon.sprite = sprite;
     }
 }

@@ -16,7 +16,7 @@ public class InventoryView : UIPanel
     {
         base.Awake();
         inventory.onSlotUpdated += UpdateSlot;
-        grabbedItemView.UpdateData("", 0, emptyIcon);
+        grabbedItemView.UpdateData("", "0", emptyIcon);
         grabbedItemView.gameObject.SetActive(false);
     }
 
@@ -25,11 +25,11 @@ public class InventoryView : UIPanel
         Inventory.Stack stack = inventory.slots[index];
         if(stack.item == null)
         {
-            slotViews[index].UpdateData("", 0, emptyIcon);
+            slotViews[index].UpdateData("", "0", emptyIcon);
         }
         else
         {
-            slotViews[index].UpdateData(stack.item.Name, stack.count, stack.item.icon);
+            slotViews[index].UpdateData(stack.item.Name, stack.count.ToString(), stack.item.icon);
         }
     }
 
@@ -38,7 +38,7 @@ public class InventoryView : UIPanel
         if(grabbedStack.item == null)
         {
             grabbedStack = inventory.GrabFromSlot(index);
-            grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count, grabbedStack.item.icon);
+            grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count.ToString(), grabbedStack.item.icon);
             grabbedItemView.gameObject.SetActive(true);
         }
         else
@@ -46,12 +46,12 @@ public class InventoryView : UIPanel
             grabbedStack = inventory.AddStackToSlot(grabbedStack, index);
             if(grabbedStack.item == null)
             {
-                grabbedItemView.UpdateData("", 0, emptyIcon);
+                grabbedItemView.UpdateData("", "0", emptyIcon);
                 grabbedItemView.gameObject.SetActive(false);
             }
             else
             {
-                grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count, grabbedStack.item.icon);
+                grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count.ToString(), grabbedStack.item.icon);
             }
         }
     }
