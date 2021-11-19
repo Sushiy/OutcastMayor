@@ -6,8 +6,6 @@ public class Interactor : MonoBehaviour
 {
     public Transform rayCastOrigin;
 
-    public HoverUIController hoverUIController;
-
     Collider hoveredCollider;
     Interactable hoveredInteractable;
 
@@ -21,6 +19,7 @@ public class Interactor : MonoBehaviour
 
     public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
     {
+        Interactable previousInteractable = hoveredInteractable;
         if(raycastHit)
         {
             //If this is the same collider as last time, 
@@ -34,20 +33,21 @@ public class Interactor : MonoBehaviour
             hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
             if(hoveredInteractable != null)
             {
-                if(hoverUIController != null)
-                {
-                    hoverUIController.StartHover(hoveredInteractable);
-                }
+                hoveredInteractable.OnStartHover(this);
             }
             else
             {
-                hoverUIController.EndHover();
+                previousInteractable.OnEndHover(this);
             }
         }
         else
         {
-            hoveredCollider = null;
-            hoverUIController.EndHover();
+            if(previousInteractable != null)
+            {
+                hoveredInteractable.OnEndHover(this);
+                hoveredCollider = null;
+                hoveredInteractable = null;
+            }
         }
     }
 }

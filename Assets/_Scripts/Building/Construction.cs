@@ -43,10 +43,49 @@ public class Construction : Interactable
     public override void Interact(Interactor interactor)
     {
         base.Interact(interactor);
-        //Check the Object that the interactor has selected
-        AddActionpoints(1);
-        
-        //If the interactor has a material, check if it is needed in
+
+        Inventory inventory = interactor.GetComponent<Inventory>();
+        if(inventory == null)
+        {
+            Debug.LogError("Interactor has no inventory");
+            return;
+        }
+
+        //Check if the interactor has a material that is still needed in this recipe and take it
+        for (int i = 0; i < stockpiledMaterials.Length; i++)
+        {
+            if(stockpiledMaterials[i].count == buildRecipe.materials[i].count)
+            {
+                //if this stack is already full
+                continue;
+            }
+            else
+            {
+                //if this stack is not full, check if the player has one of its items
+                if(inventory.Contains(stockpiledMaterials[i].item))
+                {
+                    inventory.Delete(stockpiledMaterials[i].item);
+
+                    //check if you are done now
+                    if ( i == (stockpiledMaterials.Length-1) && stockpiledMaterials[i].count == buildRecipe.materials[i].count)
+                    {
+                        Complete();
+                    }
+                }
+            }
+        }
+    }
+
+    public override void OnStartHover(Interactor interactor)
+    {
+        base.OnStartHover(interactor);
+        Player.Instance.BuildingMode.ShowCurrentBuildPanel();
+    }
+
+    public override void OnEndHover(Interactor interactor)
+    {
+        base.OnEndHover(interactor);
+        Player.Instance.BuildingMode.HideCurrentBuildPanel();
     }
 
     /// <summary>

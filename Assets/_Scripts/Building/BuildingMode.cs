@@ -87,36 +87,36 @@ public class BuildingMode : MonoBehaviour
         Camera.main.cullingMask = defaultCullingMask;
         isActive = false;
         currentBuildPanel.Hide();
+        UIManager.Instance.HideBuildingView();
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
     }
 
     public void Build()
     {
-        if (selectedRecipe.IsValid(inventory))
+        Buildable snappedBuilding = null;
+        if (sensorBuilding.snappedPointOther != null)
         {
-            Buildable snappedBuilding = null;
-            if (sensorBuilding.snappedPointOther != null)
-            {
-                snappedBuilding = sensorBuilding.snappedPointOther.buildable;
-            }
-            for (int i = 0; i < selectedRecipe.materials.Length; i++)
-            {      
-                inventory.Delete(selectedRecipe.materials[i]);
-            }
-            Buildable build = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
-            build.gameObject.SetActive(false);
-            Buildable blue = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
-            blue.SetBlueprintMode(ghostMaterial);
-            Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, buildPosition, buildRotation, blue.transform);
-            c.SetConstruction(selectedRecipe, build, blue);
+            snappedBuilding = sensorBuilding.snappedPointOther.buildable;
         }
+        for (int i = 0; i < selectedRecipe.materials.Length; i++)
+        {
+            inventory.Delete(selectedRecipe.materials[i]);
+        }
+        Buildable build = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
+        build.gameObject.SetActive(false);
+        Buildable blue = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
+        blue.SetBlueprintMode(ghostMaterial);
+        Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, buildPosition, buildRotation, blue.transform);
+        c.SetConstruction(selectedRecipe, build, blue);
     }
 
     private void Update()
     {
         if(isActive && ghostBuilding != null)
         {
+            /*
+            //Set the ghost to red if not all materials are in your inventory EDIT: this is no longer needed, as materials will be added afterwards
             if(!selectedRecipe.IsValid(inventory))
             {
                 ghostMaterial.color = new Color(1, 0.071f,0.065f, 0.33f);
@@ -125,6 +125,7 @@ public class BuildingMode : MonoBehaviour
             {
                 ghostMaterial.color = new Color(0.0627f, 0.6358f, 1.0f, 0.33f);
             }
+            */
 
             Vector3 offset = Vector3.zero;
             if (raycastHit)
@@ -247,5 +248,14 @@ public class BuildingMode : MonoBehaviour
             buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
             buildRotation = Quaternion.Euler(0, buildAngle, 0);
         }
+    }
+
+    public void ShowCurrentBuildPanel()
+    {
+        currentBuildPanel.Show();
+    }
+    public void HideCurrentBuildPanel()
+    {
+        currentBuildPanel.Hide();
     }
 }

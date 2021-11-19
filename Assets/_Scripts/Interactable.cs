@@ -11,4 +11,14 @@ public class Interactable : MonoBehaviour
     {
         print("Base Interactables don't do anything!");
     }
+
+    public virtual void OnStartHover(Interactor interactor)
+    {
+        UIManager.ShowHoverUI(this);
+    }
+
+    public virtual void OnEndHover(Interactor interactor)
+    {
+        UIManager.HideHoverUI();
+    }
 }

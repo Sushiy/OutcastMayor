@@ -175,6 +175,11 @@ public class Inventory : MonoBehaviour
             Debug.LogError("The ressources to delete are not here");
         }
     }
+    public void Delete(Item item, int count = 1)
+    {
+        Stack s = new Stack(item, count);
+        Delete(s);
+    }
 
     public Stack AddStackToSlot(Stack stack, int slotIndex)
     {
@@ -207,5 +212,31 @@ public class Inventory : MonoBehaviour
         }
         return totalCount >= stack.count;
 
+    }
+    public bool Contains(Item item)
+    {
+        //Look through all stacks and check recipes
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == item && slots[i].count > 0)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public int GetTotalCount(Item item)
+    {
+        int totalCount = 0;
+        //Look through all stacks and check recipes
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == item)
+            {
+                totalCount += slots[i].count;
+            }
+        }
+        return totalCount;
     }
 }

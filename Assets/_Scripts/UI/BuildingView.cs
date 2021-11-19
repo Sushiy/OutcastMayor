@@ -34,6 +34,7 @@ public class BuildingView : UIPanel
 
     public void ButtonClicked(int i)
     {
+        print("Clicked Button " + i);
         buildingMode.ChooseBuildRecipe(buildingMode.recipes[i]);
     }
 }

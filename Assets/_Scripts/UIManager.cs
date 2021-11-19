@@ -15,6 +15,8 @@ public class UIManager : MonoBehaviour
     [SerializeField]
     private NewRequestView newRequestView;
     [SerializeField]
+    private HoverUIController hoverUIController;
+    [SerializeField]
     private TMPro.TMP_Text DEBUG_roomCounter;
 
     public static bool forceCursor = false;
@@ -94,6 +96,13 @@ public class UIManager : MonoBehaviour
             ShowCursor();
         }
     }
+    public void HideBuildingView()
+    {
+        if (buildingView.Visible)
+        {
+            buildingView.Hide();
+        }
+    }
 
     public void ShowNewRequestView(Request q)
     {
@@ -114,5 +123,16 @@ public class UIManager : MonoBehaviour
     public static void SetRoomCounter(int i)
     {
         Instance.DEBUG_roomCounter.text = "Rooms: " + i;
+    }
+
+    public static void ShowHoverUI(Interactable i)
+    {
+        Instance.hoverUIController.StartHover(i);
+    }
+
+    public static void HideHoverUI()
+    {
+        Instance.hoverUIController.EndHover();
+
     }
 }
