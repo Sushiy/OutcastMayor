@@ -8,7 +8,7 @@ Material:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Cliff_A_Mat
-  m_Shader: {fileID: -6465566751694194690, guid: 7f57b0c643f528f4297b72348cab9faf, type: 3}
+  m_Shader: {fileID: 4800000, guid: 7ffc1bc2bbb1ef64f84b552b2d2f0619, type: 3}
   m_ShaderKeywords: TCP2_RAMP_BANDS_CRISP TCP2_REFLECTIONS_FRESNEL TCP2_RIM_LIGHTING_LIGHTMASK
     TCP2_SHADOW_LIGHT_COLOR TCP2_SPECULAR_CRISP TCP2_UV_NORMALS_FULL _DETAIL_MULX2
     _NORMALMAP _SMOOTHNESS_TEXTURE_ALBEDO_CHANNEL_A
@@ -22,7 +22,7 @@ Material:
     serializedVersion: 3
     m_TexEnvs:
     - _BaseMap:
-        m_Texture: {fileID: 0}
+        m_Texture: {fileID: 2800000, guid: 4cc5117dfac9f974cbdb39ceb28e5059, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _BumpMap:
@@ -184,7 +184,7 @@ Material:
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 0
-    - _Detailstrength: 0.28
+    - _Detailstrength: 0.126
     - _DirectIntensityOutline: 1
     - _DstBlend: 0
     - _EmissionChannel: 4
@@ -219,8 +219,8 @@ Material:
     - _RampBandsSmoothing: 0.1
     - _RampOffset: 0
     - _RampScale: 1
-    - _RampSmoothing: 0.6
-    - _RampThreshold: 0.75
+    - _RampSmoothing: 0.416
+    - _RampThreshold: 0.613
     - _RampType: 3
     - _ReceiveShadowsOff: 1
     - _ReflectionMapType: 0
@@ -236,9 +236,9 @@ Material:
     - _SnowCover: 1
     - _SnowTiling: 7
     - _SpecularHighlights: 1
-    - _SpecularMapType: 0
+    - _SpecularMapType: 1
     - _SpecularRoughness: 0.312
-    - _SpecularToonSize: 0.255
+    - _SpecularToonSize: 0.017
     - _SpecularToonSmoothness: 0.05
     - _SpecularType: 2
     - _SrcBlend: 1

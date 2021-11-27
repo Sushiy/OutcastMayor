@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 1094437169021688344}
   - component: {fileID: 1250326990634802075}
   m_Layer: 0
-  m_Name: WoodWall_DiagBot
+  m_Name: WoodWall_Diag
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -9937,7 +9937,7 @@ MeshFilter:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5561839913169356618}
-  m_Mesh: {fileID: -144471282177306091, guid: 2223fd4e46b75cf4bb9e21529af37f24, type: 3}
+  m_Mesh: {fileID: -4900270709236217490, guid: 2223fd4e46b75cf4bb9e21529af37f24, type: 3}
 --- !u!23 &574022440158164604
 MeshRenderer:
   m_ObjectHideFlags: 0
