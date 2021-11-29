@@ -20,8 +20,8 @@ public class Recipe : ScriptableObject
         }
     }
 
-    public Inventory.Stack[] inputs;
-    public Inventory.Stack output;
+    public Inventory.ItemStack[] inputs;
+    public Inventory.ItemStack output;
 
     public bool IsValid(Inventory inventory)
     {

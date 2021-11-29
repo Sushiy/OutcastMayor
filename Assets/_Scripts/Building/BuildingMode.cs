@@ -83,6 +83,21 @@ public class BuildingMode : MonoBehaviour
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
     }
+    public Construction Build(Vector3 position)
+    {
+        Buildable snappedBuilding = null;
+        if (sensorBuilding.snappedPointOther != null)
+        {
+            snappedBuilding = sensorBuilding.snappedPointOther.buildable;
+        }
+        Buildable build = GameObject.Instantiate(selectedRecipe.buildingPrefab, position, buildRotation, buildingParent);
+        build.gameObject.SetActive(false);
+        Buildable blue = GameObject.Instantiate(selectedRecipe.buildingPrefab, position, buildRotation, buildingParent);
+        blue.SetBlueprintMode(ghostMaterial);
+        Construction c = GameObject.Instantiate(selectedRecipe.constructionPrefab, position, buildRotation, blue.transform);
+        c.SetConstruction(selectedRecipe, build, blue);
+        return c;
+    }
 
     public void Build()
     {
@@ -90,10 +105,6 @@ public class BuildingMode : MonoBehaviour
         if (sensorBuilding.snappedPointOther != null)
         {
             snappedBuilding = sensorBuilding.snappedPointOther.buildable;
-        }
-        for (int i = 0; i < selectedRecipe.materials.Length; i++)
-        {
-            inventory.Delete(selectedRecipe.materials[i]);
         }
         Buildable build = GameObject.Instantiate(selectedRecipe.buildingPrefab, buildPosition, buildRotation, buildingParent);
         build.gameObject.SetActive(false);

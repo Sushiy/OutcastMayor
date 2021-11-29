@@ -124,32 +124,37 @@ public class UIManager : MonoBehaviour
 
     public static void SetRoomCounter(int i)
     {
+        if (!Instance) return;
         Instance.DEBUG_roomCounter.text = "Rooms: " + i;
     }
 
     public static void ShowHoverUI(Interactable i)
     {
+        if (!Instance) return;
         Instance.hoverUIController.StartHover(i);
     }
 
     public static void HideHoverUI()
     {
+        if (!Instance) return;
         Instance.hoverUIController.EndHover();
-
     }
 
     public static void ShowConstructionPanel(Interactor interactor, Construction construction)
     {
+        if (!Instance) return;
         Instance.constructionPanel.Show();
         Instance.constructionPanel.SetData(interactor, construction);
     }
     public static void UpdateConstructionPanel(Interactor interactor, Construction construction)
     {
-        Instance.constructionPanel.SetData(interactor, construction);
+        if(Instance)
+            Instance.constructionPanel.SetData(interactor, construction);
     }
 
     public static void HideConstructionPanel()
     {
+        if (!Instance) return;
         Instance.constructionPanel.Hide();
     }
 }

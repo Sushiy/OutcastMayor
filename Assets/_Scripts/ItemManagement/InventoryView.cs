@@ -7,7 +7,7 @@ public class InventoryView : UIPanel
     public Inventory inventory;
     public InventorySlotView[] slotViews;
 
-    public Inventory.Stack grabbedStack;
+    public Inventory.ItemStack grabbedStack;
     public Sprite emptyIcon;
 
     public InventorySlotView grabbedItemView;
@@ -22,7 +22,7 @@ public class InventoryView : UIPanel
 
     public void UpdateSlot(int index)
     {
-        Inventory.Stack stack = inventory.slots[index];
+        Inventory.ItemStack stack = inventory.slots[index];
         if(stack.item == null)
         {
             slotViews[index].UpdateData("", "0", emptyIcon);

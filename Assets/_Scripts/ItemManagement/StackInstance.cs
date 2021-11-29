@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StackInstance : Interactable
 {
-    public Inventory.Stack source;
+    public Inventory.ItemStack source;
 
     public override void Interact(Interactor interactor)
     {
@@ -17,7 +17,7 @@ public class StackInstance : Interactable
             return;
         }
 
-        if(i.Add(source))
+        if(i.Add(new Inventory.ItemStack(source)))
         {
             Debug.Log("Added" + source.count + " " + source.item.Name + " to " + interactor.name + "'s Inventory");
             Destroy(gameObject);

@@ -9,18 +9,18 @@ using UnityEngine;
 public class Inventory : MonoBehaviour
 {
     [System.Serializable]
-    public struct Stack
+    public struct ItemStack
     {
         public Item item;
         public int count;
 
-        public Stack(Item item, int count)
+        public ItemStack(Item item, int count)
         {
             this.item = item;
             this.count = count;
         }
 
-        public Stack(Stack other)
+        public ItemStack(ItemStack other)
         {
             item = other.item;
             count = other.count;
@@ -32,7 +32,7 @@ public class Inventory : MonoBehaviour
         /// <param name="newItem"></param>
         /// <param name="newCount"></param>
         /// <returns>Result goes back to the inventorycursor</returns>
-        public Stack Add(Stack stack)
+        public ItemStack Add(ItemStack stack)
         {
             //Check if we are adding the same item
             if (stack.item == item)
@@ -42,12 +42,14 @@ public class Inventory : MonoBehaviour
                 if(count + stack.count <= item.stackLimit)
                 {
                     //Add to stack
+                    print("Add " + stack.count + " to stack");
                     count += stack.count;
-                    return new Stack(null, 0);
+                    return new ItemStack(null, 0);
                 }
                 else
                 {
                     //???
+                    print("Filled stack. Overflow!");
                     int r = (count + stack.count) - item.stackLimit;
                     count = item.stackLimit;
                     stack.count = r;
@@ -63,7 +65,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public Stack[] slots;
+    public ItemStack[] slots;
 
     public System.Action<int> onSlotUpdated;
     public bool shouldUpdate = false;
@@ -78,7 +80,7 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public bool Add(Stack stack)
+    public bool Add(ItemStack stack)
     {
         int firstFreeSlotIndex = -1;
         //Find Stacks of the same type to add to
@@ -87,9 +89,9 @@ public class Inventory : MonoBehaviour
             if(slots[i].item == stack.item)
             {
                 stack = slots[i].Add(stack);
-                onSlotUpdated.Invoke(i);
+                onSlotUpdated?.Invoke(i);
                 shouldUpdate = true;
-                print("Stack added onto slot " + firstFreeSlotIndex);
+                print("Stack of " + stack.count + " added onto slot " + i);
                 if (stack.item == null)
                 {
                     return true;
@@ -104,7 +106,7 @@ public class Inventory : MonoBehaviour
         {
             print("Stack added to free slot " + firstFreeSlotIndex);
             slots[firstFreeSlotIndex] = stack;
-            onSlotUpdated.Invoke(firstFreeSlotIndex);
+            onSlotUpdated?.Invoke(firstFreeSlotIndex);
             shouldUpdate = true;
             return true;
         }
@@ -113,9 +115,9 @@ public class Inventory : MonoBehaviour
         return false;
     }
 
-    public Stack GrabFromSlot(int index)
+    public ItemStack GrabFromSlot(int index)
     {
-        Stack result = new Stack(slots[index]);
+        ItemStack result = new ItemStack(slots[index]);
         slots[index].item = null;
         slots[index].count = 0;
         onSlotUpdated.Invoke(index);
@@ -131,12 +133,12 @@ public class Inventory : MonoBehaviour
     /// <returns>Returns the number of items that could not be removed (overflow) </returns>
     public int DeleteCountFromSlot(int index, int count)
     {
-        Stack s = slots[index];
+        ItemStack s = slots[index];
         if(s.count > count)
         {
             //print("Delete " + count + "/" + s.count + " from slot " + index);
             s.count -= count;
-            onSlotUpdated(index);
+            onSlotUpdated?.Invoke(index);
             shouldUpdate = true;
             slots[index] = s;
             return 0;
@@ -147,7 +149,7 @@ public class Inventory : MonoBehaviour
             count -= s.count;
             s.count = 0;
             s.item = null;
-            onSlotUpdated(index);
+            onSlotUpdated?.Invoke(index);
             shouldUpdate = true;
             slots[index] = s;
             print("Slot "+ index + " is now null:" + (slots[index].item == null).ToString());
@@ -155,9 +157,9 @@ public class Inventory : MonoBehaviour
         }
     }
 
-    public void Delete(Stack stack)
+    public void Delete(ItemStack stack)
     {
-        if(Contains(stack))
+        if (Contains(stack))
         {
             int totalCount = stack.count;
             //Look through all stacks and remove until totalCount == 0
@@ -177,13 +179,13 @@ public class Inventory : MonoBehaviour
     }
     public void Delete(Item item, int count = 1)
     {
-        Stack s = new Stack(item, count);
+        ItemStack s = new ItemStack(item, count);
         Delete(s);
     }
 
-    public Stack AddStackToSlot(Stack stack, int slotIndex)
+    public ItemStack AddStackToSlot(ItemStack stack, int slotIndex)
     {
-        Stack result = new Stack(null,0);
+        ItemStack result = new ItemStack(null,0);
         if(stack.item != slots[slotIndex].item)
         {
             //Replace stack
@@ -199,7 +201,7 @@ public class Inventory : MonoBehaviour
         return result;
     }
 
-    public bool Contains(Stack stack)
+    public bool Contains(ItemStack stack)
     {
         int totalCount = 0;
         //Look through all stacks and check recipes

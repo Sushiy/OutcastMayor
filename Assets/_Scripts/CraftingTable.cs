@@ -15,7 +15,7 @@ public class CraftingTable : Interactable
             {
                 inventory.Delete(recipe.inputs[i]);
             }
-            inventory.Add(recipe.output);
+            inventory.Add(new Inventory.ItemStack(recipe.output));
         }
     }
 

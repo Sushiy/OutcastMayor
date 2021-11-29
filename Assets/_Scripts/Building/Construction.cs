@@ -8,8 +8,12 @@ public class Construction : Interactable
     private Buildable blueprintObject;
 
     [Header("Building Progress")]
+    /// <summary>
+    /// The actionPoints needed to build this Cosntruction (each Material is 1 point!)
+    /// </summary>
+    private int actionPoints;
     private int currentActionPoints;
-    private Inventory.Stack[] stockpiledMaterials;
+    private Inventory.ItemStack[] stockpiledMaterials;
 
     [SerializeField]
     private Animator constructionAnimator;
@@ -20,6 +24,14 @@ public class Construction : Interactable
     [SerializeField]
     private ParticleSystem completePS;
 
+
+    public bool IsCompleted
+    {
+        get
+        {
+            return currentActionPoints >= actionPoints;
+        }
+    }
     public BuildRecipe buildRecipe
     {
         private set;
@@ -32,17 +44,25 @@ public class Construction : Interactable
         this.finishedObject = finishedObject;
         this.blueprintObject = blueprintObject;
         this.buildRecipe = recipe;
-        stockpiledMaterials = new Inventory.Stack[recipe.materials.Length];
+        stockpiledMaterials = new Inventory.ItemStack[recipe.materials.Length];
+        actionPoints = 0;
         for(int i = 0; i < stockpiledMaterials.Length; i++)
         {
             stockpiledMaterials[i].item = recipe.materials[i].item;
             stockpiledMaterials[i].count = 0;
+            actionPoints += buildRecipe.materials[i].count;
         }
     }
 
     public override void Interact(Interactor interactor)
     {
         base.Interact(interactor);
+
+        if(IsCompleted)
+        {
+            print("This construction is already completed");
+            return;
+        }
 
         Inventory inventory = interactor.GetComponent<Inventory>();
         if(inventory == null)
@@ -66,18 +86,26 @@ public class Construction : Interactable
                 {
                     stockpiledMaterials[i].count++;
                     inventory.Delete(stockpiledMaterials[i].item);
-
-                    //check if you are done now
-                    if ( i == (stockpiledMaterials.Length-1) && stockpiledMaterials[i].count == buildRecipe.materials[i].count)
-                    {
-                        Complete();
-                    }
-                    else
-                    {
-                        UIManager.UpdateConstructionPanel(interactor, this);
-                    }
+                    AddActionPoint(interactor);
                 }
             }
+        }
+    }
+
+    void AddActionPoint(Interactor interactor)
+    {
+        currentActionPoints++;
+        constructionAnimator.SetFloat(hashProgress, (float)currentActionPoints / (float)actionPoints);
+        if (progressPS)
+            progressPS.Play();
+        //check if you are done now
+        if (IsCompleted)
+        {
+            Complete();
+        }
+        else
+        {
+            UIManager.UpdateConstructionPanel(interactor, this);
         }
     }
 
@@ -91,18 +119,6 @@ public class Construction : Interactable
     {
         base.OnEndHover(interactor);
         UIManager.HideConstructionPanel();
-    }
-
-    public void AddActionpoints(int i)
-    {
-        currentActionPoints += i;
-        constructionAnimator.SetFloat(hashProgress, (float)currentActionPoints / (float)buildRecipe.actionPoints);
-        if (progressPS)
-            progressPS.Play();
-        if(currentActionPoints >= buildRecipe.actionPoints)
-        {
-            Complete();
-        }
     }
 
     public void Complete()
@@ -129,12 +145,17 @@ public class Construction : Interactable
         return false;
     }
 
+    public int GetRemainingCount(Interactor interactor, int index)
+    {
+        return (buildRecipe.materials[index].count - stockpiledMaterials[index].count);
+    }
+
     public string GetCountString(Interactor interactor, int index)
     {
         Inventory i = interactor.GetComponent<Inventory>();
         if (i)
-            return i.GetTotalCount(buildRecipe.materials[index].item) + "/" + (buildRecipe.materials[index].count - stockpiledMaterials[index].count).ToString();
+            return i.GetTotalCount(buildRecipe.materials[index].item) + "/" + GetRemainingCount(interactor, index).ToString();
         else
-            return "-/" + (buildRecipe.materials[index].count - stockpiledMaterials[index].count).ToString();
+            return "-/" + GetRemainingCount(interactor, index).ToString();
     }
 }

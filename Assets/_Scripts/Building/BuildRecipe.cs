@@ -14,11 +14,7 @@ public class BuildRecipe : ScriptableObject
     /// <summary>
     /// The materials needed to build this Recipe
     /// </summary>
-    public Inventory.Stack[] materials;
-    /// <summary>
-    /// The actionPoints needed to build this Recipe (actionPoints come from Hammering!)
-    /// </summary>
-    public int actionPoints;
+    public Inventory.ItemStack[] materials;
     /// <summary>
     /// The prefab to spawn when building this
     /// </summary>
