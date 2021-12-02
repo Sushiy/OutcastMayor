@@ -25,10 +25,11 @@ namespace UtilityAI
         public float sleepy;
         public Inventory inventory;
         public Interactor interactor;
+        public AIMovement aIMovement;
 
         //Temporary stuff
         public List<Construction> availableConstructions;
-        public Construction chosenConstruction;
+        public List<Stockpile> availableStockpiles;
 
         private void Awake()
         {
@@ -36,6 +37,7 @@ namespace UtilityAI
             reasoner = new Reasoner(); //??
             inventory = GetComponent<Inventory>();
             interactor = GetComponent<Interactor>();
+            aIMovement = GetComponent<AIMovement>();
         }
 
         private void Update()
@@ -47,10 +49,10 @@ namespace UtilityAI
             if (timeSinceLastUpdate > updateInterval)
             {
                 //Update AI
-                Action newBestAction = reasoner.DetermineBestAction(availableActions, this);
+                ActionInstance newBestAction = reasoner.DetermineBestAction(availableActions, this);
                 //Maybe don't do the same thing again?
-                if(newBestAction)
-                    newBestAction.Execute(this);
+                if(newBestAction != null)
+                    newBestAction.actionReference.Execute(this, newBestAction.instanceData);
                 else
                 {
                     print("no valid action was found");

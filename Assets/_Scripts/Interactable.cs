@@ -9,7 +9,7 @@ public class Interactable : MonoBehaviour
 
     public virtual void Interact(Interactor interactor)
     {
-        print("Base Interactables don't do anything!");
+        //print("Base Interactables don't do anything!");
     }
 
     public virtual void OnStartHover(Interactor interactor)

@@ -10,40 +10,43 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 7e77ddf00cc87cb4eb5d4d63865dfb6f, type: 3}
-  m_Name: HasNotBuildMaterialConsideration
+  m_Name: HasBuildMaterialConsideration
   m_EditorClassIdentifier: 
-  Name: HasNotBuildMaterialConsideration
+  Name: HasBuildMaterialConsideration
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 1
-      inSlope: 0.032153226
-      outSlope: 0.032153226
+      value: 0
+      inSlope: 2
+      outSlope: 2
       tangentMode: 0
       weightedMode: 0
       inWeight: 0
-      outWeight: 0.038925435
+      outWeight: 0
     - serializedVersion: 3
-      time: 0.33
-      value: 1
-      inSlope: -0
-      outSlope: -0.3309554
+      time: 0.001
+      value: 0.25
+      inSlope: 249.99998
+      outSlope: 1.7637055
       tangentMode: 5
       weightedMode: 0
       inWeight: 0.33333334
-      outWeight: 0.050798595
+      outWeight: 0.33333334
     - serializedVersion: 3
       time: 1
-      value: 0
-      inSlope: -2.883599
-      outSlope: -2.883599
+      value: 1
+      inSlope: 0
+      outSlope: 0
       tangentMode: 0
       weightedMode: 0
-      inWeight: 0.020833373
+      inWeight: 0
       outWeight: 0
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
   maxValue: 1
+  isExclusiveConsideration: 1
+  zeroStepCurve: 0
+  oneStepCurve: 0

@@ -9,10 +9,16 @@ namespace UtilityAI
     {
         [SerializeField] Inventory.ItemStack stack;
 
-        public override void Execute(UtilityAIController controller)
+        public override void Execute(UtilityAIController controller, Object[] instanceData)
         {
             Debug.Log(controller.name + " used a stack of " + stack.item.Name + ":" + stack.count);
             controller.inventory.Delete(stack);
+        }
+
+        public override ActionInstance[] GetActionInstances(UtilityAIController controller)
+        {
+            ActionInstance[] result = new ActionInstance[] { new ActionInstance(this, new Object[0]) };
+            return result;
         }
     }
 

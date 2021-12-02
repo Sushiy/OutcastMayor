@@ -6,32 +6,48 @@ namespace UtilityAI
 {
     [CreateAssetMenu(fileName = "BuildConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/BuildConstructionAction", order = 1)]
     public class BuildConstructionAction : Action
-    {
-        Construction construction;
-
-        public override void InitReasonerData(UtilityAIController controller)
+    {        
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns>An array of action instances</returns>
+        public override ActionInstance[] GetActionInstances(UtilityAIController controller)
         {
-            if (controller.availableConstructions.Count == 0)
+            ActionInstance[] instances = new ActionInstance[controller.availableConstructions.Count];
+
+            for(int i = 0; i < instances.Length; i++)
             {
-                construction = null;
+                instances[i] = new ActionInstance(this, new Object[] { controller.availableConstructions[i], controller.availableConstructions[i].transform });
             }
-            else
-            {
-                //I need to somehow choose the right construction!
-                construction = controller.availableConstructions[0];
-            }
-            //I need to initiate the considerations with the construction data?
-            controller.chosenConstruction = construction;
+
+            return instances;
         }
 
-        public override void Execute(UtilityAIController controller)
+        public override void Execute(UtilityAIController controller, Object[] instanceData)
         {
-            string log = controller.name + " -> BuildConstructionAction for " + construction.gameObject.name + ":\n";
-
-            construction.Interact(controller.interactor);
-            if(construction.IsCompleted)
+            Construction constructionTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
             {
-                controller.availableConstructions.Remove(construction);
+                if (instanceData[i] is Construction)
+                {
+                    constructionTarget = instanceData[i] as Construction;
+                }
+            }
+
+            Vector3 target = constructionTarget.transform.position + (controller.transform.position - constructionTarget.transform.position).normalized * 1.0f;
+            Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
+            controller.aIMovement.MoveTo(target, false, () => CompleteAction(constructionTarget, controller));
+
+        }
+
+        public void CompleteAction(Construction constructionTarget, UtilityAIController controller)
+        {
+            string log = "<color=green>" + controller.name + " -> BuildConstructionAction for " + constructionTarget.gameObject.name + "</color>";
+
+            constructionTarget.Interact(controller.interactor);
+            if (constructionTarget.IsCompleted)
+            {
+                controller.availableConstructions.Remove(constructionTarget);
             }
             Debug.Log(log);
         }

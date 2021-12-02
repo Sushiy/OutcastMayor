@@ -85,11 +85,14 @@ public class Construction : Interactable
                 if(inventory.Contains(stockpiledMaterials[i].item))
                 {
                     stockpiledMaterials[i].count++;
+                    print("Added 1 " + stockpiledMaterials[i].item.Name);
                     inventory.Delete(stockpiledMaterials[i].item);
                     AddActionPoint(interactor);
+                    return;
                 }
             }
         }
+        print("All stacks full?");
     }
 
     void AddActionPoint(Interactor interactor)

@@ -30,8 +30,13 @@ public class Buildable : MonoBehaviour
         get;
     }
 
+    public Room room
+    {
+        protected set;
+        get;
+    }
+
     [Header("Room Recognition")]
-    public Room room;
     public Buildable anchorParent;
     public UnityEvent OnChecked;
     public bool isBlueprint = false;

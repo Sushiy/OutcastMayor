@@ -9,16 +9,16 @@ namespace UtilityAI
     {
         Inventory.ItemStack stack;
 
-        public override float ScoreConsideration(Action action, UtilityAIController controller)
+        public override float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData)
         {
             //!!! TODO: How do I get arbitrary info into the considerations? weird!
             //stack = action as
             Inventory i = controller.GetComponent<Inventory>();
             if(i.Contains(stack))
             {
-                return curve.Evaluate(1.0f);
+                return Evaluate(1.0f);
             }
-            return curve.Evaluate(0.0f);
+            return Evaluate(0.0f);
         }
     }
 }

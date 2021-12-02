@@ -32,12 +32,6 @@ public class Floor : Buildable
         public List<Buildable> walls;
     }
 
-    public Room room
-    {
-        private set;
-        get;
-    }
-
     private ValidityResult validityResult;
     public ValidityResult LastValidityResult
     {
