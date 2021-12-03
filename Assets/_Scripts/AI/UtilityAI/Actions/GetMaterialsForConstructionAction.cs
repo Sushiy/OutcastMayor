@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "GetMaterialsForConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/GetMaterialsForConstructionAction", order = 1)]
     public class GetMaterialsForConstructionAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData)
+        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
         {
             Construction constructionTarget = null;
             Stockpile stockpileTarget = null;
@@ -17,18 +17,28 @@ namespace UtilityAI
                 {
                     constructionTarget = instanceData[i] as Construction;
                 }
-                if(instanceData[i] is Stockpile)
+                if (instanceData[i] is Stockpile)
                 {
                     stockpileTarget = instanceData[i] as Stockpile;
                 }
             }
+            if (constructionTarget == null)
+            {
+                Debug.LogError("No ConstructionTarget");
+                return;
+            }
+            if (stockpileTarget == null)
+            {
+                Debug.LogError("No StockpileTarget");
+                return;
+            }
 
             Vector3 target = stockpileTarget.transform.position + (controller.transform.position - stockpileTarget.transform.position).normalized * 1.0f;
             Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(constructionTarget, controller));
+            controller.aIMovement.MoveTo(target, false, () => CompleteAction(constructionTarget, stockpileTarget, controller));
         }
 
-        public void CompleteAction(Construction constructionTarget, UtilityAIController controller)
+        public void CompleteAction(Construction constructionTarget, Stockpile stockpile, UtilityAIController controller)
         {
             string log = controller.name + " -> GetMaterialsForConstructionAction for " + constructionTarget.gameObject.name + ":\n";
             for (int i = 0; i < constructionTarget.buildRecipe.materials.Length; i++)
@@ -36,25 +46,64 @@ namespace UtilityAI
                 Item neededItem = constructionTarget.buildRecipe.materials[i].item;
                 int neededCount = constructionTarget.GetRemainingCount(controller.interactor, i) - controller.inventory.GetTotalCount(neededItem);
                 controller.inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
+                stockpile.inventory.Delete(neededItem, neededCount);
                 log += neededItem.Name + ":" + neededCount;
             }
             Debug.Log(log);
 
         }
 
-        public override ActionInstance[] GetActionInstances(UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
         {
-            ActionInstance[] instances = new ActionInstance[controller.availableConstructions.Count * controller.availableStockpiles.Count];
+            List<ActionInstance> instances = new List<ActionInstance>();
 
-            for (int i = 0; i < controller.availableConstructions.Count; i++)
+            for(int i = 0; i < controller.availableConstructions.Count;i++)
             {
-                for(int j = 0; j < controller.availableStockpiles.Count;j++)
+                ActionInstance instance = new ActionInstance(this, owner, new Object[] { controller.availableConstructions[i], owner.GetComponent<Stockpile>(), owner.transform }, new int[0]);
+                if(CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                 {
-                    instances[j + i* controller.availableStockpiles.Count] = new ActionInstance(this, new Object[] { controller.availableConstructions[i], controller.availableStockpiles[j], controller.availableStockpiles[j].transform});
+                    instances.Add(instance);
                 }
             }
 
-            return instances;
+            return instances.ToArray();
+        }
+        public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
+        {
+            if (owner.isOccupied) return false;
+            Construction constructionTarget = null;
+            Stockpile stockpileTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Construction)
+                {
+                    constructionTarget = instanceData[i] as Construction;
+                }
+                if (instanceData[i] is Stockpile)
+                {
+                    stockpileTarget = instanceData[i] as Stockpile;
+                }
+            }
+            if(constructionTarget == null)
+            {
+                Debug.LogError("No ConstructionTarget");
+                return false;
+            }
+            if (stockpileTarget == null)
+            {
+                Debug.LogError("No StockpileTarget");
+                return false;
+            }
+
+            //Check if the stockpile contains ANY material related to the build. if so, its fine
+            for (int i = 0; i<constructionTarget.buildRecipe.materials.Length; i++)
+            {
+                if(stockpileTarget.inventory.Contains(constructionTarget.buildRecipe.materials[i].item))
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 

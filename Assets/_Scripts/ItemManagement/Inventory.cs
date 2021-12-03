@@ -241,4 +241,28 @@ public class Inventory : MonoBehaviour
         }
         return totalCount;
     }
+
+    public int CalculateSpaceFor(Item item)
+    {
+        int totalSpace = 0;
+        //Look through all stacks and check recipes
+        for (int i = 0; i < slots.Length; i++)
+        {
+            if (slots[i].item == item)
+            {
+                totalSpace += item.stackLimit - slots[i].count;
+            }
+            if (slots[i].item == null)
+            {
+                totalSpace += item.stackLimit;
+            }
+        }
+        return totalSpace;
+    }
+
+    public bool HasSpaceFor(ItemStack itemStack)
+    { 
+        return CalculateSpaceFor(itemStack.item)> itemStack.count;
+    }
+
 }

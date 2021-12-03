@@ -8,7 +8,7 @@ namespace UtilityAI
     {
         List<ActionInstance> actionInstances;
 
-        public ActionInstance DetermineBestAction(Action[] actions, UtilityAIController controller)
+        public void GatherActionInstances(UtilityAIController controller)
         {
             if (actionInstances == null)
             {
@@ -18,17 +18,30 @@ namespace UtilityAI
             {
                 actionInstances.Clear();
             }
+            Debug.Log("Found " + Blackboard.smartObjects.Count + " smartObjects");
+            for (int i = 0; i < Blackboard.smartObjects.Count; i++)
+            {
+                for(int a = 0; a < Blackboard.smartObjects[i].advertisements.Length; a++)
+                {
+                    if(Blackboard.smartObjects[i].advertisements[a].advertisedAction == null)
+                    {
+                        Debug.LogError("No advertisements");
+                    }
+                    ActionInstance[] instances = Blackboard.smartObjects[i].advertisements[a].advertisedAction.GetActionInstances(Blackboard.smartObjects[i], controller);
+                    actionInstances.AddRange(instances);
+                }
+            }
+
+        }
+
+        public ActionInstance DetermineBestAction(Action[] actions, UtilityAIController controller)
+        {
 
             float bestScore = -1;
             ActionInstance bestAction = null;
             string log = "<b>Utility Log:</b>\n";
-            log += actions.Length + " available actions.\n";
-            for (int i = 0; i < actions.Length; i++)
-            {
-                ActionInstance[] instances = actions[i].GetActionInstances(controller);
-                log += "-" + actions[i].Name + " generated " + instances.Length + "instances.\n";
-                actionInstances.AddRange(instances);
-            }
+
+            log += actionInstances.Count + " available actions Instances.\n";
 
             log += "<b> Scoring ActionInstances:</b>\n";
             for (int i = 0; i < actionInstances.Count; i++)
@@ -70,8 +83,9 @@ namespace UtilityAI
             float modFactor = 1 - (1 / actionInstance.actionReference.considerations.Length);
             float makeupValue = (1 - originalScore) * modFactor;
             actionScore = originalScore + (makeupValue * originalScore);
+            actionScore = Mathf.Clamp01(actionScore) * actionInstance.actionReference.weight;
             log += " result:" + originalScore + "->" +  actionScore +"\n";
-            return Mathf.Clamp01(actionScore) * actionInstance.actionReference.weight;
+            return actionScore;
         }
     }
 

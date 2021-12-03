@@ -13,7 +13,7 @@ namespace UtilityAI
         float timeSinceLastUpdate;
 
         public Action[] availableActions;
-        public Action currentAction;
+        public ActionInstance currentAction;
 
         //Context/Worldstates
 
@@ -48,11 +48,18 @@ namespace UtilityAI
             sleepy = Mathf.Clamp01(sleepy);
             if (timeSinceLastUpdate > updateInterval)
             {
+                if (currentAction != null)
+                    currentAction.OnExit();
+                reasoner.GatherActionInstances(this);
                 //Update AI
                 ActionInstance newBestAction = reasoner.DetermineBestAction(availableActions, this);
                 //Maybe don't do the same thing again?
                 if(newBestAction != null)
-                    newBestAction.actionReference.Execute(this, newBestAction.instanceData);
+                {
+                    currentAction = newBestAction;
+                    currentAction.OnEnter();
+                    currentAction.actionReference.Execute(this, newBestAction.instanceData, newBestAction.instanceValues);
+                }
                 else
                 {
                     print("no valid action was found");

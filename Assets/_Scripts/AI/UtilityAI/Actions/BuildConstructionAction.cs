@@ -11,19 +11,18 @@ namespace UtilityAI
         /// 
         /// </summary>
         /// <returns>An array of action instances</returns>
-        public override ActionInstance[] GetActionInstances(UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
         {
-            ActionInstance[] instances = new ActionInstance[controller.availableConstructions.Count];
-
-            for(int i = 0; i < instances.Length; i++)
+            List<ActionInstance> instances = new List<ActionInstance>();
+            ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Construction>(), owner.transform }, null);
+            if(CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
             {
-                instances[i] = new ActionInstance(this, new Object[] { controller.availableConstructions[i], controller.availableConstructions[i].transform });
+                instances.Add(instance);
             }
-
-            return instances;
+            return instances.ToArray();
         }
 
-        public override void Execute(UtilityAIController controller, Object[] instanceData)
+        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
         {
             Construction constructionTarget = null;
             for (int i = 0; i < instanceData.Length; i++)

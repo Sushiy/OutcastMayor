@@ -16,34 +16,43 @@ namespace UtilityAI
 
         }
 
-        //Start this action "state"
-        public virtual void OnEnter()
+        public virtual bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
         {
-
+            return !owner.isOccupied;
         }
 
-        //Stop this action "state"
-        public virtual void OnExit()
-        {
-
-        }
-        public abstract ActionInstance[] GetActionInstances(UtilityAIController controller);
+        public abstract ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller);
 
         //Do your action state stuff here!
-        public abstract void Execute(UtilityAIController controller, Object[] instanceData);
+        public abstract void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues);
     }
 
     public class ActionInstance
     {
         public Action actionReference;
 
+        public SmartObject owner;
+
         public Object[] instanceData;
 
-        public ActionInstance(Action actionReference, Object[] instanceData)
+        public int[] instanceValues;
+
+        public ActionInstance(Action actionReference, SmartObject owner, Object[] instanceData, int[] instanceValue)
         {
             this.actionReference = actionReference;
+            this.owner = owner;
             this.instanceData = new Object[instanceData.Length];
             instanceData.CopyTo(this.instanceData, 0);
+            if(instanceValues != null)
+            {
+                Debug.Log("byte array is not null");
+                this.instanceValues = new int[instanceValues.Length];
+                instanceValues.CopyTo(this.instanceValues, 0);
+            }
+            else
+            {
+                this.instanceValues = new int[0];
+            }
         }
 
         public string InstanceDataToString()
@@ -63,6 +72,18 @@ namespace UtilityAI
                 }
             }
             return result;
+        }
+
+        //Start this action "state"
+        public virtual void OnEnter()
+        {
+            owner.isOccupied = true;
+        }
+
+        //Stop this action "state"
+        public virtual void OnExit()
+        {
+            owner.isOccupied = false;
         }
     }
 }

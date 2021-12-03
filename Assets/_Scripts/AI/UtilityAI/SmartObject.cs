@@ -11,23 +11,24 @@ namespace UtilityAI
         /// </summary>
         public Advertisement[] advertisements;
 
+        public bool isOccupied;
+
         // Start is called before the first frame update
         void Start()
         {
-
+            Blackboard.smartObjects.Add(this);
         }
 
-        // Update is called once per frame
-        void Update()
+        private void OnDisable()
         {
-
+            Blackboard.smartObjects.Remove(this);
         }
     }
 
     [System.Serializable]
     public class Advertisement
     {
-        public Action advertisedOption;
+        public Action advertisedAction;
 
     }
 

@@ -9,11 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c54205a05c9e7834f88524ef54a5beb3, type: 3}
-  m_Name: BuildConstructionAction
+  m_Script: {fileID: 11500000, guid: 0e1853674d6048240b7402c42ff72557, type: 3}
+  m_Name: DeliverAction
   m_EditorClassIdentifier: 
-  Name: BuildConstructionAction
-  weight: 1
+  Name: DeliverAction
+  weight: 0.2
   considerations:
-  - {fileID: 11400000, guid: d06027a81491f2741a8208b43fef2c1b, type: 2}
   - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}

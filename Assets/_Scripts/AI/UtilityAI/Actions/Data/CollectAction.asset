@@ -9,11 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c54205a05c9e7834f88524ef54a5beb3, type: 3}
-  m_Name: BuildConstructionAction
+  m_Script: {fileID: 11500000, guid: 57ab23d111baaa74abd0142106d54c82, type: 3}
+  m_Name: CollectAction
   m_EditorClassIdentifier: 
-  Name: BuildConstructionAction
-  weight: 1
+  Name: 
+  weight: 0.4
   considerations:
-  - {fileID: 11400000, guid: d06027a81491f2741a8208b43fef2c1b, type: 2}
+  - {fileID: 11400000, guid: 44b316bb232fb9443969011c66152c1b, type: 2}
   - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}

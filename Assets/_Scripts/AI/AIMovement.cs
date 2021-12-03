@@ -60,11 +60,16 @@ public class AIMovement : MonoBehaviour
             animator.SetBool(hashRunning, false);
         }
 
-        if (startedPath && IsPathComplete())
+        if (startedPath)
         {
-            startedPath = false;
-            print("Path Completed!");
-            OnPathComplete?.Invoke();
+            Debug.DrawLine(navMeshAgent.transform.position, navMeshAgent.destination);
+            if (IsPathComplete())
+            {
+                startedPath = false;
+                print("Path Completed!");
+                OnPathComplete?.Invoke();
+
+            }
         }
     }
 

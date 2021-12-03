@@ -9,10 +9,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1dce9627d55f73642aa9239ff648888f, type: 3}
-  m_Name: ConstructionsAvailableConsideration
+  m_Script: {fileID: 11500000, guid: 522552f97ba97d449a495b225dc06ee0, type: 3}
+  m_Name: InventorySpaceConsideration
   m_EditorClassIdentifier: 
-  Name: ConstructionsAvailableConsideration
+  Name: HasInventorySpace
   curve:
     serializedVersion: 2
     m_Curve:
@@ -39,3 +39,5 @@ MonoBehaviour:
     m_RotationOrder: 4
   maxValue: 1
   isExclusiveConsideration: 1
+  zeroStepCurve: 0
+  oneStepCurve: 0

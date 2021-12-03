@@ -187,8 +187,8 @@ BlendTree:
     m_CycleOffset: 0
     m_DirectBlendParameter: fSpeedForward
     m_Mirror: 0
-  m_BlendParameter: fSpeedForward
-  m_BlendParameterY: fSpeedSide
+  m_BlendParameter: fSpeedSide
+  m_BlendParameterY: fSpeedForward
   m_MinThreshold: 0
   m_MaxThreshold: 5.0199995
   m_UseAutomaticThresholds: 0
@@ -208,25 +208,25 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: bIsRunning
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fSpeedForward
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: fSpeedSide
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
