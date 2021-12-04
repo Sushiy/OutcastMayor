@@ -134,6 +134,7 @@ public class Construction : Interactable
         if(completePS)
             completePS.Play();
         OnEndHover(null);
+        NavMeshBaker.ShouldRebuild = true;
     }
 
     public bool IsNeeded(Item m)

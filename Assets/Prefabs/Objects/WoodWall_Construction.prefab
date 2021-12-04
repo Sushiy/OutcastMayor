@@ -5030,6 +5030,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   advertisements:
   - advertisedAction: {fileID: 11400000, guid: 0e9745ca18114e54d96746c7a08b2762, type: 2}
+  isOccupied: 0
 --- !u!1 &1112923548067230275
 GameObject:
   m_ObjectHideFlags: 0
@@ -5384,8 +5385,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4127478275163213333}
   - component: {fileID: 527532136335579755}
-  m_Layer: 0
-  m_Name: Collider
+  m_Layer: 3
+  m_Name: InteractCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -67,8 +67,8 @@ public class PlayerMovement : MonoBehaviour
         if(moveInput.sqrMagnitude > 0.0f)
         {
             animator.SetBool(hashRunning, true);
-            animator.SetFloat(hashSpeedForward, moveInput.x);
-            animator.SetFloat(hashSpeedSide, moveInput.y);
+            animator.SetFloat(hashSpeedForward, moveInput.y);
+            animator.SetFloat(hashSpeedSide, moveInput.x);
         }
         else
         {

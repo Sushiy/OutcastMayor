@@ -54,12 +54,6 @@ MonoBehaviour:
   meshRenderers:
   - {fileID: 574022440158164604}
   buildCollider: {fileID: 631413684770062952}
-  room:
-    floors: []
-    walls: []
-    isValid: 0
-    IsDirty: 0
-    roomColor: {r: 0, g: 0, b: 0, a: 0}
   anchorParent: {fileID: 0}
   OnChecked:
     m_PersistentCalls:
@@ -4983,7 +4977,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6254605692632655855}
   - component: {fileID: 631413684770062952}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: buildCollider
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9914,8 +9908,8 @@ GameObject:
   m_Name: Wall2mx2m
   m_TagString: Untagged
   m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_NavMeshLayer: 1
+  m_StaticEditorFlags: 8
   m_IsActive: 1
 --- !u!4 &8521412910715296768
 Transform:

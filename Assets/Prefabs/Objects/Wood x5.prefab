@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 1732937492248772468}
   - component: {fileID: 1732937492248772469}
   - component: {fileID: 1732937492248772470}
+  - component: {fileID: 8402591508660304485}
   m_Layer: 0
   m_Name: Wood x5
   m_TagString: Untagged
@@ -114,3 +115,18 @@ MonoBehaviour:
   source:
     item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 5
+--- !u!114 &8402591508660304485
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1732937492248772471}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8f78bdb1b737f4587aa3ee84e432c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advertisements:
+  - advertisedAction: {fileID: 11400000, guid: 0b0aa6bce80f86b47a02e6cc73c4ed0a, type: 2}
+  isOccupied: 0
