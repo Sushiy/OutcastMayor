@@ -62,6 +62,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Alternate",
+                    "type": "Value",
+                    "id": "9c3fa2e4-e4a6-4070-a9dc-6c11d1564bc1",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Secondary",
                     "type": "Button",
                     "id": "6ce6dc42-5783-4d22-95cf-8cc208da7f1c",
@@ -452,6 +460,72 @@
                     "action": "Jump",
                     "isComposite": false,
                     "isPartOfComposite": false
+                },
+                {
+                    "name": "Composite",
+                    "id": "b019092f-0137-4567-9801-6caad20848fe",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alternate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "de5dfe1a-c5d5-4f5c-b577-3442d68808f3",
+                    "path": "<Keyboard>/y",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Alternate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "80c391f9-f2ad-4567-aa2a-6f842f0aec12",
+                    "path": "<Keyboard>/x",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "Alternate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "1D Axis",
+                    "id": "6c462dee-1db9-4f53-9bfc-ab07ce1e50bb",
+                    "path": "1DAxis",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alternate",
+                    "isComposite": true,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "negative",
+                    "id": "40a3166e-d896-421d-b2fb-64ba380c387c",
+                    "path": "<Gamepad>/dpad/down",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alternate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
+                },
+                {
+                    "name": "positive",
+                    "id": "73638ed8-d40e-48de-97ae-4116e3493d43",
+                    "path": "<Gamepad>/dpad/up",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Alternate",
+                    "isComposite": false,
+                    "isPartOfComposite": true
                 }
             ]
         },

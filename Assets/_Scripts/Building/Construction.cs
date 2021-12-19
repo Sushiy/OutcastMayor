@@ -44,13 +44,13 @@ public class Construction : Interactable
         this.finishedObject = finishedObject;
         this.blueprintObject = blueprintObject;
         this.buildRecipe = recipe;
-        stockpiledMaterials = new Inventory.ItemStack[recipe.materials.Length];
+        stockpiledMaterials = new Inventory.ItemStack[recipe.Materials.Length];
         actionPoints = 0;
         for(int i = 0; i < stockpiledMaterials.Length; i++)
         {
-            stockpiledMaterials[i].item = recipe.materials[i].item;
+            stockpiledMaterials[i].item = recipe.Materials[i].item;
             stockpiledMaterials[i].count = 0;
-            actionPoints += buildRecipe.materials[i].count;
+            actionPoints += buildRecipe.Materials[i].count;
         }
     }
 
@@ -74,7 +74,7 @@ public class Construction : Interactable
         //Check if the interactor has a material that is still needed in this recipe and take it
         for (int i = 0; i < stockpiledMaterials.Length; i++)
         {
-            if(stockpiledMaterials[i].count == buildRecipe.materials[i].count)
+            if(stockpiledMaterials[i].count == buildRecipe.Materials[i].count)
             {
                 //if this stack is already full
                 continue;
@@ -141,7 +141,7 @@ public class Construction : Interactable
     {
         for (int i = 0; i < stockpiledMaterials.Length; i++)
         {
-            if (stockpiledMaterials[i].item == m && stockpiledMaterials[i].count < buildRecipe.materials[i].count)
+            if (stockpiledMaterials[i].item == m && stockpiledMaterials[i].count < buildRecipe.Materials[i].count)
             {
                 return true;
             }
@@ -151,14 +151,14 @@ public class Construction : Interactable
 
     public int GetRemainingCount(Interactor interactor, int index)
     {
-        return (buildRecipe.materials[index].count - stockpiledMaterials[index].count);
+        return (buildRecipe.Materials[index].count - stockpiledMaterials[index].count);
     }
 
     public string GetCountString(Interactor interactor, int index)
     {
         Inventory i = interactor.GetComponent<Inventory>();
         if (i)
-            return i.GetTotalCount(buildRecipe.materials[index].item) + "/" + GetRemainingCount(interactor, index).ToString();
+            return i.GetTotalCount(buildRecipe.Materials[index].item) + "/" + GetRemainingCount(interactor, index).ToString();
         else
             return "-/" + GetRemainingCount(interactor, index).ToString();
     }

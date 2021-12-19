@@ -41,9 +41,9 @@ namespace UtilityAI
         public void CompleteAction(Construction constructionTarget, Stockpile stockpile, UtilityAIController controller)
         {
             string log = controller.name + " -> GetMaterialsForConstructionAction for " + constructionTarget.gameObject.name + ":\n";
-            for (int i = 0; i < constructionTarget.buildRecipe.materials.Length; i++)
+            for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
             {
-                Item neededItem = constructionTarget.buildRecipe.materials[i].item;
+                Item neededItem = constructionTarget.buildRecipe.Materials[i].item;
                 int neededCount = constructionTarget.GetRemainingCount(controller.interactor, i) - controller.inventory.GetTotalCount(neededItem);
                 controller.inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
                 stockpile.inventory.Delete(neededItem, neededCount);
@@ -96,9 +96,9 @@ namespace UtilityAI
             }
 
             //Check if the stockpile contains ANY material related to the build. if so, its fine
-            for (int i = 0; i<constructionTarget.buildRecipe.materials.Length; i++)
+            for (int i = 0; i<constructionTarget.buildRecipe.Materials.Length; i++)
             {
-                if(stockpileTarget.inventory.Contains(constructionTarget.buildRecipe.materials[i].item))
+                if(stockpileTarget.inventory.Contains(constructionTarget.buildRecipe.Materials[i].item))
                 {
                     return true;
                 }

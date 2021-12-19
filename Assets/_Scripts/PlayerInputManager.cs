@@ -158,6 +158,20 @@ public class PlayerInputManager : MonoBehaviour
         }
     }
 
+    float alternateValue;
+    public void OnAlternate(CallbackContext value)
+    {
+        float v = value.ReadValue<float>();
+        if (v != 0 && !value.performed)
+            return;
+        alternateValue = v;
+        //print(alternateValue + ";" + value.performed.ToString());
+        if (buildingMode.isActive)
+        {
+            buildingMode.Alternate(alternateValue);
+        }
+    }
+
     Vector2 mousePosition;
     public void OnPosition(CallbackContext c)
     {

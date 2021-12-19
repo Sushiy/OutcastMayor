@@ -14,12 +14,36 @@ public class BuildRecipe : ScriptableObject
     /// <summary>
     /// The materials needed to build this Recipe
     /// </summary>
-    public Inventory.ItemStack[] materials;
+    [SerializeField]
+    protected Inventory.ItemStack[] materials;
+    public virtual Inventory.ItemStack[] Materials
+    {
+        get
+        {
+            return materials;
+        }
+    }
     /// <summary>
     /// The prefab to spawn when building this
     /// </summary>
-    public Buildable buildingPrefab;
-    public Construction constructionPrefab;
+    [SerializeField]
+    protected Buildable buildingPrefab;
+    public virtual Buildable BuildingPrefab
+    {
+        get
+        {
+            return buildingPrefab;
+        }
+    }
+    [SerializeField]
+    protected Construction constructionPrefab;
+    public virtual Construction ConstructionPrefab
+    {
+        get
+        {
+            return constructionPrefab;
+        }
+    }
 
     /// <summary>
     /// Check if the given inventory has all needed materials

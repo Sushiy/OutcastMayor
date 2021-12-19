@@ -24,16 +24,16 @@ namespace UtilityAI
             float availableStacks = 0;
             if (constructionTarget == null) return 0.0f;
 
-            for (int i = 0; i < constructionTarget.buildRecipe.materials.Length; i++)
+            for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
             {
-                Inventory.ItemStack stack = new Inventory.ItemStack(constructionTarget.buildRecipe.materials[i].item, constructionTarget.GetRemainingCount(controller.interactor, i));
+                Inventory.ItemStack stack = new Inventory.ItemStack(constructionTarget.buildRecipe.Materials[i].item, constructionTarget.GetRemainingCount(controller.interactor, i));
                 if (controller.inventory.Contains(stack))
                 {
                     availableStacks += 1.0f;
                 }
             }
 
-            availableStacks /= constructionTarget.buildRecipe.materials.Length;
+            availableStacks /= constructionTarget.buildRecipe.Materials.Length;
 
             return Evaluate(availableStacks);
         }
