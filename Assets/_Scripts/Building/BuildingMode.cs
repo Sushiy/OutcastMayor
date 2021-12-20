@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class BuildingMode : MonoBehaviour
 {
@@ -44,6 +45,13 @@ public class BuildingMode : MonoBehaviour
     /// </summary>
     private Buildable sensorBuilding;
 
+    private InputActionMap buildActionMap;
+
+    private void Awake()
+    {
+        buildActionMap = GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
+    }
+
     public void ChooseBuildRecipe(BuildRecipe buildRecipe)
     {
         if(ghostBuilding != null)
@@ -73,6 +81,7 @@ public class BuildingMode : MonoBehaviour
         {
             ChooseBuildRecipe(selectedRecipe);
         }
+        buildActionMap.Enable();
     }
 
     public void ExitBuildMode()
@@ -82,6 +91,7 @@ public class BuildingMode : MonoBehaviour
         UIManager.Instance.HideBuildingView();
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
+        buildActionMap.Disable();
     }
     public Construction Build(Vector3 position)
     {
