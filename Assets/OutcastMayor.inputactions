@@ -46,7 +46,7 @@
                     "interactions": ""
                 },
                 {
-                    "name": "BuildMode",
+                    "name": "EnterBuildMode",
                     "type": "Button",
                     "id": "53ca4d6a-4701-40fb-9a16-15f36f014646",
                     "expectedControlType": "Button",
@@ -81,6 +81,14 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "1e415e76-69f2-4477-8a0d-78f2d0cef7c4",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "Destroy",
+                    "type": "Button",
+                    "id": "2d23cc0c-85bb-4e41-b8f7-639efab0edf3",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -358,7 +366,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "BuildMode",
+                    "action": "EnterBuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -369,7 +377,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "BuildMode",
+                    "action": "EnterBuildMode",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -475,7 +483,7 @@
                 {
                     "name": "negative",
                     "id": "de5dfe1a-c5d5-4f5c-b577-3442d68808f3",
-                    "path": "<Keyboard>/y",
+                    "path": "<Keyboard>/z",
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
@@ -526,6 +534,17 @@
                     "action": "Alternate",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "ce0194d3-86fb-4fbc-a21a-a00fc9489153",
+                    "path": "<Mouse>/middleButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Destroy",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         },

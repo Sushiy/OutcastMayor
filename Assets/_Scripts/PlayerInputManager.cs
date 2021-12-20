@@ -24,6 +24,7 @@ public class PlayerInputManager : MonoBehaviour
 
     private bool inventoryPressed = false;
     private bool secondaryPressed = false;
+    private bool destroyPressed = false;
 
     private bool firePressed = false;
 
@@ -169,6 +170,18 @@ public class PlayerInputManager : MonoBehaviour
         if (buildingMode.isActive)
         {
             buildingMode.Alternate(alternateValue);
+        }
+    }
+    public void OnDestroy(CallbackContext value)
+    {
+        destroyPressed = value.performed;
+        if (destroyPressed)
+        {
+            if(interactor.hoveredInteractable is Construction)
+            {
+                ((Construction)interactor.hoveredInteractable).Destroy();
+                interactor.hoveredInteractable.OnEndHover(interactor);
+            }
         }
     }
 

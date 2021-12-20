@@ -10,14 +10,14 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e707ca99f17dca4b96f2d2b2471c1f2, type: 3}
-  m_Name: bg_DiagonalPoles
+  m_Name: bg_WallDiag
   m_EditorClassIdentifier: 
-  Name: Buildable
+  Name: DiagonalWalls
   Icon: {fileID: 0}
   materials: []
   buildingPrefab: {fileID: 0}
   constructionPrefab: {fileID: 0}
   buildRecipes:
-  - {fileID: 11400000, guid: ddd83d8da2d2b6e42905fa50cf2ded47, type: 2}
-  - {fileID: 11400000, guid: 0a33ec1bd1624144aa61210e18036ade, type: 2}
-  - {fileID: 11400000, guid: d72cde2436be5e545a69cfab1a5ea350, type: 2}
+  - {fileID: 11400000, guid: 22a97dd2b029d0142b063065fd5aeca3, type: 2}
+  - {fileID: 11400000, guid: 702762211088e244dbdad76f1b90c580, type: 2}
+  - {fileID: 11400000, guid: 29b6deaceddab5e41a4301d0f224bcd1, type: 2}

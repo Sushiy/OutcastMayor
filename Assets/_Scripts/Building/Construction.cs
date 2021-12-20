@@ -137,6 +137,21 @@ public class Construction : Interactable
         NavMeshBaker.ShouldRebuild = true;
     }
 
+    public void Destroy()
+    {
+        //Drop the already added Materials to the ground
+        /*
+         * for(int i = 0; i < stockpiledMaterials.Count; i++)
+         * {
+         *      Do stuff
+         * }
+         */
+        //Remove the finished object
+        Destroy(finishedObject.gameObject);
+        //Remove the construction object
+        Destroy(blueprintObject.gameObject);
+    }
+
     public bool IsNeeded(Item m)
     {
         for (int i = 0; i < stockpiledMaterials.Length; i++)

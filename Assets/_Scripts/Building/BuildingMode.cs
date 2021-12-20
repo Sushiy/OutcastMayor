@@ -268,4 +268,9 @@ public class BuildingMode : MonoBehaviour
             }
         }
     }
+
+    public void DestroyConstruction()
+    {
+        
+    }
 }

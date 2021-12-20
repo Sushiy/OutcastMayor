@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
+  m_Name: b_WallDiag_CV
+  m_EditorClassIdentifier: 
+  Name: Wall Diagonal Convex
+  Icon: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 2
+  buildingPrefab: {fileID: 1094437169021688344, guid: ee23f175b8a1412408795d2686ff0733, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: 1177fb433a25d524c9ba632c08d38875, type: 3}
