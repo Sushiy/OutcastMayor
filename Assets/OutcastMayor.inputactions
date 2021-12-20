@@ -54,14 +54,6 @@
                     "interactions": ""
                 },
                 {
-                    "name": "Secondary",
-                    "type": "Button",
-                    "id": "6ce6dc42-5783-4d22-95cf-8cc208da7f1c",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
                     "name": "Jump",
                     "type": "Button",
                     "id": "1e415e76-69f2-4477-8a0d-78f2d0cef7c4",
@@ -354,28 +346,6 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "EnterBuildMode",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "f6ece887-f5a5-4d9e-84c7-4b8d107f5e8d",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Secondary",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "93adc42b-8a37-4518-bec6-06456074e55c",
-                    "path": "<Mouse>/rightButton",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "Secondary",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -914,7 +884,7 @@
             "id": "48cf3d41-1609-4800-bb4e-ec3fe5f4b6bd",
             "actions": [
                 {
-                    "name": "Alternate",
+                    "name": "ChangeVariant",
                     "type": "Value",
                     "id": "f52d51e6-24a8-4308-9f3d-1b92c1a3adac",
                     "expectedControlType": "Axis",
@@ -934,6 +904,14 @@
                     "type": "Value",
                     "id": "d9fea243-ba8f-47db-9fe5-52bfce70d0dd",
                     "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
+                    "name": "OpenBuildmenu",
+                    "type": "Button",
+                    "id": "a7ffb86e-6e77-4151-898f-7badb25e2cdd",
+                    "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
                 }
@@ -1001,7 +979,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -1012,7 +990,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1023,7 +1001,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1034,7 +1012,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": true,
                     "isPartOfComposite": false
                 },
@@ -1045,7 +1023,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": false,
                     "isPartOfComposite": true
                 },
@@ -1056,9 +1034,31 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Alternate",
+                    "action": "ChangeVariant",
                     "isComposite": false,
                     "isPartOfComposite": true
+                },
+                {
+                    "name": "",
+                    "id": "bc94f7ca-0f68-40df-b752-54b7c0e59663",
+                    "path": "<Gamepad>/buttonEast",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "OpenBuildmenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "775613da-c30d-42a4-a10a-7685b894cc4b",
+                    "path": "<Mouse>/rightButton",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Keyboard&Mouse",
+                    "action": "OpenBuildmenu",
+                    "isComposite": false,
+                    "isPartOfComposite": false
                 }
             ]
         }

@@ -7043,23 +7043,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[16].m_ActionId
-      value: 6ce6dc42-5783-4d22-95cf-8cc208da7f1c
-      objectReference: {fileID: 0}
-    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionId
       value: 1e415e76-69f2-4477-8a0d-78f2d0cef7c4
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
+      propertyPath: m_ActionEvents.Array.data[17].m_ActionId
       value: f52d51e6-24a8-4308-9f3d-1b92c1a3adac
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionId
       value: 8635e079-4206-4276-bd81-95fad8bc2092
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[20].m_ActionId
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionId
       value: d9fea243-ba8f-47db-9fe5-52bfce70d0dd
+      objectReference: {fileID: 0}
+    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
+      propertyPath: m_ActionEvents.Array.data[20].m_ActionId
+      value: a7ffb86e-6e77-4151-898f-7badb25e2cdd
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[21].m_ActionId
@@ -7103,23 +7103,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[16].m_ActionName
-      value: Player/Secondary[/XInputControllerWindows/buttonEast,/Mouse/rightButton]
-      objectReference: {fileID: 0}
-    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_ActionName
       value: Player/Jump[/Keyboard/space,/XInputControllerWindows/buttonSouth]
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
+      propertyPath: m_ActionEvents.Array.data[17].m_ActionName
       value: Buildmode/Alternate[/Keyboard/z,/Keyboard/x,/XInputControllerWindows/dpad/down,/XInputControllerWindows/dpad/up]
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
+      propertyPath: m_ActionEvents.Array.data[18].m_ActionName
       value: Buildmode/Destroy[/Mouse/middleButton]
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[20].m_ActionName
+      propertyPath: m_ActionEvents.Array.data[19].m_ActionName
       value: Buildmode/Rotate[/Mouse/scroll/y,/XInputControllerWindows/dpad/left,/XInputControllerWindows/dpad/right]
+      objectReference: {fileID: 0}
+    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
+      propertyPath: m_ActionEvents.Array.data[20].m_ActionName
+      value: Buildmode/OpenBuildmenu[/XInputControllerWindows/buttonEast,/Mouse/rightButton]
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[21].m_ActionName
@@ -7162,8 +7162,12 @@ PrefabInstance:
       value: BuildMode/Destroy[/Mouse/middleButton]
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.size
+      propertyPath: m_ActionEvents.Array.data[16].m_PersistentCalls.m_Calls.Array.size
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
+      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.size
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.size
@@ -7378,16 +7382,20 @@ PrefabInstance:
       value: OnSecondary
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_ActionEvents.Array.data[17].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnAlternate
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_ActionEvents.Array.data[18].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnDestroy
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
-      propertyPath: m_ActionEvents.Array.data[20].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      propertyPath: m_ActionEvents.Array.data[19].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: OnRotate
+      objectReference: {fileID: 0}
+    - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
+      propertyPath: m_ActionEvents.Array.data[20].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: OnSecondary
       objectReference: {fileID: 0}
     - target: {fileID: 5109792676359509089, guid: 87b6c9e4411a2c74a818b79393d1737b, type: 3}
       propertyPath: m_ActionEvents.Array.data[21].m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
