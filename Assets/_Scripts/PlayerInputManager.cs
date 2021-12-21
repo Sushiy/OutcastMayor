@@ -195,15 +195,17 @@ public class PlayerInputManager : MonoBehaviour
     {
         if(buildingMode.isActive)
         {
+            Ray ray;
             if(topDownBuilding)
             {
-                raycastHit = Physics.Raycast(Camera.main.ScreenPointToRay(mousePosition), out hitInfo, 10.0f, buildRaycastLayerMask);
+                ray = Camera.main.ScreenPointToRay(mousePosition);
             }
             else
             {
-                raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, buildRaycastLayerMask);
+                ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
             }
-            buildingMode.ProcessRayCast(raycastHit, hitInfo);
+            buildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
+            raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
         }
         else
         {

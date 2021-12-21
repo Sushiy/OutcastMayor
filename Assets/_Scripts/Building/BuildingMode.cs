@@ -30,6 +30,8 @@ public class BuildingMode : MonoBehaviour
 
     private Vector3 buildPosition;
     private Vector3 rayCastPosition;
+    [SerializeField]
+    private float raycastMaxDistance = 5.0f;
     private Quaternion buildRotation;
     [SerializeField]
     private float rotateSpeed = 10.0f;
@@ -242,7 +244,7 @@ public class BuildingMode : MonoBehaviour
     Ray surfaceNormal;
     bool raycastHit;
 
-    public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
+    public void ProcessRayCast(bool raycastHit, Ray ray, RaycastHit hitInfo)
     {
         this.raycastHit = raycastHit;
         if(raycastHit)
@@ -250,6 +252,10 @@ public class BuildingMode : MonoBehaviour
             rayCastPosition = hitInfo.point;
             surfaceNormal.origin = hitInfo.point;
             surfaceNormal.direction = hitInfo.normal;
+        }
+        else
+        {
+            rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
         }
     }
 
