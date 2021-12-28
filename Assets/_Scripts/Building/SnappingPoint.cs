@@ -7,8 +7,8 @@ public class SnappingPoint : MonoBehaviour
 {
     public enum SnapType
     {
-        Vertical = 0,
-        Horizontal = 1
+        Default = 0,
+        Window = 1
     }
 
     public int status = 0;
@@ -52,7 +52,7 @@ public class SnappingPoint : MonoBehaviour
             if(p!= null)
             {
                 UpgradeStatus(2);
-                if (p.snapType == snapType)
+                if (true)
                 {
                     UpgradeStatus(3);
                     buildable.StartSnapping(this, p);

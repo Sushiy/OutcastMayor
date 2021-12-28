@@ -64,9 +64,11 @@ public class BuildingMode : MonoBehaviour
 
         selectedRecipe = buildRecipe;
         ghostBuilding = GameObject.Instantiate(buildRecipe.BuildingPrefab, buildPosition, buildRotation);
+        ghostBuilding.transform.localScale = selectedRecipe.BuildScale;
         ghostBuilding.SetGhostMode(ghostMaterial);
 
         sensorBuilding = GameObject.Instantiate(buildRecipe.BuildingPrefab, buildPosition, buildRotation);
+        sensorBuilding.transform.localScale = selectedRecipe.BuildScale;
         sensorBuilding.SetSensorMode(sensorMaterial);
     }
 
@@ -103,10 +105,13 @@ public class BuildingMode : MonoBehaviour
             snappedBuilding = sensorBuilding.snappedPointOther.buildable;
         }
         Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
+        build.transform.localScale = selectedRecipe.BuildScale;
         build.gameObject.SetActive(false);
         Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
+        blue.transform.localScale = selectedRecipe.BuildScale;
         blue.SetBlueprintMode(ghostMaterial);
         Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, blue.transform);
+        c.transform.localScale = selectedRecipe.BuildScale;
         c.SetConstruction(selectedRecipe, build, blue);
         return c;
     }
@@ -119,10 +124,13 @@ public class BuildingMode : MonoBehaviour
             snappedBuilding = sensorBuilding.snappedPointOther.buildable;
         }
         Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, buildPosition, buildRotation, buildingParent);
+        build.transform.localScale = selectedRecipe.BuildScale;
         build.gameObject.SetActive(false);
         Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, buildPosition, buildRotation, buildingParent);
+        blue.transform.localScale = selectedRecipe.BuildScale;
         blue.SetBlueprintMode(ghostMaterial);
         Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, buildPosition, buildRotation, blue.transform);
+        c.transform.localScale = selectedRecipe.BuildScale;
         c.SetConstruction(selectedRecipe, build, blue);
     }
 
@@ -270,19 +278,8 @@ public class BuildingMode : MonoBehaviour
     }
     public void Alternate(float alternateInput)
     {
-        if (selectedRecipe is BuildRecipeGroup)
-        {
-            if (alternateInput > 0)
-            {
-                ((BuildRecipeGroup)selectedRecipe).NextVariation();
-                ChooseBuildRecipe(selectedRecipe);
-            }
-            else if (alternateInput < 0)
-            {
-                ((BuildRecipeGroup)selectedRecipe).PreviousVariation();
-                ChooseBuildRecipe(selectedRecipe);
-            }
-        }
+        selectedRecipe.Alternate(alternateInput);
+        ChooseBuildRecipe(selectedRecipe);
     }
 
     public void DestroyConstruction()
