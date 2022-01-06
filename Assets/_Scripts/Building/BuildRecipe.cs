@@ -45,6 +45,15 @@ public class BuildRecipe : ScriptableObject
         }
     }
 
+    protected Vector3 buildScale = Vector3.one;
+    public Vector3 BuildScale
+    {
+        get
+        {
+            return buildScale;
+        }
+    }
+
     /// <summary>
     /// Check if the given inventory has all needed materials
     /// </summary>
@@ -60,5 +69,10 @@ public class BuildRecipe : ScriptableObject
             }
         }
         return true;
+    }
+
+    public virtual void Alternate(float alternateInput)
+    {
+
     }
 }

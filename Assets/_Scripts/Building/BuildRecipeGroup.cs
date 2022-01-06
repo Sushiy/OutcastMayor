@@ -57,4 +57,15 @@ public class BuildRecipeGroup : BuildRecipe
         buildingPrefab = buildRecipes[index].BuildingPrefab;
         constructionPrefab = buildRecipes[index].ConstructionPrefab;
     }
+    public override void Alternate(float alternateInput)
+    {
+        if(alternateInput > 0)
+        {
+            NextVariation();
+        }
+        if(alternateInput < 0)
+        {
+            PreviousVariation();
+        }
+    }
 }
