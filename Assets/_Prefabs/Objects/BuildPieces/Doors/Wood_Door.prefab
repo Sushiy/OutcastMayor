@@ -5182,12 +5182,6 @@ MonoBehaviour:
   - {fileID: 8382535440672289985}
   - {fileID: 1352125716517894878}
   buildCollider: {fileID: 3867208431624142043}
-  room:
-    floors: []
-    walls: []
-    isValid: 0
-    IsDirty: 0
-    roomColor: {r: 0, g: 0, b: 0, a: 0}
   anchorParent: {fileID: 0}
   OnChecked:
     m_PersistentCalls:
@@ -10262,7 +10256,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalRotation.w
@@ -10324,7 +10318,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10390,7 +10384,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.z
@@ -10464,7 +10458,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 7303047799740434091, guid: d790af7fc25b2c54d965a7575dd4e46f, type: 3}
       propertyPath: m_LocalRotation.w
