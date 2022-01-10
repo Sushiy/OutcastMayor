@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: b_WoodPole45DegCV_2m
+  m_Name: b_RoundPole_2m
   m_EditorClassIdentifier: 
-  Name: "Roof Beam 45\xB0 Convex"
+  Name: Round Pole 2m
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 1
-  buildingPrefab: {fileID: 1094437169021688344, guid: b4cdcf7c3a13417408e6949e934ca9ac, type: 3}
-  constructionPrefab: {fileID: 2659674548153265412, guid: f2277c7d20cf03848af38a26a6b33f86, type: 3}
+  buildingPrefab: {fileID: 1094437169021688344, guid: 9ac0a1a5ab71cac43b17838ca87ef9cf, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: eb43353d43bcd1f4da208e639840370d, type: 3}

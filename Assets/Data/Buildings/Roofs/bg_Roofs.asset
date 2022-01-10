@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Roofs
   Icon: {fileID: 0}
-  materials: []
-  buildingPrefab: {fileID: 0}
-  constructionPrefab: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 2
+  buildingPrefab: {fileID: 9141218274749744331, guid: d997336b68372ae48b6c946f4f1aea21, type: 3}
+  constructionPrefab: {fileID: 3433997753844828348, guid: dcae2f08fe0ae8e46b2f5431dd1d6288, type: 3}
   buildRecipes:
+  - {fileID: 11400000, guid: 38348348997c4d3468ee07effbdfb8d4, type: 2}
   - {fileID: 11400000, guid: b2621803bbc873b48ae2ef85cd66ef40, type: 2}
   - {fileID: 11400000, guid: 19954ce2ff958724484244328d865997, type: 2}
   - {fileID: 11400000, guid: f7d9e7efc4c3a9e40ba21b2a28592b03, type: 2}
+  - {fileID: 11400000, guid: 79dffcfbe380fbb4198b6edb0d9b5bbf, type: 2}

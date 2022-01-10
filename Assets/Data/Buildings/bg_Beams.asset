@@ -1,0 +1,24 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e707ca99f17dca4b96f2d2b2471c1f2, type: 3}
+  m_Name: bg_Beams
+  m_EditorClassIdentifier: 
+  Name: SquarePoles
+  Icon: {fileID: 0}
+  materials: []
+  buildingPrefab: {fileID: 0}
+  constructionPrefab: {fileID: 0}
+  buildRecipes:
+  - {fileID: 11400000, guid: a5023189eae64524cbb4e5f11ab6765c, type: 2}
+  - {fileID: 11400000, guid: fb53340338c81d14aa5683ee3036a4de, type: 2}
+  - {fileID: 11400000, guid: 1628175633b10c4439d818748295684d, type: 2}
+  - {fileID: 11400000, guid: 50bf56fe559e1f545b8665649a9802b4, type: 2}
