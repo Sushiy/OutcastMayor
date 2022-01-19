@@ -10,15 +10,15 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e707ca99f17dca4b96f2d2b2471c1f2, type: 3}
-  m_Name: bg_Beams
+  m_Name: bg_SquareFrame
   m_EditorClassIdentifier: 
-  Name: SquarePoles
+  Name: Square Framing
   Icon: {fileID: 0}
   materials: []
   buildingPrefab: {fileID: 0}
   constructionPrefab: {fileID: 0}
   buildRecipes:
-  - {fileID: 11400000, guid: a5023189eae64524cbb4e5f11ab6765c, type: 2}
+  - {fileID: 11400000, guid: 3e776e48338a5f44c9be87fb6e6eb7e9, type: 2}
+  - {fileID: 11400000, guid: 816ac484cd5961a4f9c09838c5245de1, type: 2}
   - {fileID: 11400000, guid: fb53340338c81d14aa5683ee3036a4de, type: 2}
-  - {fileID: 11400000, guid: 1628175633b10c4439d818748295684d, type: 2}
   - {fileID: 11400000, guid: 50bf56fe559e1f545b8665649a9802b4, type: 2}
