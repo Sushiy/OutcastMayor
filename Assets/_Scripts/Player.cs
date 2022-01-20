@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     private Interactor interactor;
     public Interactor Interactor => interactor;
 
+    public bool isSleeping = false;
 
     private void Awake()
     {
