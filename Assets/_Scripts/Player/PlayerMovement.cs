@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 /// <summary>
 /// This class controls both player movement and camera direction (in normal camera mode)
 /// </summary>
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMovement
 {
     [Header("Movement Settings")]
     [SerializeField]
@@ -26,14 +26,6 @@ public class PlayerMovement : MonoBehaviour
     Vector3 movementDelta;
     [SerializeField]
     private Transform rotationTarget;
-
-    //Animator
-    private Animator animator;
-
-    //Hash values for animator control
-    private int hashRunning = Animator.StringToHash("bIsRunning");
-    private int hashSpeedForward = Animator.StringToHash("fSpeedForward");
-    private int hashSpeedSide = Animator.StringToHash("fSpeedSide");
 
     private CharacterController characterController;
 
@@ -57,7 +49,6 @@ public class PlayerMovement : MonoBehaviour
 
     private void Awake()
     {
-        animator = GetComponentInChildren<Animator>();
         characterController = GetComponent<CharacterController>();
     }
 
@@ -66,13 +57,15 @@ public class PlayerMovement : MonoBehaviour
     {
         if(moveInput.sqrMagnitude > 0.0f)
         {
-            animator.SetBool(hashRunning, true);
-            animator.SetFloat(hashSpeedForward, moveInput.y);
-            animator.SetFloat(hashSpeedSide, moveInput.x);
+            Player.Instance.CharacterAnimation.SetRunning(true);
+            Player.Instance.CharacterAnimation.SetSpeedForward(moveInput.y);
+            Player.Instance.CharacterAnimation.SetSpeedSide(moveInput.x);
         }
         else
         {
-            animator.SetBool(hashRunning, false);
+            Player.Instance.CharacterAnimation.SetRunning(false);
+            Player.Instance.CharacterAnimation.SetSpeedForward(0.0f);
+            Player.Instance.CharacterAnimation.SetSpeedSide(0.0f);
         }
 
         
@@ -142,5 +135,17 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position, rotationTarget.forward, Color.blue);
         Debug.DrawRay(transform.position, transform.forward, Color.yellow);
         Debug.DrawRay(transform.position, movementDelta.normalized, Color.green);
+    }
+
+    public void TeleportTo(Vector3 position)
+    {
+        characterController.enabled = false;
+        transform.position = position;
+        characterController.enabled = true;
+    }
+
+    public void SnapYRotation(Quaternion rotation)
+    {        
+        rotationTarget.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
     }
 }

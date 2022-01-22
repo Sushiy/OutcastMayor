@@ -9,6 +9,17 @@ public class Interactor : MonoBehaviour
     Collider hoveredCollider;
     public Interactable hoveredInteractable;
 
+    public Character parentCharacter
+    {
+        get;
+        private set;
+    }
+
+    public void SetParentCharacter(Character character)
+    {
+        parentCharacter = character;
+    }
+
     public void Interact()
     {
         if(hoveredInteractable)

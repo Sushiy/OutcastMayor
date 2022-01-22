@@ -11,12 +11,6 @@ public class Bed : Interactable
 
     public bool isOccupied = false;
 
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
     public override void Interact(Interactor interactor)
     {
         base.Interact(interactor);
@@ -24,17 +18,21 @@ public class Bed : Interactable
         //If the bed is not occupied and the player is not currently sleeping, sleep.
         if (!isOccupied)
         {
-            StartSleeping();
+            StartSleeping(interactor.parentCharacter);
         }
     }
 
-    public void StartSleeping()
+    public void StartSleeping(Character character)
     {
         isOccupied = true;
+        character.CharacterAnimation.SetSleeping(true);
+        character.Movement.TeleportTo(transform.position);
+        character.Movement.SnapYRotation(Quaternion.Euler(0, 180, 0) * transform.rotation);
     }
 
-    public void StopSleeping()
+    public void StopSleeping(Character character)
     {
         isOccupied = false;
+        character.CharacterAnimation.SetSleeping(true);
     }
 }

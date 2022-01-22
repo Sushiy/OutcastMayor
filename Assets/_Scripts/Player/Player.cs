@@ -2,22 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Player : MonoBehaviour
+public class Player : Character
 {
     public static Player Instance;
 
+    //PLAYER SPECIFIC
     private RequestLog questLog;
     public RequestLog QuestLog => questLog;
-    private Inventory inventory;
-    public Inventory Inventory => inventory;
+
     private BuildingMode buildingMode;
     public BuildingMode BuildingMode => buildingMode;
-    private Interactor interactor;
-    public Interactor Interactor => interactor;
 
-    public bool isSleeping = false;
-
-    private void Awake()
+    protected override void Awake()
     {
         if (Instance == null)
         {
@@ -30,8 +26,8 @@ public class Player : MonoBehaviour
         }
 
         questLog = GetComponent<RequestLog>();
-        inventory = GetComponent<Inventory>();
         buildingMode = GetComponent<BuildingMode>();
-        interactor = GetComponent<Interactor>();
+
+        base.Awake();
     }
 }
