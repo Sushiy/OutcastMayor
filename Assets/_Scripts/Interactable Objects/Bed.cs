@@ -25,14 +25,16 @@ public class Bed : Interactable
     public void StartSleeping(Character character)
     {
         isOccupied = true;
-        character.CharacterAnimation.SetSleeping(true);
+        //Position the character on the bed
         character.Movement.TeleportTo(transform.position);
         character.Movement.SnapYRotation(Quaternion.Euler(0, 180, 0) * transform.rotation);
+        //Set the player to sleep
+        character.Sleep();
+        character.OnStopSleeping += StopSleeping;
     }
 
     public void StopSleeping(Character character)
     {
         isOccupied = false;
-        character.CharacterAnimation.SetSleeping(true);
     }
 }

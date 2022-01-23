@@ -5,7 +5,7 @@ using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class AIMovement : MonoBehaviour
+public class AIMovement : MonoBehaviour, IMovement
 {
     float runningSpeed = 5.0f;
     float walkingSpeed = 3.0f;
@@ -16,16 +16,12 @@ public class AIMovement : MonoBehaviour
 
     bool startedPath;
 
-    Animator animator;
-    //Hash values for animator control
-    private int hashRunning = Animator.StringToHash("bIsRunning");
-    private int hashSpeedForward = Animator.StringToHash("fSpeedForward");
-    private int hashSpeedSide = Animator.StringToHash("fSpeedSide");
+    CharacterAnimation characterAnimation;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
-        animator = GetComponentInChildren<Animator>();
+        characterAnimation = GetComponent<CharacterAnimation>();
         OnPathComplete = new UnityEvent();
     }
 
@@ -51,13 +47,13 @@ public class AIMovement : MonoBehaviour
         float velocity = navMeshAgent.velocity.magnitude;
         if (startedPath && velocity > 0)
         {
-            animator.SetBool(hashRunning, true);
-            animator.SetFloat(hashSpeedForward, velocity/navMeshAgent.speed);
-            //animator.SetFloat(hashSpeedSide, moveInput.y);
+            characterAnimation.SetRunning(true);
+            characterAnimation.SetSpeedForward(velocity/navMeshAgent.speed);
         }
         else
         {
-            animator.SetBool(hashRunning, false);
+            characterAnimation.SetRunning(false);
+            characterAnimation.SetSpeedForward(0);
         }
 
         if (startedPath)
@@ -84,5 +80,15 @@ public class AIMovement : MonoBehaviour
         }
 
         return false;
+    }
+
+    public void TeleportTo(Vector3 position)
+    {
+        navMeshAgent.Warp(position);
+    }
+
+    public void SnapYRotation(Quaternion rotation)
+    {
+       navMeshAgent.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
     }
 }

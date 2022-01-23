@@ -13,6 +13,9 @@ public class Player : Character
     private BuildingMode buildingMode;
     public BuildingMode BuildingMode => buildingMode;
 
+    private PlayerToolManager playerToolManager;
+    public PlayerToolManager PlayerToolManager => playerToolManager;
+
     protected override void Awake()
     {
         if (Instance == null)
@@ -27,7 +30,13 @@ public class Player : Character
 
         questLog = GetComponent<RequestLog>();
         buildingMode = GetComponent<BuildingMode>();
+        playerToolManager = GetComponent<PlayerToolManager>();
 
         base.Awake();
+    }
+
+    public override void Sleep()
+    {
+        base.Sleep();
     }
 }

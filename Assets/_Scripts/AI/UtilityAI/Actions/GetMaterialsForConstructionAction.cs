@@ -44,8 +44,8 @@ namespace UtilityAI
             for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
             {
                 Item neededItem = constructionTarget.buildRecipe.Materials[i].item;
-                int neededCount = constructionTarget.GetRemainingCount(controller.interactor, i) - controller.inventory.GetTotalCount(neededItem);
-                controller.inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
+                int neededCount = constructionTarget.GetRemainingCount(controller.Interactor, i) - controller.Inventory.GetTotalCount(neededItem);
+                controller.Inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
                 stockpile.inventory.Delete(neededItem, neededCount);
                 log += neededItem.Name + ":" + neededCount;
             }

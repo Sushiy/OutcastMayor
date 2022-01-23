@@ -30,7 +30,7 @@ namespace UtilityAI
         {
             string log = controller.name + " -> DeliverAction on" + stockpileTarget.name + ":\n";
             stockpileTarget.inventory.Add(itemStack);
-            controller.inventory.Delete(itemStack);
+            controller.Inventory.Delete(itemStack);
             Debug.Log(log);
 
         }
@@ -39,15 +39,15 @@ namespace UtilityAI
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 
-            for (int i = 0; i < controller.inventory.slots.Length; i++)
+            for (int i = 0; i < controller.Inventory.slots.Length; i++)
             {
-                if(controller.inventory.slots[i].item == null || controller.inventory.slots[i].count == 0)
+                if(controller.Inventory.slots[i].item == null || controller.Inventory.slots[i].count == 0)
                 {
                     continue;
                 }
                 int[] b = new int[1];
-                b[0] = controller.inventory.slots[i].count;
-                ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.inventory.slots[i].item}, b);
+                b[0] = controller.Inventory.slots[i].count;
+                ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.Inventory.slots[i].item}, b);
                 if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                 {
                     instances.Add(instance);

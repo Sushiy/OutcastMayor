@@ -26,8 +26,8 @@ namespace UtilityAI
 
             for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
             {
-                Inventory.ItemStack stack = new Inventory.ItemStack(constructionTarget.buildRecipe.Materials[i].item, constructionTarget.GetRemainingCount(controller.interactor, i));
-                if (controller.inventory.Contains(stack))
+                Inventory.ItemStack stack = new Inventory.ItemStack(constructionTarget.buildRecipe.Materials[i].item, constructionTarget.GetRemainingCount(controller.Interactor, i));
+                if (controller.Inventory.Contains(stack))
                 {
                     availableStacks += 1.0f;
                 }

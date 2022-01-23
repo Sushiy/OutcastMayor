@@ -44,7 +44,7 @@ namespace UtilityAI
         public void CompleteAction(ItemStackInstance itemStack, UtilityAIController controller)
         {
             string log = controller.name + " -> HaulAction on" + itemStack.name + ":\n";
-            itemStack.Interact(controller.interactor);
+            itemStack.Interact(controller.Interactor);
             Debug.Log(log);
 
         }

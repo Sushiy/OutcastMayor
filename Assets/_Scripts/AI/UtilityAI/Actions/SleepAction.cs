@@ -9,14 +9,39 @@ namespace UtilityAI
     {
         public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
         {
-            Debug.Log(controller.name + " started sleeping");
-            controller.sleepy = 0;
+            Bed bedTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Bed)
+                {
+                    bedTarget = instanceData[i] as Bed;
+                }
+            }
+
+            Vector3 target = bedTarget.transform.position + (controller.transform.position - bedTarget.transform.position).normalized * 1.0f;
+            Debug.Log("<color=green>" + controller.name + "-> SleepAction moveto.</color>");
+            controller.aIMovement.MoveTo(target, false, () => CompleteAction(bedTarget, controller));
+        }
+
+        public void CompleteAction(Bed bedTarget, UtilityAIController controller)
+        {
+            string log = "<color=green>" + controller.name + " -> SleepAction for " + bedTarget.gameObject.name + "</color>";
+
+            bedTarget.Interact(controller.Interactor);
+            Debug.Log(log);
+            //Queue Sleeping
         }
 
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
         {
-            ActionInstance[] result = new ActionInstance[] { new ActionInstance(this, owner, new Object[0], new int[0]) };
-            return result;
+            List<ActionInstance> instances = new List<ActionInstance>();
+
+            ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Bed>(), owner.transform }, new int[0]);
+            if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
+            {
+                instances.Add(instance);
+            }
+            return instances.ToArray();
         }
     }
 

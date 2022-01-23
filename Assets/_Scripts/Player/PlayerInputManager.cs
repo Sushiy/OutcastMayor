@@ -115,6 +115,10 @@ public class PlayerInputManager : MonoBehaviour
             {
                 buildingMode.Build();
             }
+            else
+            {
+                Player.Instance.PlayerToolManager.SwingTool();
+            }
         }
     }
 

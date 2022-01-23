@@ -120,15 +120,15 @@ GameObject:
   - component: {fileID: 5109792676359509118}
   - component: {fileID: 5109792676359509089}
   - component: {fileID: 3237861813271607427}
+  - component: {fileID: 1240689182}
   - component: {fileID: 5109792676359509088}
+  - component: {fileID: 1990820251}
   - component: {fileID: 5109792676359509091}
   - component: {fileID: 5109792676359509090}
   - component: {fileID: 8010678393786792287}
   - component: {fileID: 1420994849}
   - component: {fileID: 1990820250}
-  - component: {fileID: 1990820251}
   - component: {fileID: 1049738852}
-  - component: {fileID: 1240689182}
   - component: {fileID: 6683815108711475073}
   - component: {fileID: 7044264370447733069}
   m_Layer: 0
@@ -389,6 +389,18 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 9
   rayCastOrigin: {fileID: 0}
+--- !u!114 &1240689182
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5109792676359509119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e9abc1ef070282c4d8d6d8213748843c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5109792676359509088
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -408,6 +420,24 @@ MonoBehaviour:
   camToMoveAdjustSpeed: 0
   rotationTarget: {fileID: 0}
   followTransform: {fileID: 5109792675333847852}
+--- !u!143 &1990820251
+CharacterController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5109792676359509119}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Height: 1.4
+  m_Radius: 0.25
+  m_SlopeLimit: 45
+  m_StepOffset: 0.3
+  m_SkinWidth: 0.08
+  m_MinMoveDistance: 0.001
+  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &5109792676359509091
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -561,24 +591,6 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b2621803bbc873b48ae2ef85cd66ef40, type: 2}
   raycastMaxDistance: 5
   rotateSpeed: 22.5
---- !u!143 &1990820251
-CharacterController:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5109792676359509119}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Height: 1.4
-  m_Radius: 0.25
-  m_SlopeLimit: 45
-  m_StepOffset: 0.3
-  m_SkinWidth: 0.08
-  m_MinMoveDistance: 0.001
-  m_Center: {x: 0, y: 0.7, z: 0}
 --- !u!114 &1049738852
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -595,18 +607,6 @@ MonoBehaviour:
   camTopDown: {fileID: 0}
   camDialogue: {fileID: 0}
   activeCamera: 0
---- !u!114 &1240689182
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5109792676359509119}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9abc1ef070282c4d8d6d8213748843c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &6683815108711475073
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace UtilityAI
 {
-    public class UtilityAIController : MonoBehaviour
+    public class UtilityAIController : Character
     {
         /// <summary>
         /// Update Interval for this AI (in seconds)
@@ -23,20 +23,17 @@ namespace UtilityAI
         public float food;
         //how sleepy the npc is
         public float sleepy;
-        public Inventory inventory;
-        public Interactor interactor;
         public AIMovement aIMovement;
 
         //Temporary stuff
         public List<Construction> availableConstructions;
         public List<Stockpile> availableStockpiles;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
             availableConstructions = new List<Construction>();
             reasoner = new Reasoner(); //??
-            inventory = GetComponent<Inventory>();
-            interactor = GetComponent<Interactor>();
             aIMovement = GetComponent<AIMovement>();
         }
 
@@ -44,32 +41,51 @@ namespace UtilityAI
         {
             food -= .033f * Time.deltaTime;
             food = Mathf.Clamp01(food);
-            sleepy += .01f * Time.deltaTime;
-            sleepy = Mathf.Clamp01(sleepy);
-            if (timeSinceLastUpdate > updateInterval)
+            if(!isSleeping)
             {
-                if (currentAction != null)
-                    currentAction.OnExit();
-                reasoner.GatherActionInstances(this);
-                //Update AI
-                ActionInstance newBestAction = reasoner.DetermineBestAction(availableActions, this);
-                //Maybe don't do the same thing again?
-                if(newBestAction != null)
+                sleepy += .01f * Time.deltaTime;
+                sleepy = Mathf.Clamp01(sleepy);
+                if (timeSinceLastUpdate > updateInterval)
                 {
-                    currentAction = newBestAction;
-                    currentAction.OnEnter();
-                    currentAction.actionReference.Execute(this, newBestAction.instanceData, newBestAction.instanceValues);
+                    if (currentAction != null)
+                        currentAction.OnExit();
+                    reasoner.GatherActionInstances(this);
+                    //Update AI
+                    ActionInstance newBestAction = reasoner.DetermineBestAction(availableActions, this);
+                    //Maybe don't do the same thing again?
+                    if (newBestAction != null)
+                    {
+                        currentAction = newBestAction;
+                        currentAction.OnEnter();
+                        currentAction.actionReference.Execute(this, newBestAction.instanceData, newBestAction.instanceValues);
+                    }
+                    else
+                    {
+                        print("no valid action was found");
+                    }
+                    timeSinceLastUpdate = 0;
                 }
                 else
                 {
-                    print("no valid action was found");
+                    timeSinceLastUpdate += Time.deltaTime;
                 }
-                timeSinceLastUpdate = 0;
+
             }
             else
             {
-                timeSinceLastUpdate += Time.deltaTime;
+                sleepy -= .1f * Time.deltaTime;
+                sleepy = Mathf.Clamp01(sleepy);
+                if(sleepy == 0)
+                {
+                    WakeUp();
+                }
             }
+        }
+
+        public override void Sleep()
+        {
+            base.Sleep();
+            timeSinceLastUpdate = updateInterval;
         }
 
     }

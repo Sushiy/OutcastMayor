@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -13,6 +14,14 @@ public class Character : MonoBehaviour
     protected IMovement movement;
     public IMovement Movement => movement;
 
+    public bool isSleeping
+    {
+        protected set;
+        get;
+    }
+
+    public Action<Character> OnStopSleeping;
+
     protected virtual void Awake()
     {
         inventory = GetComponent<Inventory>();
@@ -20,5 +29,18 @@ public class Character : MonoBehaviour
         interactor.SetParentCharacter(this);
         characterAnimation = GetComponent<CharacterAnimation>();
         movement = GetComponent<IMovement>();
+    }
+
+    public virtual void Sleep()
+    {
+        isSleeping = true;
+        characterAnimation.SetSleeping(true);
+    }
+
+    public virtual void WakeUp()
+    {
+        isSleeping = false;
+        characterAnimation.SetSleeping(false);
+        OnStopSleeping?.Invoke(this);
     }
 }

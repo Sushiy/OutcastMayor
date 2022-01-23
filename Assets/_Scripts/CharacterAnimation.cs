@@ -9,6 +9,7 @@ public class CharacterAnimation : MonoBehaviour
 
     //Parameters
     private int tJumpHash = Animator.StringToHash("tJump");
+    private int tSwingHash = Animator.StringToHash("tSwing");
     private int bIsRunningHash = Animator.StringToHash("bIsRunning");
     private int bIsSleepingHash = Animator.StringToHash("bIsSleeping");
     private int fSpeedForwardHash = Animator.StringToHash("fSpeedForward");
@@ -34,5 +35,10 @@ public class CharacterAnimation : MonoBehaviour
     public void SetSpeedSide(float value)
     {
         _animator.SetFloat(FSpeedSideHash, value);
+    }
+
+    public void SetSwing()
+    {
+        _animator.SetTrigger(tSwingHash);
     }
 }

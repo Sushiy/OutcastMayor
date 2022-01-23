@@ -8,7 +8,7 @@ namespace UtilityAI
     public class BuildConstructionAction : Action
     {        
         /// <summary>
-        /// 
+        /// Build the Instances, in this case it is only one.
         /// </summary>
         /// <returns>An array of action instances</returns>
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
@@ -43,7 +43,7 @@ namespace UtilityAI
         {
             string log = "<color=green>" + controller.name + " -> BuildConstructionAction for " + constructionTarget.gameObject.name + "</color>";
 
-            constructionTarget.Interact(controller.interactor);
+            constructionTarget.Interact(controller.Interactor);
             if (constructionTarget.IsCompleted)
             {
                 controller.availableConstructions.Remove(constructionTarget);
