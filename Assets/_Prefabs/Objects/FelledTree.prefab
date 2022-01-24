@@ -172,8 +172,8 @@ MonoBehaviour:
   name: Pine
   interaction: Cut
   maxHealth: 10
-  stage2Prefab: {fileID: 8778180139260708842, guid: cab0e65a63274dd41857ffd5d246e77e, type: 3}
-  stage2Impulse: 0
+  nextStagePrefab: {fileID: 8778180139260708842, guid: cab0e65a63274dd41857ffd5d246e77e, type: 3}
+  nextStageImpulse: 0
   chopSFX:
   - {fileID: 8300000, guid: 836a500f7e298034183c8158758e9cad, type: 3}
   - {fileID: 8300000, guid: cb069666ba2a69a4caf8c1c7005b2a65, type: 3}

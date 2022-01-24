@@ -9,7 +9,7 @@ namespace UtilityAI
     {
         public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
         {
-            Debug.Log(controller.name + " started eating");
+            Debug.Log(controller.name + " went to eat");
 
             ItemStackInstance itemStack = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -33,7 +33,6 @@ namespace UtilityAI
         {
             itemStack.Interact(controller.Interactor);
             string log = controller.name + " -> GatherAndEatAction \n";
-            controller.food += .5f;
 
             if(controller.Inventory.Contains("Apple"))
             {

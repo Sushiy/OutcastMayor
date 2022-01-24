@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 7060014989906877335}
   - component: {fileID: 5668714885759815847}
   - component: {fileID: 3955894195241856612}
+  - component: {fileID: 851679162536137768}
   m_Layer: 0
   m_Name: CuttableTree
   m_TagString: Untagged
@@ -49,8 +50,8 @@ MonoBehaviour:
   name: Pine
   interaction: Cut
   maxHealth: 10
-  stage2Prefab: {fileID: 9112189323813491408, guid: 134875ba43d913144810795f3a93b66c, type: 3}
-  stage2Impulse: 4000
+  nextStagePrefab: {fileID: 9112189323813491408, guid: 134875ba43d913144810795f3a93b66c, type: 3}
+  nextStageImpulse: 5000
   chopSFX:
   - {fileID: 8300000, guid: 836a500f7e298034183c8158758e9cad, type: 3}
   - {fileID: 8300000, guid: cb069666ba2a69a4caf8c1c7005b2a65, type: 3}
@@ -167,6 +168,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655fbb371ec086540bcafbfb25db56a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &851679162536137768
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7060014989906877333}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8f78bdb1b737f4587aa3ee84e432c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advertisements:
+  - advertisedAction: {fileID: 11400000, guid: 4d4e39dc690b7b4458a3b85299e1a39d, type: 2}
+  isOccupied: 0
 --- !u!1001 &7060014989325529969
 PrefabInstance:
   m_ObjectHideFlags: 0

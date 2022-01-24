@@ -7,8 +7,8 @@ public class Tree : Interactable, IHittable
     public float maxHealth = 10.0f;
     private float currentHealth;
 
-    public GameObject stage2Prefab;
-    public float stage2Impulse = 100.0f;
+    public GameObject nextStagePrefab;
+    public float nextStageImpulse = 100.0f;
 
     private Collider _collider;
 
@@ -36,8 +36,7 @@ public class Tree : Interactable, IHittable
 
     public override void Interact(Interactor interactor)
     {
-        interactor.parentCharacter.CharacterAnimation.SetSwing();
-        Cut(4.0f);
+
     }
 
     public void Cut(float damage)
@@ -53,9 +52,8 @@ public class Tree : Interactable, IHittable
     public void NextStage()
     {
         _collider.enabled = false;
-        Rigidbody r = GameObject.Instantiate(stage2Prefab, transform.position, transform.rotation).GetComponentInChildren<Rigidbody>();
-        Vector2 circle = Random.insideUnitCircle * stage2Impulse;
-        r.AddForce(circle.x, 0, circle.y);
+        Rigidbody r = GameObject.Instantiate(nextStagePrefab, transform.position, transform.rotation).GetComponentInChildren<Rigidbody>();
+        r.AddForce(GetChopDirection() * nextStageImpulse);
         Destroy(gameObject);
     }
 
@@ -93,5 +91,22 @@ public class Tree : Interactable, IHittable
     public void OnBounce(Vector3 hitPosition, Vector3 hitForce)
     {
         throw new System.NotImplementedException();
+    }
+    /// <summary>
+    /// Calculate average of choppoints, to determine where the tree should fall to
+    /// This should be replaced by proper logging behaviour! Just for fun! :D
+    /// </summary>
+    public Vector3 GetChopDirection()
+    {
+        Vector3 sum = Vector3.zero;
+        for (int i = 0; i < chopPoints.Count; i++)
+        {
+            Vector3 dir = chopPoints[i].point - transform.position;
+            dir.y = 0;
+            dir.Normalize();
+            sum += dir;
+        }
+        sum /= chopPoints.Count;
+        return sum.normalized;
     }
 }
