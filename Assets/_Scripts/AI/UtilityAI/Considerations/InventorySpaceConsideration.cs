@@ -7,7 +7,13 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "InventorySpaceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/InventorySpaceConsideration", order = 1)]
     public class InventorySpaceConsideration : Consideration
     {
-        public override float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData)
+        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        {
+            ItemStackInstance itemStack = considerationData.data[0] as ItemStackInstance;
+            Inventory inventory = controller.GetComponent<Inventory>();
+            return Evaluate((float)inventory.CalculateSpaceFor(itemStack.source.item) / (float)itemStack.source.item.stackLimit);
+        }
+        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
         {
             ItemStackInstance itemStack = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -17,8 +23,9 @@ namespace UtilityAI
                     itemStack = instanceData[i] as ItemStackInstance;
                 }
             }
-            Inventory inventory = controller.GetComponent<Inventory>();
-            return Evaluate((float)inventory.CalculateSpaceFor(itemStack.source.item) / (float)itemStack.source.item.stackLimit);
+            considerationData = new ConsiderationData(this, new Object[] { itemStack });
+
+            return itemStack != null;
         }
     }
 }

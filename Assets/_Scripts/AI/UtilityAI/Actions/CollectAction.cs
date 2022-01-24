@@ -7,6 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "CollectAction", menuName = "ScriptableObjects/UtilityAI/Actions/CollectAction", order = 1)]
     /// <summary>
     /// Gather Objects from the ground and put them into any stockpile
+    /// CollectActions require an ItemstackInstance on the owning GameObject
     /// </summary>
     public class CollectAction : Action
     {
@@ -53,17 +54,32 @@ namespace UtilityAI
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 
-            for (int i = 0; i < controller.availableStockpiles.Count; i++)
-            {
-                ActionInstance instance = new ActionInstance(this, owner, new Object[] {owner.GetComponent<ItemStackInstance>(), controller.availableStockpiles[i], owner.transform }, new int[0]);
-                if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
-                {
-                    instances.Add(instance);
-                }
-            }
+            ItemStackInstance itemStackInstance = owner.GetComponent<ItemStackInstance>();
 
+            if(itemStackInstance != null)
+            {
+
+                for (int i = 0; i < controller.availableStockpiles.Count; i++)
+                {
+                    ActionInstance instance = new ActionInstance(this, owner, new Object[] { itemStackInstance, controller.availableStockpiles[i], owner.transform }, new int[0]);
+                    if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
+                    {
+                        instances.Add(instance);
+                    }
+                }
+
+            }
             return instances.ToArray();
         }
+
+
+        /// <summary>
+        /// Checks if the following requirements are met: Instance Data includes an ItemstackInstance and a Stockpile; The stockpile has enough space for the itemstack 
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="instanceData"></param>
+        /// <param name="instanceValues"></param>
+        /// <returns></returns>
         public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
         {
             if (owner.isOccupied) return false;

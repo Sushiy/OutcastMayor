@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "ConstructionsAvailableConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/ConstructionsAvailableConsideration", order = 1)]
     public class ConstructionsAvailableConsideration : Consideration
     {
-        public override float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData)
+        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
         {
             if(controller.availableConstructions.Count > 0)
             {
@@ -17,6 +17,12 @@ namespace UtilityAI
             {
                 return Evaluate(0.0f);
             }
+        }
+
+        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
+        {
+            considerationData = new ConsiderationData(this, new Object[0]);
+            return true;
         }
     }
 }

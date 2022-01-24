@@ -6,7 +6,7 @@ namespace UtilityAI
 {
     [CreateAssetMenu(fileName = "DeliverAction", menuName = "ScriptableObjects/UtilityAI/Actions/DeliverAction", order = 1)]
     /// <summary>
-    /// Gather Objects from the ground and put them into any stockpile
+    /// Clear your inventory from stuff put them into any stockpile
     /// </summary>
     public class DeliverAction : Action
     {

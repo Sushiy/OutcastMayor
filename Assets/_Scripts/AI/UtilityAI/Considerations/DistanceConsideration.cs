@@ -7,7 +7,15 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "DistanceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/DistanceConsideration", order = 1)]
     public class DistanceConsideration : Consideration
     {
-        public override float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData)
+        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        {
+            Transform targetTransform = considerationData.data[0] as Transform;
+            float distance = Vector3.Distance(controller.transform.position, targetTransform.position) / maxValue;
+
+            return Evaluate(distance);
+        }
+
+        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
         {
             Transform targetTransform = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -17,9 +25,8 @@ namespace UtilityAI
                     targetTransform = instanceData[i] as Transform;
                 }
             }
-            float distance = Vector3.Distance(controller.transform.position, targetTransform.position) / maxValue;
-
-            return Evaluate(distance);
+            considerationData = new ConsiderationData(this, new Object[] { targetTransform });
+            return targetTransform != null;
         }
     }
 }

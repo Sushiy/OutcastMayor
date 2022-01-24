@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: GetMaterialsForConstructionAction
   m_EditorClassIdentifier: 
   Name: GetMaterialsForConstruction
+  weight: 1
   considerations:
-  - {fileID: 11400000, guid: fd02f6dae9b1d664fadca2e6940dfed1, type: 2}
   - {fileID: 11400000, guid: 2e514c9c91b8193458da096e5e957567, type: 2}
   - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}

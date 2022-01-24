@@ -11,6 +11,7 @@ namespace UtilityAI
         {
             Debug.Log(controller.name + " started eating");
             controller.food += .5f;
+
         }
 
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)

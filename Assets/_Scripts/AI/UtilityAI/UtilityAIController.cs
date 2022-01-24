@@ -29,12 +29,15 @@ namespace UtilityAI
         public List<Construction> availableConstructions;
         public List<Stockpile> availableStockpiles;
 
+        Dictionary<ConsiderationData, float> considerationMemory;
+
         protected override void Awake()
         {
             base.Awake();
             availableConstructions = new List<Construction>();
             reasoner = new Reasoner(); //??
             aIMovement = GetComponent<AIMovement>();
+            considerationMemory = new Dictionary<ConsiderationData, float>();
         }
 
         private void Update()
@@ -51,7 +54,8 @@ namespace UtilityAI
                         currentAction.OnExit();
                     reasoner.GatherActionInstances(this);
                     //Update AI
-                    ActionInstance newBestAction = reasoner.DetermineBestAction(availableActions, this);
+                    ResetConsiderationMemory();
+                    ActionInstance newBestAction = reasoner.DetermineBestAction(this);
                     //Maybe don't do the same thing again?
                     if (newBestAction != null)
                     {
@@ -86,6 +90,29 @@ namespace UtilityAI
         {
             base.Sleep();
             timeSinceLastUpdate = updateInterval;
+        }
+
+        public void ResetConsiderationMemory()
+        {
+            considerationMemory.Clear();
+        }
+
+        public bool CheckConsiderationMemory(ConsiderationData data, out float result)
+        {
+            result = 0;
+            if (considerationMemory.TryGetValue(data, out result))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void AddToConsiderationMemory(ConsiderationData data, float value)
+        {
+            considerationMemory.Add(data, value);
         }
 
     }

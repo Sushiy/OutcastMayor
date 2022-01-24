@@ -18,6 +18,12 @@ namespace UtilityAI
             {
                 actionInstances.Clear();
             }
+            for( int i = 0; i < controller.availableActions.Length; i++)
+            {
+                ActionInstance[] instances = controller.availableActions[i].GetActionInstances(Blackboard.smartObjects[i], controller);
+                actionInstances.AddRange(instances);
+            }
+
             Debug.Log("Found " + Blackboard.smartObjects.Count + " smartObjects");
             for (int i = 0; i < Blackboard.smartObjects.Count; i++)
             {
@@ -34,7 +40,7 @@ namespace UtilityAI
 
         }
 
-        public ActionInstance DetermineBestAction(Action[] actions, UtilityAIController controller)
+        public ActionInstance DetermineBestAction(UtilityAIController controller)
         {
 
             float bestScore = -1;
@@ -67,16 +73,38 @@ namespace UtilityAI
             log = "-" + actionInstance.actionReference.Name + "(" + actionInstance.InstanceDataToString() + ")\n";
             float actionScore = 1;
 
-            //Dave Mark averaging
+            //Dave Mark averaging: Tries to counteract that product average go smaller all the time
             for (int i = 0; i < actionInstance.actionReference.considerations.Length; i++)
             {
-                float considerationScore = actionInstance.actionReference.considerations[i].ScoreConsideration(actionInstance.actionReference, controller, actionInstance.instanceData);
-                log += "    -" + actionInstance.actionReference.considerations[i].Name + ":" + considerationScore + "\n";
-                if (considerationScore == 0.0f && actionInstance.actionReference.considerations[i].isExclusiveConsideration)
+
+                Consideration consideration = actionInstance.actionReference.considerations[i];
+                //Try to get the considerationData necessary for this consideration from the actioninstance data
+                ConsiderationData considerationData;
+                if(consideration.TryGetConsiderationData(actionInstance.instanceData, out considerationData))
+                {
+                    float considerationScore = 0;
+                    if (controller.CheckConsiderationMemory(considerationData, out considerationScore))
+                    {
+                        log += "    -(Remembered)" + consideration.Name + ":" + considerationScore + "\n";
+                    }
+                    else
+                    {
+                        considerationScore = consideration.ScoreConsideration(controller, considerationData);
+                        controller.AddToConsiderationMemory(considerationData, considerationScore);
+                        log += "    -" + consideration.Name + ":" + considerationScore + "\n";
+                    }
+                    if (considerationScore == 0.0f && consideration.isExclusiveConsideration)
+                    {
+                        return 0.0f;
+                    }
+                    actionScore *= considerationScore;
+
+                }
+                else
                 {
                     return 0.0f;
                 }
-                actionScore *= considerationScore;
+
             }
 
             float originalScore = actionScore;

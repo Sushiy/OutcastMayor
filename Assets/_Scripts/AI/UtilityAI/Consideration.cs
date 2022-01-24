@@ -24,7 +24,9 @@ namespace UtilityAI
         /// </summary>
         public bool oneStepCurve = false;
 
-        public abstract float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData);
+        public abstract float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData);
+
+        public abstract bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData);
 
         public virtual float Evaluate(float input)
         {
@@ -53,6 +55,40 @@ namespace UtilityAI
             else
                 return Mathf.Clamp01(curve.Evaluate(input));
 
+        }
+    }
+
+
+    //There should be a way to save consideration in order to reuse 
+    public class ConsiderationData : System.IEquatable<ConsiderationData>
+    {
+        public Consideration consideration;
+        public Object[] data;
+
+        public ConsiderationData(Consideration consideration, Object[] considerationData)
+        {
+            this.consideration = consideration;
+            this.data = considerationData;
+        }
+
+        public bool Equals(ConsiderationData other)
+        {
+            if (consideration == other.consideration)
+            {
+                if (data.Length == other.data.Length)
+                {
+                    for (int i = 0; i < data.Length; i++)
+                    {
+                        if (data[i] != other.data[i])
+                        {
+                            return false;
+                        }
+                    }
+
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

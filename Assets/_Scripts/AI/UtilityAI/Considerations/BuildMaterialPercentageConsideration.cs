@@ -7,19 +7,9 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "BuildMaterialConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/BuildMaterialConsideration", order = 1)]
     public class BuildMaterialPercentageConsideration : Consideration
     {
-        public override float ScoreConsideration(Action action, UtilityAIController controller, Object[] instanceData)
+        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
         {
-            Construction constructionTarget = null;
-            for(int i = 0; i < instanceData.Length; i++)
-            {
-                if(instanceData[i] is Construction)
-                {
-                    constructionTarget = instanceData[i] as Construction;
-                }
-            }
-
-            //!!! TODO: How do I get arbitrary info into the considerations? weird!
-            //stack = action as
+            Construction constructionTarget = considerationData.data[0] as Construction;
 
             float availableStacks = 0;
             if (constructionTarget == null) return 0.0f;
@@ -37,5 +27,22 @@ namespace UtilityAI
 
             return Evaluate(availableStacks);
         }
+
+        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
+        {
+            Construction constructionTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Construction)
+                {
+                    constructionTarget = instanceData[i] as Construction;
+                }
+            }
+
+            considerationData = new ConsiderationData(this, new Object[] { constructionTarget });
+
+            return constructionTarget != null;
+        }
+
     }
 }

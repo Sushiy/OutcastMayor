@@ -13,5 +13,7 @@ MonoBehaviour:
   m_Name: EatAction
   m_EditorClassIdentifier: 
   Name: Eat
+  weight: 1
   considerations:
   - {fileID: 11400000, guid: 8009b1b2e44073c4c9d86157cebf0768, type: 2}
+  - {fileID: 11400000, guid: 611db5ea8a0b7154db3935e959979197, type: 2}
