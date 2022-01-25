@@ -7,14 +7,25 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewItem", menuName = "ScriptableObjects/Item", order = 1)]
 public class Item: ScriptableObject
 {
-    [Header("Info")]
-    public string Name;
-    public int ID = -1;
-    public Sprite icon;
+    [Flags]
+    public enum Tags
+    {
+        Equippable,
+        Food,
 
-    public float weight;
+    }
+
+    [Header("Info")]
+    public string DisplayName;
+    public Sprite icon;
     public int stackLimit;
+    public float weight;
 
     [Header("Internal")]
     public GameObject prefab;
+
+    private void OnValidate()
+    {
+        ItemCatalogue.TryAddItem(this);
+    }
 }

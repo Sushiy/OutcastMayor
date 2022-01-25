@@ -29,7 +29,7 @@ public class InventoryView : UIPanel
         }
         else
         {
-            slotViews[index].UpdateData(stack.item.Name, stack.count.ToString(), stack.item.icon);
+            slotViews[index].UpdateData(stack.item.DisplayName, stack.count.ToString(), stack.item.icon);
         }
     }
 
@@ -38,7 +38,7 @@ public class InventoryView : UIPanel
         if(grabbedStack.item == null)
         {
             grabbedStack = inventory.GrabFromSlot(index);
-            grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count.ToString(), grabbedStack.item.icon);
+            grabbedItemView.UpdateData(grabbedStack.item.DisplayName, grabbedStack.count.ToString(), grabbedStack.item.icon);
             grabbedItemView.gameObject.SetActive(true);
         }
         else
@@ -51,7 +51,7 @@ public class InventoryView : UIPanel
             }
             else
             {
-                grabbedItemView.UpdateData(grabbedStack.item.Name, grabbedStack.count.ToString(), grabbedStack.item.icon);
+                grabbedItemView.UpdateData(grabbedStack.item.DisplayName, grabbedStack.count.ToString(), grabbedStack.item.icon);
             }
         }
     }

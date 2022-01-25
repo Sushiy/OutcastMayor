@@ -9,7 +9,7 @@ public class Recipe : ScriptableObject
     {
         get
         {
-            return output.item.Name;
+            return output.item.DisplayName;
         }
     }
     public Sprite Icon

@@ -17,7 +17,7 @@ public class ConstructionUIPanel : UIPanel
             if(i < r.Materials.Length)
             {
                 views[i].gameObject.SetActive(true);
-                views[i].UpdateData(r.Materials[i].item.Name, construction.GetCountString(interactor, i), r.Materials[i].item.icon);
+                views[i].UpdateData(r.Materials[i].item.DisplayName, construction.GetCountString(interactor, i), r.Materials[i].item.icon);
             }
             else
             {

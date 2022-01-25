@@ -56,7 +56,7 @@ public class CraftingTableView : UIPanel
             if(i < selectedRecipe.inputs.Length)
             {
                 recipeInputViews[i].Show();
-                recipeInputViews[i].SetData(selectedRecipe.inputs[i].item.Name, selectedRecipe.inputs[i].count, selectedRecipe.inputs[i].item.icon);
+                recipeInputViews[i].SetData(selectedRecipe.inputs[i].item.DisplayName, selectedRecipe.inputs[i].count, selectedRecipe.inputs[i].item.icon);
             }
             else
             {
@@ -64,7 +64,7 @@ public class CraftingTableView : UIPanel
             }
         }
         recipeOutputView.Show();
-        recipeOutputView.SetData(selectedRecipe.output.item.Name, selectedRecipe.output.count, selectedRecipe.output.item.icon);
+        recipeOutputView.SetData(selectedRecipe.output.item.DisplayName, selectedRecipe.output.count, selectedRecipe.output.item.icon);
 
     }
 

@@ -183,7 +183,7 @@ public class Inventory : MonoBehaviour
         int removeCount = count;
         for (int i = slots.Length - 1; i >= 0 && removeCount > 0; i--)
         {
-            if (slots[i].item != null && slots[i].item.Name == itemName)
+            if (slots[i].item != null && slots[i].item.DisplayName == itemName)
             {
                 //print("Deleting " + stack.count + " " + stack.item.Name + " from slot " + i);
                 removeCount = DeleteCountFromSlot(i, removeCount);
@@ -247,7 +247,7 @@ public class Inventory : MonoBehaviour
         //Look through all stacks and check recipes
         for (int i = 0; i < slots.Length; i++)
         {
-            if (slots[i].item != null && slots[i].item.Name == itemName && slots[i].count > 0)
+            if (slots[i].item != null && slots[i].item.DisplayName == itemName && slots[i].count > 0)
             {
                 return true;
             }

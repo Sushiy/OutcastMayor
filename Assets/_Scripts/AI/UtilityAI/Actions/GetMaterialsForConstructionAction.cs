@@ -47,7 +47,7 @@ namespace UtilityAI
                 int neededCount = constructionTarget.GetRemainingCount(controller.Interactor, i) - controller.Inventory.GetTotalCount(neededItem);
                 controller.Inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
                 stockpile.inventory.Delete(neededItem, neededCount);
-                log += neededItem.Name + ":" + neededCount;
+                log += neededItem.DisplayName + ":" + neededCount;
             }
             Debug.Log(log);
 

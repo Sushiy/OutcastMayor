@@ -13,18 +13,18 @@ public class ItemStackInstance : Interactable
         Inventory i = interactor.GetComponent<Inventory>();
         if(i == null)
         {
-            Debug.LogError(interactor.name + " doesn't have an inventory to put " + source.count + " " + source.item.Name + " in!");
+            Debug.LogError(interactor.name + " doesn't have an inventory to put " + source.count + " " + source.item.DisplayName + " in!");
             return;
         }
 
         if(i.Add(new Inventory.ItemStack(source)))
         {
-            Debug.Log("Added" + source.count + " " + source.item.Name + " to " + interactor.name + "'s Inventory");
+            Debug.Log("Added" + source.count + " " + source.item.DisplayName + " to " + interactor.name + "'s Inventory");
             Destroy(gameObject);
         }
         else
         {
-            Debug.Log(interactor.name +"'s Inventory is too full to add" + source.count + " " + source.item.Name + "!");
+            Debug.Log(interactor.name +"'s Inventory is too full to add" + source.count + " " + source.item.DisplayName + "!");
             return;
         }
     }
