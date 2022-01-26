@@ -11,8 +11,7 @@ public class Item: ScriptableObject
     public enum Tags
     {
         Equippable,
-        Food,
-
+        Food
     }
 
     [Header("Info")]
@@ -24,7 +23,7 @@ public class Item: ScriptableObject
     [Header("Internal")]
     public GameObject prefab;
 
-    private void OnValidate()
+    protected void OnValidate()
     {
         ItemCatalogue.TryAddItem(this);
     }

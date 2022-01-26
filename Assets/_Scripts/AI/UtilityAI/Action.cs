@@ -8,6 +8,7 @@ namespace UtilityAI
     {
         public string Name;
         public float weight = 1.0f;
+        [SerializeReference]
         public Consideration[] considerations;
 
         //Init stuff here?

@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -6,22 +7,33 @@ namespace UtilityAI
 {
     public abstract class Consideration : ScriptableObject
     {
-        public string Name;
-        [SerializeField] private AnimationCurve curve;
+        protected const string LEFT_VERTICAL_GROUP = "Split/Left";
+        protected const string STATS_BOX_GROUP = "Split/Left/Stats";
+        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
 
+        [BoxGroup(LEFT_VERTICAL_GROUP + "/General Settings")]
+        public string Name;
+
+        [HideLabel]
+        [BoxGroup("A")]
+        [SerializeField] private AnimationCurve curve;
+        [BoxGroup("A")]
         [SerializeField] protected float maxValue = 1.0f;
 
         /// <summary>
         /// An exclusive consideration HAS to be greater than 0 so that the action in whole is valid
         /// </summary>
+        [BoxGroup("B")]
         public bool isExclusiveConsideration = false;
         /// <summary>
         /// Overrides Curve with: 0.0f -> 0.0f; else 1.0f
         /// </summary>
+        [BoxGroup("B")]
         public bool zeroStepCurve = false;
         /// <summary>
         /// Overrides Curve with: 1.0f -> 1.0f; else 0.0f
         /// </summary>
+        [BoxGroup("B")]
         public bool oneStepCurve = false;
 
         public abstract float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData);

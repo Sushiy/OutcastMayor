@@ -49,6 +49,9 @@ public class BuildingMode : MonoBehaviour
 
     private InputActionMap buildActionMap;
 
+    [SerializeField]
+    private PointerIndicator indicator;
+
     private void Awake()
     {
         buildActionMap = GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
@@ -92,6 +95,7 @@ public class BuildingMode : MonoBehaviour
     {
         Camera.main.cullingMask = defaultCullingMask;
         isActive = false;
+        indicator.SetVisible(false);
         UIManager.Instance.HideBuildingView();
         Destroy(ghostBuilding.gameObject);
         Destroy(sensorBuilding.gameObject);
@@ -260,9 +264,13 @@ public class BuildingMode : MonoBehaviour
             rayCastPosition = hitInfo.point;
             surfaceNormal.origin = hitInfo.point;
             surfaceNormal.direction = hitInfo.normal;
+            indicator.transform.position = rayCastPosition;
+            indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
+            indicator.SetVisible(true);
         }
         else
         {
+            indicator.SetVisible(false);
             rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
         }
     }
