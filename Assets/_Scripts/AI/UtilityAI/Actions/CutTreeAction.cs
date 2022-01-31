@@ -11,12 +11,12 @@ namespace UtilityAI
         {
             Debug.Log(controller.name + " goes to cut a tree");
 
-            Tree treeTarget = null;
+            CuttableTree treeTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
-                if (instanceData[i] is Tree)
+                if (instanceData[i] is CuttableTree)
                 {
-                    treeTarget = instanceData[i] as Tree;
+                    treeTarget = instanceData[i] as CuttableTree;
                 }
             }
             if (treeTarget == null)
@@ -29,7 +29,7 @@ namespace UtilityAI
             controller.aIMovement.MoveTo(target, false, () => CompleteAction(treeTarget, controller));
         }
 
-        public void CompleteAction(Tree treeTarget, UtilityAIController controller)
+        public void CompleteAction(CuttableTree treeTarget, UtilityAIController controller)
         {
             string log = controller.name + " -> CutTreeAction \n";
             controller.CharacterAnimation.SetSwing();
@@ -42,7 +42,7 @@ namespace UtilityAI
 
             List<ActionInstance> instances = new List<ActionInstance>();
 
-            Tree treeTarget = owner.GetComponent<Tree>();
+            CuttableTree treeTarget = owner.GetComponent<CuttableTree>();
 
             if (treeTarget != null)
             {

@@ -37,8 +37,17 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 		[Toggle(_TERRAIN_INSTANCED_PERPIXEL_NORMAL)] _EnableInstancedPerPixelNormal("Enable Instanced per-pixel normal", Float) = 1.0
 		[TCP2Separator]
 		
+		[TCP2HeaderHelp(Triplanar Mapping)]
+		[NoScaleOffset] _TriSide ("Walls", 2D) = "white" {}
+		[TCP2Vector4Floats(Contrast X,Contrast Y,Contrast Z,Smoothing,1,16,1,16,1,16,0.01,1)] _TriplanarBlendStrength ("Triplanar Parameters", Vector) = (2,8,2,0.5)
+		_TriplanarHeightOffset ("Alpha Blend Offset", Range(-1,1)) = 0
+		_TriplanarHeightSmooth ("Alpha Blend Smoothing", Range(0.001,1)) = 0.1
+		[TCP2Separator]
+		
 		[HideInInspector] _Splat0 ("Layer 0 Albedo", 2D) = "gray" {}
+		 _Layer0Albedo ("Layer 0 Color", Color) = (0.1276108,0.4528302,0.1260235,1)
 		[HideInInspector] _Splat1 ("Layer 1 Albedo", 2D) = "gray" {}
+		 _Layer1Albedo ("Layer 1 Albedo Color", Color) = (1,1,1,1)
 		[HideInInspector] _Splat2 ("Layer 2 Albedo", 2D) = "gray" {}
 		[HideInInspector] _Splat3 ("Layer 3 Albedo", 2D) = "gray" {}
 		[HideInInspector] _Splat4 ("Layer 4 Albedo", 2D) = "gray" {}
@@ -104,6 +113,7 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 		TCP2_TEX2D_NO_SAMPLER(_Splat5);
 		TCP2_TEX2D_NO_SAMPLER(_Splat6);
 		TCP2_TEX2D_NO_SAMPLER(_Splat7);
+		TCP2_TEX2D_WITH_SAMPLER(_TriSide);
 		TCP2_TEX2D_WITH_SAMPLER(_Mask0);
 		TCP2_TEX2D_NO_SAMPLER(_Mask1);
 		TCP2_TEX2D_NO_SAMPLER(_Mask2);
@@ -125,13 +135,18 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 			float _Layer6HeightOffset;
 			float _Layer7HeightOffset;
 			float4 _Splat0_ST;
+			fixed4 _Layer0Albedo;
 			float4 _Splat1_ST;
+			fixed4 _Layer1Albedo;
 			float4 _Splat2_ST;
 			float4 _Splat3_ST;
 			float4 _Splat4_ST;
 			float4 _Splat5_ST;
 			float4 _Splat6_ST;
 			float4 _Splat7_ST;
+			float4 _TriplanarBlendStrength;
+			float _TriplanarHeightOffset;
+			float _TriplanarHeightSmooth;
 			fixed4 _BaseColor;
 			float _RampThreshold;
 			float _RampSmoothing;
@@ -364,6 +379,7 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 				// Texture Coordinates
 				output.pack0.xy = input.texcoord0.xy;
 
+				float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
 				VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
 			#if defined(REQUIRES_VERTEX_SHADOW_COORD_INTERPOLATOR)
 				output.shadowCoord = GetShadowCoord(vertexInput);
@@ -395,6 +411,7 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 
 				float3 positionWS = input.worldPosAndFog.xyz;
 				float3 normalWS = normalize(input.normal);
+				float3 normalWS_Vertex = normalWS;
 
 				// Shader Properties Sampling
 				float4 __layer0Mask = ( TCP2_TEX2D_SAMPLE(_Mask0, _Mask0, input.pack0.xy * _Splat0_ST.xy + _Splat0_ST.zw).rgba );
@@ -421,14 +438,17 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 				float4 __layer7Mask = ( TCP2_TEX2D_SAMPLE(_Mask7, _Mask4, input.pack0.xy * _Splat7_ST.xy + _Splat7_ST.zw).rgba );
 				float __layer7HeightSource = ( __layer7Mask.b );
 				float __layer7HeightOffset = ( _Layer7HeightOffset );
-				float4 __layer0Albedo = ( TCP2_TEX2D_SAMPLE(_Splat0, _Splat0, input.pack0.xy * _Splat0_ST.xy + _Splat0_ST.zw).rgba );
-				float4 __layer1Albedo = ( TCP2_TEX2D_SAMPLE(_Splat1, _Splat0, input.pack0.xy * _Splat1_ST.xy + _Splat1_ST.zw).rgba );
+				float4 __layer0Albedo = ( TCP2_TEX2D_SAMPLE(_Splat0, _Splat0, input.pack0.xy * _Splat0_ST.xy + _Splat0_ST.zw).rgba * _Layer0Albedo.rgba );
+				float4 __layer1Albedo = ( TCP2_TEX2D_SAMPLE(_Splat1, _Splat0, input.pack0.xy * _Splat1_ST.xy + _Splat1_ST.zw).rgba * _Layer1Albedo.rgba );
 				float4 __layer2Albedo = ( TCP2_TEX2D_SAMPLE(_Splat2, _Splat0, input.pack0.xy * _Splat2_ST.xy + _Splat2_ST.zw).rgba );
 				float4 __layer3Albedo = ( TCP2_TEX2D_SAMPLE(_Splat3, _Splat0, input.pack0.xy * _Splat3_ST.xy + _Splat3_ST.zw).rgba );
 				float4 __layer4Albedo = ( TCP2_TEX2D_SAMPLE(_Splat4, _Splat4, input.pack0.xy * _Splat4_ST.xy + _Splat4_ST.zw).rgba );
 				float4 __layer5Albedo = ( TCP2_TEX2D_SAMPLE(_Splat5, _Splat4, input.pack0.xy * _Splat5_ST.xy + _Splat5_ST.zw).rgba );
 				float4 __layer6Albedo = ( TCP2_TEX2D_SAMPLE(_Splat6, _Splat4, input.pack0.xy * _Splat6_ST.xy + _Splat6_ST.zw).rgba );
 				float4 __layer7Albedo = ( TCP2_TEX2D_SAMPLE(_Splat7, _Splat4, input.pack0.xy * _Splat7_ST.xy + _Splat7_ST.zw).rgba );
+				float4 __triplanarParameters = ( _TriplanarBlendStrength.xyzw );
+				float __triplanarAlphaOffset = ( _TriplanarHeightOffset );
+				float __triplanarAlphaSmoothing = ( _TriplanarHeightSmooth );
 				float4 __mainColor = ( _BaseColor.rgba );
 				float __ambientIntensity = ( 1.0 );
 				float __rampThreshold = ( _RampThreshold );
@@ -527,6 +547,34 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 				alpha = terrain_mixedDiffuse.a;
 				
 				half3 emission = half3(0,0,0);
+				half4 albedoAlpha = half4(albedo, alpha);
+				
+				// Triplanar Texture Blending
+				half2 uv_sideX = positionWS.zy;
+				half2 uv_sideZ = positionWS.xy;
+				float3 triplanarNormal = normalWS_Vertex;
+				
+				half4 triplanar = half4(0, 0, 0, 0);
+				
+				//walls
+				fixed4 tex_sideX = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideX).rgba );
+				fixed4 tex_sideZ = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideZ).rgba );
+				
+				//blending
+				half3 blendWeights = pow(abs(triplanarNormal), __triplanarParameters.xyz / __triplanarParameters.w);
+				blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+				
+				//height-based blending
+				half heightOffset = __triplanarAlphaOffset;
+				half heightSmooth = __triplanarAlphaSmoothing;
+				float height = ((tex_sideX.a + tex_sideZ.a)/2) + heightOffset;
+				blendWeights.y = smoothstep(height - heightSmooth, height + heightSmooth, blendWeights.y) * blendWeights.y;
+				blendWeights = blendWeights / (blendWeights.x + abs(blendWeights.y) + blendWeights.z);
+				
+				triplanar = tex_sideX * blendWeights.x + triplanar * blendWeights.y + tex_sideZ * blendWeights.z;
+				albedoAlpha = triplanar + albedoAlpha * blendWeights.y;
+				albedo = albedoAlpha.rgb;
+				alpha = albedoAlpha.a;
 				
 				albedo *= __mainColor.rgb;
 
@@ -663,6 +711,7 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 			struct Varyings
 			{
 				float4 positionCS     : SV_POSITION;
+				float3 pack0 : TEXCOORD1; /* pack0.xyz = positionWS */
 			#if defined(DEPTH_ONLY_PASS)
 				UNITY_VERTEX_INPUT_INSTANCE_ID
 				UNITY_VERTEX_OUTPUT_STEREO
@@ -674,7 +723,12 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 				float3 positionWS = TransformObjectToWorld(input.vertex.xyz);
 				float3 normalWS = TransformObjectToWorldNormal(input.normal);
 
-				float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, _LightDirection));
+				#if _CASTING_PUNCTUAL_LIGHT_SHADOW
+					float3 lightDirectionWS = normalize(_LightPosition - positionWS);
+				#else
+					float3 lightDirectionWS = _LightDirection;
+				#endif
+				float4 positionCS = TransformWorldToHClip(ApplyShadowBias(positionWS, normalWS, lightDirectionWS));
 
 				#if UNITY_REVERSED_Z
 					positionCS.z = min(positionCS.z, UNITY_NEAR_CLIP_VALUE);
@@ -693,6 +747,10 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 					UNITY_INITIALIZE_VERTEX_OUTPUT_STEREO(output);
 				#endif
 
+				float3 worldPos = mul(unity_ObjectToWorld, input.vertex).xyz;
+				VertexPositionInputs vertexInput = GetVertexPositionInputs(input.vertex.xyz);
+				output.pack0.xyz = vertexInput.positionWS;
+
 				#if defined(DEPTH_ONLY_PASS)
 					output.positionCS = TransformObjectToHClip(input.vertex.xyz);
 				#elif defined(SHADOW_CASTER_PASS)
@@ -709,6 +767,8 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 				#if defined(DEPTH_ONLY_PASS)
 					UNITY_SETUP_STEREO_EYE_INDEX_POST_VERTEX(input);
 				#endif
+
+				float3 positionWS = input.pack0.xyz;
 
 				half3 albedo = half3(1,1,1);
 				half alpha = 1;
@@ -744,6 +804,7 @@ Shader "Hidden/Toony Colors Pro 2/User/Terrain-BasePass"
 			// GPU Instancing
 			#pragma multi_compile_instancing
 			#pragma instancing_options assumeuniformscaling nomatrices nolightprobe nolightmap forwardadd
+			#pragma multi_compile_vertex _ _CASTING_PUNCTUAL_LIGHT_SHADOW
 
 			#pragma vertex ShadowDepthPassVertex
 			#pragma fragment ShadowDepthPassFragment

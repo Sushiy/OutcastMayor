@@ -71,6 +71,7 @@ Material:
         m_Texture: {fileID: 2800000, guid: 39618f4b1a43f7b4e9dad30dd15e9fab, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - Vector1_1942CF3A: 4
     - Vector1_67814CC1: 0.1
@@ -126,3 +127,16 @@ Material:
     - _WaterColor: {r: 0.21323532, g: 0.67444223, b: 1, a: 1}
     - _WaterShallowColor: {r: 0, g: 0.9394503, b: 1, a: 1}
   m_BuildTextureStacks: []
+--- !u!114 &4725247778757224611
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 5

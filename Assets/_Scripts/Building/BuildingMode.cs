@@ -264,13 +264,19 @@ public class BuildingMode : MonoBehaviour
             rayCastPosition = hitInfo.point;
             surfaceNormal.origin = hitInfo.point;
             surfaceNormal.direction = hitInfo.normal;
-            indicator.transform.position = rayCastPosition;
-            indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
-            indicator.SetVisible(true);
+            if (indicator)
+            {
+                indicator.transform.position = rayCastPosition;
+                indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
+                indicator.SetVisible(true);
+            }
         }
         else
         {
-            indicator.SetVisible(false);
+            if (indicator)
+            {
+                indicator.SetVisible(false);
+            }
             rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
         }
     }
