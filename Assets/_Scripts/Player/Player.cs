@@ -15,6 +15,8 @@ public class Player : Character
 
     private PlayerToolManager playerToolManager;
     public PlayerToolManager PlayerToolManager => playerToolManager;
+    
+    public ZoningMode zoningMode;
 
     protected override void Awake()
     {

@@ -29,7 +29,7 @@ public class PlayerInputManager : MonoBehaviour
     private bool firePressed = false;
 
     [SerializeField]
-    private BuildingMode buildingMode;
+    private Player player;
     [SerializeField]
     private bool topDownBuilding = false;
 
@@ -91,7 +91,7 @@ public class PlayerInputManager : MonoBehaviour
     public void OnSecondary(CallbackContext value)
     {
         secondaryPressed = value.performed;
-        if (secondaryPressed && buildingMode.isActive)
+        if (secondaryPressed && player.BuildingMode.isActive)
         {
             UIManager.Instance.ToggleBuildingView();
         }
@@ -109,11 +109,15 @@ public class PlayerInputManager : MonoBehaviour
     public void OnFire(CallbackContext value)
     {
         firePressed = value.performed;
-        if(firePressed && (!UIManager.IsUIOpen || (buildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
+        if(firePressed && (!UIManager.IsUIOpen || (player.BuildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
         {
-            if(buildingMode.isActive)
+            if(player.BuildingMode.isActive)
             {
-                buildingMode.Build();
+                player.BuildingMode.Build();
+            }
+            else if(player.zoningMode.isActive)
+            {
+                player.zoningMode.PlaceZone();
             }
             else
             {
@@ -126,9 +130,9 @@ public class PlayerInputManager : MonoBehaviour
     {
         if(value.performed)
         {
-            if (!buildingMode.isActive)
+            if (!player.BuildingMode.isActive)
             {
-                buildingMode.EnterBuildMode();
+                player.BuildingMode.EnterBuildMode();
                 if(topDownBuilding)
                 {
                     UIManager.forceCursor = true;
@@ -138,13 +142,29 @@ public class PlayerInputManager : MonoBehaviour
             }
             else
             {
-                buildingMode.ExitBuildMode();
+                player.BuildingMode.ExitBuildMode();
                 if(topDownBuilding)
                 {
                     UIManager.forceCursor = false;
                     UIManager.HideCursor();
                     CameraController.ChangeToStandardCamera();
                 }
+            }
+        }
+    }
+
+    public void OnZoningMode(CallbackContext value)
+    {
+        if (value.performed)
+        {
+            Debug.Log("ZONINGMODE!");
+            if (!player.zoningMode.isActive)
+            {
+                player.zoningMode.EnterZoningMode();
+            }
+            else
+            {
+                player.zoningMode.ExitZoningMode();
             }
         }
     }
@@ -157,9 +177,13 @@ public class PlayerInputManager : MonoBehaviour
             return;
         rotateValue = v;
         //print(rotateValue + ";" + value.performed.ToString());
-        if(buildingMode.isActive)
+        if(player.BuildingMode.isActive)
         {
-            buildingMode.Rotate(rotateValue);
+            player.BuildingMode.Rotate(rotateValue);
+        }
+        if(player.zoningMode.isActive)
+        {
+            player.zoningMode.Rotate(rotateValue);
         }
     }
 
@@ -171,9 +195,9 @@ public class PlayerInputManager : MonoBehaviour
             return;
         alternateValue = v;
         //print(alternateValue + ";" + value.performed.ToString());
-        if (buildingMode.isActive)
+        if (player.BuildingMode.isActive)
         {
-            buildingMode.Alternate(alternateValue);
+            player.BuildingMode.Alternate(alternateValue);
         }
     }
     public void OnDemolish(CallbackContext value)
@@ -197,7 +221,7 @@ public class PlayerInputManager : MonoBehaviour
 
     public void Update()
     {
-        if(buildingMode.isActive)
+        if(player.BuildingMode.isActive)
         {
             Ray ray;
             if(topDownBuilding)
@@ -208,7 +232,15 @@ public class PlayerInputManager : MonoBehaviour
             {
                 ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
             }
-            buildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
+            player.BuildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
+            raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
+        }
+        else if(player.zoningMode.isActive)
+        {
+            Ray ray;
+
+            ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
+            player.zoningMode.ProcessRayCast(raycastHit, ray, hitInfo);
             raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
         }
         else
