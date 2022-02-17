@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   DisplayName: Bread
   icon: {fileID: 0}
-  stackLimit: 0
-  weight: 0
+  stackLimit: 10
+  weight: 0.5
   prefab: {fileID: 0}

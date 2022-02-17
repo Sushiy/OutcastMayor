@@ -16,7 +16,15 @@ public class Player : Character
     private PlayerToolManager playerToolManager;
     public PlayerToolManager PlayerToolManager => playerToolManager;
     
-    public ZoningMode zoningMode;
+    [SerializeField]
+    private ZoningMode zoningMode;
+    public ZoningMode ZoningMode => zoningMode;
+
+    private State DefaultState;
+    private State InteractingState;
+    private State BuildingState;
+    private State ZoningState;
+    private State PausedState;
 
     protected override void Awake()
     {
@@ -33,6 +41,16 @@ public class Player : Character
         questLog = GetComponent<RequestLog>();
         buildingMode = GetComponent<BuildingMode>();
         playerToolManager = GetComponent<PlayerToolManager>();
+
+
+        //Setup states
+        DefaultState = new State(null, null, null, this, "Default State");
+        InteractingState = new State(null, null, null, this, "Interacting State");
+        BuildingState = new State(null, null, null, this, "Building State");
+        ZoningState = new State(null, null, null, this, "Zoning State");
+        PausedState = new State(null, null, null, this, "Paused State");
+
+        currentState = DefaultState;
 
         base.Awake();
     }

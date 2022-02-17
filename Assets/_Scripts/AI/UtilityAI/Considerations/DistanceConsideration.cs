@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "DistanceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/DistanceConsideration", order = 1)]
     public class DistanceConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Transform targetTransform = considerationData.data[0] as Transform;
             float distance = Vector3.Distance(controller.transform.position, targetTransform.position) / maxValue;

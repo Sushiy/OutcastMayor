@@ -7,7 +7,26 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "GetMaterialsForConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/GetMaterialsForConstructionAction", order = 1)]
     public class GetMaterialsForConstructionAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Do stuff once at the beginning
+            Transform moveTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Transform)
+                {
+                    moveTarget = instanceData[i] as Transform;
+                }
+            }
+
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+
+            Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
+
+            controller.MoveTo(target, false);
+        }
+
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             Construction constructionTarget = null;
             Stockpile stockpileTarget = null;
@@ -32,28 +51,24 @@ namespace UtilityAI
                 Debug.LogError("No StockpileTarget");
                 return;
             }
-
-            Vector3 target = stockpileTarget.transform.position + (controller.transform.position - stockpileTarget.transform.position).normalized * 1.0f;
-            Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(constructionTarget, stockpileTarget, controller));
-        }
-
-        public void CompleteAction(Construction constructionTarget, Stockpile stockpile, UtilityAIController controller)
-        {
             string log = controller.name + " -> GetMaterialsForConstructionAction for " + constructionTarget.gameObject.name + ":\n";
             for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
             {
                 Item neededItem = constructionTarget.buildRecipe.Materials[i].item;
                 int neededCount = constructionTarget.GetRemainingCount(controller.Interactor, i) - controller.Inventory.GetTotalCount(neededItem);
                 controller.Inventory.Add(new Inventory.ItemStack(neededItem, neededCount));
-                stockpile.inventory.Delete(neededItem, neededCount);
+                stockpileTarget.inventory.Delete(neededItem, neededCount);
                 log += neededItem.DisplayName + ":" + neededCount;
             }
             Debug.Log(log);
-
+        }
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+            //Drop the materials you got
         }
 
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 

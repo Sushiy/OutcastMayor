@@ -11,6 +11,8 @@ namespace UtilityAI
         [SerializeReference]
         public Consideration[] considerations;
 
+        public UnityEngine.Events.UnityEvent onComplete;
+
         //Init stuff here?
         public virtual void Awake()
         {
@@ -22,10 +24,27 @@ namespace UtilityAI
             return !owner.isOccupied;
         }
 
-        public abstract ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller);
+        public abstract ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller);
 
-        //Do your action state stuff here!
-        public abstract void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues);
+
+        //This is called right when the action is chosen, and determines which state the character should go into etc.
+        public abstract void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues);
+
+        /// <summary>
+        /// This method controls the actual Action and is called repeatedly by the character, while it is in the performing state
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="instanceData"></param>
+        /// <param name="instanceValues"></param>
+        public abstract void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues);
+
+        /// <summary>
+        /// This is called when the action is cancelled
+        /// </summary>
+        /// <param name="controller"></param>
+        /// <param name="instanceData"></param>
+        /// <param name="instanceValues"></param>
+        public abstract void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues);
     }
 
     public class ActionInstance
@@ -75,16 +94,23 @@ namespace UtilityAI
             return result;
         }
 
-        //Start this action "state"
-        public virtual void OnEnter()
+        //Init this action
+        public virtual void Init(UtilityAICharacter controller)
         {
             owner.isOccupied = true;
+            actionReference.Init(controller, instanceData, instanceValues);
+        }
+
+        public virtual void Perform(UtilityAICharacter controller)
+        {
+            actionReference.Perform(controller, instanceData, instanceValues);
         }
 
         //Stop this action "state"
-        public virtual void OnExit()
+        public virtual void Cancel(UtilityAICharacter controller)
         {
             owner.isOccupied = false;
+            actionReference.Cancel(controller, instanceData, instanceValues);
         }
     }
 }

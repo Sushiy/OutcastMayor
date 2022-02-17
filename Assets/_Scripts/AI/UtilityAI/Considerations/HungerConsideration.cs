@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "HungerConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/HungerConsideration", order = 1)]
     public class HungerConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             return Evaluate(controller.food/maxValue);
         }

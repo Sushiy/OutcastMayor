@@ -4,12 +4,32 @@ using UnityEngine;
 
 namespace UtilityAI
 {
+    /// <summary>
+    /// This action has similar conditions to "EAT", but only picks up a food item to enable eat actions
+    /// </summary>
     [CreateAssetMenu(fileName = "GatherAndEatAction", menuName = "ScriptableObjects/UtilityAI/Actions/GatherAndEatAction", order = 1)]
-    public class GatherAndEatAction : Action
+    public class GatherFoodAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             Debug.Log(controller.name + " went to eat");
+            //Do stuff once at the beginning
+            Transform moveTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Transform)
+                {
+                    moveTarget = instanceData[i] as Transform;
+                }
+            }
+
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+            controller.MoveTo(target, false);
+        }
+
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            Debug.Log(controller.name + " starts to eat");
 
             ItemStackInstance itemStack = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -25,24 +45,18 @@ namespace UtilityAI
                 return;
             }
 
-            Vector3 target = itemStack.transform.position + (controller.transform.position - itemStack.transform.position).normalized * 1.0f;
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(itemStack, controller));
-        }
-
-        public void CompleteAction(ItemStackInstance itemStack, UtilityAIController controller)
-        {
             itemStack.Interact(controller.Interactor);
             string log = controller.name + " -> GatherAndEatAction \n";
-
-            if(controller.Inventory.Contains("Apple"))
-            {
-                controller.Inventory.Delete("Apple");
-            }
-            controller.food += .5f;
             Debug.Log(log);
+            controller.ActionCompleted();
+        }
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+            //Put away the food if you still have it
         }
 
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 

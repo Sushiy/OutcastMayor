@@ -6,12 +6,17 @@ namespace UtilityAI
 {
     [CreateAssetMenu(fileName = "BuildConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/BuildConstructionAction", order = 1)]
     public class BuildConstructionAction : Action
-    {        
+    {
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+        }
+
         /// <summary>
         /// Build the Instances, in this case it is only one.
         /// </summary>
         /// <returns>An array of action instances</returns>
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
             ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Construction>(), owner.transform }, null);
@@ -22,26 +27,38 @@ namespace UtilityAI
             return instances.ToArray();
         }
 
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        //Do your action state stuff here!
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
-            Construction constructionTarget = null;
+            //Do stuff once at the beginning
+            Transform moveTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
-                if (instanceData[i] is Construction)
+                if (instanceData[i] is Transform)
+                {
+                    moveTarget = instanceData[i] as Transform;
+                }
+            }
+
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+
+            Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
+            
+            controller.MoveTo(target, false);
+        }
+
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Do stuff once at the beginning
+            Construction constructionTarget = null;
+            string log = "<color=green>" + controller.name + " -> BuildConstructionAction for " + constructionTarget.gameObject.name + "</color>";
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Transform)
                 {
                     constructionTarget = instanceData[i] as Construction;
                 }
             }
-
-            Vector3 target = constructionTarget.transform.position + (controller.transform.position - constructionTarget.transform.position).normalized * 1.0f;
-            Debug.Log("<color=green>" + controller.name + "-> BuildConstructionAction moveto.</color>");
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(constructionTarget, controller));
-
-        }
-
-        public void CompleteAction(Construction constructionTarget, UtilityAIController controller)
-        {
-            string log = "<color=green>" + controller.name + " -> BuildConstructionAction for " + constructionTarget.gameObject.name + "</color>";
 
             constructionTarget.Interact(controller.Interactor);
             if (constructionTarget.IsCompleted)
@@ -49,6 +66,7 @@ namespace UtilityAI
                 controller.availableConstructions.Remove(constructionTarget);
             }
             Debug.Log(log);
+            Cancel(controller, null, null);
         }
     }
 

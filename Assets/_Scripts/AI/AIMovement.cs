@@ -12,7 +12,7 @@ public class AIMovement : MonoBehaviour, IMovement
 
 
     NavMeshAgent navMeshAgent;
-    UnityEvent OnPathComplete;
+    public UnityEvent OnPathComplete;
 
     bool startedPath;
 
@@ -28,12 +28,11 @@ public class AIMovement : MonoBehaviour, IMovement
     public void MoveTo(Vector3 position, bool running, UnityAction callback)
     {
         OnPathComplete.RemoveAllListeners();
+        OnPathComplete.AddListener(callback);
         if(navMeshAgent.SetDestination(position))
         {
             navMeshAgent.speed = running ? runningSpeed : walkingSpeed;
             startedPath = true;
-            OnPathComplete.AddListener(callback);
-            OnPathComplete.AddListener(() => OnPathComplete.RemoveListener(callback));
             print("Path started");
         }
         else
@@ -80,6 +79,11 @@ public class AIMovement : MonoBehaviour, IMovement
         }
 
         return false;
+    }
+
+    public bool IsMoving()
+    {
+        return startedPath && !IsPathComplete();
     }
 
     public void TeleportTo(Vector3 position)

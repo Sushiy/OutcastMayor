@@ -80,6 +80,14 @@ public class Inventory : MonoBehaviour
         }
     }
 
+    public void SetSlotCount(int count)
+    {
+        ItemStack[] tmp = new ItemStack[slots.Length];
+        slots.CopyTo(tmp, 0);
+        slots = new ItemStack[count];
+        tmp.CopyTo(slots, 0);
+    }
+
     public bool Add(ItemStack stack)
     {
         int firstFreeSlotIndex = -1;

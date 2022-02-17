@@ -11,19 +11,36 @@ namespace UtilityAI
     /// </summary>
     public class CollectAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+        }
+
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Do stuff once at the beginning
+            Transform moveTarget = null;
+            for (int i = 0; i < instanceData.Length; i++)
+            {
+                if (instanceData[i] is Transform)
+                {
+                    moveTarget = instanceData[i] as Transform;
+                }
+            }
+
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+            Debug.Log("<color=green>" + controller.name + "-> CollectAction moveto.</color>");
+            controller.MoveTo(target, false);
+        }
+
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             ItemStackInstance itemStack = null;
-            Stockpile stockpileTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
                 if (instanceData[i] is ItemStackInstance)
                 {
                     itemStack = instanceData[i] as ItemStackInstance;
-                }
-                if (instanceData[i] is Stockpile)
-                {
-                    stockpileTarget = instanceData[i] as Stockpile;
                 }
             }
             if (itemStack == null)
@@ -31,26 +48,13 @@ namespace UtilityAI
                 Debug.LogError("No itemStack");
                 return;
             }
-            if (stockpileTarget == null)
-            {
-                Debug.LogError("No StockpileTarget");
-                return;
-            }
-
-            Vector3 target = itemStack.transform.position + (controller.transform.position - itemStack.transform.position).normalized * 1.0f;
-            Debug.Log("<color=green>" + controller.name + "-> CollectAction moveto.</color>");
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(itemStack, controller));
-        }
-
-        public void CompleteAction(ItemStackInstance itemStack, UtilityAIController controller)
-        {
             string log = controller.name + " -> HaulAction on" + itemStack.name + ":\n";
             itemStack.Interact(controller.Interactor);
             Debug.Log(log);
-
+            Cancel(controller, null, null);
         }
 
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 

@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "SleepyConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/SleepyConsideration", order = 1)]
     public class SleepyConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             return Evaluate(controller.sleepy);
         }

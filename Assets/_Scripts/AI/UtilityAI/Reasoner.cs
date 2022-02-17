@@ -8,7 +8,7 @@ namespace UtilityAI
     {
         List<ActionInstance> actionInstances;
 
-        public void GatherActionInstances(UtilityAIController controller)
+        public void GatherActionInstances(UtilityAICharacter controller)
         {
             if (actionInstances == null)
             {
@@ -18,16 +18,19 @@ namespace UtilityAI
             {
                 actionInstances.Clear();
             }
+            //Add all Actions native to the character
             for( int i = 0; i < controller.availableActions.Length; i++)
             {
                 ActionInstance[] instances = controller.availableActions[i].GetActionInstances(Blackboard.smartObjects[i], controller);
                 actionInstances.AddRange(instances);
             }
 
-            Debug.Log("Found " + Blackboard.smartObjects.Count + " smartObjects");
+            //Add all actions from smartobjects
+            int count = 0;
             for (int i = 0; i < Blackboard.smartObjects.Count; i++)
             {
-                for(int a = 0; a < Blackboard.smartObjects[i].advertisements.Length; a++)
+                count += Blackboard.smartObjects[i].advertisements.Length;
+                for (int a = 0; a < Blackboard.smartObjects[i].advertisements.Length; a++)
                 {
                     if(Blackboard.smartObjects[i].advertisements[a].advertisedAction == null)
                     {
@@ -37,10 +40,12 @@ namespace UtilityAI
                     actionInstances.AddRange(instances);
                 }
             }
+            Debug.Log("Found " + Blackboard.smartObjects.Count + " smartObjects with " + count + "advertisements");
+
 
         }
 
-        public ActionInstance DetermineBestAction(UtilityAIController controller)
+        public ActionInstance DetermineBestAction(UtilityAICharacter controller)
         {
 
             float bestScore = -1;
@@ -68,7 +73,7 @@ namespace UtilityAI
                 return null;
         }
 
-        public float ScoreAction(ActionInstance actionInstance, UtilityAIController controller, out string log)
+        public float ScoreAction(ActionInstance actionInstance, UtilityAICharacter controller, out string log)
         {
             log = "-" + actionInstance.actionReference.Name + "(" + actionInstance.InstanceDataToString() + ")\n";
             float actionScore = 1;

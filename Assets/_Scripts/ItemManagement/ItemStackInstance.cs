@@ -1,10 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ItemStackInstance : Interactable
 {
     public Inventory.ItemStack source;
+
+    public UnityAction OnPickedUp;
 
     public override void Interact(Interactor interactor)
     {
@@ -21,6 +24,7 @@ public class ItemStackInstance : Interactable
         {
             Debug.Log("Added" + source.count + " " + source.item.DisplayName + " to " + interactor.name + "'s Inventory");
             Destroy(gameObject);
+            OnPickedUp.Invoke();
         }
         else
         {

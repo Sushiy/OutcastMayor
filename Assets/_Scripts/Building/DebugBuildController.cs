@@ -6,7 +6,7 @@ public class DebugBuildController : MonoBehaviour
 {
     BuildingMode buildingMode;
 
-    public UtilityAI.UtilityAIController aIController;
+    public UtilityAI.UtilityAICharacter aIController;
     public int buildCount = 1;
 
     // Start is called before the first frame update

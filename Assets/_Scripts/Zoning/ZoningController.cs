@@ -3,7 +3,7 @@ using TMPro;
 using UnityEngine;
 
 [ExecuteAlways]
-public class Zone : MonoBehaviour
+public class ZoningController : MonoBehaviour
 {
     [SerializeField]
     bool xInverted = false;
@@ -121,6 +121,7 @@ public class Zone : MonoBehaviour
 
             //********GRID********
 
+            /*
             if(gridLines == null)
             {
                 gridLines = new List<Shapes.Line>();
@@ -148,27 +149,28 @@ public class Zone : MonoBehaviour
             if(sizeX > 0)
             {
                 //Create the gridlines along the xBorder
-                for (int i = 0; i < sizeX; i++)
+                for (int i = 1; i < sizeX; i++)
                 {
-                    gridLines[i].gameObject.SetActive(true);
-                    gridLines[i].gameObject.name = "GridLineX" + i;
-                    gridLines[i].Start = xDir * (i+1);
-                    gridLines[i].End = gridLines[i].Start + outsideLineZ1.End;
+                    gridLines[i-1].gameObject.SetActive(true);
+                    gridLines[i-1].gameObject.name = "GridLineX" + (i-1);
+                    gridLines[i-1].Start = xDir * (i+1);
+                    gridLines[i-1].End = gridLines[i-1].Start + outsideLineZ1.End;
                 }
 
             }
             if (sizeZ > 0)
             {
+                int x = Mathf.Max(0, (sizeX - 1));
                 //Create the gridlines along the zBorder
-                for (int i = 0; i < sizeZ-1; i++)
+                for (int i = 1; i < sizeZ; i++)
                 {
-                    gridLines[sizeX + i].gameObject.SetActive(true);
-                    gridLines[sizeX + i].gameObject.name = "GridLineZ" + i;
-                    gridLines[sizeX + i].Start = zDir * (i+1);
-                    gridLines[sizeX + i].End = gridLines[sizeX + i].Start + outsideLineX1.End;
+                    gridLines[(x + i-1].gameObject.SetActive(true);
+                    gridLines[(x + i-1].gameObject.name = "GridLineZ" + (i-1);
+                    gridLines[(x + i-1].Start = zDir * (i+1);
+                    gridLines[x + i - 1].End = gridLines[x + i - 1].Start + outsideLineX1.End;
                 }
             }
-
+            */
             //*****TERRAIN MAPPING*****
 
             //1. DONE Build the required number of gridpoints
@@ -241,6 +243,7 @@ public class Zone : MonoBehaviour
             }
 
             //Advanced Grid:
+            //The grid has 1 line less than size for each dimension, though not less than 0 for either dimension (obviously)
             int advancedGridLineCount = (Mathf.Max(0, (sizeX - 1)) + Mathf.Max(0, (sizeZ - 1)));
             int advancedGridLineDiff = advancedGridLineCount - advancedGridLines.Count;
 
@@ -270,33 +273,43 @@ public class Zone : MonoBehaviour
                 advancedGridLines[i].gameObject.SetActive(false);
             }
 
-            if (sizeX > 0)
+            if (sizeX > 1)
             {
                 //Create the gridlines along the xBorder
-                for (int i = 0; i <= sizeX; i++)
+                for (int i = 1; i < sizeX; i++)
                 {
-                    advancedGridLines[i].gameObject.SetActive(true);
-                    advancedGridLines[i].gameObject.name = "GridLineX" + i;
-                    advancedGridLines[i].points.Clear();
+                    advancedGridLines[i-1].gameObject.SetActive(true);
+                    advancedGridLines[i-1].gameObject.name = "GridLineX" + (i-1);
+                    advancedGridLines[i-1].points.Clear();
+
                     for (int j = 0; j <= sizeZ; j++)
                     {
-                        advancedGridLines[i].AddPoint(transform.InverseTransformPoint(gridPoints[i][j]));
+                        advancedGridLines[i-1].AddPoint(transform.InverseTransformPoint(gridPoints[i][j]));
                     }
                 }
 
             }
-            if (sizeZ > 0)
+            if (sizeZ > 1)
             {
-                
+                int x = Mathf.Max(0, (sizeX - 1));
                 //Create the gridlines along the zBorder
-                for (int i = 0; i <= sizeZ; i++)
+                for (int i = 1; i < sizeZ; i++)
                 {
-                    advancedGridLines[sizeX + i].gameObject.SetActive(true);
-                    advancedGridLines[sizeX + i].gameObject.name = "GridLineZ" + i;
-                    advancedGridLines[sizeX + i].points.Clear();
-                    for (int j = 0; j <= sizeX; j++)
+                    try
                     {
-                        advancedGridLines[sizeX + i].AddPoint(transform.InverseTransformPoint(gridPoints[j][i]));
+                        advancedGridLines[x + i - 1].gameObject.SetActive(true);
+                        advancedGridLines[x + i - 1].gameObject.name = "GridLineZ" + (i - 1);
+                        advancedGridLines[x + i - 1].points.Clear();
+                        for (int j = 0; j <= sizeX; j++)
+                        {
+                            advancedGridLines[x + i - 1].AddPoint(transform.InverseTransformPoint(gridPoints[j][i]));
+                        }
+
+                    }
+                    catch(System.ArgumentOutOfRangeException e)
+                    {
+                        print("While trying to draw advanced line " + (x + i - 1) + " sizeX" + sizeX + " sizeZ" + sizeZ + " i" + i + " count" + advancedGridLineCount);
+                        Debug.LogError(e);
                     }
                 }
             }
@@ -323,5 +336,10 @@ public class Zone : MonoBehaviour
             }
 
         }
+    }
+
+    public void InitStockpile(StockpileZone zone)
+    {
+        zone.InitStockpile(sizeX, sizeZ, gridPoints);
     }
 }

@@ -10,7 +10,21 @@ namespace UtilityAI
     /// </summary>
     public class DeliverAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            Transform moveTarget = instanceData[1] as Transform;
+            if (moveTarget == null)
+            {
+                Debug.LogError("No MoveTarget");
+                return;
+            }
+
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+            Debug.Log("<color=green>" + controller.name + "-> DeliverAction moveto.</color>");
+            controller.MoveTo(target, false);
+        }
+
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             Stockpile stockpileTarget = instanceData[0] as Stockpile;
             Inventory.ItemStack itemStack = new Inventory.ItemStack();
@@ -20,22 +34,20 @@ namespace UtilityAI
                 Debug.LogError("No StockpileTarget");
                 return;
             }
-
-            Vector3 target = stockpileTarget.transform.position + (controller.transform.position - stockpileTarget.transform.position).normalized * 1.0f;
-            Debug.Log("<color=green>" + controller.name + "-> DeliverAction moveto.</color>");
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(stockpileTarget, itemStack, controller));
-        }
-
-        public void CompleteAction(Stockpile stockpileTarget, Inventory.ItemStack itemStack, UtilityAIController controller)
-        {
             string log = controller.name + " -> DeliverAction on" + stockpileTarget.name + ":\n";
             stockpileTarget.inventory.Add(itemStack);
             controller.Inventory.Delete(itemStack);
             Debug.Log(log);
-
+            controller.ActionCompleted();
         }
 
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+            //What to do with the stuff in your inventory?
+        }
+
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 

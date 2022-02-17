@@ -16,7 +16,7 @@ public class ZoningMode
     Player player;
 
     [SerializeField]
-    Zone zonePrefab;
+    ZoningController zonePrefab;
 
     [SerializeField]
     private Transform zoneParent;
@@ -37,7 +37,7 @@ public class ZoningMode
 
     private InputActionMap buildActionMap;
 
-    Zone editingZone;
+    ZoningController editingZone;
 
     public void EnterZoningMode()
     {
@@ -56,11 +56,13 @@ public class ZoningMode
     {
         if(!editingZone)
         {
-            editingZone = GameObject.Instantiate<Zone>(zonePrefab, rayCastPosition, buildRotation, zoneParent);
+            editingZone = GameObject.Instantiate<ZoningController>(zonePrefab, rayCastPosition, buildRotation, zoneParent);
         }
         else
         {
             editingZone.UpdateDragHandlePosition(rayCastPosition);
+            editingZone.InitStockpile(editingZone.GetComponent<StockpileZone>());
+            editingZone.enabled = false;
             editingZone = null;
         }
     }

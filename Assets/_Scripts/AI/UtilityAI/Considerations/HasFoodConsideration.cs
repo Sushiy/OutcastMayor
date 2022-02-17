@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "HasFoodConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/HasFoodConsideration", order = 1)]
     public class HasFoodConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Inventory inventory = controller.Inventory;
 

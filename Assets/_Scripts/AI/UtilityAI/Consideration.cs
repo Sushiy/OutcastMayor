@@ -36,7 +36,7 @@ namespace UtilityAI
         [BoxGroup("B")]
         public bool oneStepCurve = false;
 
-        public abstract float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData);
+        public abstract float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData);
 
         public abstract bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData);
 

@@ -115,9 +115,9 @@ public class PlayerInputManager : MonoBehaviour
             {
                 player.BuildingMode.Build();
             }
-            else if(player.zoningMode.isActive)
+            else if(player.ZoningMode.isActive)
             {
-                player.zoningMode.PlaceZone();
+                player.ZoningMode.PlaceZone();
             }
             else
             {
@@ -158,13 +158,13 @@ public class PlayerInputManager : MonoBehaviour
         if (value.performed)
         {
             Debug.Log("ZONINGMODE!");
-            if (!player.zoningMode.isActive)
+            if (!player.ZoningMode.isActive)
             {
-                player.zoningMode.EnterZoningMode();
+                player.ZoningMode.EnterZoningMode();
             }
             else
             {
-                player.zoningMode.ExitZoningMode();
+                player.ZoningMode.ExitZoningMode();
             }
         }
     }
@@ -181,9 +181,9 @@ public class PlayerInputManager : MonoBehaviour
         {
             player.BuildingMode.Rotate(rotateValue);
         }
-        if(player.zoningMode.isActive)
+        if(player.ZoningMode.isActive)
         {
-            player.zoningMode.Rotate(rotateValue);
+            player.ZoningMode.Rotate(rotateValue);
         }
     }
 
@@ -235,12 +235,12 @@ public class PlayerInputManager : MonoBehaviour
             player.BuildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
             raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
         }
-        else if(player.zoningMode.isActive)
+        else if(player.ZoningMode.isActive)
         {
             Ray ray;
 
             ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
-            player.zoningMode.ProcessRayCast(raycastHit, ray, hitInfo);
+            player.ZoningMode.ProcessRayCast(raycastHit, ray, hitInfo);
             raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
         }
         else

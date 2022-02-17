@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "InventorySpaceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/InventorySpaceConsideration", order = 1)]
     public class InventorySpaceConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             ItemStackInstance itemStack = considerationData.data[0] as ItemStackInstance;
             Inventory inventory = controller.GetComponent<Inventory>();

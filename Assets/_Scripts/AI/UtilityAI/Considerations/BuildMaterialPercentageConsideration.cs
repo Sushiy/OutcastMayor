@@ -7,7 +7,7 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "BuildMaterialConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/BuildMaterialConsideration", order = 1)]
     public class BuildMaterialPercentageConsideration : Consideration
     {
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Construction constructionTarget = considerationData.data[0] as Construction;
 

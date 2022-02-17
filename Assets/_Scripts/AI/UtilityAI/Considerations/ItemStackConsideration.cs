@@ -9,7 +9,7 @@ namespace UtilityAI
     {
         Inventory.ItemStack stack;
 
-        public override float ScoreConsideration(UtilityAIController controller, ConsiderationData considerationData)
+        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             //!!! TODO: How do I get arbitrary info into the considerations? weird!
             //stack = action as

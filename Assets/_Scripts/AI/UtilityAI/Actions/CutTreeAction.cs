@@ -7,37 +7,39 @@ namespace UtilityAI
     [CreateAssetMenu(fileName = "CutTreeAction", menuName = "ScriptableObjects/UtilityAI/Actions/CutTreeAction", order = 1)]
     public class CutTreeAction : Action
     {
-        public override void Execute(UtilityAIController controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             Debug.Log(controller.name + " goes to cut a tree");
-
-            CuttableTree treeTarget = null;
+            //Do stuff once at the beginning
+            Transform moveTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
-                if (instanceData[i] is CuttableTree)
+                if (instanceData[i] is Transform)
                 {
-                    treeTarget = instanceData[i] as CuttableTree;
+                    moveTarget = instanceData[i] as Transform;
                 }
             }
-            if (treeTarget == null)
-            {
-                Debug.LogError("No treeTarget");
-                return;
-            }
 
-            Vector3 target = treeTarget.transform.position + (controller.transform.position - treeTarget.transform.position).normalized * .5f;
-            controller.aIMovement.MoveTo(target, false, () => CompleteAction(treeTarget, controller));
+            Vector3 target = moveTarget.transform.position + (controller.transform.position - moveTarget.transform.position).normalized * 1.0f;
+            controller.MoveTo(target, false);
         }
 
-        public void CompleteAction(CuttableTree treeTarget, UtilityAIController controller)
+        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
+            Debug.Log(controller.name + " tries to cut a tree");
+
             string log = controller.name + " -> CutTreeAction \n";
             controller.CharacterAnimation.SetSwing();
             Debug.Log(log);
         }
+        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        {
+            //Stop Animations or something?
+            //Store Axe
+        }
 
 
-        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAIController controller)
+        public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
 
             List<ActionInstance> instances = new List<ActionInstance>();

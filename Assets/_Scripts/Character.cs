@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Character : MonoBehaviour
+public abstract class Character : Statemachine
 {
     protected Inventory inventory;
     public Inventory Inventory => inventory;
