@@ -154,3 +154,8 @@ public enum GoalType
     /// </summary>
     FurnitureRequest
 }
+
+public class FurnitureRequestGoal : RequestGoal
+{
+
+}

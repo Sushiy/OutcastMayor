@@ -23,6 +23,7 @@ public class ItemStackInstance : Interactable
         if(i.Add(new Inventory.ItemStack(source)))
         {
             Debug.Log("Added" + source.count + " " + source.item.DisplayName + " to " + interactor.name + "'s Inventory");
+            OnEndHover(interactor);
             Destroy(gameObject);
             OnPickedUp.Invoke();
         }

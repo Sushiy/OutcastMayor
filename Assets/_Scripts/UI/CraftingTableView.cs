@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CraftingTableView : UIPanel
 {
@@ -15,6 +16,9 @@ public class CraftingTableView : UIPanel
     public RecipeItemView[] recipeInputViews;
     public RecipeItemView recipeOutputView;
 
+    [SerializeField]
+    Button craftingButton;
+
     public void SetTable(CraftingTable craftingTable, Inventory inventory)
     {
         this.craftingTable = craftingTable;
@@ -28,7 +32,6 @@ public class CraftingTableView : UIPanel
             {
                 Recipe r = craftingTable.recipes[i];
                 recipeButtons[i].gameObject.SetActive(true);
-                recipeButtons[i].button.interactable = r.IsValid(inventory);
                 recipeButtons[i].SetData(r.Name, r.Icon);
             }
             else
@@ -40,23 +43,25 @@ public class CraftingTableView : UIPanel
 
     public void UpdateAvailability()
     {
-        for (int i = 0; i < craftingTable.recipes.Length; i++)
-        {
-                recipeButtons[i].button.interactable = craftingTable.recipes[i].IsValid(inventory);
-        }
+        craftingButton.interactable = (selectedRecipe != null && selectedRecipe.IsValid(inventory));
     }
 
     public void ShowRecipe(int index)
     {
-        selectedRecipe = craftingTable.recipes[index];
+        ShowRecipe(craftingTable.recipes[index]);
+    }
+
+    public void ShowRecipe(Recipe recipe)
+    {
+        selectedRecipe = recipe;
         recipeTitle.text = selectedRecipe.Name;
 
-        for(int i = 0; i < recipeInputViews.Length; i++)
+        for (int i = 0; i < recipeInputViews.Length; i++)
         {
-            if(i < selectedRecipe.inputs.Length)
+            if (i < selectedRecipe.inputs.Length)
             {
                 recipeInputViews[i].Show();
-                recipeInputViews[i].SetData(selectedRecipe.inputs[i].item.DisplayName, selectedRecipe.inputs[i].count, selectedRecipe.inputs[i].item.icon);
+                recipeInputViews[i].SetData(selectedRecipe.inputs[i].item.DisplayName, selectedRecipe.inputs[i].count, inventory.GetTotalCount(selectedRecipe.inputs[i].item), selectedRecipe.inputs[i].item.icon);
             }
             else
             {
@@ -65,6 +70,7 @@ public class CraftingTableView : UIPanel
         }
         recipeOutputView.Show();
         recipeOutputView.SetData(selectedRecipe.output.item.DisplayName, selectedRecipe.output.count, selectedRecipe.output.item.icon);
+        UpdateAvailability();
 
     }
 
@@ -77,6 +83,11 @@ public class CraftingTableView : UIPanel
     public override void Show()
     {
         inventory.onInventoryUpdated += UpdateAvailability;
+        //Update the view, if there is a recipe already selected
+        if(selectedRecipe)
+        {
+            ShowRecipe(selectedRecipe);
+        }
         base.Show();
     }
 
