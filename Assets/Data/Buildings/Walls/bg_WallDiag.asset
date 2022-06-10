@@ -14,10 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: DiagonalWalls
   Icon: {fileID: 0}
-  materials: []
-  buildingPrefab: {fileID: 0}
-  constructionPrefab: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 2
+  buildingPrefab: {fileID: 1094437169021688344, guid: b39bdfb80e845ee41b9e44b38d2ad594, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: 69bcaa3bed694414bb0845cb61de5b23, type: 3}
   buildRecipes:
+  - {fileID: 11400000, guid: fe02aea26a12e984cb4928da4f860acd, type: 2}
   - {fileID: 11400000, guid: 22a97dd2b029d0142b063065fd5aeca3, type: 2}
   - {fileID: 11400000, guid: 702762211088e244dbdad76f1b90c580, type: 2}
   - {fileID: 11400000, guid: 29b6deaceddab5e41a4301d0f224bcd1, type: 2}
+  - {fileID: 11400000, guid: bd912c0179aaca34c9358088d1464486, type: 2}

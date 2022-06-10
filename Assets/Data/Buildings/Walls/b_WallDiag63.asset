@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
+  m_Name: b_WallDiag63
+  m_EditorClassIdentifier: 
+  Name: "Wall Diagonal 63\xB0"
+  Icon: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 2
+  buildingPrefab: {fileID: 1094437169021688344, guid: b0b3b591a74b880428d8afc794263a82, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: 0c022111548dcba448eb188ddb7acef6, type: 3}
