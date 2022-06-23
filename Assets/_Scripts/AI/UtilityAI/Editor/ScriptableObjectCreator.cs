@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     //Taken from RPGWindow demo
     using Sirenix.OdinInspector.Editor;

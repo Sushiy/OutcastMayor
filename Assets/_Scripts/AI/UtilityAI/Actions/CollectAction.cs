@@ -1,8 +1,10 @@
+using OutcastMayor.Interaction;
+using OutcastMayor.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "CollectAction", menuName = "ScriptableObjects/UtilityAI/Actions/CollectAction", order = 1)]
     /// <summary>
@@ -46,12 +48,13 @@ namespace UtilityAI
             if (itemStack == null)
             {
                 Debug.LogError("No itemStack");
+                Cancel(controller, null, null);
                 return;
             }
-            string log = controller.name + " -> HaulAction on" + itemStack.name + ":\n";
+            string log = "<color=green>" +  controller.name + " -> CollectAction of " + itemStack.gameObject.name + "</color>";
             itemStack.Interact(controller.Interactor);
             Debug.Log(log);
-            Cancel(controller, null, null);
+            controller.ActionCompleted();
         }
 
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)

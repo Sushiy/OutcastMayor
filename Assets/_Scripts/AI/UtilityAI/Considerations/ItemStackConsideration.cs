@@ -1,8 +1,9 @@
+using OutcastMayor.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "HasItemStackConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/HasItemStackConsideration", order = 1)]
     public class ItemStackConsideration : Consideration

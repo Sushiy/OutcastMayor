@@ -1,27 +1,32 @@
+using OutcastMayor.Requests;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// NonPlayerCharacter
-/// </summary>
-[CreateAssetMenu(fileName = "NewNPC", menuName = "ScriptableObjects/NPC", order = 1)]
-public class NPC : ScriptableObject
+namespace OutcastMayor
 {
-    [SerializeField] private string characterName;
-
-    [SerializeField] private Request[] availableRequests;
-    
-    public string CharacterName
+    /// <summary>
+    /// NonPlayerCharacter
+    /// </summary>
+    [CreateAssetMenu(fileName = "NewNPC", menuName = "ScriptableObjects/NPC", order = 1)]
+    public class NPC : ScriptableObject
     {
-        get
+        [SerializeField] private string characterName;
+
+        [SerializeField] private Request[] availableRequests;
+
+        public string CharacterName
         {
-            return characterName;
+            get
+            {
+                return characterName;
+            }
+        }
+
+        public Request GetQuest(int i)
+        {
+            return availableRequests[i];
         }
     }
 
-    public Request GetQuest(int i)
-    {
-        return availableRequests[i];
-    }
 }

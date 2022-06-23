@@ -2,39 +2,44 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-/// <summary>
-/// The bed lets Characters rest over night or when they are exhausted.
-/// </summary>
-public class Bed : Interactable
+namespace OutcastMayor.Interaction
 {
-    private int sleepHash = Animator.StringToHash("bIsSleeping");
-
-    public bool isOccupied = false;
-
-    public override void Interact(Interactor interactor)
+    /// <summary>
+    /// The bed lets Characters rest over night or when they are exhausted.
+    /// </summary>
+    public class Bed : Interactable
     {
-        base.Interact(interactor);
+        private int sleepHash = Animator.StringToHash("bIsSleeping");
 
-        //If the bed is not occupied and the player is not currently sleeping, sleep.
-        if (!isOccupied)
+        public bool isOccupied = false;
+
+        public override void Interact(Interactor interactor)
         {
-            StartSleeping(interactor.parentCharacter);
+            base.Interact(interactor);
+
+            //If the bed is not occupied and the player is not currently sleeping, sleep.
+            if (!isOccupied)
+            {
+                StartSleeping(interactor.parentCharacter);
+            }
+        }
+
+        public void StartSleeping(Character character)
+        {
+            isOccupied = true;
+            //Position the character on the bed
+            character.Movement.TeleportTo(transform.position);
+            character.Movement.SnapYRotation(Quaternion.Euler(0, 180, 0) * transform.rotation);
+            //Set the player to sleep
+            character.Sleep();
+            character.OnStopSleeping += StopSleeping;
+        }
+
+        public void StopSleeping(Character character)
+        {
+            isOccupied = false;
         }
     }
 
-    public void StartSleeping(Character character)
-    {
-        isOccupied = true;
-        //Position the character on the bed
-        character.Movement.TeleportTo(transform.position);
-        character.Movement.SnapYRotation(Quaternion.Euler(0, 180, 0) * transform.rotation);
-        //Set the player to sleep
-        character.Sleep();
-        character.OnStopSleeping += StopSleeping;
-    }
 
-    public void StopSleeping(Character character)
-    {
-        isOccupied = false;
-    }
 }

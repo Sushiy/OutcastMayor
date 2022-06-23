@@ -55,10 +55,11 @@ public abstract class Statemachine : MonoBehaviour
         }
         if (newState == currentState)
         {
-            Debug.LogWarning("Changing to the same gamestate: " + newState);
+            //Debug.LogWarning("Changing to the same gamestate: " + newState.stateName);
             return;
         }
 
+        //Debug.LogWarning("Change State: " + newState.stateName + " from " + currentState.stateName);
         nextState = newState;
         currentState.Exit(newState);
     }
@@ -70,7 +71,8 @@ public abstract class Statemachine : MonoBehaviour
         }
         currentState = nextState;
         currentStateName = currentState.stateName;
-        nextState = null;
+        nextState = null; 
+        //Debug.Log("New State " + currentState.stateName);
         currentState.Start();
     }
 }

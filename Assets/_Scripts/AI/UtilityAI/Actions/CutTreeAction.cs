@@ -1,8 +1,9 @@
+using OutcastMayor.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "CutTreeAction", menuName = "ScriptableObjects/UtilityAI/Actions/CutTreeAction", order = 1)]
     public class CutTreeAction : Action

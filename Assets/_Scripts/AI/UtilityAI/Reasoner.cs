@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     public class Reasoner
     {
@@ -40,7 +40,7 @@ namespace UtilityAI
                     actionInstances.AddRange(instances);
                 }
             }
-            Debug.Log("Found " + Blackboard.smartObjects.Count + " smartObjects with " + count + "advertisements");
+            Debug.Log(controller.name + " found " + Blackboard.smartObjects.Count + " smartObjects with " + count + "advertisements");
 
 
         }
@@ -50,7 +50,7 @@ namespace UtilityAI
 
             float bestScore = -1;
             ActionInstance bestAction = null;
-            string log = "<b>Utility Log:</b>\n";
+            string log = "<b>Utility Log for " + controller.name + ":</b>\n";
 
             log += actionInstances.Count + " available actions Instances.\n";
 

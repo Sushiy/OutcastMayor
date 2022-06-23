@@ -2,344 +2,349 @@ using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 
-[ExecuteAlways]
-public class ZoningController : MonoBehaviour
+namespace OutcastMayor.Zoning
 {
-    [SerializeField]
-    bool xInverted = false;
-    [SerializeField]
-    int sizeX = 1;
-    [SerializeField]
-    bool zInverted = false;
-    [SerializeField]
-    int sizeZ = 1;
-
-    [SerializeField]
-    TMP_Text sizeXText;
-
-    [SerializeField]
-    TMP_Text sizeZText;
-
-    [SerializeField]
-    Shapes.Line outsideLineX1;
-    [SerializeField]
-    Shapes.Line outsideLineX2;
-    [SerializeField]
-    Shapes.Line outsideLineZ1;
-    [SerializeField]
-    Shapes.Line outsideLineZ2;
-
-    [SerializeField]
-    Transform dragHandle;
-    [SerializeField]
-    Transform snappedHandle;
-
-    [SerializeField]
-    Shapes.Line gridLinePrefab;
-    [SerializeField]
-    List<Shapes.Line> gridLines;
-    [SerializeField]
-    Transform gridLineParent;
-
-    [SerializeField]
-    Shapes.Polyline advancedGridLinePrefab;
-    [SerializeField]
-    List<Shapes.Polyline> advancedGridLines;
-    [SerializeField]
-    Transform advancedGridLineParent;
-
-    /// <summary>
-    /// List of grid points, mapped onto the terrain
-    /// </summary>
-    [Header("Terrain Mapping")]
-    [SerializeField]
-    List<List<Vector3>> gridPoints;
-
-    List<List<Vector3>> originalGridPoints;
-    [SerializeField]
-    Shapes.Polyline mappedOutsideLine;
-
-    [SerializeField]
-    float verticalGridOffset = .5f;
-
-    void Update()
+    [ExecuteAlways]
+    public class ZoningController : MonoBehaviour
     {
-        UpdateGrid();
-    }
+        [SerializeField]
+        bool xInverted = false;
+        [SerializeField]
+        int sizeX = 1;
+        [SerializeField]
+        bool zInverted = false;
+        [SerializeField]
+        int sizeZ = 1;
 
-    void UpdateGrid()
-    {
-        int newX = Mathf.RoundToInt(dragHandle.localPosition.x);
-        if(newX < 0)
+        [SerializeField]
+        TMP_Text sizeXText;
+
+        [SerializeField]
+        TMP_Text sizeZText;
+
+        [SerializeField]
+        Shapes.Line outsideLineX1;
+        [SerializeField]
+        Shapes.Line outsideLineX2;
+        [SerializeField]
+        Shapes.Line outsideLineZ1;
+        [SerializeField]
+        Shapes.Line outsideLineZ2;
+
+        [SerializeField]
+        Transform dragHandle;
+        [SerializeField]
+        Transform snappedHandle;
+
+        [SerializeField]
+        Shapes.Line gridLinePrefab;
+        [SerializeField]
+        List<Shapes.Line> gridLines;
+        [SerializeField]
+        Transform gridLineParent;
+
+        [SerializeField]
+        Shapes.Polyline advancedGridLinePrefab;
+        [SerializeField]
+        List<Shapes.Polyline> advancedGridLines;
+        [SerializeField]
+        Transform advancedGridLineParent;
+
+        /// <summary>
+        /// List of grid points, mapped onto the terrain
+        /// </summary>
+        [Header("Terrain Mapping")]
+        [SerializeField]
+        List<List<Vector3>> gridPoints;
+
+        List<List<Vector3>> originalGridPoints;
+        [SerializeField]
+        Shapes.Polyline mappedOutsideLine;
+
+        [SerializeField]
+        float verticalGridOffset = .5f;
+
+        void Update()
         {
-            xInverted = true;
+            UpdateGrid();
         }
-        else
+
+        void UpdateGrid()
         {
-            xInverted = false;
-        }
-        int newZ = Mathf.RoundToInt(dragHandle.localPosition.z);
-        if (newZ < 0)
-        {
-            zInverted = true;
-        }
-        else
-        {
-            zInverted = false;
-        }
-        if (newX != sizeX || newZ != sizeZ)
-        {
-            int oldSizeX = sizeX;
-            int oldSizeZ = sizeZ;
-            sizeX = Mathf.Abs(newX);
-            sizeZ = Mathf.Abs(newZ);
-
-            Vector3 xDir = xInverted ? -transform.right : transform.right;
-            Vector3 zDir = zInverted ? -transform.forward : transform.forward;
-
-
-            outsideLineX1.End = xDir * sizeX;
-            
-            outsideLineZ1.End = zDir * sizeZ;
-
-            snappedHandle.position = xDir * sizeX + zDir * sizeZ;
-
-            outsideLineX2.Start = outsideLineZ1.End;
-            outsideLineX2.End = snappedHandle.position;
-
-            outsideLineZ2.Start = outsideLineX1.End;
-            outsideLineZ2.End = snappedHandle.position;
-
-            Vector3 pos = transform.position + outsideLineX1.End / 2.0f;
-            pos.y = Terrain.activeTerrain.SampleHeight(pos) - verticalGridOffset;
-            sizeXText.transform.position = pos;
-            sizeXText.text = sizeX.ToString();
-            pos = transform.position + outsideLineX1.End + outsideLineZ1.End / 2.0f;
-            pos.y = Terrain.activeTerrain.SampleHeight(pos) - verticalGridOffset;
-            sizeZText.transform.position = pos;
-            sizeZText.text = sizeZ.ToString();
-
-            //********GRID********
-
-            /*
-            if(gridLines == null)
+            int newX = Mathf.RoundToInt(dragHandle.localPosition.x);
+            if (newX < 0)
             {
-                gridLines = new List<Shapes.Line>();
+                xInverted = true;
             }
-
-            int gridLineCount = (Mathf.Max(0,(sizeX - 1)) + Mathf.Max(0, (sizeZ - 1)));
-            int gridLineDiff = gridLineCount - gridLines.Count;
-            if (gridLineDiff > 0)
+            else
             {
-                //There are not enough gridlines, so spawn more!
-                for (int i = 0; i < gridLineCount; i++)
-                {
-                    gridLines.Add(Instantiate<Shapes.Line>(gridLinePrefab, gridLineParent));
-                }
+                xInverted = false;
             }
-            else if (gridLineDiff < 0)
+            int newZ = Mathf.RoundToInt(dragHandle.localPosition.z);
+            if (newZ < 0)
             {
-                //There are too many gridlines, so let's deactivate those
-                for (int i = gridLineCount; i < gridLines.Count; i++)
-                {
-                    gridLines[i].gameObject.SetActive(false);
-                }
+                zInverted = true;
             }
-
-            if(sizeX > 0)
+            else
             {
-                //Create the gridlines along the xBorder
-                for (int i = 1; i < sizeX; i++)
+                zInverted = false;
+            }
+            if (newX != sizeX || newZ != sizeZ)
+            {
+                int oldSizeX = sizeX;
+                int oldSizeZ = sizeZ;
+                sizeX = Mathf.Abs(newX);
+                sizeZ = Mathf.Abs(newZ);
+
+                Vector3 xDir = xInverted ? -transform.right : transform.right;
+                Vector3 zDir = zInverted ? -transform.forward : transform.forward;
+
+
+                outsideLineX1.End = xDir * sizeX;
+
+                outsideLineZ1.End = zDir * sizeZ;
+
+                snappedHandle.position = xDir * sizeX + zDir * sizeZ;
+
+                outsideLineX2.Start = outsideLineZ1.End;
+                outsideLineX2.End = snappedHandle.position;
+
+                outsideLineZ2.Start = outsideLineX1.End;
+                outsideLineZ2.End = snappedHandle.position;
+
+                Vector3 pos = transform.position + outsideLineX1.End / 2.0f;
+                pos.y = Terrain.activeTerrain.SampleHeight(pos) - verticalGridOffset;
+                sizeXText.transform.position = pos;
+                sizeXText.text = sizeX.ToString();
+                pos = transform.position + outsideLineX1.End + outsideLineZ1.End / 2.0f;
+                pos.y = Terrain.activeTerrain.SampleHeight(pos) - verticalGridOffset;
+                sizeZText.transform.position = pos;
+                sizeZText.text = sizeZ.ToString();
+
+                //********GRID********
+
+                /*
+                if(gridLines == null)
                 {
-                    gridLines[i-1].gameObject.SetActive(true);
-                    gridLines[i-1].gameObject.name = "GridLineX" + (i-1);
-                    gridLines[i-1].Start = xDir * (i+1);
-                    gridLines[i-1].End = gridLines[i-1].Start + outsideLineZ1.End;
+                    gridLines = new List<Shapes.Line>();
                 }
 
-            }
-            if (sizeZ > 0)
-            {
-                int x = Mathf.Max(0, (sizeX - 1));
-                //Create the gridlines along the zBorder
-                for (int i = 1; i < sizeZ; i++)
+                int gridLineCount = (Mathf.Max(0,(sizeX - 1)) + Mathf.Max(0, (sizeZ - 1)));
+                int gridLineDiff = gridLineCount - gridLines.Count;
+                if (gridLineDiff > 0)
                 {
-                    gridLines[(x + i-1].gameObject.SetActive(true);
-                    gridLines[(x + i-1].gameObject.name = "GridLineZ" + (i-1);
-                    gridLines[(x + i-1].Start = zDir * (i+1);
-                    gridLines[x + i - 1].End = gridLines[x + i - 1].Start + outsideLineX1.End;
-                }
-            }
-            */
-            //*****TERRAIN MAPPING*****
-
-            //1. DONE Build the required number of gridpoints
-            //2. DONE Raycast up and down from every gridpoint to find the hegiht of the terrain at that point
-            //3. DONE Adjust the gridpoint
-            //4. DOING Adjust the gridDrawing
-            //5. Mark Cells that are "too steep" or "blocked"
-
-            int gridX = sizeX + 1;
-            int gridZ = sizeZ + 1;
-
-            if (originalGridPoints == null)
-            {
-                originalGridPoints = new List<List<Vector3>>(gridX);
-            }
-
-            if(gridPoints == null)
-            {
-                gridPoints = new List<List<Vector3>>(gridX);
-            }
-
-            //Clear old Gridpoints TODO: Optimize this!
-            mappedOutsideLine.points.Clear();
-
-            for (int x = 0; x < gridX; x++)
-            {
-                if(originalGridPoints.Count <= x)
-                {
-                    originalGridPoints.Add(new List<Vector3>(gridZ));
-                }
-                if (gridPoints.Count <= x)
-                {
-                    gridPoints.Add(new List<Vector3>(gridZ));
-                }
-
-                for (int z = 0; z < gridZ; z++)
-                {
-                    if(originalGridPoints[x].Count <= z)
+                    //There are not enough gridlines, so spawn more!
+                    for (int i = 0; i < gridLineCount; i++)
                     {
-                        originalGridPoints[x].Add(Vector3.zero);
+                        gridLines.Add(Instantiate<Shapes.Line>(gridLinePrefab, gridLineParent));
                     }
-                    if (gridPoints[x].Count <= z)
-                    {
-                        gridPoints[x].Add(Vector3.zero);
-                    }
-                    originalGridPoints[x][z] = transform.position + zDir * z + xDir * x;
-
-                    Vector3 point = originalGridPoints[x][z];
-                    point.y = Terrain.activeTerrain.SampleHeight(originalGridPoints[x][z]) - verticalGridOffset;
-                    gridPoints[x][z] = point;
                 }
-            }
+                else if (gridLineDiff < 0)
+                {
+                    //There are too many gridlines, so let's deactivate those
+                    for (int i = gridLineCount; i < gridLines.Count; i++)
+                    {
+                        gridLines[i].gameObject.SetActive(false);
+                    }
+                }
 
-            //Draw outline
-            for (int i = 0; i < gridX; i++)
-            {
-                mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[i][0])));
-            }
-            for (int i = 1; i < gridZ; i++)
-            {
-                mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[gridX - 1][i])));
-            }
-            for (int i = gridX-2; i >= 0; i--)
-            {
-                mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[i][gridZ-1])));
-            }
-            for (int i = gridZ-2; i > 0; i--)
-            {
-                mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[0][i])));
-            }
+                if(sizeX > 0)
+                {
+                    //Create the gridlines along the xBorder
+                    for (int i = 1; i < sizeX; i++)
+                    {
+                        gridLines[i-1].gameObject.SetActive(true);
+                        gridLines[i-1].gameObject.name = "GridLineX" + (i-1);
+                        gridLines[i-1].Start = xDir * (i+1);
+                        gridLines[i-1].End = gridLines[i-1].Start + outsideLineZ1.End;
+                    }
 
-            //Advanced Grid:
-            //The grid has 1 line less than size for each dimension, though not less than 0 for either dimension (obviously)
-            int advancedGridLineCount = (Mathf.Max(0, (sizeX - 1)) + Mathf.Max(0, (sizeZ - 1)));
-            int advancedGridLineDiff = advancedGridLineCount - advancedGridLines.Count;
+                }
+                if (sizeZ > 0)
+                {
+                    int x = Mathf.Max(0, (sizeX - 1));
+                    //Create the gridlines along the zBorder
+                    for (int i = 1; i < sizeZ; i++)
+                    {
+                        gridLines[(x + i-1].gameObject.SetActive(true);
+                        gridLines[(x + i-1].gameObject.name = "GridLineZ" + (i-1);
+                        gridLines[(x + i-1].Start = zDir * (i+1);
+                        gridLines[x + i - 1].End = gridLines[x + i - 1].Start + outsideLineX1.End;
+                    }
+                }
+                */
+                //*****TERRAIN MAPPING*****
 
-            if (advancedGridLines == null)
-            {
-                advancedGridLines = new List<Shapes.Polyline>();
-            }
+                //1. DONE Build the required number of gridpoints
+                //2. DONE Raycast up and down from every gridpoint to find the hegiht of the terrain at that point
+                //3. DONE Adjust the gridpoint
+                //4. DOING Adjust the gridDrawing
+                //5. Mark Cells that are "too steep" or "blocked"
 
-            if (advancedGridLineDiff > 0)
-            {
-                //There are not enough gridlines, so spawn more!
+                int gridX = sizeX + 1;
+                int gridZ = sizeZ + 1;
+
+                if (originalGridPoints == null)
+                {
+                    originalGridPoints = new List<List<Vector3>>(gridX);
+                }
+
+                if (gridPoints == null)
+                {
+                    gridPoints = new List<List<Vector3>>(gridX);
+                }
+
+                //Clear old Gridpoints TODO: Optimize this!
+                mappedOutsideLine.points.Clear();
+
+                for (int x = 0; x < gridX; x++)
+                {
+                    if (originalGridPoints.Count <= x)
+                    {
+                        originalGridPoints.Add(new List<Vector3>(gridZ));
+                    }
+                    if (gridPoints.Count <= x)
+                    {
+                        gridPoints.Add(new List<Vector3>(gridZ));
+                    }
+
+                    for (int z = 0; z < gridZ; z++)
+                    {
+                        if (originalGridPoints[x].Count <= z)
+                        {
+                            originalGridPoints[x].Add(Vector3.zero);
+                        }
+                        if (gridPoints[x].Count <= z)
+                        {
+                            gridPoints[x].Add(Vector3.zero);
+                        }
+                        originalGridPoints[x][z] = transform.position + zDir * z + xDir * x;
+
+                        Vector3 point = originalGridPoints[x][z];
+                        point.y = Terrain.activeTerrain.SampleHeight(originalGridPoints[x][z]) - verticalGridOffset;
+                        gridPoints[x][z] = point;
+                    }
+                }
+
+                //Draw outline
+                for (int i = 0; i < gridX; i++)
+                {
+                    mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[i][0])));
+                }
+                for (int i = 1; i < gridZ; i++)
+                {
+                    mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[gridX - 1][i])));
+                }
+                for (int i = gridX - 2; i >= 0; i--)
+                {
+                    mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[i][gridZ - 1])));
+                }
+                for (int i = gridZ - 2; i > 0; i--)
+                {
+                    mappedOutsideLine.AddPoint(new Shapes.PolylinePoint(transform.InverseTransformPoint(gridPoints[0][i])));
+                }
+
+                //Advanced Grid:
+                //The grid has 1 line less than size for each dimension, though not less than 0 for either dimension (obviously)
+                int advancedGridLineCount = (Mathf.Max(0, (sizeX - 1)) + Mathf.Max(0, (sizeZ - 1)));
+                int advancedGridLineDiff = advancedGridLineCount - advancedGridLines.Count;
+
+                if (advancedGridLines == null)
+                {
+                    advancedGridLines = new List<Shapes.Polyline>();
+                }
+
+                if (advancedGridLineDiff > 0)
+                {
+                    //There are not enough gridlines, so spawn more!
+                    for (int i = 0; i < advancedGridLineCount; i++)
+                    {
+                        advancedGridLines.Add(Instantiate<Shapes.Polyline>(advancedGridLinePrefab, advancedGridLineParent));
+                    }
+                }
+                else if (advancedGridLineDiff < 0)
+                {
+                    //There are too many gridlines, so let's deactivate those
+                    for (int i = advancedGridLineCount; i < advancedGridLines.Count; i++)
+                    {
+                        advancedGridLines[i].gameObject.SetActive(false);
+                    }
+                }
                 for (int i = 0; i < advancedGridLineCount; i++)
-                {
-                    advancedGridLines.Add(Instantiate<Shapes.Polyline>(advancedGridLinePrefab, advancedGridLineParent));
-                }
-            }
-            else if (advancedGridLineDiff < 0)
-            {
-                //There are too many gridlines, so let's deactivate those
-                for (int i = advancedGridLineCount; i < advancedGridLines.Count; i++)
                 {
                     advancedGridLines[i].gameObject.SetActive(false);
                 }
-            }
-            for (int i = 0; i < advancedGridLineCount; i++)
-            {
-                advancedGridLines[i].gameObject.SetActive(false);
-            }
 
-            if (sizeX > 1)
-            {
-                //Create the gridlines along the xBorder
-                for (int i = 1; i < sizeX; i++)
+                if (sizeX > 1)
                 {
-                    advancedGridLines[i-1].gameObject.SetActive(true);
-                    advancedGridLines[i-1].gameObject.name = "GridLineX" + (i-1);
-                    advancedGridLines[i-1].points.Clear();
-
-                    for (int j = 0; j <= sizeZ; j++)
+                    //Create the gridlines along the xBorder
+                    for (int i = 1; i < sizeX; i++)
                     {
-                        advancedGridLines[i-1].AddPoint(transform.InverseTransformPoint(gridPoints[i][j]));
-                    }
-                }
+                        advancedGridLines[i - 1].gameObject.SetActive(true);
+                        advancedGridLines[i - 1].gameObject.name = "GridLineX" + (i - 1);
+                        advancedGridLines[i - 1].points.Clear();
 
-            }
-            if (sizeZ > 1)
-            {
-                int x = Mathf.Max(0, (sizeX - 1));
-                //Create the gridlines along the zBorder
-                for (int i = 1; i < sizeZ; i++)
-                {
-                    try
-                    {
-                        advancedGridLines[x + i - 1].gameObject.SetActive(true);
-                        advancedGridLines[x + i - 1].gameObject.name = "GridLineZ" + (i - 1);
-                        advancedGridLines[x + i - 1].points.Clear();
-                        for (int j = 0; j <= sizeX; j++)
+                        for (int j = 0; j <= sizeZ; j++)
                         {
-                            advancedGridLines[x + i - 1].AddPoint(transform.InverseTransformPoint(gridPoints[j][i]));
+                            advancedGridLines[i - 1].AddPoint(transform.InverseTransformPoint(gridPoints[i][j]));
                         }
+                    }
 
-                    }
-                    catch(System.ArgumentOutOfRangeException e)
-                    {
-                        print("While trying to draw advanced line " + (x + i - 1) + " sizeX" + sizeX + " sizeZ" + sizeZ + " i" + i + " count" + advancedGridLineCount);
-                        Debug.LogError(e);
-                    }
                 }
-            }
-
-        }
-    }
-
-    public void UpdateDragHandlePosition(Vector3 position)
-    {
-        dragHandle.position = position;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if(originalGridPoints != null)
-        {
-            for (int x = 0; x < sizeX+1; x++)
-            {
-                for (int z = 0; z < sizeZ+1; z++)
+                if (sizeZ > 1)
                 {
-                    Gizmos.color = Color.blue;
-                    Gizmos.DrawLine(originalGridPoints[x][z], gridPoints[x][z]);
-                }
-            }
+                    int x = Mathf.Max(0, (sizeX - 1));
+                    //Create the gridlines along the zBorder
+                    for (int i = 1; i < sizeZ; i++)
+                    {
+                        try
+                        {
+                            advancedGridLines[x + i - 1].gameObject.SetActive(true);
+                            advancedGridLines[x + i - 1].gameObject.name = "GridLineZ" + (i - 1);
+                            advancedGridLines[x + i - 1].points.Clear();
+                            for (int j = 0; j <= sizeX; j++)
+                            {
+                                advancedGridLines[x + i - 1].AddPoint(transform.InverseTransformPoint(gridPoints[j][i]));
+                            }
 
+                        }
+                        catch (System.ArgumentOutOfRangeException e)
+                        {
+                            print("While trying to draw advanced line " + (x + i - 1) + " sizeX" + sizeX + " sizeZ" + sizeZ + " i" + i + " count" + advancedGridLineCount);
+                            Debug.LogError(e);
+                        }
+                    }
+                }
+
+            }
+        }
+
+        public void UpdateDragHandlePosition(Vector3 position)
+        {
+            dragHandle.position = position;
+        }
+
+        private void OnDrawGizmos()
+        {
+            if (originalGridPoints != null)
+            {
+                for (int x = 0; x < sizeX + 1; x++)
+                {
+                    for (int z = 0; z < sizeZ + 1; z++)
+                    {
+                        Gizmos.color = Color.blue;
+                        Gizmos.DrawLine(originalGridPoints[x][z], gridPoints[x][z]);
+                    }
+                }
+
+            }
+        }
+
+        public void InitStockpile(StockpileZone zone)
+        {
+            zone.InitStockpile(sizeX, sizeZ, gridPoints);
         }
     }
 
-    public void InitStockpile(StockpileZone zone)
-    {
-        zone.InitStockpile(sizeX, sizeZ, gridPoints);
-    }
+
 }

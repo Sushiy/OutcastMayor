@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     public abstract class Consideration : ScriptableObject
     {

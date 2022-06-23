@@ -2,44 +2,46 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerToolManager : MonoBehaviour
-{
-    public SwingableTool[] tools;
-
-    public SwingableTool activeTool;
-
-    private Character parentCharacter;
-
-    private void Awake()
+namespace OutcastMayor
+{    public class PlayerToolManager : MonoBehaviour
     {
-        parentCharacter = GetComponentInParent<Character>();
-        EquipTool(0);
-    }
+        public SwingableTool[] tools;
 
-    public void EquipTool(int i)
-    {
-        activeTool = tools[i];
-        activeTool.Equip();
-    }
+        public SwingableTool activeTool;
 
-    public void UnequipTool()
-    {
-        activeTool.gameObject.SetActive(false);
-        activeTool = null;
-    }
+        private Character parentCharacter;
 
-    public void SwingTool()
-    {
-        parentCharacter.CharacterAnimation.SetSwing();
-    }
+        private void Awake()
+        {
+            parentCharacter = GetComponentInParent<Character>();
+            EquipTool(0);
+        }
 
-    public void OnSwingStart()
-    {
-        activeTool.OnStartSwing();
-    }
+        public void EquipTool(int i)
+        {
+            activeTool = tools[i];
+            activeTool.Equip();
+        }
 
-    public void OnSwingEnd()
-    {
-        activeTool.OnEndSwing();
+        public void UnequipTool()
+        {
+            activeTool.gameObject.SetActive(false);
+            activeTool = null;
+        }
+
+        public void SwingTool()
+        {
+            parentCharacter.CharacterAnimation.SetSwing();
+        }
+
+        public void OnSwingStart()
+        {
+            activeTool.OnStartSwing();
+        }
+
+        public void OnSwingEnd()
+        {
+            activeTool.OnEndSwing();
+        }
     }
 }

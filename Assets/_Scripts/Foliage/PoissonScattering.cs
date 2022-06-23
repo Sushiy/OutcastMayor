@@ -14,7 +14,8 @@ public class PoissonScattering : MonoBehaviour
     [Header("Poisson Sampling")]
     public bool showPoissonPoints = false;
     public float radius = 1;
-    public Vector2 regionSize = Vector2.one;
+
+    //public Vector2 regionSize = Vector2.one;
     public int rejectionSamples = 30;
 
     public float displayRadius = 1;
@@ -43,15 +44,15 @@ public class PoissonScattering : MonoBehaviour
     {
         if (showPoissonPoints && poissonPoints != null)
         {
-            Gizmos.color = Color.green;
+            Gizmos.color = Color.red;
             foreach (PoissonSample sample in poissonPoints)
             {
-                Gizmos.DrawSphere(sample.position, displayRadius);
-                Gizmos.DrawRay(sample.position, sample.normal * .1f);
+                Gizmos.DrawSphere(transform.TransformPoint(sample.position), displayRadius);
+                Gizmos.DrawRay(transform.TransformPoint(sample.position), transform.TransformDirection(sample.normal) * .1f);
             }
         }
     }
-
+    /*
     #region PoissonSampling 2D
     [Button]
     public void GenerateGrid()
@@ -136,7 +137,7 @@ public class PoissonScattering : MonoBehaviour
         return false;
     }
     #endregion
-
+    */
     #region PoissonSampling On Meshsurface
     [Button]
     public void GenerateGridOnMesh()

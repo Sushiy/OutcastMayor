@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "NewBuildRecipeFlip", menuName = "ScriptableObjects/BuildRecipeFlip", order = 1)]
-public class BuildRecipeFlip : BuildRecipe
+namespace OutcastMayor.Building
 {
-    public Vector3 flippedScale = new Vector3(1, -1, 1);
-    public bool isFlipped = false;
-
-    public override void Alternate(float alternateInput)
+    [CreateAssetMenu(fileName = "NewBuildRecipeFlip", menuName = "ScriptableObjects/BuildRecipeFlip", order = 1)]
+    public class BuildRecipeFlip : BuildRecipe
     {
-        if (isFlipped)
-            buildScale = Vector3.one;
-        else
-            buildScale = flippedScale;
+        public Vector3 flippedScale = new Vector3(1, -1, 1);
+        public bool isFlipped = false;
+
+        public override void Alternate(float alternateInput)
+        {
+            if (isFlipped)
+                buildScale = Vector3.one;
+            else
+                buildScale = flippedScale;
+        }
     }
+
 }

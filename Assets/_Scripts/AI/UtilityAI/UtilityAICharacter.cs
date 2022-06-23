@@ -1,8 +1,10 @@
+using OutcastMayor.Building;
+using OutcastMayor.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     public class UtilityAICharacter : Character
     {
@@ -68,7 +70,7 @@ namespace UtilityAI
 
         void IdleStart()
         {
-
+            timeSinceLastUpdate = updateInterval - 1.0f;
         }
 
         void IdleUpdate()
@@ -99,13 +101,6 @@ namespace UtilityAI
 
         void PerformingUpdate()
         {
-            print("PerformingUpdate");
-            if (!isSleeping)
-            {
-                sleepy += .01f * Time.deltaTime;
-                sleepy = Mathf.Clamp01(sleepy);
-            }
-
             //Should we also check for new actions periodically here?
             if(aiMovement.IsMoving())
             {
@@ -154,12 +149,21 @@ namespace UtilityAI
 
         public void MoveTo(Vector3 position, bool running)
         {
-            ChangeState(MoveToState);
-            aiMovement.MoveTo(position, running, ArrivedAtLocation);
+            if(!aiMovement.IsAlreadyArrived(position))
+            {
+                ChangeState(MoveToState);
+                aiMovement.MoveTo(position, running, ArrivedAtLocation);
+            }
+            else
+            {
+                Debug.Log("Agent is already there");
+                ChangeState(PerformingState);
+            }
         }
 
         public void ArrivedAtLocation()
         {
+            print("Arrived at moveToLocation");
             aiMovement.OnPathComplete.RemoveListener(ArrivedAtLocation);
             ChangeState(PerformingState);
         }
@@ -171,6 +175,12 @@ namespace UtilityAI
 
         private void Update()
         {
+            if (!isSleeping)
+            {
+                sleepy += .01f * Time.deltaTime;
+                sleepy = Mathf.Clamp01(sleepy);
+            }
+
             food -= .033f * Time.deltaTime;
             food = Mathf.Clamp01(food);
             
@@ -202,6 +212,12 @@ namespace UtilityAI
         {
             base.Sleep();
             timeSinceLastUpdate = updateInterval;
+        }
+
+        public override void Eat(Food food)
+        {
+            base.Eat(food);
+            this.food += food.nourishment;
         }
 
         public void ResetConsiderationMemory()

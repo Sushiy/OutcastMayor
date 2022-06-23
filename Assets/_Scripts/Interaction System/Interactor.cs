@@ -2,69 +2,72 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactor : MonoBehaviour
+namespace OutcastMayor
 {
-    public Transform rayCastOrigin;
-
-    Collider hoveredCollider;
-    public Interactable hoveredInteractable;
-
-    public Character parentCharacter
+    public class Interactor : MonoBehaviour
     {
-        get;
-        private set;
-    }
+        public Transform rayCastOrigin;
 
-    public void SetParentCharacter(Character character)
-    {
-        parentCharacter = character;
-    }
+        Collider hoveredCollider;
+        public Interactable hoveredInteractable;
 
-    public void Interact()
-    {
-        if(hoveredInteractable)
+        public Character parentCharacter
         {
-            hoveredInteractable.Interact(this);
+            get;
+            private set;
         }
-    }
 
-    public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
-    {
-        Interactable previousInteractable = hoveredInteractable;
-        if(raycastHit)
+        public void SetParentCharacter(Character character)
         {
-            //If this is the same collider as last time, 
-            if (hitInfo.collider == hoveredCollider)
+            parentCharacter = character;
+        }
+
+        public void Interact()
+        {
+            if (hoveredInteractable)
             {
-                return;
+                hoveredInteractable.Interact(this);
             }
+        }
 
-            //Check what we have hit
-            hoveredCollider = hitInfo.collider;
-            hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
-
-            //print("Hovered = " + (hoveredInteractable != null) + " previous = " + (previousInteractable != null));
-            if (hoveredInteractable != null)
+        public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
+        {
+            Interactable previousInteractable = hoveredInteractable;
+            if (raycastHit)
             {
-                //Start hovering on the next interactable
-                hoveredInteractable.OnStartHover(this);
+                //If this is the same collider as last time, 
+                if (hitInfo.collider == hoveredCollider)
+                {
+                    return;
+                }
+
+                //Check what we have hit
+                hoveredCollider = hitInfo.collider;
+                hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
+
+                //print("Hovered = " + (hoveredInteractable != null) + " previous = " + (previousInteractable != null));
+                if (hoveredInteractable != null)
+                {
+                    //Start hovering on the next interactable
+                    hoveredInteractable.OnStartHover(this);
+                }
+                else
+                {
+                    //if you hovered an interactable last frame, stop
+                    if (previousInteractable != null)
+                    {
+                        previousInteractable.OnEndHover(this);
+                    }
+                }
             }
             else
             {
-                //if you hovered an interactable last frame, stop
                 if (previousInteractable != null)
                 {
-                    previousInteractable.OnEndHover(this);
+                    hoveredInteractable.OnEndHover(this);
+                    hoveredCollider = null;
+                    hoveredInteractable = null;
                 }
-            }
-        }
-        else
-        {
-            if(previousInteractable != null)
-            {
-                hoveredInteractable.OnEndHover(this);
-                hoveredCollider = null;
-                hoveredInteractable = null;
             }
         }
     }

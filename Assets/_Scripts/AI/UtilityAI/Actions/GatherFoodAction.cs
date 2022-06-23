@@ -1,8 +1,9 @@
+using OutcastMayor.Interaction;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     /// <summary>
     /// This action has similar conditions to "EAT", but only picks up a food item to enable eat actions

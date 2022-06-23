@@ -1,8 +1,9 @@
+using OutcastMayor.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "EatAction", menuName = "ScriptableObjects/UtilityAI/Actions/EatAction", order = 1)]
     public class EatAction : Action
@@ -14,25 +15,79 @@ namespace UtilityAI
 
         public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
-            Debug.Log(controller.name + " started eating");
-
-            if (controller.Inventory.Contains("Apple"))
+            Items.Food food = null;
+            if (instanceData[0] is Items.Food)
             {
-                controller.Inventory.Delete("Apple");
+                food = instanceData[0] as Items.Food;
             }
-            controller.food += .5f;
+            if(controller.Inventory.Contains(food))
+            {
+                controller.Eat(food);
+                Debug.Log("<color=green>" + controller.name + " -> EatAction completed with " + food.DisplayName + "</color>");
+                controller.ActionCompleted();
+            }
+            else
+            {
+                Debug.Log("<color=red>" + controller.name + " -> EatAction failed with " + food.DisplayName + "</color>");
+                Cancel(controller, instanceData, instanceValues);
+            }
 
         }
         public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             //Put away the food?
+            controller.ActionCompleted();
         }
 
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
-            ActionInstance[] result = new ActionInstance[] { new ActionInstance(this, owner, new Object[0], new int[0]) };
-            return result;
+            List<ActionInstance> instances = new List<ActionInstance>();
+
+            Inventory inventory = controller.Inventory;
+            if (inventory != null && inventory.slots.Length > 0)
+            {
+                for (int i = 0; i < inventory.slots.Length; i++)
+                {
+                    Inventory.ItemStack stack = inventory.slots[i];
+                    if (stack.count > 0 && stack.item.HasTag(Item.Tag.Food) && stack.item is Items.Food)
+                    {
+                        Items.Food food = stack.item as Items.Food;
+                        ActionInstance instance = new ActionInstance(this, owner, new Object[] { food }, new int[0]);
+                        //Check if the instance is valid before adding it to the list
+                        if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
+                        {
+                            instances.Add(instance);
+                        }
+                    }
+                }
+            }
+
+            return instances.ToArray();
+        }
+        
+        /// <summary>
+        /// Verify if this instance has everything is valid to be checked
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="instanceData"></param>
+        /// <param name="instanceValues"></param>
+        /// <returns></returns>
+        public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
+        {
+            Inventory inventory = owner.GetComponent<Inventory>();
+            if (inventory == null) return false;
+            Items.Food food = null;
+            if (instanceData[0] is Items.Food)
+            {
+                food = instanceData[0] as Items.Food;
+                return inventory.Contains(food);
+            }
+            else
+            {
+                Debug.LogError("No Food");
+                return false;
+            }
         }
     }
 }

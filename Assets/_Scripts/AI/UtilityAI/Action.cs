@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     public abstract class Action : ScriptableObject
     {
@@ -57,7 +57,7 @@ namespace UtilityAI
 
         public int[] instanceValues;
 
-        public ActionInstance(Action actionReference, SmartObject owner, Object[] instanceData, int[] instanceValue)
+        public ActionInstance(Action actionReference, SmartObject owner, Object[] instanceData, int[] instanceValues)
         {
             this.actionReference = actionReference;
             this.owner = owner;
@@ -65,12 +65,12 @@ namespace UtilityAI
             instanceData.CopyTo(this.instanceData, 0);
             if(instanceValues != null)
             {
-                Debug.Log("byte array is not null");
                 this.instanceValues = new int[instanceValues.Length];
                 instanceValues.CopyTo(this.instanceValues, 0);
             }
             else
             {
+                Debug.Log("byte array is null");
                 this.instanceValues = new int[0];
             }
         }

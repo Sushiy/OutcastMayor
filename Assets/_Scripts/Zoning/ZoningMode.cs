@@ -3,109 +3,112 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-[System.Serializable]
-public class ZoningMode
+namespace OutcastMayor.Zoning
 {
-    public bool isActive
+    [System.Serializable]
+    public class ZoningMode
     {
-        private set;
-        get;
-    }
-
-    [SerializeField]
-    Player player;
-
-    [SerializeField]
-    ZoningController zonePrefab;
-
-    [SerializeField]
-    private Transform zoneParent;
-
-    private Vector3 buildPosition;
-    private Vector3 rayCastPosition;
-    Ray surfaceNormal;
-    bool raycastHit;
-    [SerializeField]
-    private float raycastMaxDistance = 5.0f;
-    private Quaternion buildRotation;
-    [SerializeField]
-    private float rotateSpeed = 10.0f;
-    public float buildAngle = 0;
-
-    [SerializeField]
-    private PointerIndicator indicator;
-
-    private InputActionMap buildActionMap;
-
-    ZoningController editingZone;
-
-    public void EnterZoningMode()
-    {
-        isActive = true;
-        buildActionMap = player.GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
-        buildActionMap.Enable();
-    }
-
-    public void ExitZoningMode()
-    {
-        isActive = false;
-        buildActionMap.Disable();
-    }
-
-    public void PlaceZone()
-    {
-        if(!editingZone)
+        public bool isActive
         {
-            editingZone = GameObject.Instantiate<ZoningController>(zonePrefab, rayCastPosition, buildRotation, zoneParent);
+            private set;
+            get;
         }
-        else
+
+        [SerializeField]
+        Player player;
+
+        [SerializeField]
+        ZoningController zonePrefab;
+
+        [SerializeField]
+        private Transform zoneParent;
+
+        private Vector3 buildPosition;
+        private Vector3 rayCastPosition;
+        Ray surfaceNormal;
+        bool raycastHit;
+        [SerializeField]
+        private float raycastMaxDistance = 5.0f;
+        private Quaternion buildRotation;
+        [SerializeField]
+        private float rotateSpeed = 10.0f;
+        public float buildAngle = 0;
+
+        [SerializeField]
+        private PointerIndicator indicator;
+
+        private InputActionMap buildActionMap;
+
+        ZoningController editingZone;
+
+        public void EnterZoningMode()
         {
-            editingZone.UpdateDragHandlePosition(rayCastPosition);
-            editingZone.InitStockpile(editingZone.GetComponent<StockpileZone>());
-            editingZone.enabled = false;
-            editingZone = null;
+            isActive = true;
+            buildActionMap = player.GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
+            buildActionMap.Enable();
         }
-    }
-    public void ProcessRayCast(bool raycastHit, Ray ray, RaycastHit hitInfo)
-    {
-        this.raycastHit = raycastHit;
-        if (raycastHit)
+
+        public void ExitZoningMode()
         {
-            rayCastPosition = hitInfo.point;
-            surfaceNormal.origin = hitInfo.point;
-            surfaceNormal.direction = hitInfo.normal;
-            if (indicator)
+            isActive = false;
+            buildActionMap.Disable();
+        }
+
+        public void PlaceZone()
+        {
+            if (!editingZone)
             {
-                indicator.transform.position = rayCastPosition;
-                indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
-                indicator.SetVisible(true);
+                editingZone = GameObject.Instantiate<ZoningController>(zonePrefab, rayCastPosition, buildRotation, zoneParent);
             }
-
-            if (isActive && editingZone != null)
+            else
             {
                 editingZone.UpdateDragHandlePosition(rayCastPosition);
+                editingZone.InitStockpile(editingZone.GetComponent<StockpileZone>());
+                editingZone.enabled = false;
+                editingZone = null;
             }
         }
-        else
+        public void ProcessRayCast(bool raycastHit, Ray ray, RaycastHit hitInfo)
         {
-            if (indicator)
+            this.raycastHit = raycastHit;
+            if (raycastHit)
             {
-                indicator.SetVisible(false);
-            }
-            rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
-        }
-    }
+                rayCastPosition = hitInfo.point;
+                surfaceNormal.origin = hitInfo.point;
+                surfaceNormal.direction = hitInfo.normal;
+                if (indicator)
+                {
+                    indicator.transform.position = rayCastPosition;
+                    indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
+                    indicator.SetVisible(true);
+                }
 
-    private void Update()
-    {
-    }
-    public void Rotate(float rotateInput)
-    {
-        if (rotateInput != 0)
+                if (isActive && editingZone != null)
+                {
+                    editingZone.UpdateDragHandlePosition(rayCastPosition);
+                }
+            }
+            else
+            {
+                if (indicator)
+                {
+                    indicator.SetVisible(false);
+                }
+                rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
+            }
+        }
+
+        private void Update()
         {
-            //Debug.Log("Rotate:" + Mathf.Sign(rotateInput));
-            buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
-            buildRotation = Quaternion.Euler(0, buildAngle, 0);
+        }
+        public void Rotate(float rotateInput)
+        {
+            if (rotateInput != 0)
+            {
+                //Debug.Log("Rotate:" + Mathf.Sign(rotateInput));
+                buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
+                buildRotation = Quaternion.Euler(0, buildAngle, 0);
+            }
         }
     }
 }

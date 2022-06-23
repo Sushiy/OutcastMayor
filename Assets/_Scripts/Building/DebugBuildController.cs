@@ -2,27 +2,31 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DebugBuildController : MonoBehaviour
+namespace OutcastMayor.Building
 {
-    BuildingMode buildingMode;
-
-    public UtilityAI.UtilityAICharacter aIController;
-    public int buildCount = 1;
-
-    // Start is called before the first frame update
-    void Start()
+    public class DebugBuildController : MonoBehaviour
     {
-        buildingMode = GetComponent<BuildingMode>();
-        buildingMode.ChooseBuildRecipe(buildingMode.recipes[0]);
-        for(int i = 0; i < buildCount; i++)
+        BuildingMode buildingMode;
+
+        public UtilityAI.UtilityAICharacter aIController;
+        public int buildCount = 1;
+
+        // Start is called before the first frame update
+        void Start()
         {
-            aIController.availableConstructions.Add(buildingMode.Build(transform.position + Vector3.up + Vector3.forward * 4 * i));
+            buildingMode = GetComponent<BuildingMode>();
+            buildingMode.ChooseBuildRecipe(buildingMode.recipes[0]);
+            for (int i = 0; i < buildCount; i++)
+            {
+                aIController.availableConstructions.Add(buildingMode.Build(transform.position + Vector3.up + Vector3.forward * 4 * i));
+            }
+        }
+
+        // Update is called once per frame
+        void Update()
+        {
+
         }
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

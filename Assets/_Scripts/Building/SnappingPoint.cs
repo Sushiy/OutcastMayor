@@ -2,89 +2,94 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(SphereCollider))]
-public class SnappingPoint : MonoBehaviour
+namespace OutcastMayor.Building
 {
-    public enum SnapType
+    [RequireComponent(typeof(SphereCollider))]
+    public class SnappingPoint : MonoBehaviour
     {
-        Default = 0,
-        Window = 1
-    }
+        public enum SnapType
+        {
+            Default = 0,
+            Window = 1
+        }
 
-    public int status = 0;
+        public int status = 0;
 
-    private Color[] gizmoColors =
-    {
+        private Color[] gizmoColors =
+        {
         Color.red,
         Color.yellow,
         Color.blue,
         Color.green
     };
 
-    public SnapType snapType;
-    public Buildable buildable
-    {
-        private set;
-        get;
-    }
-
-    public Vector3 position
-    {
-        get
+        public SnapType snapType;
+        public Buildable buildable
         {
-            return transform.position;
+            private set;
+            get;
         }
-    }
 
-    private void Awake()
-    {
-        buildable = GetComponentInParent<Buildable>();
-        SphereCollider c = GetComponent<SphereCollider>();
-        c.isTrigger = true;
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.gameObject.layer == 6)
+        public Vector3 position
         {
-            UpgradeStatus(1);
-            SnappingPoint p = other.GetComponent<SnappingPoint>();
-            if(p!= null)
+            get
             {
-                UpgradeStatus(2);
-                if (true)
+                return transform.position;
+            }
+        }
+
+        private void Awake()
+        {
+            buildable = GetComponentInParent<Buildable>();
+            SphereCollider c = GetComponent<SphereCollider>();
+            c.isTrigger = true;
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if (other.gameObject.layer == 6)
+            {
+                UpgradeStatus(1);
+                SnappingPoint p = other.GetComponent<SnappingPoint>();
+                if (p != null)
                 {
-                    UpgradeStatus(3);
-                    buildable.StartSnapping(this, p);
+                    UpgradeStatus(2);
+                    if (true)
+                    {
+                        UpgradeStatus(3);
+                        buildable.StartSnapping(this, p);
+                    }
                 }
             }
         }
-    }
 
-    void UpgradeStatus(int newStatus)
-    {
-        if(newStatus > status)
+        void UpgradeStatus(int newStatus)
         {
-            status = newStatus;
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.gameObject.layer == 6)
-        {
-            SnappingPoint p = other.GetComponent<SnappingPoint>();
-            if (p != null && p.snapType == snapType)
+            if (newStatus > status)
             {
-                buildable.StopSnapping(this, p);
+                status = newStatus;
             }
-            status = 0;
+        }
+
+        private void OnTriggerExit(Collider other)
+        {
+            if (other.gameObject.layer == 6)
+            {
+                SnappingPoint p = other.GetComponent<SnappingPoint>();
+                if (p != null && p.snapType == snapType)
+                {
+                    buildable.StopSnapping(this, p);
+                }
+                status = 0;
+            }
+        }
+
+        private void OnDrawGizmos()
+        {
+            //Gizmos.color = gizmoColors[status];
+            //Gizmos.DrawWireSphere(transform.position, 0.25f);
         }
     }
 
-    private void OnDrawGizmos()
-    {
-        //Gizmos.color = gizmoColors[status];
-        //Gizmos.DrawWireSphere(transform.position, 0.25f);
-    }
+
 }

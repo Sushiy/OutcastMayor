@@ -2,12 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stockpile : MonoBehaviour
+namespace OutcastMayor.Items
 {
-    public Inventory inventory;
-
-    private void Awake()
+    public class Stockpile : MonoBehaviour
     {
-        inventory = GetComponent<Inventory>();
+        public Inventory inventory;
+
+        private void Awake()
+        {
+            inventory = GetComponent<Inventory>();
+        }
     }
+
 }

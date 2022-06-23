@@ -1,8 +1,9 @@
+using OutcastMayor.Items;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "DeliverAction", menuName = "ScriptableObjects/UtilityAI/Actions/DeliverAction", order = 1)]
     /// <summary>
@@ -29,12 +30,13 @@ namespace UtilityAI
             Stockpile stockpileTarget = instanceData[0] as Stockpile;
             Inventory.ItemStack itemStack = new Inventory.ItemStack();
             itemStack.item = instanceData[2] as Item;
+            itemStack.count = instanceValues[0];
             if (stockpileTarget == null)
             {
                 Debug.LogError("No StockpileTarget");
                 return;
             }
-            string log = controller.name + " -> DeliverAction on" + stockpileTarget.name + ":\n";
+            string log = controller.name + " -> DeliverAction " + itemStack.item.DisplayName + " to " + stockpileTarget.name + ":\n";
             stockpileTarget.inventory.Add(itemStack);
             controller.Inventory.Delete(itemStack);
             Debug.Log(log);
@@ -57,9 +59,8 @@ namespace UtilityAI
                 {
                     continue;
                 }
-                int[] b = new int[1];
-                b[0] = controller.Inventory.slots[i].count;
-                ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.Inventory.slots[i].item}, b);
+                ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.Inventory.slots[i].item}, new int[] {controller.Inventory.slots[i].count });
+                //Debug.Log("Slot: " + i + "/" + controller.Inventory.slots.Length+ " contains: " + controller.Inventory.slots[i].count);
                 if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                 {
                     instances.Add(instance);

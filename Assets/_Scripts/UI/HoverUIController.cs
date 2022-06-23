@@ -3,20 +3,23 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class HoverUIController : MonoBehaviour
+namespace OutcastMayor.UI
 {
-    public TMP_Text nameText;
-    public TMP_Text actionText;
-    
-    public void StartHover(Interactable i)
+    public class HoverUIController : MonoBehaviour
     {
-        nameText.text = i.name;
-        actionText.text = "[E] " + i.interaction;
-    }
+        public TMP_Text nameText;
+        public TMP_Text actionText;
 
-    public void EndHover()
-    {
-        nameText.text = "";
-        actionText.text = "";
+        public void StartHover(Interactable i)
+        {
+            nameText.text = i.name;
+            actionText.text = "[E] " + i.interaction;
+        }
+
+        public void EndHover()
+        {
+            nameText.text = "";
+            actionText.text = "";
+        }
     }
 }

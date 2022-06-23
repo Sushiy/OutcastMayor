@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RequestLog : MonoBehaviour
+namespace OutcastMayor.Requests
 {
-    public List<Request> activeRequests;
-
-    public List<Request> completedRequests;
-
-    public void AddQuest(Request q)
+    public class RequestLog : MonoBehaviour
     {
-        activeRequests.Add(q);
-    }
+        public List<Request> activeRequests;
 
-    public void CheckActiveQuests()
-    {
-        for(int i = 0; i < activeRequests.Count; i++)
+        public List<Request> completedRequests;
+
+        public void AddQuest(Request q)
         {
-            //Check each active quest if it is completed/completeable
+            activeRequests.Add(q);
+        }
 
+        public void CheckActiveQuests()
+        {
+            for (int i = 0; i < activeRequests.Count; i++)
+            {
+                //Check each active quest if it is completed/completeable
+
+            }
         }
     }
 }

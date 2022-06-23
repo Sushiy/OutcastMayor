@@ -10,6 +10,8 @@ public class AIMovement : MonoBehaviour, IMovement
     float runningSpeed = 5.0f;
     float walkingSpeed = 3.0f;
 
+    [SerializeField]
+    private float minRunningDistance = 10.0f;
 
     NavMeshAgent navMeshAgent;
     public UnityEvent OnPathComplete;
@@ -31,6 +33,7 @@ public class AIMovement : MonoBehaviour, IMovement
         OnPathComplete.AddListener(callback);
         if(navMeshAgent.SetDestination(position))
         {
+            running = Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) > minRunningDistance;
             navMeshAgent.speed = running ? runningSpeed : walkingSpeed;
             startedPath = true;
             print("Path started");
@@ -47,7 +50,7 @@ public class AIMovement : MonoBehaviour, IMovement
         if (startedPath && velocity > 0)
         {
             characterAnimation.SetRunning(true);
-            characterAnimation.SetSpeedForward(velocity/navMeshAgent.speed);
+            characterAnimation.SetSpeedForward(velocity/runningSpeed);
         }
         else
         {
@@ -68,7 +71,22 @@ public class AIMovement : MonoBehaviour, IMovement
         }
     }
 
-    protected bool IsPathComplete()
+    public bool IsAlreadyArrived(Vector3 worldposition)
+    {
+        NavMeshHit hit;
+        if (NavMesh.SamplePosition(worldposition, out hit, 3.0f, navMeshAgent.areaMask))
+        {
+            if (Vector3.Distance(hit.position, navMeshAgent.transform.position) <= navMeshAgent.stoppingDistance)
+            {
+                return true;
+            }
+
+            return false;
+        }
+        return false;
+    }
+
+    public bool IsPathComplete()
     {
         if (Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) <= navMeshAgent.stoppingDistance)
         {

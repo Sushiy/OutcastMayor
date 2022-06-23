@@ -1,5 +1,5 @@
 #if UNITY_EDITOR
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     using Sirenix.OdinInspector.Editor;
     using Sirenix.Utilities;

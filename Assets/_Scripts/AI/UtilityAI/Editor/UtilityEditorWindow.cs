@@ -7,7 +7,7 @@ using UnityEngine;
 using System.Linq;
 
 
-namespace UtilityAI
+namespace OutcastMayor.UtilityAI
 {
     public class UtilityEditorWindow : OdinMenuEditorWindow
     {

@@ -2,23 +2,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactable : MonoBehaviour
+namespace OutcastMayor
 {
-    public new string name = "Object";
-    public string interaction = "Use";
-
-    public virtual void Interact(Interactor interactor)
+    public class Interactable : MonoBehaviour
     {
-        //print("Base Interactables don't do anything!");
-    }
+        public new string name = "Object";
+        public string interaction = "Use";
 
-    public virtual void OnStartHover(Interactor interactor)
-    {
-        UIManager.ShowHoverUI(this);
-    }
+        public virtual void Interact(Interactor interactor)
+        {
+            //print("Base Interactables don't do anything!");
+        }
 
-    public virtual void OnEndHover(Interactor interactor)
-    {
-        UIManager.HideHoverUI();
+        public virtual void OnStartHover(Interactor interactor)
+        {
+            UI.UIManager.ShowHoverUI(this);
+        }
+
+        public virtual void OnEndHover(Interactor interactor)
+        {
+            UI.UIManager.HideHoverUI();
+        }
     }
 }
