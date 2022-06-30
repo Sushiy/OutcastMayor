@@ -8,7 +8,15 @@ namespace OutcastMayor.Interaction
     public class CraftingTable : Interactable
     {
         public Recipe[] recipes;
+
+        public Queue<Recipe> craftingQueue;
+
         public UI.CraftingTableView uiView;
+
+        private void Awake()
+        {
+            craftingQueue = new Queue<Recipe>();
+        }
 
         public void Craft(Recipe recipe, Inventory inventory)
         {

@@ -16,7 +16,9 @@ namespace OutcastMayor.UtilityAI
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Food food = considerationData.data[0] as Food;
-            return Evaluate(maxValue - (controller.satedness - food.nourishment));
+            float hunger = maxValue - controller.satedness;
+            float f = hunger - food.nourishment;
+            return Evaluate(Mathf.Abs(f));
         }
 
         public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)

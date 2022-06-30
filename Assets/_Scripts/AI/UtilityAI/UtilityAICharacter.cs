@@ -179,12 +179,21 @@ namespace OutcastMayor.UtilityAI
             {
                 sleepy += .01f * Time.deltaTime;
                 sleepy = Mathf.Clamp01(sleepy);
+
+                currentState.Update();
+            }
+            else
+            {
+                sleepy -= .03f * Time.deltaTime;
+                sleepy = Mathf.Clamp01(sleepy);
+                if(sleepy == 0.0f)
+                {
+                    WakeUp();
+                }
             }
 
             satedness -= .033f * Time.deltaTime;
             satedness = Mathf.Clamp01(satedness);
-            
-            currentState.Update();
         }
 
         public void FindNewAction()

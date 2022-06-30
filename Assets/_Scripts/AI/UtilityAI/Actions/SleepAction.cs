@@ -41,6 +41,7 @@ namespace OutcastMayor.UtilityAI
             Debug.Log(log);
 
             //Queue Sleeping
+            controller.Sleep();
 
             controller.ActionCompleted();
         }

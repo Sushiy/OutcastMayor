@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 24921466}
   - component: {fileID: 24921470}
   - component: {fileID: 24921468}
+  - component: {fileID: 24921471}
   m_Layer: 0
   m_Name: Ore (27)
   m_TagString: Untagged
@@ -403,6 +404,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 24921465}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &24921471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 24921465}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &32398635
 GameObject:
   m_ObjectHideFlags: 0
@@ -414,6 +432,7 @@ GameObject:
   - component: {fileID: 32398636}
   - component: {fileID: 32398640}
   - component: {fileID: 32398638}
+  - component: {fileID: 32398641}
   m_Layer: 0
   m_Name: Ore (23)
   m_TagString: Untagged
@@ -486,6 +505,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 32398635}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &32398641
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 32398635}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &116646810
 GameObject:
   m_ObjectHideFlags: 0
@@ -613,7 +649,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &117683126
 GameObject:
@@ -860,6 +896,7 @@ GameObject:
   - component: {fileID: 121360166}
   - component: {fileID: 121360170}
   - component: {fileID: 121360168}
+  - component: {fileID: 121360171}
   m_Layer: 0
   m_Name: Ore (12)
   m_TagString: Untagged
@@ -932,6 +969,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 121360165}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &121360171
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 121360165}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &182142406
 GameObject:
   m_ObjectHideFlags: 0
@@ -943,6 +997,7 @@ GameObject:
   - component: {fileID: 182142407}
   - component: {fileID: 182142411}
   - component: {fileID: 182142409}
+  - component: {fileID: 182142412}
   m_Layer: 0
   m_Name: Ore (17)
   m_TagString: Untagged
@@ -1015,6 +1070,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 182142406}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &182142412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 182142406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &191644277
 GameObject:
   m_ObjectHideFlags: 0
@@ -1143,6 +1215,7 @@ GameObject:
   - component: {fileID: 215310906}
   - component: {fileID: 215310910}
   - component: {fileID: 215310908}
+  - component: {fileID: 215310911}
   m_Layer: 0
   m_Name: Ore (7)
   m_TagString: Untagged
@@ -1215,6 +1288,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 215310905}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &215310911
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 215310905}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &255989511
 GameObject:
   m_ObjectHideFlags: 0
@@ -1343,6 +1433,7 @@ GameObject:
   - component: {fileID: 263022989}
   - component: {fileID: 263022993}
   - component: {fileID: 263022991}
+  - component: {fileID: 263022994}
   m_Layer: 0
   m_Name: Ore (20)
   m_TagString: Untagged
@@ -1415,6 +1506,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 263022988}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &263022994
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 263022988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &264120798
 GameObject:
   m_ObjectHideFlags: 0
@@ -1958,6 +2066,7 @@ GameObject:
   - component: {fileID: 344961111}
   - component: {fileID: 344961115}
   - component: {fileID: 344961113}
+  - component: {fileID: 344961116}
   m_Layer: 0
   m_Name: Ore (37)
   m_TagString: Untagged
@@ -2030,6 +2139,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 344961110}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &344961116
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 344961110}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &347178018
 GameObject:
   m_ObjectHideFlags: 0
@@ -2376,6 +2502,7 @@ GameObject:
   - component: {fileID: 420887214}
   - component: {fileID: 420887218}
   - component: {fileID: 420887216}
+  - component: {fileID: 420887219}
   m_Layer: 0
   m_Name: Ore (40)
   m_TagString: Untagged
@@ -2448,6 +2575,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 420887213}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &420887219
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 420887213}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &428288104
 GameObject:
   m_ObjectHideFlags: 0
@@ -2576,6 +2720,7 @@ GameObject:
   - component: {fileID: 480120531}
   - component: {fileID: 480120535}
   - component: {fileID: 480120533}
+  - component: {fileID: 480120536}
   m_Layer: 0
   m_Name: Ore (13)
   m_TagString: Untagged
@@ -2648,6 +2793,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480120530}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &480120536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 480120530}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &493791853
 GameObject:
   m_ObjectHideFlags: 0
@@ -3474,7 +3636,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 10
+  m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &577279577
 GameObject:
@@ -3721,6 +3883,7 @@ GameObject:
   - component: {fileID: 605933705}
   - component: {fileID: 605933709}
   - component: {fileID: 605933707}
+  - component: {fileID: 605933710}
   m_Layer: 0
   m_Name: Ore (30)
   m_TagString: Untagged
@@ -3793,6 +3956,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 605933704}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &605933710
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 605933704}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &622048944
 GameObject:
   m_ObjectHideFlags: 0
@@ -4399,6 +4579,7 @@ GameObject:
   - component: {fileID: 767649092}
   - component: {fileID: 767649096}
   - component: {fileID: 767649094}
+  - component: {fileID: 767649097}
   m_Layer: 0
   m_Name: Ore (1)
   m_TagString: Untagged
@@ -4471,6 +4652,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 767649091}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &767649097
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 767649091}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &802158951
 GameObject:
   m_ObjectHideFlags: 0
@@ -4482,6 +4680,7 @@ GameObject:
   - component: {fileID: 802158952}
   - component: {fileID: 802158956}
   - component: {fileID: 802158954}
+  - component: {fileID: 802158957}
   m_Layer: 0
   m_Name: Ore (34)
   m_TagString: Untagged
@@ -4554,6 +4753,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 802158951}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &802158957
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 802158951}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &806497380
 GameObject:
   m_ObjectHideFlags: 0
@@ -4565,6 +4781,7 @@ GameObject:
   - component: {fileID: 806497381}
   - component: {fileID: 806497385}
   - component: {fileID: 806497383}
+  - component: {fileID: 806497386}
   m_Layer: 0
   m_Name: Ore (22)
   m_TagString: Untagged
@@ -4637,6 +4854,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 806497380}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &806497386
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 806497380}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &814452244
 GameObject:
   m_ObjectHideFlags: 0
@@ -4728,6 +4962,7 @@ GameObject:
   - component: {fileID: 883395851}
   - component: {fileID: 883395855}
   - component: {fileID: 883395853}
+  - component: {fileID: 883395856}
   m_Layer: 0
   m_Name: Ore (0)
   m_TagString: Untagged
@@ -4800,6 +5035,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 883395850}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &883395856
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 883395850}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &893776083
 GameObject:
   m_ObjectHideFlags: 0
@@ -4811,6 +5063,7 @@ GameObject:
   - component: {fileID: 893776084}
   - component: {fileID: 893776088}
   - component: {fileID: 893776086}
+  - component: {fileID: 893776089}
   m_Layer: 0
   m_Name: Ore (9)
   m_TagString: Untagged
@@ -4883,6 +5136,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 893776083}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &893776089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 893776083}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &896385572
 GameObject:
   m_ObjectHideFlags: 0
@@ -4894,6 +5164,7 @@ GameObject:
   - component: {fileID: 896385573}
   - component: {fileID: 896385577}
   - component: {fileID: 896385575}
+  - component: {fileID: 896385578}
   m_Layer: 0
   m_Name: Ore (44)
   m_TagString: Untagged
@@ -4966,6 +5237,116 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 896385572}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &896385578
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 896385572}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
+--- !u!1001 &900341374
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 49.652195
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.106000006
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 46.794758
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071066
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0.70710695
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: -90
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449768, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4605518525420449769, guid: 351e008a11d6292499c27765324a69af, type: 3}
+      propertyPath: m_Name
+      value: Bed
+      objectReference: {fileID: 0}
+    m_RemovedComponents:
+    - {fileID: 4605518525420449771, guid: 351e008a11d6292499c27765324a69af, type: 3}
+  m_SourcePrefab: {fileID: 100100000, guid: 351e008a11d6292499c27765324a69af, type: 3}
+--- !u!1 &900341375 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 4605518525420449769, guid: 351e008a11d6292499c27765324a69af, type: 3}
+  m_PrefabInstance: {fileID: 900341374}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &900341376
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900341375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9a8f78bdb1b737f4587aa3ee84e432c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advertisements:
+  - advertisedAction: {fileID: 11400000, guid: 0eaa59d09a4522e41a54f655a532d1e9, type: 2}
+  isOccupied: 0
+--- !u!114 &900341377
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 900341375}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 737658eb48b16be4e8445d92aa0cf96f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Bed
+  interaction: Use
+  isOccupied: 0
 --- !u!1 &913132359
 GameObject:
   m_ObjectHideFlags: 0
@@ -5295,7 +5676,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &927974623
 GameObject:
@@ -5425,6 +5806,7 @@ GameObject:
   - component: {fileID: 958255873}
   - component: {fileID: 958255877}
   - component: {fileID: 958255875}
+  - component: {fileID: 958255878}
   m_Layer: 0
   m_Name: Ore (21)
   m_TagString: Untagged
@@ -5497,6 +5879,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 958255872}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &958255878
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 958255872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &981718636
 GameObject:
   m_ObjectHideFlags: 0
@@ -5788,7 +6187,7 @@ Transform:
   - {fileID: 1785199074}
   - {fileID: 998892403}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &997610799
 MonoBehaviour:
@@ -6027,16 +6426,16 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1016632582}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0.70710444, z: -0, w: 0.7071091}
+  m_LocalPosition: {x: 80.264565, y: 0, z: -36.115196}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 278137806}
   - {fileID: 2145453256}
   m_Father: {fileID: 0}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
 --- !u!1 &1021588280
 GameObject:
   m_ObjectHideFlags: 0
@@ -6048,6 +6447,7 @@ GameObject:
   - component: {fileID: 1021588281}
   - component: {fileID: 1021588285}
   - component: {fileID: 1021588283}
+  - component: {fileID: 1021588286}
   m_Layer: 0
   m_Name: Ore (36)
   m_TagString: Untagged
@@ -6120,6 +6520,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1021588280}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1021588286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1021588280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1025622130
 GameObject:
   m_ObjectHideFlags: 0
@@ -6131,6 +6548,7 @@ GameObject:
   - component: {fileID: 1025622131}
   - component: {fileID: 1025622135}
   - component: {fileID: 1025622133}
+  - component: {fileID: 1025622136}
   m_Layer: 0
   m_Name: Ore (29)
   m_TagString: Untagged
@@ -6203,6 +6621,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1025622130}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1025622136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1025622130}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1037366599
 GameObject:
   m_ObjectHideFlags: 0
@@ -6214,6 +6649,7 @@ GameObject:
   - component: {fileID: 1037366600}
   - component: {fileID: 1037366604}
   - component: {fileID: 1037366602}
+  - component: {fileID: 1037366605}
   m_Layer: 0
   m_Name: Ore (28)
   m_TagString: Untagged
@@ -6286,6 +6722,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1037366599}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1037366605
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1037366599}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1118944317
 GameObject:
   m_ObjectHideFlags: 0
@@ -6297,6 +6750,7 @@ GameObject:
   - component: {fileID: 1118944318}
   - component: {fileID: 1118944322}
   - component: {fileID: 1118944320}
+  - component: {fileID: 1118944323}
   m_Layer: 0
   m_Name: Ore (41)
   m_TagString: Untagged
@@ -6369,6 +6823,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1118944317}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1118944323
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1118944317}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1128382188
 GameObject:
   m_ObjectHideFlags: 0
@@ -6497,6 +6968,7 @@ GameObject:
   - component: {fileID: 1131764416}
   - component: {fileID: 1131764420}
   - component: {fileID: 1131764418}
+  - component: {fileID: 1131764421}
   m_Layer: 0
   m_Name: Ore (5)
   m_TagString: Untagged
@@ -6569,6 +7041,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1131764415}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1131764421
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1131764415}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1141407711
 GameObject:
   m_ObjectHideFlags: 0
@@ -6580,6 +7069,7 @@ GameObject:
   - component: {fileID: 1141407712}
   - component: {fileID: 1141407716}
   - component: {fileID: 1141407714}
+  - component: {fileID: 1141407717}
   m_Layer: 0
   m_Name: Ore (2)
   m_TagString: Untagged
@@ -6652,6 +7142,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1141407711}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1141407717
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1141407711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1173124321
 GameObject:
   m_ObjectHideFlags: 0
@@ -6860,6 +7367,7 @@ GameObject:
   - component: {fileID: 1177285065}
   - component: {fileID: 1177285069}
   - component: {fileID: 1177285067}
+  - component: {fileID: 1177285070}
   m_Layer: 0
   m_Name: Ore (33)
   m_TagString: Untagged
@@ -6932,6 +7440,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1177285064}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1177285070
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1177285064}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1186554953
 GameObject:
   m_ObjectHideFlags: 0
@@ -7257,6 +7782,7 @@ GameObject:
   - component: {fileID: 1238706141}
   - component: {fileID: 1238706145}
   - component: {fileID: 1238706143}
+  - component: {fileID: 1238706146}
   m_Layer: 0
   m_Name: Ore (11)
   m_TagString: Untagged
@@ -7329,6 +7855,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1238706140}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1238706146
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1238706140}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1253108826
 GameObject:
   m_ObjectHideFlags: 0
@@ -7340,6 +7883,7 @@ GameObject:
   - component: {fileID: 1253108827}
   - component: {fileID: 1253108831}
   - component: {fileID: 1253108829}
+  - component: {fileID: 1253108832}
   m_Layer: 0
   m_Name: Ore (39)
   m_TagString: Untagged
@@ -7412,6 +7956,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1253108826}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1253108832
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253108826}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1261390926
 GameObject:
   m_ObjectHideFlags: 0
@@ -7423,6 +7984,7 @@ GameObject:
   - component: {fileID: 1261390927}
   - component: {fileID: 1261390931}
   - component: {fileID: 1261390929}
+  - component: {fileID: 1261390932}
   m_Layer: 0
   m_Name: Ore (26)
   m_TagString: Untagged
@@ -7495,6 +8057,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1261390926}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1261390932
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1261390926}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1278969830
 GameObject:
   m_ObjectHideFlags: 0
@@ -7506,6 +8085,7 @@ GameObject:
   - component: {fileID: 1278969831}
   - component: {fileID: 1278969835}
   - component: {fileID: 1278969833}
+  - component: {fileID: 1278969836}
   m_Layer: 0
   m_Name: Ore (14)
   m_TagString: Untagged
@@ -7578,6 +8158,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1278969830}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1278969836
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1278969830}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1357396778
 GameObject:
   m_ObjectHideFlags: 0
@@ -7589,6 +8186,7 @@ GameObject:
   - component: {fileID: 1357396779}
   - component: {fileID: 1357396783}
   - component: {fileID: 1357396781}
+  - component: {fileID: 1357396784}
   m_Layer: 0
   m_Name: Ore (42)
   m_TagString: Untagged
@@ -7661,6 +8259,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1357396778}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1357396784
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1357396778}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1360897737
 GameObject:
   m_ObjectHideFlags: 0
@@ -8103,6 +8718,7 @@ GameObject:
   - component: {fileID: 1463826862}
   - component: {fileID: 1463826866}
   - component: {fileID: 1463826864}
+  - component: {fileID: 1463826867}
   m_Layer: 0
   m_Name: Ore (47)
   m_TagString: Untagged
@@ -8175,6 +8791,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1463826861}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1463826867
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1463826861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1469327753
 GameObject:
   m_ObjectHideFlags: 0
@@ -8303,6 +8936,7 @@ GameObject:
   - component: {fileID: 1497472440}
   - component: {fileID: 1497472444}
   - component: {fileID: 1497472442}
+  - component: {fileID: 1497472445}
   m_Layer: 0
   m_Name: Ore (10)
   m_TagString: Untagged
@@ -8375,6 +9009,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1497472439}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1497472445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1497472439}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1499658326
 GameObject:
   m_ObjectHideFlags: 0
@@ -8386,6 +9037,7 @@ GameObject:
   - component: {fileID: 1499658327}
   - component: {fileID: 1499658331}
   - component: {fileID: 1499658329}
+  - component: {fileID: 1499658332}
   m_Layer: 0
   m_Name: Ore (15)
   m_TagString: Untagged
@@ -8458,6 +9110,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1499658326}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1499658332
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499658326}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1503959808
 GameObject:
   m_ObjectHideFlags: 0
@@ -8586,6 +9255,7 @@ GameObject:
   - component: {fileID: 1504504370}
   - component: {fileID: 1504504374}
   - component: {fileID: 1504504372}
+  - component: {fileID: 1504504375}
   m_Layer: 0
   m_Name: Ore (6)
   m_TagString: Untagged
@@ -8658,6 +9328,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1504504369}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1504504375
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1504504369}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1515619714
 GameObject:
   m_ObjectHideFlags: 0
@@ -8969,7 +9656,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!114 &1524011586
 MonoBehaviour:
@@ -9119,6 +9806,7 @@ GameObject:
   - component: {fileID: 1531668423}
   - component: {fileID: 1531668427}
   - component: {fileID: 1531668425}
+  - component: {fileID: 1531668428}
   m_Layer: 0
   m_Name: Ore (32)
   m_TagString: Untagged
@@ -9191,6 +9879,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1531668422}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1531668428
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1531668422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1536208717
 GameObject:
   m_ObjectHideFlags: 0
@@ -9202,6 +9907,7 @@ GameObject:
   - component: {fileID: 1536208718}
   - component: {fileID: 1536208722}
   - component: {fileID: 1536208720}
+  - component: {fileID: 1536208723}
   m_Layer: 0
   m_Name: Ore (38)
   m_TagString: Untagged
@@ -9274,6 +9980,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1536208717}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1536208723
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1536208717}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1543054924
 GameObject:
   m_ObjectHideFlags: 0
@@ -9285,6 +10008,7 @@ GameObject:
   - component: {fileID: 1543054925}
   - component: {fileID: 1543054929}
   - component: {fileID: 1543054927}
+  - component: {fileID: 1543054930}
   m_Layer: 0
   m_Name: Ore (45)
   m_TagString: Untagged
@@ -9357,6 +10081,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1543054924}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1543054930
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1543054924}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1562942195
 GameObject:
   m_ObjectHideFlags: 0
@@ -9368,6 +10109,7 @@ GameObject:
   - component: {fileID: 1562942196}
   - component: {fileID: 1562942200}
   - component: {fileID: 1562942198}
+  - component: {fileID: 1562942201}
   m_Layer: 0
   m_Name: Ore (4)
   m_TagString: Untagged
@@ -9440,6 +10182,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1562942195}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1562942201
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1562942195}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1569265828
 GameObject:
   m_ObjectHideFlags: 0
@@ -9451,6 +10210,7 @@ GameObject:
   - component: {fileID: 1569265829}
   - component: {fileID: 1569265833}
   - component: {fileID: 1569265831}
+  - component: {fileID: 1569265834}
   m_Layer: 0
   m_Name: Ore (18)
   m_TagString: Untagged
@@ -9523,6 +10283,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1569265828}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1569265834
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1569265828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1592974022
 GameObject:
   m_ObjectHideFlags: 0
@@ -9768,6 +10545,7 @@ GameObject:
   - component: {fileID: 1650105237}
   - component: {fileID: 1650105241}
   - component: {fileID: 1650105239}
+  - component: {fileID: 1650105242}
   m_Layer: 0
   m_Name: Ore (24)
   m_TagString: Untagged
@@ -9840,6 +10618,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1650105236}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1650105242
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1650105236}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1657440268
 GameObject:
   m_ObjectHideFlags: 0
@@ -9968,6 +10763,7 @@ GameObject:
   - component: {fileID: 1664485494}
   - component: {fileID: 1664485498}
   - component: {fileID: 1664485496}
+  - component: {fileID: 1664485499}
   m_Layer: 0
   m_Name: Ore (43)
   m_TagString: Untagged
@@ -10040,6 +10836,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664485493}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1664485499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664485493}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1740278507
 GameObject:
   m_ObjectHideFlags: 0
@@ -10051,6 +10864,7 @@ GameObject:
   - component: {fileID: 1740278508}
   - component: {fileID: 1740278512}
   - component: {fileID: 1740278510}
+  - component: {fileID: 1740278513}
   m_Layer: 0
   m_Name: Ore (46)
   m_TagString: Untagged
@@ -10123,6 +10937,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1740278507}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1740278513
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1740278507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1785199073
 GameObject:
   m_ObjectHideFlags: 0
@@ -10236,6 +11067,7 @@ GameObject:
   - component: {fileID: 1826509754}
   - component: {fileID: 1826509758}
   - component: {fileID: 1826509756}
+  - component: {fileID: 1826509759}
   m_Layer: 0
   m_Name: Ore (8)
   m_TagString: Untagged
@@ -10308,6 +11140,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1826509753}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1826509759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1826509753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1827889877
 GameObject:
   m_ObjectHideFlags: 0
@@ -10337,7 +11186,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1834516875
 GameObject:
@@ -10467,6 +11316,7 @@ GameObject:
   - component: {fileID: 1851702297}
   - component: {fileID: 1851702301}
   - component: {fileID: 1851702299}
+  - component: {fileID: 1851702302}
   m_Layer: 0
   m_Name: Ore (16)
   m_TagString: Untagged
@@ -10539,6 +11389,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1851702296}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1851702302
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1851702296}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!114 &1895235016 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 4651481268238627678, guid: 2df91b5887c576d40be2d2f47050c95e, type: 3}
@@ -10561,6 +11428,7 @@ GameObject:
   - component: {fileID: 1903942339}
   - component: {fileID: 1903942343}
   - component: {fileID: 1903942341}
+  - component: {fileID: 1903942344}
   m_Layer: 0
   m_Name: Ore (35)
   m_TagString: Untagged
@@ -10633,6 +11501,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1903942338}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1903942344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1903942338}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1950948263
 GameObject:
   m_ObjectHideFlags: 0
@@ -10644,6 +11529,7 @@ GameObject:
   - component: {fileID: 1950948264}
   - component: {fileID: 1950948268}
   - component: {fileID: 1950948266}
+  - component: {fileID: 1950948269}
   m_Layer: 0
   m_Name: Ore (31)
   m_TagString: Untagged
@@ -10716,6 +11602,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1950948263}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1950948269
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1950948263}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &1963178990
 GameObject:
   m_ObjectHideFlags: 0
@@ -11195,6 +12098,7 @@ GameObject:
   - component: {fileID: 2025727754}
   - component: {fileID: 2025727758}
   - component: {fileID: 2025727756}
+  - component: {fileID: 2025727759}
   m_Layer: 0
   m_Name: Ore (25)
   m_TagString: Untagged
@@ -11267,6 +12171,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2025727753}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2025727759
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2025727753}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &2051796933
 GameObject:
   m_ObjectHideFlags: 0
@@ -11278,6 +12199,7 @@ GameObject:
   - component: {fileID: 2051796934}
   - component: {fileID: 2051796938}
   - component: {fileID: 2051796936}
+  - component: {fileID: 2051796939}
   m_Layer: 0
   m_Name: Ore (3)
   m_TagString: Untagged
@@ -11350,6 +12272,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2051796933}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2051796939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2051796933}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!114 &2078321811 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8688077523124313346, guid: 82f574bf73af0c2439ba0cd27695187a, type: 3}
@@ -11392,7 +12331,7 @@ Transform:
   - {fileID: 521140624}
   - {fileID: 814452245}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &2094623319
 GameObject:
@@ -11405,6 +12344,7 @@ GameObject:
   - component: {fileID: 2094623320}
   - component: {fileID: 2094623324}
   - component: {fileID: 2094623322}
+  - component: {fileID: 2094623325}
   m_Layer: 0
   m_Name: Ore (19)
   m_TagString: Untagged
@@ -11477,6 +12417,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2094623319}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2094623325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2094623319}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Object
+  interaction: Use
+  source:
+    item: {fileID: 11400000, guid: 0867c4542812e08438a874617dd9e229, type: 2}
+    count: 1
 --- !u!1 &2145453255
 GameObject:
   m_ObjectHideFlags: 0
@@ -11488,6 +12445,7 @@ GameObject:
   - component: {fileID: 2145453256}
   - component: {fileID: 2145453260}
   - component: {fileID: 2145453258}
+  - component: {fileID: 2145453261}
   m_Layer: 0
   m_Name: Workstation0
   m_TagString: Untagged
@@ -11503,7 +12461,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145453255}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 56.22, y: 0.25, z: 31.69}
+  m_LocalPosition: {x: 83.35, y: 0.25, z: 18.41}
   m_LocalScale: {x: 2, y: 0.5, z: 2}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -11560,6 +12518,23 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2145453255}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &2145453261
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2145453255}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06626f5c4872ddd46986870cd085e8c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Crafting Table
+  interaction: Use
+  recipes:
+  - {fileID: 11400000, guid: 8d6c0310774949b4bb44bf7e25ec67fc, type: 2}
+  uiView: {fileID: 0}
 --- !u!1001 &4651481269036240534
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -11577,7 +12552,7 @@ PrefabInstance:
       objectReference: {fileID: 765789182}
     - target: {fileID: 4651481268238627674, guid: 2df91b5887c576d40be2d2f47050c95e, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 9
       objectReference: {fileID: 0}
     - target: {fileID: 4651481268238627674, guid: 2df91b5887c576d40be2d2f47050c95e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11620,6 +12595,10 @@ PrefabInstance:
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4651481268238627678, guid: 2df91b5887c576d40be2d2f47050c95e, type: 3}
+      propertyPath: sleepy
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4651481268238627678, guid: 2df91b5887c576d40be2d2f47050c95e, type: 3}
       propertyPath: updateInterval
       value: 5
       objectReference: {fileID: 0}
@@ -11650,7 +12629,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 7454798021057831936, guid: 4cb37cd003df24847bde6b7d205a184b, type: 3}
       propertyPath: m_RootOrder
-      value: 7
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 7454798021057831936, guid: 4cb37cd003df24847bde6b7d205a184b, type: 3}
       propertyPath: m_LocalPosition.x
@@ -11707,7 +12686,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 8688077523124313344, guid: 82f574bf73af0c2439ba0cd27695187a, type: 3}
       propertyPath: m_RootOrder
-      value: 5
+      value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 8688077523124313344, guid: 82f574bf73af0c2439ba0cd27695187a, type: 3}
       propertyPath: m_LocalPosition.x

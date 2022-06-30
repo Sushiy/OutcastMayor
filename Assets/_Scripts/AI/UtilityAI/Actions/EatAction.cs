@@ -53,7 +53,7 @@ namespace OutcastMayor.UtilityAI
                     if (stack.count > 0 && stack.item.HasTag(Item.Tag.Food) && stack.item is Items.Food)
                     {
                         Items.Food food = stack.item as Items.Food;
-                        ActionInstance instance = new ActionInstance(this, owner, new Object[] { food }, new int[0]);
+                        ActionInstance instance = new ActionInstance(this, owner, new Object[] { food, inventory }, new int[0]);
                         //Check if the instance is valid before adding it to the list
                         if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                         {
@@ -75,9 +75,19 @@ namespace OutcastMayor.UtilityAI
         /// <returns></returns>
         public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
         {
-            Inventory inventory = owner.GetComponent<Inventory>();
-            if (inventory == null) return false;
+            Inventory inventory = null;
             Items.Food food = null;
+
+            if (instanceData[1] is Inventory)
+            {
+                inventory = instanceData[1] as Inventory;
+            }
+            else
+            {
+                Debug.LogError("No Inventory");
+                return false;
+            }            
+
             if (instanceData[0] is Items.Food)
             {
                 food = instanceData[0] as Items.Food;
@@ -92,7 +102,7 @@ namespace OutcastMayor.UtilityAI
 
         public override System.Type[] GetProvidedDataTypes()
         {
-            return new System.Type[] { typeof(Items.Food) };
+            return new System.Type[] { typeof(Items.Food), typeof(Inventory) };
         }
     }
 }
