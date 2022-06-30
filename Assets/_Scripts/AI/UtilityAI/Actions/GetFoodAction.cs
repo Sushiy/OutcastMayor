@@ -30,20 +30,20 @@ namespace OutcastMayor.UtilityAI.Actions
 
         public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
-            Item itemTarget = null;
+            Food food = null;
             Stockpile stockpileTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
-                if (instanceData[i] is Item)
+                if (instanceData[i] is Food)
                 {
-                    itemTarget = instanceData[i] as Item;
+                    food = instanceData[i] as Food;
                 }
                 if (instanceData[i] is Stockpile)
                 {
                     stockpileTarget = instanceData[i] as Stockpile;
                 }
             }
-            if (itemTarget == null)
+            if (food == null)
             {
                 Debug.LogError("No Item");
                 return;
@@ -54,16 +54,16 @@ namespace OutcastMayor.UtilityAI.Actions
                 return;
             }
 
-            if(stockpileTarget.inventory.Contains(itemTarget))
+            if(stockpileTarget.inventory.Contains(food))
             {
-                stockpileTarget.inventory.Delete(itemTarget, 1);
-                controller.Inventory.Add(new Inventory.ItemStack(itemTarget, 1));
-                Debug.Log("<color=green>" + controller.name + " -> GetFoodAction completed with " + itemTarget.DisplayName + "</color>");
+                stockpileTarget.inventory.Delete(food, 1);
+                controller.Inventory.Add(new Inventory.ItemStack(food, 1));
+                Debug.Log("<color=green>" + controller.name + " -> GetFoodAction completed with " + food.DisplayName + "</color>");
                 controller.ActionCompleted();
             }
             else
             {
-                Debug.Log("<color=red>" + controller.name + " -> GetFoodAction failed with " + itemTarget.DisplayName + "</color>");
+                Debug.Log("<color=red>" + controller.name + " -> GetFoodAction failed with " + food.DisplayName + "</color>");
                 Cancel(controller, instanceData, instanceValues);
             }
         }
@@ -92,9 +92,10 @@ namespace OutcastMayor.UtilityAI.Actions
                     for (int i = 0; i < inventory.slots.Length; i++)
                     {
                         Inventory.ItemStack stack = inventory.slots[i];
-                        if (stack.count > 0 && stack.item.HasTag(Item.Tag.Food))
+                        if (stack.count > 0 && stack.item.HasTag(Item.Tag.Food) && stack.item is Food)
                         {
-                            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { stack.item, stockpile, owner.transform }, new int[0]);
+                            Food food = stack.item as Food;
+                            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { food, stockpile, owner.transform }, new int[0]);
                             //Check if the instance is valid before adding it to the list
                             if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                             {
@@ -118,22 +119,22 @@ namespace OutcastMayor.UtilityAI.Actions
         public override bool CheckInstanceRequirement(SmartObject owner, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             if (owner.isOccupied) return false;
-            Item item = null;
+            Food food = null;
             Stockpile stockpileTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
-                if (instanceData[i] is Item)
+                if (instanceData[i] is Food)
                 {
-                    item = instanceData[i] as Item;
+                    food = instanceData[i] as Food;
                 }
                 if (instanceData[i] is Stockpile)
                 {
                     stockpileTarget = instanceData[i] as Stockpile;
                 }
             }
-            if(item == null)
+            if(food == null)
             {
-                Debug.LogError("No Item");
+                Debug.LogError("No FoodItem");
                 return false;
             }
             if (stockpileTarget == null)
@@ -146,7 +147,7 @@ namespace OutcastMayor.UtilityAI.Actions
 
         public override Type[] GetProvidedDataTypes()
         {
-            return new Type[] { typeof(Item), typeof(Stockpile), typeof(Transform)};
+            return new Type[] { typeof(Food), typeof(Stockpile), typeof(Transform)};
         }
     }
 

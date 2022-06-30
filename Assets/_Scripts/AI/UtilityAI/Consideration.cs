@@ -52,7 +52,7 @@ namespace OutcastMayor.UtilityAI
                 bool typeFound = false;
                 for(int j = 0; j < actionData.Length; j++)
                 {
-                    if(types[i] == actionData[j])
+                    if(types[i] == actionData[j] || actionData[j].IsSubclassOf(types[i]))
                     {
                         typeFound = true;
                         break;
@@ -151,6 +151,16 @@ namespace OutcastMayor.UtilityAI
             hashCode = hashCode * -1521134295 + consideration.GetHashCode();
             for (int i = 0; i < data.Length; i++)
             {
+                if (data == null)
+                {
+                    Debug.LogError(consideration.Name + " data null");
+                    break;
+                }
+                if (data[i] == null)
+                {
+                    Debug.LogError(consideration.Name + " data i null");
+                    break;
+                }
                 hashCode = hashCode * -1521134295 + data[i].GetHashCode();
             }
             return hashCode;

@@ -44,7 +44,7 @@ public abstract class Statemachine : MonoBehaviour
     public State currentState;
     public State nextState;
 
-    public string currentStateName;
+    public string currentStateName = "None";
     public void ChangeState(State newState)
     {
         if(currentState == null)

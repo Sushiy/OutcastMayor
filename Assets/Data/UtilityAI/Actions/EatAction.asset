@@ -14,6 +14,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Eat
   weight: 1
+  ProvidedDataTypes: Food,
   considerations:
   - {fileID: 11400000, guid: 8009b1b2e44073c4c9d86157cebf0768, type: 2}
   - {fileID: 11400000, guid: 611db5ea8a0b7154db3935e959979197, type: 2}
+  - {fileID: 11400000, guid: 322f9ebb2173dfc4d8b049078e85ac95, type: 2}
+  considerationLog: "<color=green>Hunger Consideration data valid</color> \n<color=green>HasFoodConsideration
+    data valid</color> \n<color=green>FoodNourishmentConsideration data valid</color>
+    \n"
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

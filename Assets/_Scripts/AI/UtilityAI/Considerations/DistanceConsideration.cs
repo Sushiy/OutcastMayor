@@ -27,6 +27,7 @@ namespace OutcastMayor.UtilityAI
                 if (instanceData[i] is Transform)
                 {
                     targetTransform = instanceData[i] as Transform;
+                    break;
                 }
             }
             considerationData = new ConsiderationData(this, new Object[] { targetTransform });

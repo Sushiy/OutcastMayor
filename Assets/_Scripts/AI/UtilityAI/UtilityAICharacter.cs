@@ -163,7 +163,7 @@ namespace OutcastMayor.UtilityAI
 
         public void ArrivedAtLocation()
         {
-            print("Arrived at moveToLocation");
+            //print("Arrived at moveToLocation");
             aiMovement.OnPathComplete.RemoveListener(ArrivedAtLocation);
             ChangeState(PerformingState);
         }
@@ -228,6 +228,11 @@ namespace OutcastMayor.UtilityAI
         public bool CheckConsiderationMemory(ConsiderationData data, out float result)
         {
             result = 0;
+            if (data == null ||data.data == null)
+            {
+                return false;
+            }
+
             if (considerationMemory.TryGetValue(data, out result))
             {
                 return true;

@@ -45,6 +45,7 @@ namespace OutcastMayor.UtilityAI
                 if (instanceData[i] is Construction)
                 {
                     constructionTarget = instanceData[i] as Construction;
+                    break;
                 }
             }
 

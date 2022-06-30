@@ -6,7 +6,7 @@ using UnityEngine;
 namespace OutcastMayor.UtilityAI
 {
     [CreateAssetMenu(fileName = "FoodNourismentConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/FoodNourismentConsideration", order = 1)]
-    public class FoodNourismentConsideration : Consideration
+    public class FoodNourishmentConsideration : Consideration
     {
         public override System.Type[] GetRequiredDataTypes()
         {
@@ -25,9 +25,17 @@ namespace OutcastMayor.UtilityAI
             for(int i = 0; i < instanceData.Length;i++)
             {
                 food = instanceData[i] as Food;
+                break;
             }
 
-            considerationData = new ConsiderationData(this, new Object[] {food});
+            considerationData = new ConsiderationData(this, new Object[] { food });
+
+            if (food == null)
+            {
+                Debug.Log("No food" + instanceData.Length);
+                return false;
+            }
+
 
             return true;
         }

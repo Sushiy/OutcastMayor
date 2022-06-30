@@ -14,11 +14,11 @@ namespace OutcastMayor.UtilityAI
         {
             for (int j = 0; j < actionData.Length; j++)
             {
-                if (actionData[j] == typeof(Item))
+                if (actionData[j] == typeof(Item) || actionData[j].IsSubclassOf(typeof(Item)))
                 {
                     return true;
                 }
-                if (actionData[j] == typeof(ItemStackInstance))
+                if (actionData[j] == typeof(ItemStackInstance) || actionData[j].IsSubclassOf(typeof(ItemStackInstance)))
                 {
                     return true;
                 }
@@ -44,10 +44,12 @@ namespace OutcastMayor.UtilityAI
                 if (instanceData[i] is ItemStackInstance)
                 {
                     itemStack = instanceData[i] as ItemStackInstance;
+                    break;
                 }
                 if(instanceData[i] is Item)
                 {
                     item = instanceData[i] as Item;
+                    break;
                 }
             }
 
