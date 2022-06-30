@@ -87,8 +87,11 @@ namespace OutcastMayor.UtilityAI
                 ConsiderationData considerationData;
                 if(consideration.TryGetConsiderationData(actionInstance.instanceData, out considerationData))
                 {
-                    float considerationScore = 0;
-                    if (controller.CheckConsiderationMemory(considerationData, out considerationScore))
+                    if(considerationData == null)
+                    {
+                        log += "ConsiderationData is null \n";
+                    }
+                    float considerationScore = 0;if (controller.CheckConsiderationMemory(considerationData, out considerationScore))
                     {
                         log += "    -(Remembered)" + consideration.Name + ":" + considerationScore + "\n";
                     }
@@ -100,6 +103,7 @@ namespace OutcastMayor.UtilityAI
                     }
                     if (considerationScore == 0.0f && consideration.isExclusiveConsideration)
                     {
+                        log += "    -" + consideration.Name + ": Score is 0 and Consideration is exclusive \n";
                         return 0.0f;
                     }
                     actionScore *= considerationScore;
@@ -107,6 +111,7 @@ namespace OutcastMayor.UtilityAI
                 }
                 else
                 {
+                    log += "    -" + consideration.Name + ": could not get ConsiderationData \n";
                     return 0.0f;
                 }
 

@@ -1,4 +1,5 @@
 using OutcastMayor.Interaction;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "GatherAndEatAction", menuName = "ScriptableObjects/UtilityAI/Actions/GatherAndEatAction", order = 1)]
     public class GatherFoodAction : Action
     {
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Debug.Log(controller.name + " went to eat");
             //Do stuff once at the beginning
@@ -28,7 +29,7 @@ namespace OutcastMayor.UtilityAI
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Debug.Log(controller.name + " starts to eat");
 
@@ -51,7 +52,7 @@ namespace OutcastMayor.UtilityAI
             Debug.Log(log);
             controller.ActionCompleted();
         }
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             //Put away the food if you still have it
@@ -68,7 +69,7 @@ namespace OutcastMayor.UtilityAI
 
                 for (int i = 0; i < controller.availableStockpiles.Count; i++)
                 {
-                    ActionInstance instance = new ActionInstance(this, owner, new Object[] { itemStackInstance, owner.transform }, new int[0]);
+                    ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { itemStackInstance, owner.transform }, new int[0]);
                     if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                     {
                         instances.Add(instance);
@@ -77,6 +78,11 @@ namespace OutcastMayor.UtilityAI
 
             }
             return instances.ToArray();
+        }
+
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(ItemStackInstance), typeof(Transform) };
         }
     }
 }

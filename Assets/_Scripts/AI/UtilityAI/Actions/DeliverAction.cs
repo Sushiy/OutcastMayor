@@ -1,4 +1,5 @@
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,7 +12,7 @@ namespace OutcastMayor.UtilityAI
     /// </summary>
     public class DeliverAction : Action
     {
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Transform moveTarget = instanceData[1] as Transform;
             if (moveTarget == null)
@@ -25,7 +26,7 @@ namespace OutcastMayor.UtilityAI
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Stockpile stockpileTarget = instanceData[0] as Stockpile;
             Inventory.ItemStack itemStack = new Inventory.ItemStack();
@@ -43,7 +44,7 @@ namespace OutcastMayor.UtilityAI
             controller.ActionCompleted();
         }
 
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             //What to do with the stuff in your inventory?
@@ -59,7 +60,7 @@ namespace OutcastMayor.UtilityAI
                 {
                     continue;
                 }
-                ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.Inventory.slots[i].item}, new int[] {controller.Inventory.slots[i].count });
+                ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { owner.GetComponent<Stockpile>(), owner.transform, controller.Inventory.slots[i].item}, new int[] {controller.Inventory.slots[i].count });
                 //Debug.Log("Slot: " + i + "/" + controller.Inventory.slots.Length+ " contains: " + controller.Inventory.slots[i].count);
                 if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                 {
@@ -69,7 +70,7 @@ namespace OutcastMayor.UtilityAI
 
             return instances.ToArray();
         }
-        public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
+        public override bool CheckInstanceRequirement(SmartObject owner, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             if (owner.isOccupied) return false;
             Stockpile stockpileTarget = instanceData[0] as Stockpile;
@@ -98,6 +99,11 @@ namespace OutcastMayor.UtilityAI
             }
 
             return stockpileTarget.inventory.HasSpaceFor(itemStack);
+        }
+
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(Stockpile), typeof(Transform), typeof(Item) };
         }
     }
 }

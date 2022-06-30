@@ -89,5 +89,10 @@ namespace OutcastMayor.UtilityAI
                 return false;
             }
         }
+
+        public override System.Type[] GetProvidedDataTypes()
+        {
+            return new System.Type[] { typeof(Items.Food) };
+        }
     }
 }

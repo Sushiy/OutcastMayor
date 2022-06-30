@@ -1,4 +1,5 @@
 using OutcastMayor.Building;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "BuildConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/BuildConstructionAction", order = 1)]
     public class BuildConstructionAction : Action
     {
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
         }
@@ -20,7 +21,7 @@ namespace OutcastMayor.UtilityAI
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
-            ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Construction>(), owner.transform }, null);
+            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { owner.GetComponent<Construction>(), owner.transform }, null);
             if(CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
             {
                 instances.Add(instance);
@@ -28,8 +29,13 @@ namespace OutcastMayor.UtilityAI
             return instances.ToArray();
         }
 
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(Construction), typeof(Transform) };
+        }
+
         //Do your action state stuff here!
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Do stuff once at the beginning
             Transform moveTarget = null;
@@ -48,7 +54,7 @@ namespace OutcastMayor.UtilityAI
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Do stuff once at the beginning
             Construction constructionTarget = null;

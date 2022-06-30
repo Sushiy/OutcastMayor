@@ -7,38 +7,65 @@ namespace OutcastMayor.UtilityAI
 {
     public abstract class Consideration : ScriptableObject
     {
-        protected const string LEFT_VERTICAL_GROUP = "Split/Left";
-        protected const string STATS_BOX_GROUP = "Split/Left/Stats";
-        protected const string GENERAL_SETTINGS_VERTICAL_GROUP = "Split/Left/General Settings/Split/Right";
-
-        [BoxGroup(LEFT_VERTICAL_GROUP + "/General Settings")]
+        [HorizontalGroup("General")]
+        [BoxGroup("General/Left"), LabelWidth(50)]
         public string Name;
 
+        [BoxGroup("General/Left"), LabelWidth(130)]
+        [DisplayAsString(false), Multiline(2)]
+        public string RequiredDataTypes;
+
         [HideLabel]
-        [BoxGroup("A")]
+        [BoxGroup("General/Right")]
         [SerializeField] private AnimationCurve curve;
-        [BoxGroup("A")]
+        [BoxGroup("General/Right")]
         [SerializeField] protected float maxValue = 1.0f;
 
         /// <summary>
         /// An exclusive consideration HAS to be greater than 0 so that the action in whole is valid
         /// </summary>
-        [BoxGroup("B")]
+        [BoxGroup("Settings")]
         public bool isExclusiveConsideration = false;
         /// <summary>
         /// Overrides Curve with: 0.0f -> 0.0f; else 1.0f
         /// </summary>
-        [BoxGroup("B")]
+        [BoxGroup("Settings")]
         public bool zeroStepCurve = false;
         /// <summary>
         /// Overrides Curve with: 1.0f -> 1.0f; else 0.0f
         /// </summary>
-        [BoxGroup("B")]
+        [BoxGroup("Settings")]
         public bool oneStepCurve = false;
 
         public abstract float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData);
 
         public abstract bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData);
+
+        public abstract System.Type[] GetRequiredDataTypes();
+
+        public virtual bool HasAllData(System.Type[] actionData)
+        {
+            System.Type[] types = GetRequiredDataTypes();
+            bool hasData = true;
+            for(int i = 0; i < types.Length; i++)
+            {
+                bool typeFound = false;
+                for(int j = 0; j < actionData.Length; j++)
+                {
+                    if(types[i] == actionData[j])
+                    {
+                        typeFound = true;
+                        break;
+                    }
+                }
+                if(!typeFound)
+                {
+                    hasData = false;
+                    break;
+                }
+            }
+            return hasData;
+        }
 
         public virtual float Evaluate(float input)
         {
@@ -68,6 +95,16 @@ namespace OutcastMayor.UtilityAI
                 return Mathf.Clamp01(curve.Evaluate(input));
 
         }
+
+        private void OnValidate()
+        {
+            System.Type[] t = GetRequiredDataTypes();
+            RequiredDataTypes = "";
+            for (int i = 0; i < t.Length; i++)
+            {
+                RequiredDataTypes += t[i].Name + ",";
+            }
+        }
     }
 
 
@@ -81,6 +118,11 @@ namespace OutcastMayor.UtilityAI
         {
             this.consideration = consideration;
             this.data = considerationData;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return Equals(obj as ConsiderationData);
         }
 
         public bool Equals(ConsiderationData other)
@@ -101,6 +143,17 @@ namespace OutcastMayor.UtilityAI
                 }
             }
             return false;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1938039292; 
+            hashCode = hashCode * -1521134295 + consideration.GetHashCode();
+            for (int i = 0; i < data.Length; i++)
+            {
+                hashCode = hashCode * -1521134295 + data[i].GetHashCode();
+            }
+            return hashCode;
         }
     }
 }

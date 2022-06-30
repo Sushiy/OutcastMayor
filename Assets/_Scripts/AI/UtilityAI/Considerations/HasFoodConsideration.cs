@@ -8,11 +8,16 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "HasFoodConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/HasFoodConsideration", order = 1)]
     public class HasFoodConsideration : Consideration
     {
+        public override System.Type[] GetRequiredDataTypes()
+        {
+            return new System.Type[0];
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Inventory inventory = controller.Inventory;
 
-            if(inventory.Contains("Apple"))
+            if(inventory.Contains(Item.Tag.Food))
             {
                 return 1.0f;
             }

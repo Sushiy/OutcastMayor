@@ -7,6 +7,10 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "DistanceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/DistanceConsideration", order = 1)]
     public class DistanceConsideration : Consideration
     {
+        public override System.Type[] GetRequiredDataTypes()
+        {
+            return new System.Type[] { typeof(Transform) };
+        }
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Transform targetTransform = considerationData.data[0] as Transform;

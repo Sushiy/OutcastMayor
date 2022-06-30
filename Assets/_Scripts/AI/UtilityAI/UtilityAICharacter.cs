@@ -22,7 +22,7 @@ namespace OutcastMayor.UtilityAI
         Reasoner reasoner;
 
         //how sated the npc is
-        public float food;
+        public float satedness;
         //how sleepy the npc is
         public float sleepy;
         private AIMovement aiMovement;
@@ -156,7 +156,7 @@ namespace OutcastMayor.UtilityAI
             }
             else
             {
-                Debug.Log("Agent is already there");
+                //Debug.Log("Agent is already there");
                 ChangeState(PerformingState);
             }
         }
@@ -181,8 +181,8 @@ namespace OutcastMayor.UtilityAI
                 sleepy = Mathf.Clamp01(sleepy);
             }
 
-            food -= .033f * Time.deltaTime;
-            food = Mathf.Clamp01(food);
+            satedness -= .033f * Time.deltaTime;
+            satedness = Mathf.Clamp01(satedness);
             
             currentState.Update();
         }
@@ -217,7 +217,7 @@ namespace OutcastMayor.UtilityAI
         public override void Eat(Food food)
         {
             base.Eat(food);
-            this.food += food.nourishment;
+            this.satedness += food.nourishment;
         }
 
         public void ResetConsiderationMemory()
@@ -243,5 +243,14 @@ namespace OutcastMayor.UtilityAI
             considerationMemory.Add(data, value);
         }
 
+        public int GetConsiderationMemoryCount()
+        {
+            return considerationMemory.Count;
+        }
+
+        public bool GetMemoryContainsConsideration(ConsiderationData data)
+        {
+            return considerationMemory.ContainsKey(data);
+        }
     }
 }

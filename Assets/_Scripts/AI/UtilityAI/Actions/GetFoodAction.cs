@@ -1,4 +1,5 @@
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace OutcastMayor.UtilityAI.Actions
     [CreateAssetMenu(fileName = "GetFoodAction", menuName = "ScriptableObjects/UtilityAI/Actions/GetFoodAction", order = 1)]
     public class GetFoodAction : Action
     {
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Do stuff once at the beginning
             Transform moveTarget = null;
@@ -27,7 +28,7 @@ namespace OutcastMayor.UtilityAI.Actions
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Item itemTarget = null;
             Stockpile stockpileTarget = null;
@@ -66,7 +67,7 @@ namespace OutcastMayor.UtilityAI.Actions
                 Cancel(controller, instanceData, instanceValues);
             }
         }
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             controller.ActionCompleted();
@@ -93,7 +94,7 @@ namespace OutcastMayor.UtilityAI.Actions
                         Inventory.ItemStack stack = inventory.slots[i];
                         if (stack.count > 0 && stack.item.HasTag(Item.Tag.Food))
                         {
-                            ActionInstance instance = new ActionInstance(this, owner, new Object[] { stack.item, stockpile, owner.transform }, new int[0]);
+                            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { stack.item, stockpile, owner.transform }, new int[0]);
                             //Check if the instance is valid before adding it to the list
                             if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                             {
@@ -114,7 +115,7 @@ namespace OutcastMayor.UtilityAI.Actions
         /// <param name="instanceData"></param>
         /// <param name="instanceValues"></param>
         /// <returns></returns>
-        public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
+        public override bool CheckInstanceRequirement(SmartObject owner, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             if (owner.isOccupied) return false;
             Item item = null;
@@ -141,6 +142,11 @@ namespace OutcastMayor.UtilityAI.Actions
                 return false;
             }
             return true;
+        }
+
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(Item), typeof(Stockpile), typeof(Transform)};
         }
     }
 

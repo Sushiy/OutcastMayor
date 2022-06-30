@@ -1,3 +1,4 @@
+using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,8 +9,16 @@ namespace OutcastMayor.UtilityAI
     {
         public string Name;
         public float weight = 1.0f;
+        [BoxGroup("1", false)]
+        [DisplayAsString(false)]
+        public string ProvidedDataTypes;
+        [BoxGroup("2", false)]
         [SerializeReference]
         public Consideration[] considerations;
+        [BoxGroup("2", false)]
+        [HideLabel]
+        [DisplayAsString(false)]
+        public string considerationLog;
 
         public UnityEngine.Events.UnityEvent onComplete;
 
@@ -45,6 +54,30 @@ namespace OutcastMayor.UtilityAI
         /// <param name="instanceData"></param>
         /// <param name="instanceValues"></param>
         public abstract void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues);
+
+        public abstract System.Type[] GetProvidedDataTypes();
+
+        private void OnValidate()
+        {
+            System.Type[] t = GetProvidedDataTypes();
+            ProvidedDataTypes = "";
+            for (int i = 0; i < t.Length; i++)
+            {
+                ProvidedDataTypes += t[i].Name + ",";
+            }
+
+
+            considerationLog = "";
+            for(int i = 0; i < considerations.Length; i++)
+            {
+                bool valid = considerations[i].HasAllData(t);
+                if(valid)
+                    considerationLog += "<color=green>" + considerations[i].Name + " data valid</color> \n";
+                else
+                    considerationLog += "<color=red>" + considerations[i].Name + " data invalid</color> \n";
+
+            }
+        }
     }
 
     public class ActionInstance

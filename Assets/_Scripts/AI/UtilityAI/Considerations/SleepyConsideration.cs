@@ -7,6 +7,10 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "SleepyConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/SleepyConsideration", order = 1)]
     public class SleepyConsideration : Consideration
     {
+        public override System.Type[] GetRequiredDataTypes()
+        {
+            return new System.Type[0];
+        }
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             return Evaluate(controller.sleepy);

@@ -1,5 +1,6 @@
 using OutcastMayor.Building;
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,7 +10,7 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "GetMaterialsForConstructionAction", menuName = "ScriptableObjects/UtilityAI/Actions/GetMaterialsForConstructionAction", order = 1)]
     public class GetMaterialsForConstructionAction : Action
     {
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Do stuff once at the beginning
             Transform moveTarget = null;
@@ -28,7 +29,7 @@ namespace OutcastMayor.UtilityAI
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Construction constructionTarget = null;
             Stockpile stockpileTarget = null;
@@ -64,7 +65,7 @@ namespace OutcastMayor.UtilityAI
             }
             Debug.Log(log);
         }
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             //Drop the materials you got
@@ -76,7 +77,7 @@ namespace OutcastMayor.UtilityAI
 
             for(int i = 0; i < controller.availableConstructions.Count;i++)
             {
-                ActionInstance instance = new ActionInstance(this, owner, new Object[] { controller.availableConstructions[i], owner.GetComponent<Stockpile>(), owner.transform }, new int[0]);
+                ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { controller.availableConstructions[i], owner.GetComponent<Stockpile>(), owner.transform }, new int[0]);
                 if(CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
                 {
                     instances.Add(instance);
@@ -85,7 +86,7 @@ namespace OutcastMayor.UtilityAI
 
             return instances.ToArray();
         }
-        public override bool CheckInstanceRequirement(SmartObject owner, Object[] instanceData, int[] instanceValues)
+        public override bool CheckInstanceRequirement(SmartObject owner, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             if (owner.isOccupied) return false;
             Construction constructionTarget = null;
@@ -121,6 +122,11 @@ namespace OutcastMayor.UtilityAI
                 }
             }
             return false;
+        }
+
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(Construction), typeof(Stockpile), typeof(Transform) };
         }
     }
 

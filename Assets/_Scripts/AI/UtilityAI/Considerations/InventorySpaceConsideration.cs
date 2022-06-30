@@ -1,5 +1,6 @@
 using OutcastMayor.Interaction;
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,25 +10,58 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "InventorySpaceConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/InventorySpaceConsideration", order = 1)]
     public class InventorySpaceConsideration : Consideration
     {
+        public override bool HasAllData(Type[] actionData)
+        {
+            for (int j = 0; j < actionData.Length; j++)
+            {
+                if (actionData[j] == typeof(Item))
+                {
+                    return true;
+                }
+                if (actionData[j] == typeof(ItemStackInstance))
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public override System.Type[] GetRequiredDataTypes()
+        {
+            return new System.Type[] { typeof(Item), typeof(ItemStackInstance) };
+        }
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
-            ItemStackInstance itemStack = considerationData.data[0] as ItemStackInstance;
+            Item item = considerationData.data[0] as Item;
             Inventory inventory = controller.GetComponent<Inventory>();
-            return Evaluate((float)inventory.CalculateSpaceFor(itemStack.source.item) / (float)itemStack.source.item.stackLimit);
+            return Evaluate((float)inventory.CalculateSpaceFor(item) / (float)item.stackLimit);
         }
-        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
+        public override bool TryGetConsiderationData(UnityEngine.Object[] instanceData, out ConsiderationData considerationData)
         {
             ItemStackInstance itemStack = null;
+            Item item = null;
             for (int i = 0; i < instanceData.Length; i++)
             {
                 if (instanceData[i] is ItemStackInstance)
                 {
                     itemStack = instanceData[i] as ItemStackInstance;
                 }
+                if(instanceData[i] is Item)
+                {
+                    item = instanceData[i] as Item;
+                }
             }
-            considerationData = new ConsiderationData(this, new Object[] { itemStack });
 
-            return itemStack != null;
+            if(itemStack != null)
+            {
+                considerationData = new ConsiderationData(this, new UnityEngine.Object[] { itemStack.source.item });
+                return true;
+            }
+            else
+            {
+                considerationData = new ConsiderationData(this, new UnityEngine.Object[] { item });
+                return item != null;
+            }
+
         }
     }
 }

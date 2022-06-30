@@ -1,4 +1,5 @@
 using OutcastMayor.Interaction;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,7 +9,7 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "SleepAction", menuName = "ScriptableObjects/UtilityAI/Actions/SleepAction", order = 1)]
     public class SleepAction : Action
     {
-        public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Init(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Bed bedTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -24,7 +25,7 @@ namespace OutcastMayor.UtilityAI
             controller.MoveTo(target, false);
         }
 
-        public override void Perform(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Perform(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             Bed bedTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -43,7 +44,7 @@ namespace OutcastMayor.UtilityAI
 
             controller.ActionCompleted();
         }
-        public override void Cancel(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
+        public override void Cancel(UtilityAICharacter controller, UnityEngine.Object[] instanceData, int[] instanceValues)
         {
             //Stop Animations or something?
             //Can you cancel sleeping?
@@ -53,12 +54,17 @@ namespace OutcastMayor.UtilityAI
         {
             List<ActionInstance> instances = new List<ActionInstance>();
 
-            ActionInstance instance = new ActionInstance(this, owner, new Object[] { owner.GetComponent<Bed>(), owner.transform }, new int[0]);
+            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { owner.GetComponent<Bed>(), owner.transform }, new int[0]);
             if (CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
             {
                 instances.Add(instance);
             }
             return instances.ToArray();
+        }
+
+        public override Type[] GetProvidedDataTypes()
+        {
+            return new Type[] { typeof(Bed), typeof(Transform) };
         }
     }
 

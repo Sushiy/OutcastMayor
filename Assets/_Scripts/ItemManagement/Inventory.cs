@@ -264,6 +264,19 @@ namespace OutcastMayor.Items
             }
             return false;
         }
+        public bool Contains(Item.Tag itemTag)
+        {
+            //Look through all stacks and check recipes
+            for (int i = 0; i < slots.Length; i++)
+            {
+                if (slots[i].item != null && slots[i].item.HasTag(itemTag) && slots[i].count > 0)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+
 
         public int GetTotalCount(Item item)
         {

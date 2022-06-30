@@ -13,7 +13,13 @@ MonoBehaviour:
   m_Name: BuildConstructionAction
   m_EditorClassIdentifier: 
   Name: BuildConstructionAction
-  weight: 1
+  weight: 0.8
+  ProvidedDataTypes: Construction,Transform,
   considerations:
   - {fileID: 11400000, guid: d06027a81491f2741a8208b43fef2c1b, type: 2}
   - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
+  considerationLog: "<color=green>HasBuildMaterialConsideration data valid</color>
+    \n<color=green>DistanceConsideration data valid</color> \n"
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

@@ -1,5 +1,6 @@
 using OutcastMayor.Building;
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,6 +10,12 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "BuildMaterialConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/BuildMaterialConsideration", order = 1)]
     public class BuildMaterialPercentageConsideration : Consideration
     {
+
+        public override Type[] GetRequiredDataTypes()
+        {
+            return new Type[] { typeof(Construction) };
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Construction constructionTarget = considerationData.data[0] as Construction;
@@ -30,7 +37,7 @@ namespace OutcastMayor.UtilityAI
             return Evaluate(availableStacks);
         }
 
-        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
+        public override bool TryGetConsiderationData(UnityEngine.Object[] instanceData, out ConsiderationData considerationData)
         {
             Construction constructionTarget = null;
             for (int i = 0; i < instanceData.Length; i++)
@@ -41,7 +48,7 @@ namespace OutcastMayor.UtilityAI
                 }
             }
 
-            considerationData = new ConsiderationData(this, new Object[] { constructionTarget });
+            considerationData = new ConsiderationData(this, new UnityEngine.Object[] { constructionTarget });
 
             return constructionTarget != null;
         }

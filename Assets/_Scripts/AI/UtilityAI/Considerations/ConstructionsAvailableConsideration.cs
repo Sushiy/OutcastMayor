@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,11 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "ConstructionsAvailableConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/ConstructionsAvailableConsideration", order = 1)]
     public class ConstructionsAvailableConsideration : Consideration
     {
+        public override Type[] GetRequiredDataTypes()
+        {
+            return new Type[0];
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             if(controller.availableConstructions.Count > 0)
@@ -19,9 +25,9 @@ namespace OutcastMayor.UtilityAI
             }
         }
 
-        public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
+        public override bool TryGetConsiderationData(UnityEngine.Object[] instanceData, out ConsiderationData considerationData)
         {
-            considerationData = new ConsiderationData(this, new Object[0]);
+            considerationData = new ConsiderationData(this, new UnityEngine.Object[0]);
             return true;
         }
     }
