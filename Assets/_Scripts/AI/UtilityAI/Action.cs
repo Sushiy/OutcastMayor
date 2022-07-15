@@ -145,5 +145,27 @@ namespace OutcastMayor.UtilityAI
             owner.isOccupied = false;
             actionReference.Cancel(controller, instanceData, instanceValues);
         }
+
+        public ActionInstanceLog GetInstanceLog()
+        {
+            return new ActionInstanceLog(this);
+        }
+
+        [System.Serializable]
+        public struct ActionInstanceLog
+        {
+            public string actionName;
+            public string ownerName;
+            public Consideration.ConsiderationLog[] considerationLog;
+            public float score;
+
+            public ActionInstanceLog(ActionInstance instance)
+            {
+                actionName = instance.actionReference.Name;
+                ownerName = instance.owner.name;
+                considerationLog = new Consideration.ConsiderationLog[instance.actionReference.considerations.Length];
+                score = 0;
+            }
+        }
     }
 }

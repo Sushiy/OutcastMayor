@@ -11,6 +11,20 @@ namespace OutcastMayor.UtilityAI
         {
             return new System.Type[] { typeof(Transform) };
         }
+
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] {"Distance to Target"};
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData data)
+        {
+            Transform targetTransform = data.data[0] as Transform;
+            float distance = Vector3.Distance(controller.transform.position, targetTransform.position) / maxValue;
+
+            return new float[] { distance};
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Transform targetTransform = considerationData.data[0] as Transform;

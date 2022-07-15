@@ -508,8 +508,7 @@ public class PoissonScattering : MonoBehaviour
     #region MeshGeneration
 
     [Header("MeshGeneration")]
-    public float quadWidth = .1f;
-    public float quadHeight = .1f;
+    public float quadSize = .1f;
 
     [Button]
     public void GenerateMesh()
@@ -522,12 +521,15 @@ public class PoissonScattering : MonoBehaviour
         for(int i = 0; i < poissonPoints.Count; i++)
         {
             PoissonSample sample = poissonPoints[i];
+            Vector3 tangent = GetTangent(sample.normal).normalized;
+            Vector3 biTangent = Vector3.Cross(tangent, sample.normal).normalized;
+
             vertices.AddRange(new Vector3[4]
             {
-                sample.position + new Vector3(-quadWidth, -quadHeight, 0),
-                sample.position + new Vector3(quadWidth, -quadHeight, 0),
-                sample.position + new Vector3(-quadWidth, quadHeight, 0),
-                sample.position + new Vector3(quadWidth, quadHeight, 0)
+                sample.position + tangent * -quadSize + biTangent * -quadSize,
+                sample.position + tangent * quadSize + biTangent * -quadSize,
+                sample.position + tangent * -quadSize + biTangent * quadSize,
+                sample.position + tangent * quadSize + biTangent * quadSize
             });
 
             tris.AddRange(new int[6]
@@ -559,6 +561,22 @@ public class PoissonScattering : MonoBehaviour
         newMesh.uv = uv.ToArray();
 
         meshFilter.mesh = newMesh;
+    }
+
+    Vector3 GetTangent(Vector3 normal)
+    {
+        Vector3 tangent;
+        Vector3 t1 = Vector3.Cross(normal, Vector3.forward);
+        Vector3 t2 = Vector3.Cross(normal, Vector3.up);
+        if (t1.magnitude > t2.magnitude)
+        {
+            tangent = t1;
+        }
+        else
+        {
+            tangent = t2;
+        }
+        return tangent;
     }
 
     #endregion

@@ -31,8 +31,6 @@ namespace OutcastMayor.UtilityAI
         public List<Construction> availableConstructions;
         public List<Stockpile> availableStockpiles;
 
-        Dictionary<ConsiderationData, float> considerationMemory;
-
         /// <summary>
         /// NPC State when they are not doing anything
         /// </summary>
@@ -56,7 +54,6 @@ namespace OutcastMayor.UtilityAI
             availableConstructions = new List<Construction>();
             reasoner = new Reasoner(); //??
             aiMovement = GetComponent<AIMovement>();
-            considerationMemory = new Dictionary<ConsiderationData, float>();
 
             //Setup states
             IdleState = new State(IdleStart, IdleUpdate, IdleExit, this, "Idle");
@@ -201,7 +198,6 @@ namespace OutcastMayor.UtilityAI
             reasoner.GatherActionInstances(this);
 
             //Update AI
-            ResetConsiderationMemory();
             ActionInstance newBestAction = reasoner.DetermineBestAction(this);
 
             //If you found a new action, do it!
@@ -227,44 +223,6 @@ namespace OutcastMayor.UtilityAI
         {
             base.Eat(food);
             this.satedness += food.nourishment;
-        }
-
-        public void ResetConsiderationMemory()
-        {
-            considerationMemory.Clear();
-        }
-
-        public bool CheckConsiderationMemory(ConsiderationData data, out float result)
-        {
-            result = 0;
-            if (data == null ||data.data == null)
-            {
-                return false;
-            }
-
-            if (considerationMemory.TryGetValue(data, out result))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        public void AddToConsiderationMemory(ConsiderationData data, float value)
-        {
-            considerationMemory.Add(data, value);
-        }
-
-        public int GetConsiderationMemoryCount()
-        {
-            return considerationMemory.Count;
-        }
-
-        public bool GetMemoryContainsConsideration(ConsiderationData data)
-        {
-            return considerationMemory.ContainsKey(data);
         }
     }
 }

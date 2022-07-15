@@ -13,6 +13,16 @@ namespace OutcastMayor.UtilityAI
             return new Type[0];
         }
 
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] {"available Constructions Count" };
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData data)
+        {
+            return new float[] { controller.availableConstructions.Count };
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             if(controller.availableConstructions.Count > 0)

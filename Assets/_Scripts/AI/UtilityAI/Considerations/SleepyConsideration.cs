@@ -11,6 +11,17 @@ namespace OutcastMayor.UtilityAI
         {
             return new System.Type[0];
         }
+
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] { "Sleepiness" };
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
+        {
+            return new float[] { controller.sleepy };
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             return Evaluate(controller.sleepy);

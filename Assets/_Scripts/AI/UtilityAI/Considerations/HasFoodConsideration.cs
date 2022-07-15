@@ -13,6 +13,25 @@ namespace OutcastMayor.UtilityAI
             return new System.Type[0];
         }
 
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] { "Has Food in Inventory" };
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
+        {
+            Inventory inventory = controller.Inventory;
+
+            if (inventory.Contains(Item.Tag.Food))
+            {
+                return new float[] { 1.0f};
+            }
+            else
+            {
+                return new float[] { 0.0f };
+            }
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Inventory inventory = controller.Inventory;

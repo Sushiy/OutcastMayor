@@ -16,6 +16,27 @@ namespace OutcastMayor.UI
             actionText.text = "[E] " + i.interaction;
         }
 
+        public void StartHover(Interactable i, string customNameTxt, string customActionTxt)
+        {
+            if(customNameTxt == "")
+            {
+                nameText.text = i.name;
+            }
+            else
+            {
+                nameText.text = customNameTxt;
+
+            }
+            if(customActionTxt == "")
+            {
+                actionText.text = "[E]" + i.interaction;
+            }
+            else
+            {
+                actionText.text = customActionTxt;
+            }
+        }
+
         public void EndHover()
         {
             nameText.text = "";

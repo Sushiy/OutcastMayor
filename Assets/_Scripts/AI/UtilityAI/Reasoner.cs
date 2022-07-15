@@ -8,6 +8,10 @@ namespace OutcastMayor.UtilityAI
     {
         List<ActionInstance> actionInstances;
 
+        List<ActionInstance.ActionInstanceLog> actionInstanceLogs;
+
+        Dictionary<ConsiderationData, float> considerationMemory;
+
         public void GatherActionInstances(UtilityAICharacter controller)
         {
             string s = "<b>" + controller.name + " Gathering Action Instances </b> \n";
@@ -52,6 +56,23 @@ namespace OutcastMayor.UtilityAI
 
         public ActionInstance DetermineBestAction(UtilityAICharacter controller)
         {
+            if(actionInstanceLogs == null)
+            {
+                actionInstanceLogs = new List<ActionInstance.ActionInstanceLog>();
+            }
+            else
+            {
+                actionInstanceLogs.Clear();
+            }
+
+            if(considerationMemory == null)
+            {
+                considerationMemory = new Dictionary<ConsiderationData, float>();
+            }
+            else
+            {
+                considerationMemory.Clear();
+            }
 
             float bestScore = -1;
             ActionInstance bestAction = null;
@@ -70,8 +91,10 @@ namespace OutcastMayor.UtilityAI
                 else
                 {
                     string s;
-                    float score = ScoreAction(actionInstances[i], controller, out s);
+                    ActionInstance.ActionInstanceLog actionInstanceLog;
+                    float score = ScoreAction(actionInstances[i], controller, out s, out actionInstanceLog);
                     log += s;
+                    actionInstanceLogs.Add(actionInstanceLog);
                     if (score > bestScore)
                     {
                         bestScore = score;
@@ -86,10 +109,11 @@ namespace OutcastMayor.UtilityAI
                 return null;
         }
 
-        public float ScoreAction(ActionInstance actionInstance, UtilityAICharacter controller, out string log)
+        public float ScoreAction(ActionInstance actionInstance, UtilityAICharacter controller, out string log, out ActionInstance.ActionInstanceLog actionInstanceLog)
         {
 
             log = "-" + actionInstance.actionReference.Name + "(" + actionInstance.InstanceDataToString() + ")\n";
+            actionInstanceLog = actionInstance.GetInstanceLog();
             float actionScore = 1;
 
             //Dave Mark averaging: Tries to counteract that product average go smaller all the time
@@ -97,6 +121,8 @@ namespace OutcastMayor.UtilityAI
             {
 
                 Consideration consideration = actionInstance.actionReference.considerations[i];
+                actionInstanceLog.considerationLog[i] = new Consideration.ConsiderationLog(consideration);
+
                 //Try to get the considerationData necessary for this consideration from the actioninstance data
                 ConsiderationData considerationData;
                 if(consideration.TryGetConsiderationData(actionInstance.instanceData, out considerationData))
@@ -108,14 +134,21 @@ namespace OutcastMayor.UtilityAI
                     }
                     else
                     {
-                        if (controller.CheckConsiderationMemory(considerationData, out considerationScore))
+                        actionInstanceLog.considerationLog[i].SetConsiderationDataNames(considerationData);
+
+                        if (CheckConsiderationMemory(considerationData, out considerationScore))
                         {
                             log += "    -(Remembered)" + consideration.Name + ":" + considerationScore + "\n";
+
                         }
                         else
                         {
+                            #if UNITY_EDITOR
+                                //This is like calculating everything twice..woops. but its only for editorstuff
+                                actionInstanceLog.considerationLog[i].SetSourceValues(consideration.GetSourceValues(controller, considerationData));
+                            #endif
                             considerationScore = consideration.ScoreConsideration(controller, considerationData);
-                            controller.AddToConsiderationMemory(considerationData, considerationScore);
+                            AddToConsiderationMemory(considerationData, considerationScore);
                             log += "    -" + consideration.Name + ":" + considerationScore + "\n";
                         }
                         if (considerationScore == 0.0f && consideration.isExclusiveConsideration)
@@ -124,6 +157,7 @@ namespace OutcastMayor.UtilityAI
                             return 0.0f;
                         }
                     }
+                    actionInstanceLog.considerationLog[i].SetScore(considerationScore);
                     actionScore *= considerationScore;
 
                 }
@@ -144,6 +178,40 @@ namespace OutcastMayor.UtilityAI
             log += " result:" + actionScore + "->" + weightedScore + "\n";
             return weightedScore;
         }
+
+        public bool CheckConsiderationMemory(ConsiderationData data, out float result)
+        {
+            result = 0;
+            if (data == null || data.data == null)
+            {
+                return false;
+            }
+
+            if (considerationMemory.TryGetValue(data, out result))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public void AddToConsiderationMemory(ConsiderationData data, float value)
+        {
+            considerationMemory.Add(data, value);
+        }
+
+        public int GetConsiderationMemoryCount()
+        {
+            return considerationMemory.Count;
+        }
+
+        public bool GetMemoryContainsConsideration(ConsiderationData data)
+        {
+            return considerationMemory.ContainsKey(data);
+        }
+
     }
 
 }

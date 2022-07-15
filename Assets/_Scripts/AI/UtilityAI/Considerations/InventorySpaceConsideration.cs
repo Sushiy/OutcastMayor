@@ -65,5 +65,17 @@ namespace OutcastMayor.UtilityAI
             }
 
         }
+
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] { "Space for how many stacks" };
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
+        {
+            Item item = considerationData.data[0] as Item;
+            Inventory inventory = controller.GetComponent<Inventory>();
+            return new float[] { (float)inventory.CalculateSpaceFor(item) / (float)item.stackLimit };
+        }
     }
 }

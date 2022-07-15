@@ -132,6 +132,11 @@ namespace OutcastMayor.UI
             Instance.DEBUG_roomCounter.text = "Rooms: " + i;
         }
 
+        public static void ShowHoverUI(Interactable i, string customNameTxt, string customInteractionTxt)
+        {
+            if (!Instance) return;
+            Instance.hoverUIController.StartHover(i, customNameTxt, customInteractionTxt);
+        }
         public static void ShowHoverUI(Interactable i)
         {
             if (!Instance) return;

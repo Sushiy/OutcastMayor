@@ -105,6 +105,49 @@ namespace OutcastMayor.UtilityAI
                 RequiredDataTypes += t[i].Name + ",";
             }
         }
+
+        public abstract string[] GetSourceValueNames();
+
+        public abstract float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData);
+
+        [System.Serializable]
+        public struct ConsiderationLog
+        {
+            public Consideration consideration;
+            public string[] considerationDataNames;
+            public string[] sourceValueNames;
+            public float[] sourceValues;
+
+            public float score;
+
+            public ConsiderationLog(Consideration consideration)
+            {
+                this.consideration = consideration;
+                considerationDataNames = new string[0];
+                sourceValueNames = consideration.GetSourceValueNames();
+                sourceValues = new float[0];
+                score = 0;
+            }
+
+            public void SetScore(float score)
+            {
+                this.score = score;
+            }
+
+            public void SetSourceValues(float[] sourceValues)
+            {
+                this.sourceValues = sourceValues;
+            }
+
+            public void SetConsiderationDataNames(ConsiderationData considerationData)
+            {
+                considerationDataNames = new string[considerationData.data.Length];
+                for(int i = 0; i < considerationDataNames.Length; i++)
+                {
+                    considerationDataNames[i] = considerationData.data[i].GetType().ToString() + " at " + considerationData.data[i].name; 
+                }
+            }
+        }
     }
 
 

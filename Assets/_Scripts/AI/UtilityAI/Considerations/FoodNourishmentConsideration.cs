@@ -13,6 +13,18 @@ namespace OutcastMayor.UtilityAI
             return new System.Type[] { typeof(Food) };
         }
 
+        public override string[] GetSourceValueNames()
+        {
+            return new string[] {"Hunger", "Nourishment" };
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
+        {
+            Food food = considerationData.data[0] as Food;
+            float hunger = maxValue - controller.satedness;
+            return new float[] { hunger, food.nourishment };
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Food food = considerationData.data[0] as Food;

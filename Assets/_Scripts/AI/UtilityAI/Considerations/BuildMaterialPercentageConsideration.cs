@@ -16,6 +16,34 @@ namespace OutcastMayor.UtilityAI
             return new Type[] { typeof(Construction) };
         }
 
+        public override string[] GetSourceValueNames()
+        {
+            return new string[]{ "Carried Construction Material Stacks: ", "Required Cosntruction Material Stacks"};
+        }
+
+        public override float[] GetSourceValues(UtilityAICharacter controller,ConsiderationData data)
+        {
+            Construction constructionTarget = data.data[0] as Construction;
+
+            float availableStacks = 0;
+            if (constructionTarget == null)
+            {
+                Debug.LogError("No Construction for BuildMaterialPercentageConsideration");
+                return null;
+            }
+
+            for (int i = 0; i < constructionTarget.buildRecipe.Materials.Length; i++)
+            {
+                Inventory.ItemStack stack = new Inventory.ItemStack(constructionTarget.buildRecipe.Materials[i].item, constructionTarget.GetRemainingCount(controller.Interactor, i));
+                if (controller.Inventory.Contains(stack))
+                {
+                    availableStacks += 1.0f;
+                }
+            }
+
+            return new float[] {availableStacks, constructionTarget.buildRecipe.Materials.Length };
+        }
+
         public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Construction constructionTarget = considerationData.data[0] as Construction;
