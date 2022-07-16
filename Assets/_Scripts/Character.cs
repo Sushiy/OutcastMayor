@@ -3,6 +3,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 namespace OutcastMayor
 {    
@@ -17,11 +18,23 @@ namespace OutcastMayor
         protected IMovement movement;
         public IMovement Movement => movement;
 
+        [SerializeField]
+        Transform toolTransform;
+        [SerializeField]
+        Transform carryTransform;
+
+        GameObject heldItemPrefab;
+
+        [HideInInspector]
+        public UnityEvent<GameObject> OnHeldItemChanged;
+
         public bool isSleeping
         {
             protected set;
             get;
         }
+
+        int heldItemSlotID = 0;
 
         public Action<Character> OnStopSleeping;
 
@@ -32,6 +45,7 @@ namespace OutcastMayor
             interactor.SetParentCharacter(this);
             characterAnimation = GetComponent<CharacterAnimation>();
             movement = GetComponent<IMovement>();
+            HoldItem(0);
         }
 
         public virtual void Eat(Items.Food food)
@@ -50,6 +64,37 @@ namespace OutcastMayor
             isSleeping = false;
             characterAnimation.SetSleeping(false);
             OnStopSleeping?.Invoke(this);
+        }
+
+        public virtual void HoldItem(int slotID)
+        {
+            //if we are already holding an item, kick it out?
+            if(heldItemPrefab)
+            {
+                Destroy(heldItemPrefab.gameObject);
+                heldItemPrefab = null;
+            }
+
+            heldItemSlotID = slotID;
+            Item item = inventory.slots[slotID].item;
+            if(inventory.slots[slotID].count > 0)
+            {
+                if(item.HasTag(Item.Tag.Equippable))
+                {
+                    heldItemPrefab = Instantiate(item.prefab, toolTransform);
+                    characterAnimation.SetCarryState(0);
+                }
+                else
+                {
+                    heldItemPrefab = Instantiate(item.prefab, carryTransform);
+                    characterAnimation.SetCarryState(1);
+                }
+                OnHeldItemChanged?.Invoke(heldItemPrefab);
+            }
+            else
+            {
+
+            }
         }
     }
 }

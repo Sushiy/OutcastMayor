@@ -163,7 +163,7 @@ namespace OutcastMayor.Farming
 
         public void OnValidate()
         {
-            if(ShowDebugColors)
+            if(ShowDebugColors && meshRenderer)
             {
                 switch (plotState)
                 {
