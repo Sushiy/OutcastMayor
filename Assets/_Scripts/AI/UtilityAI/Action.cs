@@ -13,8 +13,8 @@ namespace OutcastMayor.UtilityAI
         [DisplayAsString(false)]
         public string ProvidedDataTypes;
         [BoxGroup("2", false)]
-        [SerializeReference]
-        public Consideration[] considerations;
+        //[SerializeReference]
+        public ConsiderationInstance[] considerationInstances;
         [BoxGroup("2", false)]
         [HideLabel]
         [DisplayAsString(false)]
@@ -68,14 +68,16 @@ namespace OutcastMayor.UtilityAI
 
 
             considerationLog = "";
-            for(int i = 0; i < considerations.Length; i++)
+            if(considerationInstances != null)
             {
-                bool valid = considerations[i].HasAllData(t);
-                if(valid)
-                    considerationLog += "<color=green>" + considerations[i].Name + " data valid</color> \n";
-                else
-                    considerationLog += "<color=red>" + considerations[i].Name + " data invalid</color> \n";
-
+                for (int i = 0; i < considerationInstances.Length; i++)
+                {
+                    bool valid = considerationInstances[i].consideration.HasAllData(t);
+                    if (valid)
+                        considerationLog += "<color=green>" + considerationInstances[i].consideration.name + " data valid</color> \n";
+                    else
+                        considerationLog += "<color=red>" + considerationInstances[i].consideration.name + " data invalid</color> \n";
+                }
             }
         }
     }
@@ -163,7 +165,7 @@ namespace OutcastMayor.UtilityAI
             {
                 actionName = instance.actionReference.Name;
                 ownerName = instance.owner.name;
-                considerationLog = new Consideration.ConsiderationLog[instance.actionReference.considerations.Length];
+                considerationLog = new Consideration.ConsiderationLog[instance.actionReference.considerationInstances.Length];
                 score = 0;
             }
         }

@@ -15,11 +15,74 @@ MonoBehaviour:
   Name: CollectAction
   weight: 0.4
   ProvidedDataTypes: ItemStackInstance,Stockpile,Transform,
-  considerations:
-  - {fileID: 11400000, guid: 44b316bb232fb9443969011c66152c1b, type: 2}
-  - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
-  considerationLog: "<color=green>HasInventorySpace data valid</color> \n<color=green>DistanceConsideration
-    data valid</color> \n"
+  considerationInstances:
+  - consideration: {fileID: 11400000, guid: 44b316bb232fb9443969011c66152c1b, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 4.208596
+        outSlope: 4.208596
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.23506624
+      - serializedVersion: 3
+        time: 0.05281277
+        value: 0.99964243
+        inSlope: 1.8002377
+        outSlope: 0.00037750535
+        tangentMode: 65
+        weightedMode: 0
+        inWeight: 0.33333334
+        outWeight: 0.33333334
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  - consideration: {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.030701753
+      - serializedVersion: 3
+        time: 1
+        value: 0.1
+        inSlope: -2.7634492
+        outSlope: -2.7634492
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.020833373
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  considerationLog: "<color=green>InventorySpaceConsideration data valid</color>
+    \n<color=green>DistanceConsideration data valid</color> \n"
   onComplete:
     m_PersistentCalls:
       m_Calls: []

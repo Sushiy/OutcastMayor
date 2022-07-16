@@ -14,5 +14,37 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: DeliverAction
   weight: 0.2
-  considerations:
-  - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
+  ProvidedDataTypes: Stockpile,Transform,Item,
+  considerationInstances:
+  - consideration: {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.030701753
+      - serializedVersion: 3
+        time: 1.0004883
+        value: 0.1
+        inSlope: 0.067486495
+        outSlope: 0.067486495
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.03336678
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  considerationLog: "<color=green>DistanceConsideration data valid</color> \n"
+  onComplete:
+    m_PersistentCalls:
+      m_Calls: []

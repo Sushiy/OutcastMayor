@@ -15,11 +15,103 @@ MonoBehaviour:
   Name: GetMaterialsForConstruction
   weight: 0.8
   ProvidedDataTypes: Construction,Stockpile,Transform,
-  considerations:
-  - {fileID: 11400000, guid: 2e514c9c91b8193458da096e5e957567, type: 2}
-  - {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
-  considerationLog: "<color=green>HasNotBuildMaterialConsideration data valid</color>
-    \n<color=green>DistanceConsideration data valid</color> \n"
+  considerationInstances:
+  - consideration: {fileID: 11400000, guid: d06027a81491f2741a8208b43fef2c1b, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0.2
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.041118417
+      - serializedVersion: 3
+        time: 0.77192986
+        value: 0.942422
+        inSlope: -1.1321169
+        outSlope: -1.1321169
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.04199597
+        outWeight: 0.09210515
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: 0.087801844
+        outSlope: 0.087801844
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.028508842
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  - consideration: {fileID: 11400000, guid: cffffec22eee57a4494b18f34725d875, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.030701753
+      - serializedVersion: 3
+        time: 1
+        value: 0.1
+        inSlope: 0.08674818
+        outSlope: 0.08674818
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.027412355
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  - consideration: {fileID: 11400000, guid: f633837656dc94b4995ee7c4813a0f37, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 1
+    zeroStepCurve: 0
+    oneStepCurve: 1
+  considerationLog: "<color=green>BuildMaterialPercentage data valid</color> \n<color=green>DistanceConsideration
+    data valid</color> \n<color=green>ConstructionsAvailableConsideration data valid</color>
+    \n"
   onComplete:
     m_PersistentCalls:
       m_Calls: []

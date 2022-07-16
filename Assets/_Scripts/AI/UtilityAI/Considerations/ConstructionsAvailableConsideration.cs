@@ -23,15 +23,15 @@ namespace OutcastMayor.UtilityAI
             return new float[] { controller.availableConstructions.Count };
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             if(controller.availableConstructions.Count > 0)
             {
-                return Evaluate(1.0f);
+                return 1.0f;
             }
             else
             {
-                return Evaluate(0.0f);
+                return 0.0f;
             }
         }
 

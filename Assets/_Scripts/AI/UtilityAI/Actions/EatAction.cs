@@ -8,6 +8,7 @@ namespace OutcastMayor.UtilityAI
     [CreateAssetMenu(fileName = "EatAction", menuName = "ScriptableObjects/UtilityAI/Actions/EatAction", order = 1)]
     public class EatAction : Action
     {
+
         public override void Init(UtilityAICharacter controller, Object[] instanceData, int[] instanceValues)
         {
             controller.ChangeState(controller.PerformingState);

@@ -14,12 +14,93 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Eat
   weight: 1
-  ProvidedDataTypes: Food,
-  considerations:
-  - {fileID: 11400000, guid: 8009b1b2e44073c4c9d86157cebf0768, type: 2}
-  - {fileID: 11400000, guid: 611db5ea8a0b7154db3935e959979197, type: 2}
-  - {fileID: 11400000, guid: 322f9ebb2173dfc4d8b049078e85ac95, type: 2}
-  considerationLog: "<color=green>Hunger Consideration data valid</color> \n<color=green>HasFoodConsideration
+  ProvidedDataTypes: Food,Inventory,
+  considerationInstances:
+  - consideration: {fileID: 11400000, guid: 8009b1b2e44073c4c9d86157cebf0768, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 0
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 2
+        outSlope: 2
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  - consideration: {fileID: 11400000, guid: 611db5ea8a0b7154db3935e959979197, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      - serializedVersion: 3
+        time: 1
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 34
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 1
+  - consideration: {fileID: 11400000, guid: 322f9ebb2173dfc4d8b049078e85ac95, type: 2}
+    curve:
+      serializedVersion: 2
+      m_Curve:
+      - serializedVersion: 3
+        time: 0
+        value: 1
+        inSlope: 0
+        outSlope: 0
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0
+        outWeight: 0.030701753
+      - serializedVersion: 3
+        time: 1
+        value: 0
+        inSlope: -2.7634492
+        outSlope: -2.7634492
+        tangentMode: 0
+        weightedMode: 0
+        inWeight: 0.020833373
+        outWeight: 0
+      m_PreInfinity: 2
+      m_PostInfinity: 2
+      m_RotationOrder: 4
+    isExclusiveConsideration: 0
+    zeroStepCurve: 0
+    oneStepCurve: 0
+  considerationLog: "<color=green>HungerConsideration data valid</color> \n<color=green>HasFoodConsideration
     data valid</color> \n<color=green>FoodNourishmentConsideration data valid</color>
     \n"
   onComplete:

@@ -44,7 +44,7 @@ namespace OutcastMayor.UtilityAI
             return new float[] {availableStacks, constructionTarget.buildRecipe.Materials.Length };
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Construction constructionTarget = considerationData.data[0] as Construction;
 
@@ -62,7 +62,7 @@ namespace OutcastMayor.UtilityAI
 
             availableStacks /= constructionTarget.buildRecipe.Materials.Length;
 
-            return Evaluate(availableStacks);
+            return availableStacks;
         }
 
         public override bool TryGetConsiderationData(UnityEngine.Object[] instanceData, out ConsiderationData considerationData)

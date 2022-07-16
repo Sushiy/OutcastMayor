@@ -26,7 +26,7 @@ namespace OutcastMayor.UtilityAI
 
             if(consideration)
             {
-                GUI.Label(rect.AddXMin(50).AlignMiddle(16), EditorGUI.showMixedValue ? "-" : consideration.Name);
+                GUI.Label(rect.AddXMin(50).AlignMiddle(16), EditorGUI.showMixedValue ? "-" : consideration.name);
             }
 
             this.ValueEntry.WeakSmartValue = SirenixEditorFields.UnityPreviewObjectField(rect.AlignLeft(45), consideration, this.ValueEntry.BaseValueType);

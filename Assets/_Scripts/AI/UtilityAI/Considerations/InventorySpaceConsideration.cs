@@ -29,11 +29,11 @@ namespace OutcastMayor.UtilityAI
         {
             return new System.Type[] { typeof(Item), typeof(ItemStackInstance) };
         }
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Item item = considerationData.data[0] as Item;
             Inventory inventory = controller.GetComponent<Inventory>();
-            return Evaluate((float)inventory.CalculateSpaceFor(item) / (float)item.stackLimit);
+            return (float)inventory.CalculateSpaceFor(item) / (float)item.stackLimit;
         }
         public override bool TryGetConsiderationData(UnityEngine.Object[] instanceData, out ConsiderationData considerationData)
         {

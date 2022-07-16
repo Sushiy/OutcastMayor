@@ -22,9 +22,9 @@ namespace OutcastMayor.UtilityAI
             return new float[] { controller.sleepy };
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
-            return Evaluate(controller.sleepy);
+            return controller.sleepy;
         }
         public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
         {

@@ -32,7 +32,7 @@ namespace OutcastMayor.UtilityAI
             }
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Inventory inventory = controller.Inventory;
 

@@ -21,16 +21,16 @@ namespace OutcastMayor.UtilityAI
         public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Food food = considerationData.data[0] as Food;
-            float hunger = maxValue - controller.satedness;
+            float hunger = 1.0f - controller.satedness;
             return new float[] { hunger, food.nourishment };
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
             Food food = considerationData.data[0] as Food;
-            float hunger = maxValue - controller.satedness;
+            float hunger = 1.0f - controller.satedness;
             float f = hunger - food.nourishment;
-            return Evaluate(Mathf.Abs(f));
+            return Mathf.Abs(f);
         }
 
         public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)

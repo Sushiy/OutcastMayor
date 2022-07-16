@@ -65,7 +65,7 @@ namespace OutcastMayor.UtilityAI
                 {
                     ScriptableObjectCreator.ShowDialog<Consideration>("Assets/Data/UtilityAI/Considerations", obj =>
                     {
-                        obj.Name = obj.name;
+                        obj.name = obj.name;
                         base.TrySelectMenuItemWithObject(obj); // Selects the newly created item in the editor
                     });
                 }

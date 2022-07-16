@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace OutcastMayor.UtilityAI
 {
-    [CreateAssetMenu(fileName = "SatednessConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/SatednessConsideration", order = 1)]
-    public class SatednessConsideration : Consideration
+    [CreateAssetMenu(fileName = "HungerConsideration", menuName = "ScriptableObjects/UtilityAI/Considerations/HungerConsideration", order = 1)]
+    public class HungerConsideration : Consideration
     {
         public override System.Type[] GetRequiredDataTypes()
         {
@@ -14,17 +14,17 @@ namespace OutcastMayor.UtilityAI
 
         public override string[] GetSourceValueNames()
         {
-            return new string[] { "Satedness" };
+            return new string[] { "Hunger" };
         }
 
         public override float[] GetSourceValues(UtilityAICharacter controller, ConsiderationData considerationData)
         {
-            return new float[] { controller.satedness / maxValue };
+            return new float[] { 1.0f - controller.satedness};
         }
 
-        public override float ScoreConsideration(UtilityAICharacter controller, ConsiderationData considerationData)
+        protected override float CalculateScore(UtilityAICharacter controller, ConsiderationData considerationData)
         {
-            return Evaluate(controller.satedness/maxValue);
+            return 1.0f - controller.satedness;
         }
 
         public override bool TryGetConsiderationData(Object[] instanceData, out ConsiderationData considerationData)
