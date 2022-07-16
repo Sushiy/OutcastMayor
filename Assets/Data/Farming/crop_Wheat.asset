@@ -13,6 +13,8 @@ MonoBehaviour:
   m_Name: crop_Wheat
   m_EditorClassIdentifier: 
   Name: WheatCrop
-  growthTime: 168
-  plantPrefab: {fileID: 0}
-  harvestResult: {fileID: 0}
+  growthTime: 0.5
+  waterNeed: 1
+  plantPrefab: {fileID: 5192161230512552434, guid: 7db82b143e59155439517ce2062bacc4, type: 3}
+  harvestResult: {fileID: 11400000, guid: 3687be720dcfe9d4fb853b2e06010198, type: 2}
+  baseYield: 2
