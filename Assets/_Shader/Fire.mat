@@ -101,15 +101,16 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthFade: 0.225
+    - _DepthFade: 0
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnvironmentReflections: 1
-    - _FlameShading: 0.177
+    - _FlameShading: 0.475
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _GradientLerp: 1
     - _Metallic: 0
     - _Noise1_Scale: 1.22
     - _Noise1_Speed: -1.5
