@@ -26,17 +26,20 @@ namespace OutcastMayor
 
         public void SwingTool()
         {
-            parentCharacter.CharacterAnimation.SetSwing();
+            if (activeTool)
+                parentCharacter.CharacterAnimation.SetSwing();
         }
 
         public void OnSwingStart()
         {
-            activeTool.OnStartSwing();
+            if (activeTool)
+                activeTool.OnStartSwing();
         }
 
         public void OnSwingEnd()
         {
-            activeTool.OnEndSwing();
+            if (activeTool)
+                activeTool.OnEndSwing();
         }
     }
 }

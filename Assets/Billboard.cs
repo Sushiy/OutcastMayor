@@ -7,6 +7,8 @@ public class Billboard : MonoBehaviour
 {
     Camera mainCamera;
 
+    public Vector3 positionOffset;
+
     void Awake()
     {
         mainCamera = Camera.main;
@@ -14,7 +16,7 @@ public class Billboard : MonoBehaviour
 
     private void Update()
     {
-        transform.LookAt(mainCamera.transform);
+        transform.LookAt(mainCamera.transform.position + positionOffset, Vector3.up);
         transform.rotation *= Quaternion.Euler(0, 180, 0);
     }
 }

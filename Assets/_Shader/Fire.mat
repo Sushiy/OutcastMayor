@@ -101,7 +101,7 @@ Material:
     - _ClearCoatSmoothness: 0
     - _Cull: 2
     - _Cutoff: 0.5
-    - _DepthFade: 0
+    - _DepthFade: 1.22
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
@@ -110,11 +110,11 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _GradientLerp: 1
+    - _GradientLerp: 0.838
     - _Metallic: 0
-    - _Noise1_Scale: 1.22
-    - _Noise1_Speed: -1.5
-    - _Noise2_Scale: 0.5
+    - _Noise1_Scale: 1.43
+    - _Noise1_Speed: -2.3
+    - _Noise2_Scale: 0.48
     - _Noise2_Speed: -1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
