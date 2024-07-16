@@ -29,7 +29,7 @@ namespace OutcastMayor
         private bool secondaryPressed = false;
         private bool demolishPressed = false;
 
-        private bool firePressed = false;
+        private bool keyPressed = false;
 
         [SerializeField]
         private Player player;
@@ -111,8 +111,8 @@ namespace OutcastMayor
 
         public void OnFire(CallbackContext value)
         {
-            firePressed = value.performed;
-            if (firePressed && (!UIManager.IsUIOpen || (player.BuildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
+            keyPressed = value.performed;
+            if (keyPressed && (!UIManager.IsUIOpen || (player.BuildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
             {
                 if (player.BuildingMode.isActive)
                 {
@@ -126,6 +126,35 @@ namespace OutcastMayor
                 {
                     Player.Instance.PlayerToolManager.SwingTool();
                 }
+            }
+        }
+
+        public void OnItem1Key(CallbackContext value)
+        {
+            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            {
+                player.HoldItem(0);
+            }
+        }
+        public void OnItem2Key(CallbackContext value)
+        {
+            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            {
+                player.HoldItem(1);
+            }
+        }
+        public void OnItem3Key(CallbackContext value)
+        {
+            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            {
+                player.HoldItem(2);
+            }
+        }
+        public void OnItem4Key(CallbackContext value)
+        {
+            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            {
+                player.HoldItem(3);
             }
         }
 

@@ -48,7 +48,7 @@ namespace OutcastMayor.UtilityAI
             }
             if (itemStack == null)
             {
-                Debug.LogError("No itemStack");
+                Debug.LogError("ActionInstanceData did not include itemStack");
                 Cancel(controller, null, null);
                 return;
             }

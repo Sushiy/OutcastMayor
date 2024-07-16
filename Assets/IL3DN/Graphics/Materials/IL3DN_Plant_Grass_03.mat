@@ -87,6 +87,7 @@ Material:
         m_Texture: {fileID: 0}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
+    m_Ints: []
     m_Floats:
     - _AlphaCutoff: 0.5
     - _Bend: 1
@@ -139,7 +140,7 @@ Material:
     - _WindAmplitudeMultiplier: 1
     - _WindDirectionSpeed: 5
     - _WindQuality: 4
-    - _WindStrenght: 0.5
+    - _WindStrenght: 0
     - _WindSwinging: 0.5
     - _ZWrite: 1
     - __dirty: 1
@@ -154,3 +155,4 @@ Material:
     - _TranslucencyColor: {r: 0.72321427, g: 1, b: 0, a: 1}
     - _TreeInstanceColor: {r: 1, g: 1, b: 1, a: 1}
     - _TreeInstanceScale: {r: 1, g: 1, b: 1, a: 1}
+  m_BuildTextureStacks: []

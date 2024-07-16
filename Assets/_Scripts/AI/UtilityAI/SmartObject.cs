@@ -16,12 +16,14 @@ namespace OutcastMayor.UtilityAI
         // Start is called before the first frame update
         void Start()
         {
-            Blackboard.smartObjects.Add(this);
+            if (Blackboard.smartObjects != null)
+                Blackboard.smartObjects.Add(this);
         }
 
         private void OnDisable()
         {
-            Blackboard.smartObjects.Remove(this);
+            if (Blackboard.smartObjects != null)
+                Blackboard.smartObjects.Remove(this);
         }
     }
 

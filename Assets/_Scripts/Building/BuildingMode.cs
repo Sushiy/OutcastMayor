@@ -55,7 +55,7 @@ namespace OutcastMayor.Building
         [SerializeField]
         private PointerIndicator indicator;
 
-        private void Awake()
+        private void Start()
         {
             buildActionMap = GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
         }

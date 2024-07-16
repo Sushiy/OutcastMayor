@@ -14,6 +14,7 @@ public class CharacterAnimation : MonoBehaviour
     private int bIsSleepingHash = Animator.StringToHash("bIsSleeping");
     private int fSpeedForwardHash = Animator.StringToHash("fSpeedForward");
     private int FSpeedSideHash = Animator.StringToHash("fSpeedSide");
+    private int iCarryStateHash = Animator.StringToHash("iCarryState");
 
     //Public Methods:
     public void SetJump()
@@ -40,5 +41,14 @@ public class CharacterAnimation : MonoBehaviour
     public void SetSwing()
     {
         _animator.SetTrigger(tSwingHash);
+    }
+
+    /// <summary>
+    /// Carry animation state: 0 means nothing, 1 means carry
+    /// </summary>
+    /// <param name="i"></param>
+    public void SetCarryState(int i)
+    {
+        _animator.SetInteger(iCarryStateHash, i);
     }
 }

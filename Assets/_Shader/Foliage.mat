@@ -12,23 +12,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  version: 5
+  version: 7
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Foliage
   m_Shader: {fileID: -6465566751694194690, guid: 57e8a654e881e6e458fc9ba287ee70c9, type: 3}
-  m_ShaderKeywords: 
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords: []
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -65,7 +69,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MainTex:
-        m_Texture: {fileID: 2800000, guid: 6a07cf648585dd74193df791c8cba78d, type: 3}
+        m_Texture: {fileID: 2800000, guid: 70cf11c8a145c944e9603e027f485c48, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _MetallicGlossMap:
@@ -74,6 +78,10 @@ Material:
         m_Offset: {x: 0, y: 0}
     - _OcclusionMap:
         m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _OpacityMask:
+        m_Texture: {fileID: 2800000, guid: 39b9db8ab09df7e4c85f0da6323938aa, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ParallaxMap:
@@ -102,41 +110,50 @@ Material:
     - Vector1_2ec0d3842d1b4ffdb8f6950557082bf3: 1
     - Vector1_abe9e443ff98475d80772e45c9fbef64: 0
     - _AlphaClip: 0
+    - _BillboardInflate: 1
+    - _BillboardScale: 1
     - _Blend: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
-    - _ColorVariationNoise: 0.537
+    - _ColorVariationNoise: 0.029
     - _ColorVariationStrength: 0.4
     - _Cull: 2
     - _Cutoff: 0.5
     - _DetailAlbedoMapScale: 1
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EffectStrength: 0.658
+    - _EffectStrength: 1
     - _EnvironmentReflections: 1
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
+    - _HueShift: 0.136
+    - _Inflate: 0
     - _Metallic: 0
+    - _N_Power: 1
+    - _N_Softness: 1
     - _OcclusionStrength: 1
     - _Parallax: 0.005
-    - _PosterizeSteps: 12
+    - _PosterizeSteps: 20
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _SSPower: 1
     - _SSSPower: 4.25
     - _SSSScale: 1
+    - _SS_Radius: 1
     - _Smoothness: 0.5
     - _SmoothnessTextureChannel: 0
     - _SpecularHighlights: 1
     - _SrcBlend: 1
-    - _SubsurfaceDistortionModifier: 0.632
+    - _SubsurfaceDistortionModifier: 0.726
     - _Surface: 0
     - _Test: 0
+    - _UnderColor: 0.2
     - _WorkflowMode: 1
     - _ZWrite: 1
-    - _scale: 0.416
+    - _scale: 0.52
     m_Colors:
     - Color_1: {r: 0.07422581, g: 0.177, b: 0.09135485, a: 1}
     - Color_84421754f3e04f9089f6463f01f52c8f: {r: 0.30272654, g: 0.4433962, b: 0.15267888, a: 1}
@@ -147,6 +164,7 @@ Material:
     - _HighlightColor: {r: 0.97272563, g: 1, b: 0.5235849, a: 0}
     - _MidColor: {r: 0.43485302, g: 0.6603774, b: 0.32084376, a: 0}
     - _SSSColor: {r: 0, g: 0, b: 0, a: 0}
+    - _SSTint: {r: 0.6588235, g: 0.9294118, b: 0.6156863, a: 1}
     - _ShadowColor: {r: 0.3962264, g: 0.3962264, b: 0.3962264, a: 0}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
   m_BuildTextureStacks: []

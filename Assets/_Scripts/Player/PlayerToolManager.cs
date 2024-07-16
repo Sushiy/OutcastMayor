@@ -5,8 +5,6 @@ using UnityEngine;
 namespace OutcastMayor
 {    public class PlayerToolManager : MonoBehaviour
     {
-        public SwingableTool[] tools;
-
         public SwingableTool activeTool;
 
         private Character parentCharacter;
@@ -14,34 +12,34 @@ namespace OutcastMayor
         private void Awake()
         {
             parentCharacter = GetComponentInParent<Character>();
-            EquipTool(0);
+            parentCharacter.OnHeldItemChanged.AddListener(OnHeldItemChanged);
         }
 
-        public void EquipTool(int i)
+        public void OnHeldItemChanged(GameObject heldObject)
         {
-            activeTool = tools[i];
-            activeTool.Equip();
-        }
-
-        public void UnequipTool()
-        {
-            activeTool.gameObject.SetActive(false);
             activeTool = null;
+
+            activeTool = heldObject.GetComponent<SwingableTool>();
+            if(activeTool != null)
+                activeTool.Equip();
         }
 
         public void SwingTool()
         {
-            parentCharacter.CharacterAnimation.SetSwing();
+            if (activeTool)
+                parentCharacter.CharacterAnimation.SetSwing();
         }
 
         public void OnSwingStart()
         {
-            activeTool.OnStartSwing();
+            if (activeTool)
+                activeTool.OnStartSwing();
         }
 
         public void OnSwingEnd()
         {
-            activeTool.OnEndSwing();
+            if (activeTool)
+                activeTool.OnEndSwing();
         }
     }
 }

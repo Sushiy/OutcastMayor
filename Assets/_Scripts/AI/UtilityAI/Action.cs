@@ -105,7 +105,7 @@ namespace OutcastMayor.UtilityAI
             }
             else
             {
-                Debug.Log("byte array is null");
+                Debug.Log("[Action Instance]: byte array is null for instance" + actionReference.Name);
                 this.instanceValues = new int[0];
             }
         }
