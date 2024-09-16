@@ -37,6 +37,11 @@ namespace OutcastMayor
         private bool demolishPressed = false;
         public Action onDemolishPressed;
 
+        public Action on1Pressed;
+        public Action on2Pressed;
+        public Action on3Pressed;
+        public Action on4Pressed;
+
         [Header("Raycast")]
         [SerializeField]
         private LayerMask buildRaycastLayerMask;
@@ -80,6 +85,11 @@ namespace OutcastMayor
             inputActions.Player.Secondary.canceled += OnSecondaryRelease;
 
             inputActions.Player.Position.performed += OnPosition;
+
+            inputActions.Player.Item1.performed += OnItem1Key;
+            inputActions.Player.Item2.performed += OnItem2Key;
+            inputActions.Player.Item3.performed += OnItem3Key;
+            inputActions.Player.Item4.performed += OnItem4Key;
         }
 
         public void OnMove(CallbackContext c)
@@ -128,30 +138,19 @@ namespace OutcastMayor
 
         public void OnItem1Key(CallbackContext value)
         {
-            if (value.performed)
-            {
-
-            }
+            on1Pressed?.Invoke();
         }
         public void OnItem2Key(CallbackContext value)
         {
-            if (value.performed)
-            {
-            }
+            on2Pressed?.Invoke();
         }
         public void OnItem3Key(CallbackContext value)
         {
-            if (value.performed)
-            {
-
-            }
+            on3Pressed?.Invoke();
         }
         public void OnItem4Key(CallbackContext value)
         {
-            if (value.performed)
-            {
-
-            }
+            on4Pressed?.Invoke();
         }
 
         public void OnBuildMode(CallbackContext value)
