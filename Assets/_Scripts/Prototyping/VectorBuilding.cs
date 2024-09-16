@@ -1,15 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using Shapes;
-using JetBrains.Annotations;
-using System;
-using Yarn.Unity;
 
 namespace OutcastMayor
 {
-    [ExecuteAlways]
-    public class VectorBuilding : ImmediateModeShapeDrawer
+    public class VectorBuilding : MonoBehaviour
     {
         public BasicPlayerInputManager inputManager;
 
@@ -23,7 +18,10 @@ namespace OutcastMayor
 
         public BuildMode buildMode = BuildMode.Line;
 
+        [Header("Line Tool")]
         public VectorPoint lastLinePoint = null;
+
+        public Shapes.Line currentLine;
 
         public VectorPointGraph currentVectorPointGraph;
 
@@ -31,14 +29,26 @@ namespace OutcastMayor
 
         public List<ControlPoint> controlPoints;
 
-        void Awake()
+        void  Awake()
         {
             inputManager.onPrimaryPerformed += PrimaryClick;
+            inputManager.onSecondaryPerformed += SecondaryClick;
             inputManager.on1Pressed += ChangeToLineMode;
             inputManager.on2Pressed += ChangeToRectangleMode;
 
             currentVectorPointGraph = new VectorPointGraph();
+            currentLine.Color = currentVectorPointGraph.graphColor;
             vectorPointGraphs.Add(currentVectorPointGraph);
+        }
+
+        void Update()
+        {
+            Vector3 mousePosition = inputManager.HitInfo.point;
+            if(lastLinePoint != null)
+            {
+                currentLine.End = currentLine.transform.InverseTransformPoint(mousePosition);
+            }
+
         }
 
         /// <summary>
@@ -57,6 +67,15 @@ namespace OutcastMayor
             buildMode = BuildMode.Rectangle;
         }
 
+        public void SecondaryClick()
+        {
+            if(currentVectorPointGraph != null)
+            {
+                currentVectorPointGraph = null;
+                lastLinePoint = null;
+            }
+        }
+
         public void PrimaryClick()
         {
             Vector3 clickPosition = inputManager.HitInfo.point;
@@ -71,6 +90,7 @@ namespace OutcastMayor
                     if(currentVectorPointGraph == null)
                     {
                         currentVectorPointGraph = clickedPoint.vectorPoint.vectorPointGraph;
+                        currentLine.Color = currentVectorPointGraph.graphColor;
                         if(lastLinePoint == null)
                         {
                             lastLinePoint = clickedPoint.vectorPoint;
@@ -80,10 +100,18 @@ namespace OutcastMayor
                     {
                         if(lastLinePoint != null)
                         {
-                            lastLinePoint.AddPoint(clickedPoint.vectorPoint);
-                            clickedPoint.vectorPoint.AddPoint(lastLinePoint);
-                            currentVectorPointGraph.AddPoint(clickedPoint.vectorPoint);
-                            lastLinePoint = clickedPoint.vectorPoint;
+                            if(lastLinePoint.connectedPoints.Contains(clickedPoint.vectorPoint))
+                            {
+                                Debug.LogWarning("[VectorBuilding] These points are already connected");
+                                lastLinePoint = clickedPoint.vectorPoint;
+                            }
+                            else
+                            {
+                                lastLinePoint.AddPoint(clickedPoint.vectorPoint);
+                                clickedPoint.vectorPoint.AddPoint(lastLinePoint);
+                                currentVectorPointGraph.AddPoint(clickedPoint.vectorPoint);
+                                lastLinePoint = clickedPoint.vectorPoint;  
+                            }                            
                         }
                     }
                 }
@@ -93,21 +121,27 @@ namespace OutcastMayor
                     {
                         currentVectorPointGraph = new VectorPointGraph();
                         vectorPointGraphs.Add(currentVectorPointGraph);
+                        currentLine.Color = currentVectorPointGraph.graphColor;
                     }
 
-                    VectorPoint v = new VectorPoint(clickPosition, lastLinePoint, currentVectorPointGraph);
-                    lastLinePoint.AddPoint(v);
-                    currentVectorPointGraph.AddPoint(v);
-                    lastLinePoint = v;
+                    
+                    Debug.Log("[VectorBuilding] Add Point normally");
+
+                    VectorPoint newPoint = new VectorPoint(clickPosition, lastLinePoint, currentVectorPointGraph);
+                    if(lastLinePoint != null)
+                        lastLinePoint.AddPoint(newPoint);
+                    currentVectorPointGraph.AddPoint(newPoint);
+                    lastLinePoint = newPoint;
                     
 
                     //Also add a controlPoint
                     ControlPoint newControlPoint = Instantiate(controlPoint, transform);
                     newControlPoint.transform.position = clickPosition;
-                    newControlPoint.SetData(v, this);
+                    newControlPoint.SetData(newPoint, this);
                     AddControlPoint(newControlPoint);
-
                 }
+                
+                currentLine.Start = currentLine.transform.InverseTransformPoint(lastLinePoint.worldPosition);
             }
         }
 
@@ -115,40 +149,8 @@ namespace OutcastMayor
         {
             controlPoints.Add(_point);
         } 
-
-        HashSet<VectorPoint> alreadyDrawnPoints = new HashSet<VectorPoint>();
-        public override void DrawShapes(Camera cam)
-        {
-            using (Draw.Command(cam))
-            {
-                // set up static parameters. these are used for all following Draw.Line calls
-                Draw.LineGeometry = LineGeometry.Volumetric3D;
-                Draw.ThicknessSpace = ThicknessSpace.Pixels;
-                Draw.Thickness = 4; // 4px wide
-
-                foreach(VectorPointGraph graph in vectorPointGraphs)
-                {
-                    alreadyDrawnPoints.Clear();
-                    Draw.Color = graph.graphColor;
-                    foreach(VectorPoint point in graph.includedPoints)
-                    {
-                        foreach(VectorPoint connectedPoint in point.connectedPoints)
-                        {
-                            if(alreadyDrawnPoints.Contains(connectedPoint))
-                            {
-                                //skip
-                                continue;
-                            }
-                            alreadyDrawnPoints.Add(point);
-                            Draw.Line(point.worldPosition, connectedPoint.worldPosition);
-                        }
-                    }
-                }
-            }         
-        } 
     }
 
-    [System.Serializable]
     public class VectorPoint
     {
         public Vector3 worldPosition;
@@ -179,7 +181,6 @@ namespace OutcastMayor
         }
     }
 
-    [System.Serializable]
     public class VectorPointGraph
     {
         [HideInInspector]
@@ -198,7 +199,7 @@ namespace OutcastMayor
             if(!includedPoints.Contains(_point))
                 includedPoints.Add(_point);
             else
-                Debug.LogError("This graph already contains this point");
+                Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this point");
         }
     }
 
