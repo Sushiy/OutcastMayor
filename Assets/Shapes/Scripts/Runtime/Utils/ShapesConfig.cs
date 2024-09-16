@@ -27,11 +27,14 @@ namespace Shapes {
 			High
 		}
 
-		static class StaticLoader {
-			public static readonly ShapesConfig inst = Resources.Load<ShapesConfig>( "Shapes Config" );
+		static ShapesConfig inst;
+		public static ShapesConfig Instance {
+			get {
+				if( inst == null )
+					inst = Resources.Load<ShapesConfig>( "Shapes Config" );
+				return inst;
+			}
 		}
-
-		public static ShapesConfig Instance => StaticLoader.inst;
 
 		[Tooltip( "Whether or not to use HDR color pickers throughout Shapes (This does not affect performance in any way)" )]
 		public bool useHdrColorPickers = false;

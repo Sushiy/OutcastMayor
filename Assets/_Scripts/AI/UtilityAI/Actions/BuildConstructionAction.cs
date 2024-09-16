@@ -21,7 +21,7 @@ namespace OutcastMayor.UtilityAI
         public override ActionInstance[] GetActionInstances(SmartObject owner, UtilityAICharacter controller)
         {
             List<ActionInstance> instances = new List<ActionInstance>();
-            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { owner.GetComponent<Construction>(), owner.transform }, null);
+            ActionInstance instance = new ActionInstance(this, owner, new UnityEngine.Object[] { owner.GetComponent<Construction>(), owner.transform }, new int[0]);
             if(CheckInstanceRequirement(owner, instance.instanceData, instance.instanceValues))
             {
                 instances.Add(instance);

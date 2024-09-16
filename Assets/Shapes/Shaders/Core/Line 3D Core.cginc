@@ -28,12 +28,13 @@ struct VertexInput {
 };
 struct VertexOutput {
 	float4 pos : SV_POSITION;
-	half4 intp0 : TEXCOORD1;
+	half4 intp0 : TEXCOORD0;
 	#if defined(CAP_SQUARE)
-		half colorBlend : TEXCOORD0; // needed since we need unclamped color blend value in the frag shader
+		half colorBlend : TEXCOORD1; // needed since we need unclamped color blend value in the frag shader
 	#else
-		half4 color : TEXCOORD0;
+		half4 color : TEXCOORD1;
 	#endif
+	UNITY_FOG_COORDS(2)
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -113,6 +114,7 @@ VertexOutput vert(VertexInput v) {
 	}
 
 	o.pos = WorldToClipPos( vertPos.xyz );
+	UNITY_TRANSFER_FOG(o,o.pos);
 	return o;
 }
 
@@ -138,5 +140,5 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
 	ApplyDashMask( /*inout*/ shape_mask, dashCoords, 0, DASH_TYPE_BASIC, 0 );
 	    
     shape_mask *= saturate(i.IP_pxCoverage);
-	return ShapesOutput( shape_color, shape_mask );
+	return SHAPES_OUTPUT( shape_color, shape_mask, i );
 }

@@ -66,6 +66,10 @@ inline float Round( float a, float divs ){
 float Determinant( in float2 a, in float2 b ) {
     return a.x * b.y - a.y * b.x;
 }
+float2 SqDist(float2 a, float2 b) {
+    const float2 d = b-a;
+    return dot(d,d);
+}
 float2 Rotate( float2 v, float ang ){
 	float2 a = float2( cos(ang), sin(ang) );
 	return float2(
@@ -90,6 +94,12 @@ inline float3 Rotate90Left( in float3 v ){
 }
 inline float3 Rotate90Right( in float3 v ){
 	return float3( v.y, -v.x, 0 );
+}
+inline half Repeat(float v, float len) {
+    return clamp( v - floor( v / len ) * len, 0, len );
+}
+inline half DeltaAngle(half a, half b) {
+    return Repeat( b - a + TAU*0.5, TAU ) - TAU*0.5;
 }
 void GetDirMag( in float2 v, out float2 dir, out float mag ){
 	mag = length( v );

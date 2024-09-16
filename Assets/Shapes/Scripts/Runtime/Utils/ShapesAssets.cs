@@ -23,11 +23,14 @@ namespace Shapes {
 		[Header( "Misc" )]
 		public TextAsset packageJson;
 
-		static class StaticLoader {
-			public static readonly ShapesAssets instance = Resources.Load<ShapesAssets>( "Shapes Assets" );
+		static ShapesAssets inst;
+		public static ShapesAssets Instance {
+			get {
+				if( inst == null )
+					inst = Resources.Load<ShapesAssets>( "Shapes Assets" );
+				return inst;
+			}
 		}
-
-		public static ShapesAssets Instance => StaticLoader.instance;
 
 	}
 

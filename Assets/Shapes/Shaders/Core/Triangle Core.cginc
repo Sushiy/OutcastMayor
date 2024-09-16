@@ -44,6 +44,7 @@ struct VertexOutput {
     half4 intp1 : TEXCOORD2;
     half4 intp2 : TEXCOORD3;
     half2 intp3 : TEXCOORD4;
+    UNITY_FOG_COORDS(5)
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -162,6 +163,7 @@ VertexOutput vert (VertexInput v) {
     // set local space positions
     v.vertex.xyz = WeightedSum( w, a, b, c ); 
     o.pos = UnityObjectToClipPos( v.vertex / coordinateScaling );
+    UNITY_TRANSFER_FOG(o,o.pos);
     return o;
 }
 
@@ -325,5 +327,5 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
     half radialMask = GetRadialMask( i, /*out*/ tRadial );
     float angularMask = GetAngularMask( i, tRadial*2-1, /*out*/ tAngular );
     //return float4(tAngular,tRadial,0,1);
-    return ShapesOutput( i.color, radialMask*angularMask );
+    return SHAPES_OUTPUT( i.color, radialMask*angularMask, i );
 }

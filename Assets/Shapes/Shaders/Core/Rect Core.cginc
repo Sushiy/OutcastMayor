@@ -43,6 +43,7 @@ struct VertexOutput {
     #if defined(BORDERED) || defined(CORNER_RADIUS)
         half3 intp2 : TEXCOORD3;
     #endif
+	UNITY_FOG_COORDS(4)
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -93,6 +94,7 @@ VertexOutput vert (VertexInput v) {
 	v.vertex.xy = Remap( half2(-1, -1), half2(1, 1), rect.xy - padding.xy, rect.xy + rect.zw + padding.xy, v.vertex.xy );
 	v.vertex.xy /= rectScale;
     o.pos = UnityObjectToClipPos( v.vertex );
+	UNITY_TRANSFER_FOG(o,o.pos);
 	o.fillCoords = GetFillCoords( v.vertex.xyz );
     return o;
 }
@@ -234,5 +236,5 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
     
 	half4 shape_color = GetFillColor( i.fillCoords );
 	
-	return ShapesOutput( shape_color, shape_mask );
+	return SHAPES_OUTPUT( shape_color, shape_mask, i );
 }

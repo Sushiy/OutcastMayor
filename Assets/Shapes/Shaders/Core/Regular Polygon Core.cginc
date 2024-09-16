@@ -49,6 +49,7 @@ struct VertexOutput {
 	half4 intp1 : TEXCOORD1;
 	half3 intp2 : TEXCOORD2;
 	SHAPES_INTERPOLATOR_FILL(3)
+	UNITY_FOG_COORDS(4)
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -108,6 +109,7 @@ VertexOutput vert (VertexInput v) {
 	o.IP_uv0 = v.uv0;
 	v.vertex.xy /= objScale;
     o.pos = UnityObjectToClipPos( v.vertex );
+	UNITY_TRANSFER_FOG(o,o.pos);
 	o.fillCoords = GetFillCoords( v.vertex );
 
     return o;
@@ -200,7 +202,7 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
 
 	mask *= saturate(i.IP_pxCoverage); // pixel fade
 	half4 fillColor = GetFillColor(i.fillCoords);
-	return ShapesOutput( fillColor, mask );
+	return SHAPES_OUTPUT( fillColor, mask, i );
 }
 
 

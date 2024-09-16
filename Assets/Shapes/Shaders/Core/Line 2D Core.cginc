@@ -37,6 +37,7 @@ struct VertexOutput {
 	float4 pos : SV_POSITION;
 	half4 intp0 : TEXCOORD0;
 	half4 intp1 : TEXCOORD1;
+	UNITY_FOG_COORDS(2)
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -137,6 +138,7 @@ VertexOutput vert(VertexInput v) {
 	#endif
 
 	o.pos = WorldToClipPos( vertPos.xyz );
+	UNITY_TRANSFER_FOG(o,o.pos);
 	return o;
 } 
 
@@ -180,5 +182,5 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
 	ApplyDashMask( /*inout*/ shape_mask, dashCoords, i.IP_uv0.x, dashType, dashModifier );
     
 	shape_mask *= saturate( i.IP_pxCoverage );
-	return ShapesOutput( shape_color, shape_mask );
+	return SHAPES_OUTPUT( shape_color, shape_mask, i );
 }

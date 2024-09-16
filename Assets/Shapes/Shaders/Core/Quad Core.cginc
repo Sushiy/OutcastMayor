@@ -34,6 +34,7 @@ struct VertexOutput {
         half4 posAB : TEXCOORD2;
         half4 posCD : TEXCOORD3;
     #endif
+    UNITY_FOG_COORDS(4)
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -85,6 +86,7 @@ VertexOutput vert (VertexInput v) {
     #endif
     
     o.pos = UnityObjectToClipPos( v.vertex );
+    UNITY_TRANSFER_FOG(o,o.pos);
     return o;
 }
 
@@ -111,7 +113,7 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
         half4 left = lerp(colorA, colorB, uv.y );
         half4 right = lerp(colorD, colorC, uv.y );
         half4 color = lerp( left, right, uv.x );
-        return ShapesOutput( color, 1 );
+        return SHAPES_OUTPUT( color, 1, i );
     #endif
 }
 

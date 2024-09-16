@@ -97,7 +97,7 @@ namespace Shapes {
 			// matrix setup and documentation depends only on input parameters
 			Param.MtxFlags mtxFlags = Param.MtxFlags.None;
 			overloadParams.ForEach( p => mtxFlags |= p.mtxFlags );
-			overloadParams.ForEach( p => inlineDocs += $"<param name=\"{p.methodSigName}\">{p.desc.Replace( "[OBJECTNAME]", objectName.ToLower() )}</param>" );
+			overloadParams.ForEach( p => inlineDocs += $"<param name=\"{p.methodSigName}\">{p.desc.Replace( "[OBJECTNAME]", objectName.ToLowerInvariant() )}</param>" );
 
 			// foreach argument in the target function call
 			string callParams = "";

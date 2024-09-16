@@ -96,7 +96,7 @@ namespace Shapes {
 		}
 
 
-		static GUILayoutOption[] angLabelLayout = { GUILayout.Width( 50 ) };
+		public static GUILayoutOption[] angLabelLayout = { GUILayout.Width( 50 ) };
 
 		void DrawAngleProperties( DiscType selectedType ) {
 			using( new EditorGUI.DisabledScope( selectedType.HasSector() == false && serializedObject.isEditingMultipleObjects == false ) ) {

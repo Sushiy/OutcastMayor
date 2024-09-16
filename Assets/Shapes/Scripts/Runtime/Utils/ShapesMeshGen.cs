@@ -1,21 +1,39 @@
-﻿using System.Collections.Generic;
+﻿// Shapes © Freya Holmér - https://twitter.com/FreyaHolmer/
+// Website & Documentation - https://acegikmo.com/shapes/
+
+// Uncomment this below if you want more detailed breakdowns over what exactly fails in polygon creation.
+// This is disabled by default for performance reasons.
+// #define DEBUG_POLYGON_CREATION
+
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
-// Shapes © Freya Holmér - https://twitter.com/FreyaHolmer/
-// Website & Documentation - https://acegikmo.com/shapes/
 namespace Shapes {
 
-
 	public static class ShapesMeshGen {
-
 
 		static bool SamePosition( Vector3 a, Vector3 b ) {
 			float delta = Mathf.Max( Mathf.Max( Mathf.Abs( b.x - a.x ), Mathf.Abs( b.y - a.y ) ), Mathf.Abs( b.z - a.z ) );
 			return delta < 0.00001f;
 		}
 
+		static readonly ExpandoList<Color> meshColors = new ExpandoList<Color>();
+		static readonly ExpandoList<Vector3> meshVertices = new ExpandoList<Vector3>();
+		static readonly ExpandoList<Vector4> meshUv0 = new ExpandoList<Vector4>(); // UVs for masking. z contains endpoint status, w is thickness
+		static readonly ExpandoList<Vector3> meshUv1Prevs = new ExpandoList<Vector3>();
+		static readonly ExpandoList<Vector3> meshUv2Nexts = new ExpandoList<Vector3>();
+		static readonly ExpandoList<int> meshTriangles = new ExpandoList<int>();
+		static readonly ExpandoList<int> meshJoinsTriangles = new ExpandoList<int>();
+
 		public static void GenPolylineMesh( Mesh mesh, IList<PolylinePoint> path, bool closed, PolylineJoins joins, bool flattenZ, bool useColors ) {
-			mesh.Clear(); // todo maybe not always do this you know?
+			meshColors.Clear();
+			meshVertices.Clear();
+			meshUv0.Clear();
+			meshUv1Prevs.Clear();
+			meshUv2Nexts.Clear();
+			meshTriangles.Clear();
+			meshJoinsTriangles.Clear();
 
 			int pointCount = path.Count;
 
@@ -39,44 +57,10 @@ namespace Shapes {
 			bool separateJoinMesh = joins.HasJoinMesh();
 			bool isSimpleJoin = joins.HasSimpleJoin(); // only used when join meshes exist
 			int vertsPerPathPoint = separateJoinMesh ? 5 : 2;
-			int trianglesPerSegment = separateJoinMesh ? 4 : 2;
 			int vertexCount = pointCount * vertsPerPathPoint;
-			int vertexCountTotal = vertexCount;
-			int segmentCount = closed ? pointCount : pointCount - 1;
-			int triangleCount = segmentCount * trianglesPerSegment;
-			int triangleIndexCount = triangleCount * 3;
 
 			// Joins mesh data
-			int[] meshJoinsTriangles = default;
-			int joinVertsPerJoin = default;
-			if( separateJoinMesh ) {
-				joinVertsPerJoin = isSimpleJoin ? 3 : 5;
-				int joinCount = closed ? pointCount : pointCount - 2;
-				int joinTrianglesPerJoin = isSimpleJoin ? 1 : 3;
-				int joinTriangleIndexCount = joinCount * joinTrianglesPerJoin * 3;
-				int vertexCountJoins = joinCount * joinVertsPerJoin;
-				vertexCountTotal += vertexCountJoins;
-				meshJoinsTriangles = new int[joinTriangleIndexCount];
-			}
-
-
-			Color[] meshColors = useColors ? new Color[vertexCountTotal] : null;
-			Vector3[] meshVertices = new Vector3[vertexCountTotal];
-
-			#if UNITY_2019_3_OR_NEWER
-			Vector4[] meshUv0 = new Vector4[vertexCountTotal]; // UVs for masking. z contains endpoint status, w is thickness
-			Vector3[] meshUv1Prevs = new Vector3[vertexCountTotal];
-			Vector3[] meshUv2Nexts = new Vector3[vertexCountTotal];
-			#else
-			// List<> is the only supported vec3 UV assignment method prior to Unity 2019.3
-			List<Vector4> meshUv0 = new List<Vector4>( new Vector4[vertexCountTotal] );
-			List<Vector3> meshUv1Prevs = new List<Vector3>( new Vector3[vertexCountTotal] );
-			List<Vector3> meshUv2Nexts = new List<Vector3>( new Vector3[vertexCountTotal] );
-			#endif
-
-
-			int[] meshTriangles = new int[triangleIndexCount];
-
+			int joinVertsPerJoin = isSimpleJoin ? 3 : 5;
 
 			// indices used per triangle
 			int iv0, iv1, iv2 = 0, iv3 = 0, iv4 = 0;
@@ -89,8 +73,7 @@ namespace Shapes {
 				bool makeJoin = closed || ( !isLast && !isFirst );
 				bool isEndpoint = closed == false && ( isFirst || isLast );
 				float uvEndpointValue = isEndpoint ? ( isFirst ? -1 : 1 ) : 0;
-				void SetUv0( int id, float x, float y ) => meshUv0[id] = new Vector4( x, y, uvEndpointValue, path[i].thickness );
-
+				float pathThickness = path[i].thickness;
 
 				// Indices & verts
 				Vector3 vert = flattenZ ? new Vector3( path[i].point.x, path[i].point.y, 0f ) : path[i].point;
@@ -188,27 +171,28 @@ namespace Shapes {
 					}
 				}
 
+				void SetUv0( ExpandoList<Vector4> uvArr, float uvEndpointVal, float pathThicc, int id, float x, float y ) => uvArr[id] = new Vector4( x, y, uvEndpointVal, pathThicc );
 				if( separateJoinMesh ) {
-					SetUv0( iv0, 0, 0 );
-					SetUv0( iv1, -1, -1 );
-					SetUv0( iv2, -1, 1 );
-					SetUv0( iv3, 1, -1 );
-					SetUv0( iv4, 1, 1 );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv0, 0, 0 );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv1, -1, -1 );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv2, -1, 1 );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv3, 1, -1 );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv4, 1, 1 );
 					if( makeJoin ) {
-						SetUv0( ivj0, 0, 0 );
+						SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj0, 0, 0 );
 						if( isSimpleJoin ) {
-							SetUv0( ivj1, 1, -1 );
-							SetUv0( ivj2, 1, 1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj1, 1, -1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj2, 1, 1 );
 						} else {
-							SetUv0( ivj1, 1, -1 );
-							SetUv0( ivj2, -1, -1 );
-							SetUv0( ivj3, -1, 1 );
-							SetUv0( ivj4, 1, 1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj1, 1, -1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj2, -1, -1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj3, -1, 1 );
+							SetUv0( meshUv0, uvEndpointValue, pathThickness, ivj4, 1, 1 );
 						}
 					}
 				} else {
-					SetUv0( iv0, -1, i );
-					SetUv0( iv1, 1, i );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv0, -1, i );
+					SetUv0( meshUv0, uvEndpointValue, pathThickness, iv1, 1, i );
 				}
 
 
@@ -259,15 +243,17 @@ namespace Shapes {
 			}
 
 			// assign to segments mesh
-			mesh.vertices = meshVertices;
-			mesh.subMeshCount = 2;
-			mesh.SetTriangles( meshTriangles, 0 );
-			mesh.SetTriangles( meshJoinsTriangles, 1 );
-			mesh.SetUVs( 0, meshUv0 );
-			mesh.SetUVs( 1, meshUv1Prevs );
-			mesh.SetUVs( 2, meshUv2Nexts );
+			mesh.Clear(); // todo maybe not always do this you know?
+			mesh.SetVertices( meshVertices.list );
+			mesh.subMeshCount = separateJoinMesh ? 2 : 1;
+			mesh.SetTriangles( meshTriangles.list, 0 );
+			if( separateJoinMesh )
+				mesh.SetTriangles( meshJoinsTriangles.list, 1 );
+			mesh.SetUVs( 0, meshUv0.list );
+			mesh.SetUVs( 1, meshUv1Prevs.list );
+			mesh.SetUVs( 2, meshUv2Nexts.list );
 			if( useColors )
-				mesh.colors = meshColors;
+				mesh.SetColors( meshColors.list );
 		}
 
 		enum ReflexState {
@@ -293,12 +279,10 @@ namespace Shapes {
 			public ReflexState ReflexState {
 				get {
 					if( reflex == ReflexState.Unknown ) {
-						Vector2 dirNext = next.pt - pt;
-						Vector2 dirPrev = pt - prev.pt;
-						if( generatingClockwisePolygon )
-							reflex = ShapesMath.Determinant( dirPrev, dirNext ) >= -0.001f ? ReflexState.Reflex : ReflexState.Convex;
-						else
-							reflex = ShapesMath.Determinant( dirNext, dirPrev ) >= -0.001f ? ReflexState.Reflex : ReflexState.Convex;
+						Vector2 dirNext = ShapesMath.Dir( pt, next.pt );
+						Vector2 dirPrev = ShapesMath.Dir( prev.pt, pt );
+						int cwSign = generatingClockwisePolygon ? 1 : -1;
+						reflex = cwSign * ShapesMath.Determinant( dirPrev, dirNext ) >= -0.001f ? ReflexState.Reflex : ReflexState.Convex;
 					}
 
 					return reflex;
@@ -312,6 +296,11 @@ namespace Shapes {
 			// kinda have to do this, the algorithm relies on knowing this
 			generatingClockwisePolygon = ShapesMath.PolygonSignedArea( path ) > 0;
 			float clockwiseSign = generatingClockwisePolygon ? 1f : -1f;
+
+			#if DEBUG_POLYGON_CREATION
+			List<string> debugString = new List<string>();
+			debugString.Add( "Polygon creation process:" );
+			#endif
 
 			mesh.Clear(); // todo maybe not always do this you know?
 			int pointCount = path.Count;
@@ -343,6 +332,9 @@ namespace Shapes {
 				int countLeft;
 				int safeguard = 1000000;
 				while( ( countLeft = pointsLeft.Count ) >= 3 && ( safeguard-- > 0 ) ) {
+					#if DEBUG_POLYGON_CREATION
+					debugString.Add( $"------- Searching for convex points... -------" );
+					#endif
 					//for( int k = 0; k < pointsLeft.Count * 2; k++ ) {
 					if( countLeft == 3 ) {
 						// final triangle
@@ -358,6 +350,9 @@ namespace Shapes {
 						EarClipPoint p = pointsLeft[i];
 						if( p.ReflexState == ReflexState.Convex ) {
 							// it's convex! now make sure there are no reflex points inside
+							#if DEBUG_POLYGON_CREATION
+							debugString.Add( $"{p.vertIndex} is convex, testing:" );
+							#endif
 							bool canClipEar = true;
 							int idPrev = ( i + countLeft - 1 ) % countLeft;
 							int idNext = ( i + 1 ) % countLeft;
@@ -368,13 +363,23 @@ namespace Shapes {
 								if( pointsLeft[j].ReflexState == ReflexState.Reflex ) {
 									// found a reflex point, make sure it's outside the triangle
 									if( ShapesMath.PointInsideTriangle( p.next.pt, p.pt, p.prev.pt, pointsLeft[j].pt, 0f, clockwiseSign * -0.0001f, 0f ) ) {
+										#if DEBUG_POLYGON_CREATION
+										debugString.Add( $"<color=#fa0>[{pointsLeft[j].vertIndex} is inside [{p.next.vertIndex},{p.vertIndex},{p.prev.vertIndex}]</color>" );
+										#endif
 										canClipEar = false; // it's inside, rip
 										break;
+									} else {
+										#if DEBUG_POLYGON_CREATION
+										debugString.Add( $"[{pointsLeft[j].vertIndex} is not inside [{p.next.vertIndex},{p.vertIndex},{p.prev.vertIndex}]" );
+										#endif
 									}
 								}
 							}
 
 							if( canClipEar ) {
+								#if DEBUG_POLYGON_CREATION
+								debugString.Add( $"<color=#af2>[{p.next.vertIndex},{p.vertIndex},{p.prev.vertIndex}] created</color>" );
+								#endif
 								meshTriangles[tri++] = p.next.vertIndex;
 								meshTriangles[tri++] = p.vertIndex;
 								meshTriangles[tri++] = p.prev.vertIndex;
@@ -384,13 +389,25 @@ namespace Shapes {
 								pointsLeft.RemoveAt( i );
 								foundConvex = true;
 								break; // stop search for more convex edges, restart loop
+							} else {
+								#if DEBUG_POLYGON_CREATION
+								debugString.Add( $"<color=#fa0>[{p.next.vertIndex},{p.vertIndex},{p.prev.vertIndex}] has points inside, skipping</color>" );
+								#endif
 							}
 						}
 					}
 
 					// no convex found??
 					if( foundConvex == false ) {
-						Debug.LogError( "Invalid polygon triangulation - no convex edges found. Your polygon is likely self-intersecting" );
+						string s = "Invalid polygon triangulation - no convex edges found. Your polygon is likely self-intersecting.\n";
+						s += "Failed point set:\n";
+						s += string.Join( "\n", pointsLeft.Select( p => $"[{p.vertIndex}]: {p.ReflexState}" ) );
+						#if DEBUG_POLYGON_CREATION
+						s += "\n";
+						debugString.Add( $"<color=#f33>No convex points found</color>" );
+						s += string.Join( "\n", debugString );
+						#endif
+						Debug.LogError( s );
 						goto breakBoth;
 					}
 				}

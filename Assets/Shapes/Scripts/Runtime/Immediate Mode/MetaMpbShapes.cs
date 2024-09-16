@@ -276,6 +276,8 @@ namespace Shapes {
 
 	internal class MpbTorus : MetaMpb {
 
+		internal readonly List<float> angleEnd = InitList<float>();
+		internal readonly List<float> angleStart = InitList<float>();
 		internal readonly List<float> radius = InitList<float>();
 		internal readonly List<float> radiusSpace = InitList<float>();
 		internal readonly List<float> scaleMode = InitList<float>();
@@ -283,6 +285,8 @@ namespace Shapes {
 		internal readonly List<float> thicknessSpace = InitList<float>();
 
 		protected override void TransferShapeProperties() {
+			Transfer( ShapesMaterialUtils.propAngEnd, angleEnd );
+			Transfer( ShapesMaterialUtils.propAngStart, angleStart );
 			Transfer( ShapesMaterialUtils.propRadius, radius );
 			Transfer( ShapesMaterialUtils.propRadiusSpace, radiusSpace );
 			Transfer( ShapesMaterialUtils.propScaleMode, scaleMode );

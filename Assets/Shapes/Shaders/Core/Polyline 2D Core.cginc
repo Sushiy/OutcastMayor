@@ -36,6 +36,7 @@ struct VertexOutput {
         float3 worldPos : TEXCOORD2;
         float3 origin : TEXCOORD3;
     #endif
+    UNITY_FOG_COORDS(4)
     UNITY_VERTEX_INPUT_INSTANCE_ID
     UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -150,12 +151,9 @@ VertexOutput vert (VertexInput v) {
         // all these boys use proper miters
         #if defined(JOIN_MITER) || defined(JOIN_ROUND) || defined(JOIN_BEVEL) 
             GetMiterOffset( /*out*/ miterDir, /*out*/ miterLength, normalPrev, normalNext, vertexRadius );
-            // make sure miter length doesn't overshoot line length
-            // or not you know because it turns out~ this is more complicated than this
-            // (because it changes thickness) so, uh, nevermind for now
-            // miterLength = lerp(miterLength, min(miterLength, min(length(pt - ptPrev),length(ptNext - pt)) ),(-v.uv0.x*turnDirection + 1)/2 );
-            //float3 midpt = (ptNext + ptPrev)/2;
-            //miterLength = min(miterLength, min( distance( pt, ptNext ), distance( pt, ptPrev ) ) );
+            // make sure miter length doesn't overshoot line length:
+            float closestNeighborDist = sqrt( min( SqDist( pt, ptNext ), SqDist( pt, ptPrev ) ) );
+            miterLength = min( miterLength, closestNeighborDist + thickness/2 );
         #else
             // simple joins
             GetSimpleOffset( /*out*/ miterDir, /*out*/ miterLength, normalPrev, normalNext, vertexRadius );
@@ -201,6 +199,7 @@ VertexOutput vert (VertexInput v) {
             break;
         }
     }
+    UNITY_TRANSFER_FOG(o,o.pos);
     
     return o;
 }
@@ -227,6 +226,6 @@ FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
 
     shape_mask *= saturate( i.IP_pxCoverage );
     
-    return ShapesOutput( i.color, shape_mask );
+    return SHAPES_OUTPUT( i.color, shape_mask, i );
     
 }

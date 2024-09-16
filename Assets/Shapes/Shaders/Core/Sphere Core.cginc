@@ -17,6 +17,7 @@ struct VertexInput {
 struct VertexOutput {
 	float4 pos : SV_POSITION;
 	half pxCoverage : TEXCOORD0;
+	UNITY_FOG_COORDS(1)
 	UNITY_VERTEX_INPUT_INSTANCE_ID
 	UNITY_VERTEX_OUTPUT_STEREO
 };
@@ -34,11 +35,12 @@ VertexOutput vert(VertexInput v) {
     half radius = widthData.thicknessMeters * 0.5;
 	half3 localPos = v.vertex.xyz * radius;
 	o.pos = LocalToClipPos( localPos );
+	UNITY_TRANSFER_FOG(o,o.pos);
 	return o;
 }
 
 FRAG_OUTPUT_V4 frag( VertexOutput i ) : SV_Target {
 	UNITY_SETUP_INSTANCE_ID(i);
 	half4 color = PROP(_Color);
-	return ShapesOutput( color, saturate(i.pxCoverage) ); 
+	return SHAPES_OUTPUT( color, saturate(i.pxCoverage), i ); 
 }

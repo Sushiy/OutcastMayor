@@ -2,6 +2,7 @@ using Sirenix.OdinInspector;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem.Interactions;
 
 namespace OutcastMayor.UtilityAI
 {
@@ -94,6 +95,10 @@ namespace OutcastMayor.UtilityAI
 
         public ActionInstance(Action actionReference, SmartObject owner, Object[] instanceData, int[] instanceValues)
         {
+            if(actionReference == null)
+            {
+                Debug.LogError("[ActionInstance] action reference == null on construction");
+            }
             this.actionReference = actionReference;
             this.owner = owner;
             this.instanceData = new Object[instanceData.Length];
@@ -105,7 +110,7 @@ namespace OutcastMayor.UtilityAI
             }
             else
             {
-                Debug.Log("[Action Instance]: byte array is null for instance" + actionReference.Name);
+                Debug.Log("[Action Instance]: byte array is null for instance " + actionReference.Name);
                 this.instanceValues = new int[0];
             }
         }

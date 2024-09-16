@@ -8,9 +8,11 @@ Shader "Shapes/Line 2D Multiplicative" {
 		_StencilID ("Stencil ID", int) = 0
 		_StencilReadMask ("Stencil Read Mask", int) = 255
 		_StencilWriteMask ("Stencil Write Mask", int) = 255
+		_ColorMask ("Color Mask", int) = 15
 	}
 	SubShader {
 		Tags {
+			"ForceNoShadowCasting" = "True"
 			"RenderPipeline" = "UniversalPipeline"
 			"IgnoreProjector" = "True"
 			"Queue" = "Transparent"
@@ -30,11 +32,13 @@ Shader "Shapes/Line 2D Multiplicative" {
 			Cull Off
 			ZTest [_ZTest]
 			Offset [_ZOffsetFactor], [_ZOffsetUnits]
+			ColorMask [_ColorMask]
 			ZWrite Off
 			Blend DstColor Zero
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -58,6 +62,7 @@ Shader "Shapes/Line 2D Multiplicative" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -81,6 +86,7 @@ Shader "Shapes/Line 2D Multiplicative" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -106,6 +112,7 @@ Shader "Shapes/Line 2D Multiplicative" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x

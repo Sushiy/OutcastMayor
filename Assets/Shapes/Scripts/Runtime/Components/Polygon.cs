@@ -87,6 +87,24 @@ namespace Shapes {
 			}
 		}
 
+		#if UNITY_EDITOR
+		[ContextMenu( "Reverse Points [DEBUG ONLY]" )]
+		void ReversePoints() {
+			points.Reverse();
+			meshOutOfDate = true;
+		}
+
+		[ContextMenu( "Shift Points Forward [DEBUG ONLY]" )]
+		void ShiftForward() {
+			List<Vector2> newPts = new List<Vector2>();
+			newPts.Add( points[points.Count - 1] );
+			for( int i = 0; i < points.Count - 1; i++ )
+				newPts.Add( points[i] );
+			points = newPts;
+			meshOutOfDate = true;
+		}
+		#endif
+
 		private protected override void SetAllMaterialProperties() => SetFillProperties();
 
 		internal override bool HasScaleModes => false;

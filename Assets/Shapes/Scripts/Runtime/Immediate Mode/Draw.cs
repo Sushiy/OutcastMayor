@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using UnityEngine;
 using TMPro;
@@ -33,6 +34,20 @@ namespace Shapes {
 		public static DrawCommand Command( Camera cam, CameraEvent cameraEvent = CameraEvent.BeforeImageEffects ) => ObjectPool<DrawCommand>.Alloc().Initialize( cam, cameraEvent );
 		#endif
 
+		/// <summary>Prepares Shapes to draw in IMGUI Repaint events,
+		/// by initializing the _ScreenParams variable to the current drawing context size.
+		/// This is necessary as Shapes relies on detecting pixel sizing for anti-aliasing,
+		/// which isn't set in IMGUI since there's no camera that sets these values for us</summary>
+		public static void PrepareForIMGUI() {
+			( float w, float h ) = ( Screen.width, Screen.height );
+			Vector4 screenParams = new Vector4( w, h, 1 + 1 / w, 1 + 1 / h );
+			Shader.SetGlobalVector( ShapesMaterialUtils.propScreenParams, screenParams );
+			// I suspect the following may be necessary as well, in some weird edge case somewhere
+			// Shader.SetGlobalVector( "_ProjectionParams", new Vector4( 1, 0, 1, 1 ) );
+			// Shader.SetGlobalMatrix( "unity_MatrixVP", Matrix4x4.TRS( new Vector2( w / 2, h / 2 ), Quaternion.identity, new Vector3( w, h ) ) );
+			// maybe I need to set unity_MatrixVP. keeping this just in case
+		}
+
 		static MpbLine2D mpbLine = new MpbLine2D();
 
 		[OvldGenCallTarget] static void Line_Internal( [OvldDefault( nameof(LineEndCaps) )] LineEndCap endCaps,
@@ -43,9 +58,9 @@ namespace Shapes {
 													   [OvldDefault( nameof(Color) )] Color colorEnd,
 													   [OvldDefault( nameof(Thickness) )] float thickness ) {
 			using( new IMDrawer(
-				metaMpb: mpbLine,
-				sourceMat: ShapesMaterialUtils.GetLineMat( Draw.LineGeometry, endCaps )[Draw.BlendMode],
-				sourceMesh: ShapesMeshUtils.GetLineMesh( Draw.LineGeometry, endCaps, DetailLevel ) ) ) {
+					  metaMpb: mpbLine,
+					  sourceMat: ShapesMaterialUtils.GetLineMat( Draw.LineGeometry, endCaps )[Draw.BlendMode],
+					  sourceMesh: ShapesMeshUtils.GetLineMesh( Draw.LineGeometry, endCaps, DetailLevel ) ) ) {
 				MetaMpb.ApplyDashSettings( mpbLine, thickness );
 				mpbLine.color.Add( colorStart.ColorSpaceAdjusted() );
 				mpbLine.colorEnd.Add( colorEnd.ColorSpaceAdjusted() );
@@ -324,6 +339,8 @@ namespace Shapes {
 
 		[OvldGenCallTarget] static void Torus_Internal( float radius,
 														float thickness,
+														[OvldDefault( "0" )] float angleRadStart,
+														[OvldDefault( nameof(ShapesMath) + ".TAU" )] float angleRadEnd,
 														[OvldDefault( nameof(Color) )] Color color ) {
 			if( thickness < 0.0001f )
 				return;
@@ -342,22 +359,68 @@ namespace Shapes {
 				mpbTorus.radiusSpace.Add( (int)Draw.RadiusSpace );
 				mpbTorus.thicknessSpace.Add( (int)Draw.ThicknessSpace );
 				mpbTorus.scaleMode.Add( (int)Draw.ScaleMode );
+				mpbTorus.angleStart.Add( angleRadStart );
+				mpbTorus.angleEnd.Add( angleRadEnd );
 			}
 		}
 
 		static MpbText mpbText = new MpbText();
 
-		[OvldGenCallTarget] static void Text_Internal( string content,
+		[OvldGenCallTarget] static void TextRect_Internal( string content,
+														   [OvldDefault( "null" )] TextElement element,
+														   Rect rect,
+														   [OvldDefault( nameof(Font) )] TMP_FontAsset font,
+														   [OvldDefault( nameof(FontSize) )] float fontSize,
+														   [OvldDefault( nameof(TextAlign) )] TextAlign align,
+														   [OvldDefault( nameof(Color) )] Color color ) {
+			PushMatrix();
+			Translate( rect.x, rect.y );
+			Text_Internal( true, content, element, pivot: default, rect.size, font, fontSize, align, color );
+			PopMatrix();
+		}
+
+		[OvldGenCallTarget] static void Text_Internal( bool isRect,
+													   string content,
+													   [OvldDefault( "null" )] TextElement element,
+													   [OvldDefault( "default" )] Vector2 pivot, // ignored for simple text
+													   [OvldDefault( "default" )] Vector2 size, // ignored for simple text
 													   [OvldDefault( nameof(Font) )] TMP_FontAsset font,
 													   [OvldDefault( nameof(FontSize) )] float fontSize,
 													   [OvldDefault( nameof(TextAlign) )] TextAlign align,
 													   [OvldDefault( nameof(Color) )] Color color ) {
-			TextMeshPro tmp = ShapesTextDrawer.Instance.tmp;
+			int id;
+			TextMeshPro tmp;
+			IMDrawer.DrawType drawType;
+			if( element == null ) {
+				id = TextElement.GetNextId(); // auto-pooling
+				tmp = ShapesTextPool.Instance.AllocateElement( id );
+				drawType = IMDrawer.DrawType.TextPooledAuto;
+			} else {
+				id = element.id;
+				tmp = element.Tmp;
+				drawType = IMDrawer.DrawType.TextPooledPersistent;
+			}
 
-			// styling
-			tmp.font = font;
-			tmp.color = color;
-			tmp.fontSize = fontSize;
+			ApplyTextValuesToInstance( tmp, isRect, content, font, fontSize, align, pivot, size, color );
+			Text_Internal( tmp, drawType, id );
+		}
+
+		delegate void OnPreRenderTmpDelegate( TextMeshPro tmp );
+
+		static OnPreRenderTmpDelegate onPreRenderTmp;
+		static OnPreRenderTmpDelegate OnPreRenderTmp {
+			get {
+				if( onPreRenderTmp == null ) {
+					MethodInfo method = typeof(TextMeshPro).GetMethod( "OnPreRenderObject", BindingFlags.Instance | BindingFlags.NonPublic );
+					onPreRenderTmp = (OnPreRenderTmpDelegate)method.CreateDelegate( typeof(OnPreRenderTmpDelegate) );
+				}
+
+				return onPreRenderTmp;
+			}
+		}
+
+		static void ApplyTextValuesToInstance( TextMeshPro tmp, bool isRect, string content, TMP_FontAsset font, float fontSize, TextAlign align, Vector2 pivot, Vector2 size, Color color ) {
+			// globals
 			tmp.fontStyle = FontStyle;
 			tmp.characterSpacing = TextCharacterSpacing;
 			tmp.wordSpacing = TextWordSpacing;
@@ -365,18 +428,47 @@ namespace Shapes {
 			tmp.paragraphSpacing = TextParagraphSpacing;
 			tmp.margin = TextMargins;
 
-			// content
+			// overrides
+			tmp.font = font;
+			tmp.color = color;
+			tmp.fontSize = fontSize;
+			tmp.alignment = align.GetTMPAlignment();
 			tmp.text = content;
 
-			// positioning
-			tmp.alignment = align.GetTMPAlignment();
-			tmp.rectTransform.pivot = align.GetPivot();
-			tmp.transform.position = Matrix.GetColumn( 3 );
-			tmp.rectTransform.rotation = Matrix.rotation;
-			tmp.ForceMeshUpdate();
+			// positioning & wrapping
+			if( isRect ) {
+				tmp.enableWordWrapping = TextWrap;
+				tmp.overflowMode = TextOverflow;
+				tmp.rectTransform.pivot = pivot;
+				tmp.rectTransform.sizeDelta = size;
+			} else {
+				// when we're drawing text without a rectangle, we just always overflow and ignore pivots/sizing/wrapping
+				tmp.enableWordWrapping = false;
+				tmp.overflowMode = TextOverflowModes.Overflow;
+				// tmp.rectTransform.pivot not set, since pivot is ignored when size = 0 anyway
+				tmp.rectTransform.sizeDelta = default;
+			}
 
-			using( new IMDrawer( mpbText, font.material, tmp.mesh, drawType: IMDrawer.DrawType.Text, allowInstancing: false ) ) {
+			tmp.rectTransform.position = Matrix.GetColumn( 3 );
+			tmp.rectTransform.rotation = Matrix.rotation;
+
+			// set dirty
+			OnPreRenderTmp.Invoke( tmp ); // calls OnPreRenderObject. Ensures the mesh is up to date
+			// tmp.ForceMeshUpdate(); // alternatively, call this, but this always updates, even when the text doesn't change
+		}
+
+
+		static void Text_Internal( TextMeshPro tmp, IMDrawer.DrawType drawType, int disposeId = -1 ) {
+			// todo: something fucky happens sometimes when fallback fonts are the only things in town
+			using( new IMDrawer( mpbText, tmp.fontSharedMaterial, tmp.mesh, drawType: drawType, allowInstancing: false, textAutoDisposeId: disposeId ) ) {
 				// will draw on dispose
+			}
+
+			// ensure child renderers are disabled
+			for( int i = 0; i < tmp.transform.childCount; i++ ) {
+				// todo: optimize by caching some refs fam
+				TMP_SubMesh sm = tmp.transform.GetChild( i ).GetComponent<TMP_SubMesh>();
+				sm.renderer.enabled = false; // :>
 			}
 
 			// ;-;
@@ -384,20 +476,58 @@ namespace Shapes {
 				// we have fallback fonts so GreaT!! let's just draw everything because fuck me
 				for( int i = 0; i < tmp.transform.childCount; i++ ) {
 					TMP_SubMesh sm = tmp.transform.GetChild( i ).GetComponent<TMP_SubMesh>();
-					using( new IMDrawer( mpbText, sm.material, sm.mesh, drawType: IMDrawer.DrawType.Text, allowInstancing: false ) ) {
+					sm.renderer.enabled = false; // :>
+					if( sm.sharedMaterial == null )
+						continue; // cursed but ok
+					using( new IMDrawer( mpbText, sm.sharedMaterial, sm.mesh, drawType: drawType, allowInstancing: false ) ) {
 						// will draw on dispose
 					}
 				}
 			}
 		}
 
+		static MpbCustomMesh mpbCustomMesh = new MpbCustomMesh();
+
+		/// <inheritdoc cref="Draw.Mesh(UnityEngine.Mesh,Material,MaterialPropertyBlock)"/>
+		public static void Mesh( Mesh mesh, Material mat ) => CustomMesh_Internal( mesh, mat, null );
+
+		/// <summary>Draws a custom mesh with a custom material as part of a Shapes command buffer.
+		/// Note: this will ignore global Shapes properties like color, thickness, etc, including render states like blending modes</summary>
+		/// <param name="mesh">The mesh asset to draw. Note: do not destroy this mesh before it has been drawn!</param>
+		/// <param name="mat">The material asset to draw with. Note: do not destroy this mesh before it has been drawn!</param>
+		/// <param name="mpb">The material property block to apply to the draw call</param>
+		public static void Mesh( Mesh mesh, Material mat, MaterialPropertyBlock mpb ) => CustomMesh_Internal( mesh, mat, mpb );
+
+		// /// <summary>Draws a custom mesh with a custom material as part of a Shapes command buffer.
+		// /// Note: this will ignore global Shapes properties like color, thickness, etc, including render states like blending modes</summary>
+		// /// <param name="mesh">The mesh asset to draw. Note: do not destroy this mesh before it has been drawn!</param>
+		// /// <param name="mat">The material asset to draw with. Note: do not destroy this mesh before it has been drawn!</param>
+		// /// <param name="properties">The properties to apply to the draw call</param>
+		// public static void Mesh( Mesh mesh, Material mat, DrawCallProperties properties ) => CustomMesh_Internal( mesh, mat, null );
+
+		static void CustomMesh_Internal( Mesh mesh, Material mat, MaterialPropertyBlock mpb /*, DrawCallProperties properties*/ ) {
+			using( IMDrawer drawer = new IMDrawer( mpbCustomMesh, mat, mesh, drawType: IMDrawer.DrawType.Custom, allowInstancing: false ) ) {
+				// will draw on dispose
+				mpbCustomMesh.mpbOverride = mpb;
+				// mpbCustomMesh.extraDrawCallProperties = properties;
+			}
+		}
+
 		static MpbTexture mpbTexture = new MpbTexture();
 
 		[OvldGenCallTarget] static void Texture_Internal( Texture texture, Rect rect, Rect uvs, [OvldDefault( nameof(Color) )] Color color ) {
+			if( texture == null )
+				return; // maybe I want to throw an error? idk
+
 			Material mat = ShapesMaterialUtils.matTexture[BlendMode];
 
-			using( new IMDrawer( mpbTexture, mat, ShapesMeshUtils.QuadMesh[0], allowInstancing: false ) ) {
-				mpbTexture.textures.Add( texture );
+			// finalize any previous texture draws if we've just switched textures
+			if( mpbTexture.texture != null && mpbTexture.texture != texture ) {
+				DrawCommand.CurrentWritingCommandBuffer.drawCalls.Add( mpbTexture.ExtractDrawCall() ); // finalize previous buffer
+			}
+
+			using( new IMDrawer( mpbTexture, mat, ShapesMeshUtils.QuadMesh[0], allowInstancing: true ) ) {
+				mpbTexture.texture = texture;
 				mpbTexture.color.Add( color.ColorSpaceAdjusted() );
 				mpbTexture.rect.Add( rect.ToVector4() );
 				mpbTexture.uvs.Add( uvs.ToVector4() );
@@ -434,8 +564,7 @@ namespace Shapes {
 
 	// these are used by CodegenDrawOverloads
 	[AttributeUsage( AttributeTargets.Method )]
-	internal class OvldGenCallTarget : Attribute {
-	}
+	internal class OvldGenCallTarget : Attribute {}
 
 	[AttributeUsage( AttributeTargets.Parameter )]
 	internal class OvldDefault : Attribute {

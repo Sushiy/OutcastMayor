@@ -8,10 +8,12 @@ Shader "Shapes/Texture Transparent" {
 		_StencilID ("Stencil ID", int) = 0
 		_StencilReadMask ("Stencil Read Mask", int) = 255
 		_StencilWriteMask ("Stencil Write Mask", int) = 255
+		_ColorMask ("Color Mask", int) = 15
 		_MainTex ("Texture", 2D) = "white" {}
 	}
 	SubShader {
 		Tags {
+			"ForceNoShadowCasting" = "True"
 			"RenderPipeline" = "UniversalPipeline"
 			"IgnoreProjector" = "True"
 			"Queue" = "Transparent"
@@ -31,11 +33,13 @@ Shader "Shapes/Texture Transparent" {
 			Cull Off
 			ZTest [_ZTest]
 			Offset [_ZOffsetFactor], [_ZOffsetUnits]
+			ColorMask [_ColorMask]
 			ZWrite Off
 			Blend SrcAlpha OneMinusSrcAlpha, One OneMinusSrcAlpha
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -58,6 +62,7 @@ Shader "Shapes/Texture Transparent" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -80,6 +85,7 @@ Shader "Shapes/Texture Transparent" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x
@@ -104,6 +110,7 @@ Shader "Shapes/Texture Transparent" {
 			HLSLPROGRAM
 				#pragma vertex vert
 				#pragma fragment frag
+				#pragma multi_compile_fog
 				#pragma multi_compile_instancing
 				#pragma prefer_hlslcc gles
 				#pragma exclude_renderers d3d11_9x

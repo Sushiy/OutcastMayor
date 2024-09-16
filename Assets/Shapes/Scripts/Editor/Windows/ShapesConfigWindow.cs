@@ -4,6 +4,7 @@ using System.IO;
 using Shapes;
 using UnityEditor;
 using UnityEngine;
+
 #if SHAPES_URP
 using System.Linq;
 #if UNITY_2021_2_OR_NEWER
@@ -324,14 +325,19 @@ public class ShapesConfigWindow : EditorWindow {
 		}
 	}
 
-	static class StaticLoader {
-		public static readonly UnityEngine.Object configShaderAsset = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>( ShapesIO.ConfigShadersPath );
+	static UnityEngine.Object configShaderAssetInst;
+	static UnityEngine.Object ConfigShaderAssetInst {
+		get {
+			if( configShaderAssetInst == null )
+				configShaderAssetInst = AssetDatabase.LoadAssetAtPath<UnityEngine.Object>( ShapesIO.ConfigShadersPath );
+			return configShaderAssetInst;
+		}
 	}
 
 	void ShaderSettings() {
 		using( ShapesUI.Group ) {
 			GUILayout.Label( "Shader Settings", EditorStyles.boldLabel );
-			using( new ShapesUI.AssetEditScope( StaticLoader.configShaderAsset ) ) {
+			using( new ShapesUI.AssetEditScope( ConfigShaderAssetInst ) ) {
 				using( ShapesUI.TempLabelWidth( 160 ) ) {
 					EditorGUILayout.PropertyField( FRAG_OUTPUT_V4, new GUIContent( "Output precision" ) );
 					EditorGUILayout.PropertyField( LOCAL_ANTI_ALIASING_QUALITY, new GUIContent( "Local AA quality" ) );

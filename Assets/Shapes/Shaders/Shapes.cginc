@@ -7,6 +7,26 @@
 #define PROP(p) UNITY_ACCESS_INSTANCED_PROP(Props,p)
 #define PROP_DEF(t,p) UNITY_DEFINE_INSTANCED_PROP(t,p)
 
+// blend mode helpers
+#if defined( SCREEN ) || defined( SUBTRACTIVE ) || defined( ADDITIVE ) || defined( LIGHTEN ) || defined( COLORDODGE )
+    #define BLEND_FADE_TO_BLACK
+#endif
+#if defined( MULTIPLICATIVE ) || defined( LINEARBURN ) || defined( DARKEN ) || defined( COLORBURN )
+    #define BLEND_FADE_TO_WHITE
+#endif
+
+// fog helpers
+#if defined(FOG_LINEAR) || defined(FOG_EXP) || defined(FOG_EXP2)
+    #define FOG_ENABLED
+#endif
+
+// matches rules in UnityCG.cginc:
+#if (SHADER_TARGET < 30) || defined(SHADER_API_MOBILE)
+    #define CALC_FOG_BLEND_FACTOR(coord) float unityFogFactor = coord.x
+#else
+    #define CALC_FOG_BLEND_FACTOR(coord) UNITY_CALC_FOG_FACTOR((coord).x)
+#endif
+
 // can't be in FillUtils.cginc because of definition order
 #define SHAPES_FILL_PROPERTIES \
 PROP_DEF(half4, _ColorEnd) \
@@ -36,19 +56,37 @@ PROP_DEF(int, _DashSnap)
 	uniform float4 _SelectionID;
 #endif
 
+#ifdef FOG_ENABLED
+    #define SHAPES_OUTPUT(color,mask,i) ShapesOutput(color,mask,i.fogCoord)
+#else
+    #define SHAPES_OUTPUT(color,mask,i) ShapesOutput(color,mask)
+#endif
+
 // used for the final output. supports branching based on opaque vs transparent and outline functions
-inline half4 ShapesOutput( half4 shape_color, float shape_mask ){
+#ifdef FOG_ENABLED
+    inline half4 ShapesOutput( half4 shape_color, float shape_mask, float fogCoord ){
+#else
+    inline half4 ShapesOutput( half4 shape_color, float shape_mask ){
+#endif
     half4 outColor = half4(shape_color.rgb, shape_mask * shape_color.a);
 
+    #ifdef FOG_ENABLED
+        #if defined(TRANSPARENT) || defined(OPAQUE)
+            UNITY_APPLY_FOG(fogCoord,outColor);
+        #else
+            // all other blend modes are pretty cursed,
+            // so we fade their opacity instead of blending to fog color
+            CALC_FOG_BLEND_FACTOR(fogCoord); // defines unityFogFactor
+            outColor.a *= saturate(unityFogFactor);
+        #endif
+    #endif
+    
     clip(outColor.a - VERY_SMOL); // todo: this disallows negative colors, which, might be bad? idk
 
-    // fade toward black if
-    #if defined( SCREEN ) || defined( SUBTRACTIVE ) || defined( ADDITIVE ) || defined( LIGHTEN ) || defined( COLORDODGE )
+    #ifdef BLEND_FADE_TO_BLACK
         outColor.rgb *= outColor.a;
     #endif
-
-    // fade toward white if
-    #if defined( MULTIPLICATIVE ) || defined( LINEARBURN ) || defined( DARKEN ) || defined( COLORBURN )
+    #ifdef BLEND_FADE_TO_WHITE
         outColor.rgb = 1 + outColor.a * ( outColor.rgb - 1 ); // lerp(1,b,t) = 1 + t(b - 1);
     #endif
 

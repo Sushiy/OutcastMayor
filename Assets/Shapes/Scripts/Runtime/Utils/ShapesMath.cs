@@ -37,13 +37,21 @@ namespace Shapes {
 		[MethodImpl( INLINE )] public static Color WeightedSum( Vector4 w, Color a, Color b, Color c, Color d ) => w.x * a + w.y * b + w.z * c + w.w * d;
 
 		public static bool PointInsideTriangle( Vector2 a, Vector2 b, Vector2 c, Vector2 point, float aMargin = 0f, float bMargin = 0f, float cMargin = 0f ) {
-			float d0 = Determinant( b - a, point - a );
-			float d1 = Determinant( c - b, point - b );
-			float d2 = Determinant( a - c, point - c );
+			float d0 = Determinant( Dir( a, b ), Dir( a, point ) );
+			float d1 = Determinant( Dir( b, c ), Dir( b, point ) );
+			float d2 = Determinant( Dir( c, a ), Dir( c, point ) );
 			bool b0 = d0 < cMargin;
 			bool b1 = d1 < aMargin;
 			bool b2 = d2 < bMargin;
 			return b0 == b1 && b1 == b2; // on the same side of all halfspaces, this can only happen inside
+		}
+
+		/// <summary>Direction from a to b, skipping intermediate Vector2s for speed</summary>
+		[MethodImpl( INLINE )] internal static Vector2 Dir( Vector2 a, Vector2 b ) {
+			float dx = b.x - a.x;
+			float dy = b.y - a.y;
+			float mag = Mathf.Sqrt( dx * dx + dy * dy );
+			return new Vector2( dx / mag, dy / mag );
 		}
 
 		public static float PolygonSignedArea( List<Vector2> pts ) {
@@ -76,7 +84,9 @@ namespace Shapes {
 
 
 		[MethodImpl( INLINE )] static Vector2 Lerp( Vector2 a, Vector2 b, Vector2 t ) => new Vector2( Mathf.Lerp( a.x, b.x, t.x ), Mathf.Lerp( a.y, b.y, t.y ) );
+		[MethodImpl( INLINE )] public static Vector2 Lerp( Rect r, Vector2 t ) => new Vector2( Mathf.Lerp( r.xMin, r.xMax, t.x ), Mathf.Lerp( r.yMin, r.yMax, t.y ) );
 		[MethodImpl( INLINE )] static Vector2 InverseLerp( Vector2 a, Vector2 b, Vector2 v ) => ( v - a ) / ( b - a );
+		[MethodImpl( INLINE )] public static Vector2 InverseLerp( Rect r, Vector2 pt ) => new Vector2( Mathf.InverseLerp( r.xMin, r.xMax, pt.x ), Mathf.InverseLerp( r.yMin, r.yMax, pt.y ) );
 		[MethodImpl( INLINE )] static Vector2 Remap( Vector2 iMin, Vector2 iMax, Vector2 oMin, Vector2 oMax, Vector2 value ) => Lerp( oMin, oMax, InverseLerp( iMin, iMax, value ) );
 		[MethodImpl( INLINE )] public static Vector2 Remap( Rect iRect, Rect oRect, Vector2 iPos ) => Remap( iRect.min, iRect.max, oRect.min, oRect.max, iPos );
 
@@ -224,27 +234,42 @@ namespace Shapes {
 			return WeightedSum( GetCubicBezierWeights( t ), a, b, c, d );
 		}
 
-		public static Vector3 CubicBezierDerivative( Vector3 a, Vector3 b, Vector3 c, Vector3 d, float t ) {
+		// Note: this is neither the derivative nor the normalized direction
+		// equal to derivative / 3, for performance reasons since we only need the direction in our use case below
+		static Vector3 CubicBezierDirectionIsh( Vector3 a, Vector3 b, Vector3 c, Vector3 d, float t ) {
 			float omt = 1f - t;
-			float omt2 = omt * omt;
 			float t2 = t * t;
-			return
-				a * ( -3 * omt2 ) +
-				b * ( 9 * t2 - 12 * t + 3 ) +
-				c * ( 6 * t - 9 * t2 ) +
-				d * ( 3 * t2 );
+			float _3t2 = 3 * t2;
+			float sa = -omt * omt;
+			float sb = _3t2 - 4 * t + 1;
+			float sc = 2 * t - _3t2;
+			float sd = t2;
+
+			// derivative / 3 (faster), unrolled (also faster):
+			return new Vector3(
+				a.x * sa + b.x * sb + c.x * sc + d.x * sd,
+				a.y * sa + b.y * sb + c.y * sc + d.y * sd,
+				a.z * sa + b.z * sb + c.z * sc + d.z * sd
+			);
 		}
 
-		public static float GetApproximateCurveSum( Vector3 a, Vector3 b, Vector3 c, Vector3 d, int vertCount ) {
-			Vector2[] tangents = new Vector2[vertCount];
-			for( int i = 0; i < vertCount; i++ ) {
+		public static float GetApproximateAngularCurveSumDegrees( Vector3 a, Vector3 b, Vector3 c, Vector3 d, int vertCount ) {
+			float angSum = 0f;
+
+			// t = 0
+			Vector3 tangentPrev = b - a; // == CubicBezierDerivative( a, b, c, d, 0 ) / 3, but more optimized
+
+			// intermediate tangents (0 < t < 1)
+			for( int i = 1; i < vertCount - 1; i++ ) {
 				float t = i / ( vertCount - 1f );
-				tangents[i] = CubicBezierDerivative( a, b, c, d, t );
+				Vector3 tangent = CubicBezierDirectionIsh( a, b, c, d, t );
+				angSum += Vector3.Angle( tangentPrev, tangent );
+				tangentPrev = tangent;
 			}
 
-			float angSum = 0f;
-			for( int i = 0; i < vertCount - 1; i++ )
-				angSum += Vector2.Angle( tangents[i], tangents[i + 1] );
+			// t = 1
+			Vector3 finalTangent = d - c; // == CubicBezierDerivative( a, b, c, d, 1 ) / 3
+			angSum += Vector3.Angle( tangentPrev, finalTangent );
 
 			return angSum;
 		}
