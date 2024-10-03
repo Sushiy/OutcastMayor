@@ -1,8 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Assertions.Comparers;
+using UnityEngine.InputSystem.Interactions;
+using UnityEngine.UIElements;
 
 namespace OutcastMayor
 {
@@ -34,7 +39,6 @@ namespace OutcastMayor
         public Transform currentRectangleParent;
         public VectorPoint rectP1,rectP2,rectP3,rectP4;
 
-
         [Header("Graph")]
         public VectorPointGraph currentVectorPointGraph;
         public List<VectorPointGraph> vectorPointGraphs = new List<VectorPointGraph>();       
@@ -60,11 +64,23 @@ namespace OutcastMayor
             currentRoofGraph = new RoofGraph();
             currentLine.Color = currentRoofGraph.graphColor;
             roofGraphs.Add(currentRoofGraph);
+            p = new VectorPoint(Vector3.zero, currentVectorPointGraph);
         }
-
+        VectorPoint p;        
         void Update()
         {
             Vector3 mousePosition = inputManager.HitInfo.point;
+
+            p.worldPosition = mousePosition;
+            if(currentVectorPointGraph != null && currentVectorPointGraph.CheckInside(p, currentVectorPointGraph.edges))
+            {
+                Debug.DrawRay(p.worldPosition, Vector3.right * 1000.0f, Color.green);
+            }
+            else
+            {
+                Debug.DrawRay(p.worldPosition, Vector3.right * 1000.0f, Color.red);
+            }
+
             if(buildMode == BuildMode.Line)
             {
                 if(lastLinePoint != null)
@@ -127,6 +143,8 @@ namespace OutcastMayor
             buildMode = BuildMode.Roof;
         }
 
+        
+
         public void SecondaryClick()
         {
             if(currentVectorPointGraph != null)
@@ -144,7 +162,7 @@ namespace OutcastMayor
 
             if(buildMode == BuildMode.Line)
             {
-                ClickRectangleMode(clickPosition,clickedPoint);
+                ClickLineMode(clickPosition,clickedPoint);
             }
             if(buildMode == BuildMode.Rectangle)
             {
@@ -173,17 +191,18 @@ namespace OutcastMayor
                 {
                     if(lastLinePoint != null)
                     {
-                        if(lastLinePoint.connectedPoints.Contains(clickedPoint.vectorPoint))
+                        if(currentVectorPointGraph.ContainsEdge(lastLinePoint, clickedPoint.vectorPoint))
                         {
                             Debug.LogWarning("[VectorBuilding] These points are already connected");
                             lastLinePoint = clickedPoint.vectorPoint;
                         }
                         else
                         {
-                            lastLinePoint.AddPoint(clickedPoint.vectorPoint);
-                            clickedPoint.vectorPoint.AddPoint(lastLinePoint);
                             currentVectorPointGraph.AddPoint(clickedPoint.vectorPoint);
-                            lastLinePoint = clickedPoint.vectorPoint;  
+                            currentVectorPointGraph.AddEdge(lastLinePoint, clickedPoint.vectorPoint);
+                            lastLinePoint = clickedPoint.vectorPoint;
+                            if(lastLinePoint != clickedPoint.vectorPoint)   
+                                currentVectorPointGraph.closed = true;
                         }                            
                     }
                 }
@@ -197,9 +216,11 @@ namespace OutcastMayor
                     currentLine.Color = currentVectorPointGraph.graphColor;
                 }
 
-                VectorPoint newPoint = new VectorPoint(clickPosition, lastLinePoint, currentVectorPointGraph);
+                VectorPoint newPoint = new VectorPoint(clickPosition, currentVectorPointGraph);
                 if(lastLinePoint != null)
-                    lastLinePoint.AddPoint(newPoint);
+                {
+                    currentVectorPointGraph.AddEdge(lastLinePoint, newPoint);
+                }
                 currentVectorPointGraph.AddPoint(newPoint);
                 lastLinePoint = newPoint;
                 
@@ -246,11 +267,11 @@ namespace OutcastMayor
                         else
                         {
                             Vector3 p3 = rectP2.worldPosition + height * currentRectangleParent.right;
-                            rectP3 = new VectorPoint(p3, rectP2, currentVectorPointGraph);
+                            rectP3 = new VectorPoint(p3, currentVectorPointGraph);
 
                         }
 
-                        rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), rectP3, currentVectorPointGraph);
+                        rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), currentVectorPointGraph);
                         
                         bool isOpposite = height > 0;
                         currentRectangle.Height = height;
@@ -260,29 +281,20 @@ namespace OutcastMayor
                             currentRectangle.transform.localScale = new Vector3(1,1,1);
 
                         //Add finished points
+                        VectorEdge e1 = new VectorEdge(rectP1, rectP2);
+                        VectorEdge e2 = new VectorEdge(rectP2, rectP3);
+                        VectorEdge e3 = new VectorEdge(rectP3, rectP4);
+                        VectorEdge e4 = new VectorEdge(rectP4, rectP1);
+
+                        currentVectorPointGraph.AddShape(new List<VectorPoint>{rectP1, rectP2, rectP3, rectP4}, new List<VectorEdge>{e1,e2,e3,e4});
                         
-                        rectP1.AddPoint(rectP2);
-                        rectP2.AddPoint(rectP1);
-
-                        rectP2.AddPoint(rectP3);
-                        rectP3.AddPoint(rectP2);
-
-                        rectP3.AddPoint(rectP4);
-                        rectP4.AddPoint(rectP3);
-
-                        rectP4.AddPoint(rectP1);
-                        rectP1.AddPoint(rectP4);
-
-                        currentVectorPointGraph.AddPoint(rectP1);
-                        currentVectorPointGraph.AddPoint(rectP2);
-                        currentVectorPointGraph.AddPoint(rectP3);
-                        currentVectorPointGraph.AddPoint(rectP4);
-                        AddControlPoint(rectP1);
-                        AddControlPoint(rectP2);
-                        AddControlPoint(rectP3);
-                        AddControlPoint(rectP4);
+                        //AddControlPoint(rectP1);
+                        //AddControlPoint(rectP2);
+                        //AddControlPoint(rectP3);
+                        //AddControlPoint(rectP4);
+                        currentVectorPointGraph.closed = true;
                         rectState = 0;
-                        currentVectorPointGraph = null;
+                        //currentVectorPointGraph = null;
                     }
                 }
                 else
@@ -295,13 +307,13 @@ namespace OutcastMayor
                     }
                     if(rectState == 0)
                     {
-                        rectP1 = new VectorPoint(_clickPosition, null, currentVectorPointGraph);
+                        rectP1 = new VectorPoint(_clickPosition, currentVectorPointGraph);
                         currentRectangleParent.position = _clickPosition;
                         rectState = 1;
                     }
                     else if(rectState == 1)
                     {
-                        rectP2 = new VectorPoint(_clickPosition, rectP1, currentVectorPointGraph);
+                        rectP2 = new VectorPoint(_clickPosition, currentVectorPointGraph);
                         
                         Vector3 dir = rectP2.worldPosition - rectP1.worldPosition;
                         currentRectangleParent.LookAt(rectP2.worldPosition, Vector3.up);
@@ -312,9 +324,9 @@ namespace OutcastMayor
                     {
                         float height = Vector3.Dot(_clickPosition - rectP2.worldPosition, currentRectangleParent.right);
                         Vector3 p3 = rectP2.worldPosition + height * currentRectangleParent.right;
-                        rectP3 = new VectorPoint(p3, rectP2, currentVectorPointGraph);
+                        rectP3 = new VectorPoint(p3, currentVectorPointGraph);
 
-                        rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), rectP3, currentVectorPointGraph);
+                        rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), currentVectorPointGraph);
                         
                         bool isOpposite = height > 0;
                         currentRectangle.Height = height;
@@ -324,28 +336,20 @@ namespace OutcastMayor
                             currentRectangle.transform.localScale = new Vector3(1,1,1);
 
                         //Add finished points
-                        rectP1.AddPoint(rectP2);
-                        rectP2.AddPoint(rectP1);
+                        VectorEdge e1 = new VectorEdge(rectP1, rectP2);
+                        VectorEdge e2 = new VectorEdge(rectP2, rectP3);
+                        VectorEdge e3 = new VectorEdge(rectP3, rectP4);
+                        VectorEdge e4 = new VectorEdge(rectP4, rectP1);
 
-                        rectP2.AddPoint(rectP3);
-                        rectP3.AddPoint(rectP2);
+                        currentVectorPointGraph.AddShape(new List<VectorPoint>{rectP1, rectP2, rectP3, rectP4}, new List<VectorEdge>{e1,e2,e3,e4});
 
-                        rectP3.AddPoint(rectP4);
-                        rectP4.AddPoint(rectP3);
-
-                        rectP4.AddPoint(rectP1);
-                        rectP1.AddPoint(rectP4);
-                        
-                        currentVectorPointGraph.AddPoint(rectP1);
-                        currentVectorPointGraph.AddPoint(rectP2);
-                        currentVectorPointGraph.AddPoint(rectP3);
-                        currentVectorPointGraph.AddPoint(rectP4);
-                        AddControlPoint(rectP1);
-                        AddControlPoint(rectP2);
-                        AddControlPoint(rectP3);
-                        AddControlPoint(rectP4);
+                        //AddControlPoint(rectP1);
+                        //AddControlPoint(rectP2);
+                        //AddControlPoint(rectP3);
+                        //AddControlPoint(rectP4);
+                        currentVectorPointGraph.closed = true;
                         rectState = 0;
-                        currentVectorPointGraph = null;
+                        //currentVectorPointGraph = null;
                     }
                 }
         }
@@ -366,13 +370,13 @@ namespace OutcastMayor
                 }
                 if(rectState == 0)
                 {
-                    rectP1 = new VectorPoint(_clickPosition, null, currentRoofGraph);
+                    rectP1 = new VectorPoint(_clickPosition, currentRoofGraph);
                     currentRectangleParent.position = _clickPosition;
                     rectState = 1;
                 }
                 else if(rectState == 1)
                 {
-                    rectP2 = new VectorPoint(_clickPosition, rectP1, currentRoofGraph);
+                    rectP2 = new VectorPoint(_clickPosition, currentRoofGraph);
                     
                     Vector3 dir = rectP2.worldPosition - rectP1.worldPosition;
                     currentRectangleParent.LookAt(rectP2.worldPosition, Vector3.up);
@@ -383,9 +387,9 @@ namespace OutcastMayor
                 {
                     float height = Vector3.Dot(_clickPosition - rectP2.worldPosition, currentRectangleParent.right);
                     Vector3 p3 = rectP2.worldPosition + height * currentRectangleParent.right;
-                    rectP3 = new VectorPoint(p3, rectP2, currentRoofGraph);
+                    rectP3 = new VectorPoint(p3, currentRoofGraph);
 
-                    rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), rectP3, currentRoofGraph);
+                    rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), currentRoofGraph);
                     
                     bool isOpposite = height > 0;
                     currentRectangle.Height = height;
@@ -395,23 +399,17 @@ namespace OutcastMayor
                         currentRectangle.transform.localScale = new Vector3(1,1,1);
 
                     //Add finished points
-                    rectP1.AddPoint(rectP2);
-                    rectP2.AddPoint(rectP1);
-
-                    rectP2.AddPoint(rectP3);
-                    rectP3.AddPoint(rectP2);
-
-                    rectP3.AddPoint(rectP4);
-                    rectP4.AddPoint(rectP3);
-
-                    rectP4.AddPoint(rectP1);
-                    rectP1.AddPoint(rectP4);
+                    currentRoofGraph.AddEdge(rectP1, rectP2);
+                    currentRoofGraph.AddEdge(rectP2, rectP3);
+                    currentRoofGraph.AddEdge(rectP3, rectP4);
+                    currentRoofGraph.AddEdge(rectP1, rectP4);
                     
                     currentRoofGraph.AddPoint(rectP1);
                     currentRoofGraph.AddPoint(rectP2);
                     currentRoofGraph.AddPoint(rectP3);
                     currentRoofGraph.AddPoint(rectP4);
-                    currentRoofGraph.GenerateRoofFromRect(currentRectangle.Width, currentRectangle.Width);
+                    currentRoofGraph.GenerateRoofFromRect(currentRectangle.Width, Mathf.Abs(currentRectangle.Height));
+                    currentRoofGraph.closed = true;
                     rectState = 0;
                     currentRoofGraph = null;
                 }
@@ -434,54 +432,410 @@ namespace OutcastMayor
     public class VectorPoint
     {
         public Vector3 worldPosition;
+        public bool isInside = false;
 
         public Vector3 upperWorldPosition;
-
-        [DoNotSerialize]
-        public List<VectorPoint> connectedPoints;
 
         public int connectedPointCount = 0;
 
         [HideInInspector]
         public VectorPointGraph vectorPointGraph;
 
-        public VectorPoint(Vector3 _worldPosition, VectorPoint _previousPoint, VectorPointGraph _vectorPointGraph)
+        public VectorPoint(Vector3 _worldPosition, VectorPointGraph _vectorPointGraph)
         {
             worldPosition = _worldPosition;
             upperWorldPosition = _worldPosition + Vector3.up * 2f;
-            connectedPoints = new List<VectorPoint>();
             vectorPointGraph = _vectorPointGraph;
-            AddPoint(_previousPoint);
+        }
+    }
+
+    public class VectorEdge : IEquatable<VectorEdge>
+    {
+        public VectorPoint p1, p2;
+        public bool isInside = false;
+        [HideInInspector]
+        public VectorPointGraph vectorPointGraph;
+
+        public VectorEdge(VectorPoint _p1, VectorPoint _p2)
+        {
+            p1 = _p1;
+            p2 = _p2;
         }
 
-        public void AddPoint(VectorPoint _vectorPoint)
+        public bool Equals(VectorEdge _other)
         {
-            if(_vectorPoint != null && !connectedPoints.Contains(_vectorPoint))
-            {
-                connectedPoints.Add(_vectorPoint);
-                connectedPointCount++;
-            }
+            return (p1 == _other.p1 && p2 == _other.p2) || (p2 == _other.p1 && p1 == _other.p2);
         }
     }
 
     public class VectorPointGraph
     {
-        public List<VectorPoint> includedPoints;
+        public List<VectorPoint> points;
+        public List<VectorEdge> edges;
 
         public Color graphColor;
 
+        public bool closed = false;
+
         public VectorPointGraph()
         {
-            includedPoints = new List<VectorPoint>();
+            points = new List<VectorPoint>();
+            edges =  new List<VectorEdge>();
             graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
         }
 
         public void AddPoint(VectorPoint _point)
         {
-            if(!includedPoints.Contains(_point))
-                includedPoints.Add(_point);
+            if(!points.Contains(_point))
+                points.Add(_point);
             else
                 Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this point");
+        }
+
+        public void AddEdge(VectorEdge _edge)
+        {
+            if(!edges.Contains(_edge))
+            {
+                
+                edges.Add(_edge);
+            }
+            else
+                Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this edge");
+        }
+
+        /// <summary>
+        /// Add a shape (Points and edges) to the graph. Check if any of the points and edges are inside and mark them.
+        /// </summary>
+        /// <param name="_incomingPoints"></param>
+        /// <param name="_incomingEdges"></param>
+        public void AddShape(List<VectorPoint> _incomingPoints, List<VectorEdge> _incomingEdges)
+        {
+            //Remove any duplicate points and edges
+
+
+            //Calculate overlap
+
+            //Find and add intersections
+            List<VectorPoint> intersectionPoints = new List<VectorPoint>();
+            List<VectorEdge> segmentedEdges = new List<VectorEdge>();
+            List<VectorEdge> bisectedEdges = new List<VectorEdge>();
+            
+            List<VectorEdge> testEdges = new List<VectorEdge>(edges);
+            List<VectorEdge> originalIncomingEdges = new List<VectorEdge>(_incomingEdges);
+            List<VectorEdge> incomingEdgeSegments = new List<VectorEdge>();
+            Debug.Log("Original Edges:" + edges.Count + " Original Points: " + points.Count);
+            Debug.Log("Incoming Edges:" + _incomingEdges.Count + " Incoming Points:" + _incomingPoints.Count);
+            foreach(VectorEdge incomingEdge in _incomingEdges)
+            {
+                if(GetEdgeIntersection(incomingEdge, testEdges, ref intersectionPoints, ref segmentedEdges, ref bisectedEdges, ref incomingEdgeSegments))
+                {
+                    bisectedEdges.Add(incomingEdge);
+                }
+                foreach(VectorEdge e in segmentedEdges)
+                {
+                    if(!testEdges.Contains(e))
+                        testEdges.Add(e);
+                }
+                foreach(VectorEdge b in bisectedEdges)
+                {
+                    if(testEdges.Contains(b))
+                        testEdges.Remove(b);
+                }
+            }
+
+            //update incoming edges and points
+            _incomingPoints.AddRange(intersectionPoints);
+            foreach(VectorEdge edge in bisectedEdges)
+            {
+                if(_incomingEdges.Contains(edge))
+                    _incomingEdges.Remove(edge);
+            }
+            foreach(VectorEdge edge in incomingEdgeSegments)
+            {
+                if(!_incomingEdges.Contains(edge))
+                    _incomingEdges.Add(edge);
+            }            
+            Debug.Log("IntersectionPoints:" + intersectionPoints.Count + " Bisected Edges: " + bisectedEdges.Count);
+            Debug.Log("Updated Edges:" + testEdges.Count);
+            Debug.Log("Updated Incoming Edges:" + _incomingEdges.Count + " Updated Incoming Points:" + _incomingPoints.Count);
+
+            List<VectorPoint> insidePoints = new List<VectorPoint>();
+            List<VectorEdge> insideEdges = new List<VectorEdge>();
+            //Check each incoming point and edge against the current edges.
+            foreach(VectorPoint point in _incomingPoints)
+            {
+                if(CheckInside(point, edges))
+                {
+                    insidePoints.Add(point);
+                }
+            }
+            foreach(VectorEdge edge in _incomingEdges)
+            {
+                if(bisectedEdges.Contains(edge))
+                    continue;
+                if(CheckInside(edge, edges))
+                {
+                    insideEdges.Add(edge);
+                }
+            }
+
+            //Check each original point and edge against the incoming edges
+            foreach(VectorPoint point in points)
+            {
+                if(CheckInside(point, originalIncomingEdges))
+                {
+                    insidePoints.Add(point);
+                }
+            }
+            foreach(VectorEdge edge in testEdges)
+            {
+                if(CheckInside(edge, originalIncomingEdges))
+                {
+                    insideEdges.Add(edge);
+                }
+            }
+            
+            //Set the inside value of the edges and points
+            foreach(VectorPoint point in insidePoints)
+            {
+                point.isInside = true;
+            }
+
+            foreach(VectorEdge edge in insideEdges)
+            {
+                edge.isInside = true;
+            }
+            edges = testEdges;
+            edges.AddRange(_incomingEdges);                
+            foreach(VectorEdge edge in bisectedEdges)
+            {
+                if(edges.Contains(edge))
+                    edges.Remove(edge);
+            }
+            points.AddRange(_incomingPoints);
+        }
+
+        public void AddEdge(VectorPoint _p1, VectorPoint _p2)
+        {
+            AddEdge(new VectorEdge(_p1, _p2));
+        }
+
+        public bool ContainsEdge(VectorPoint _p1, VectorPoint _p2)
+        {
+            return ContainsEdge(new VectorEdge(_p1, _p2));
+        }
+
+        public bool ContainsEdge(VectorEdge _edge)
+        {
+            return edges.Contains(_edge);
+        }
+
+        public bool GetEdgeIntersection(VectorEdge _incomingEdge, List<VectorEdge> _edges, ref List<VectorPoint> _intersectionPoints, ref List<VectorEdge> _newEdges, ref List<VectorEdge> _bisectedEdges, ref List<VectorEdge> _ownEdgeSegments)
+        {
+            bool intersects = false;
+            List<VectorEdge> ownEdgeSegments = new List<VectorEdge>();
+            SortedList<float, VectorPoint> intersectionPointsSorted = new SortedList<float, VectorPoint>(); //Sorted by distance to startPoint.
+            intersectionPointsSorted.Add(0, _incomingEdge.p1);
+            foreach(VectorEdge edge in _edges)
+            {
+                Vector3 intersectionPosition;
+                if(LineIntersection(_incomingEdge, edge, out intersectionPosition))
+                {
+                    intersects= true;
+                    VectorPoint intersectionPoint = new VectorPoint(intersectionPosition, this);
+                    _intersectionPoints.Add(intersectionPoint);
+                    //split the edge that came in
+                    _newEdges.Add(new VectorEdge(intersectionPoint, edge.p1));
+                    _newEdges.Add(new VectorEdge(intersectionPoint, edge.p2));
+                    float sqrDist = (_incomingEdge.p1.worldPosition - intersectionPoint.worldPosition).sqrMagnitude;
+                    Debug.Log("[GetEdgeIntersection] + segment length" + sqrDist);
+                    intersectionPointsSorted.Add(sqrDist, intersectionPoint);
+                    if(!_bisectedEdges.Contains(edge))
+                        _bisectedEdges.Add(edge);
+                }
+            }
+            intersectionPointsSorted.Add((_incomingEdge.p1.worldPosition - _incomingEdge.p2.worldPosition).sqrMagnitude, _incomingEdge.p2);
+
+            for(int i = 0; i < intersectionPointsSorted.Count-1; i++)
+            {
+                ownEdgeSegments.Add(new VectorEdge(intersectionPointsSorted.Values[i], intersectionPointsSorted.Values[i+1]));
+            }            
+            _ownEdgeSegments.AddRange(ownEdgeSegments);       
+            return intersects;
+        }
+
+        public bool CheckInside(VectorPoint _point, List<VectorEdge> _testEdges)
+        {
+            if(_testEdges == null || _testEdges.Count == 0)
+            {
+                return false;
+            }
+            VectorEdge ray = new VectorEdge(_point, new VectorPoint(_point.worldPosition + Vector3.right * 1000f, this));
+
+            int n = 0;
+            foreach(VectorEdge edge in _testEdges)
+            {
+                if(edge.isInside)
+                    continue;
+                if(edge.p1 == _point || edge.p2 == _point)
+                    continue;
+                Vector3 intersectPoint;
+                if(LineIntersection(ray, edge, out intersectPoint))
+                {
+                    n++;
+                }
+            }
+            
+            if((n % 2) == 1)
+            {
+                //try again in a different direction
+                ray = new VectorEdge(_point, new VectorPoint(_point.worldPosition + Vector3.forward * 1000f, this));
+
+                n = 0;
+                foreach(VectorEdge edge in _testEdges)
+                {
+                    if(edge.isInside)
+                        continue;
+                    if(edge.p1 == _point || edge.p2 == _point)
+                        continue;
+                    Vector3 intersectPoint;
+                    if(LineIntersection(ray, edge, out intersectPoint))
+                    {
+                        n++;
+                    }
+                }
+            }
+
+            
+
+            return (n % 2) == 1;
+        }
+        public bool CheckInside(VectorEdge _edge, List<VectorEdge> _testEdges)
+        {
+            if(_testEdges == null || _testEdges.Count == 0)
+            {
+                return false;
+            }
+            VectorPoint point = new VectorPoint((_edge.p1.worldPosition + _edge.p2.worldPosition)/2.0f, this);
+            VectorEdge ray = new VectorEdge(point, new VectorPoint(point.worldPosition + Vector3.right * 1000f, this));
+
+            int n = 0;
+            foreach(VectorEdge edge in _testEdges)
+            {
+                if(edge.isInside)
+                    continue;
+                if(edge == _edge)
+                    continue;
+                Vector3 intersectPoint;
+                if(LineIntersection(ray, edge, out intersectPoint))
+                {
+                    n++;
+                }
+            }
+
+            return (n % 2) == 1;
+        }
+
+        public static bool LineIntersection(VectorEdge _e1, VectorEdge _e2, out Vector3 _intersectionPoint)
+        {
+            Vector2 p1 = new Vector2(_e1.p1.worldPosition.x, _e1.p1.worldPosition.z);
+            Vector2 p2 = new Vector2(_e1.p2.worldPosition.x, _e1.p2.worldPosition.z);
+            Vector2 p3 = new Vector2(_e2.p1.worldPosition.x, _e2.p1.worldPosition.z);
+            Vector2 p4 = new Vector2(_e2.p2.worldPosition.x, _e2.p2.worldPosition.z);
+
+            _intersectionPoint = Vector3.zero;
+
+            float Ax,Bx,Cx,Ay,By,Cy,d,e,f,num;
+            float x1lo,x1hi,y1lo,y1hi;            
+
+            Ax = p2.x-p1.x;
+            Bx = p3.x-p4.x;            
+
+            // X bound box test/
+            //Find the higher x value of line 1
+            if(Ax<0) 
+            {
+                x1lo=p2.x; x1hi=p1.x;
+            } 
+            else
+            {
+                x1hi=p2.x; x1lo=p1.x;
+            }
+            // X Bounding box test
+            if(Bx>0) 
+            {
+                if(x1hi < p4.x || p3.x < x1lo) return false;
+            } 
+            else 
+            {
+                if(x1hi < p3.x || p4.x < x1lo) return false;
+            }
+
+            Ay = p2.y-p1.y;
+            By = p3.y-p4.y;
+
+            // Y bound box test//
+            //Find the higher y value of line 1
+            if(Ay<0) 
+            {                
+                y1lo=p2.y; y1hi=p1.y;
+            } 
+            else 
+            {
+                y1hi=p2.y; y1lo=p1.y;
+            }
+            // Y Bounding box test
+            if(By>0) 
+            {
+                if(y1hi < p4.y || p3.y < y1lo) return false;
+            } 
+            else 
+            {
+                if(y1hi < p3.y || p4.y < y1lo) return false;
+            }
+
+
+            Cx = p1.x-p3.x;
+            Cy = p1.y-p3.y;
+
+            d = By*Cx - Bx*Cy;  // alpha numerator//
+            f = Ay*Bx - Ax*By;  // both denominator//
+
+            
+
+            // alpha tests//
+            if(f>0) 
+            {
+                if(d<0 || d>f) return false;
+            } 
+            else 
+            {
+                if(d>0 || d<f) return false;
+            }           
+
+            e = Ax*Cy - Ay*Cx;  // beta numerator//
+            // beta tests //
+            if(f>0) 
+            {                           
+                if(e<0 || e>f) return false;
+            } 
+            else 
+            {
+                if(e>0 || e<f) return false;
+            }
+
+            // check if they are parallel
+            if(f==0) return false;
+                
+            // compute intersection coordinates //
+            num = d*Ax; // numerator //
+            _intersectionPoint.x = p1.x + num / f;
+            num = d*Ay;
+            _intersectionPoint.z = p1.y + num / f;
+            num = d*(_e1.p1.worldPosition.y - _e1.p1.worldPosition.y);
+            _intersectionPoint.y = _e1.p1.worldPosition.y + num / f;
+
+            return true;
         }
     }
 
@@ -501,35 +855,59 @@ namespace OutcastMayor
 
         public RoofGraph()
         {
-            includedPoints = new List<VectorPoint>();
+            points = new List<VectorPoint>();
+            edges =  new List<VectorEdge>();
             graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
         }
 
         public void GenerateRoofFromRect(float _width, float _height)
         {
             //Find the longer direction of the square
-            if(_width >= _height)
+            if(_width < _height)
             {
-                Vector3 roofPoint1 = (includedPoints[0].worldPosition + includedPoints[1].worldPosition) /2.0f + Vector3.up * roofHeight;
-                Vector3 roofPoint2 = (includedPoints[2].worldPosition + includedPoints[3].worldPosition) /2.0f + Vector3.up * roofHeight;
+                //Debug.Log("[VectorBuilding -> RoofGraph] widthRoof " + _width + "/" + _height);
+                Vector3 roofPoint1 = (points[0].worldPosition + points[1].worldPosition) /2.0f + Vector3.up * roofHeight;
+                Vector3 roofPoint2 = (points[2].worldPosition + points[3].worldPosition) /2.0f + Vector3.up * roofHeight;
 
                 roofPoint1 += gableInset * (roofPoint2-roofPoint1).normalized;
                 roofPoint2 += gableInset * (roofPoint1-roofPoint2).normalized;
                 
-                VectorPoint vrp1 = new VectorPoint(roofPoint1, includedPoints[0], this);
-                VectorPoint vrp2 = new VectorPoint(roofPoint2, vrp1, this);
-                vrp1.AddPoint(vrp2);
-                vrp1.AddPoint(includedPoints[1]);
-                vrp2.AddPoint(includedPoints[2]);
-                vrp2.AddPoint(includedPoints[3]);
-
-                includedPoints[0].AddPoint(vrp1);
-                includedPoints[1].AddPoint(vrp1);
-                includedPoints[2].AddPoint(vrp2);
-                includedPoints[3].AddPoint(vrp2);
+                VectorPoint vrp1 = new VectorPoint(roofPoint1, this);                
+                VectorPoint vrp2 = new VectorPoint(roofPoint2, this);
                 
-                includedPoints.Add(vrp1);
-                includedPoints.Add(vrp2);
+                AddEdge(new VectorEdge(vrp1, vrp2));
+
+                AddEdge(new VectorEdge(vrp1, points[0]));
+                AddEdge(new VectorEdge(vrp1, points[1]));
+
+                AddEdge(new VectorEdge(vrp2, points[2]));
+                AddEdge(new VectorEdge(vrp2, points[3]));
+                
+                points.Add(vrp1);
+                points.Add(vrp2);
+            }
+            else
+            {
+                //Debug.Log("[VectorBuilding -> RoofGraph] heightRoof " + _width + "/" + _height);
+                Vector3 roofPoint1 = (points[0].worldPosition + points[3].worldPosition) /2.0f + Vector3.up * roofHeight;
+                Vector3 roofPoint2 = (points[1].worldPosition + points[2].worldPosition) /2.0f + Vector3.up * roofHeight;
+
+                roofPoint1 += gableInset * (roofPoint2-roofPoint1).normalized;
+                roofPoint2 += gableInset * (roofPoint1-roofPoint2).normalized;
+                
+                VectorPoint vrp1 = new VectorPoint(roofPoint1, this);                
+                VectorPoint vrp2 = new VectorPoint(roofPoint2, this);
+                
+                AddEdge(new VectorEdge(vrp1, vrp2));
+
+                AddEdge(new VectorEdge(vrp1, points[0]));
+                AddEdge(new VectorEdge(vrp1, points[3]));
+
+                AddEdge(new VectorEdge(vrp2, points[1]));
+                AddEdge(new VectorEdge(vrp2, points[2]));
+                
+                points.Add(vrp1);
+                points.Add(vrp2);
             }
             
             //Place points at the center of the shorter sides

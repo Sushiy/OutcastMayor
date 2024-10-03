@@ -2,14 +2,13 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using Shapes;
+using Unity.VisualScripting;
 
 namespace OutcastMayor
 {
     public class ImmediateDrawer : ImmediateModeShapeDrawer
     {
         VectorBuilding vectorBuilding;
-
-        HashSet<VectorPoint> alreadyDrawnPoints = new HashSet<VectorPoint>();
 
         void Awake()
         {
@@ -27,43 +26,33 @@ namespace OutcastMayor
 
                 foreach(VectorPointGraph graph in vectorBuilding.vectorPointGraphs)
                 {
-                    alreadyDrawnPoints.Clear();
                     Draw.Color = graph.graphColor;
-                    foreach(VectorPoint point in graph.includedPoints)
+                    foreach(VectorEdge edge in graph.edges)
                     {
-                        Draw.Line(point.worldPosition, point.worldPosition + Vector3.up * 2);
-                        foreach(VectorPoint connectedPoint in point.connectedPoints)
-                        {
-                            if(alreadyDrawnPoints.Contains(connectedPoint))
-                            {
-                                //skip
-                                continue;
-                            }
-                            alreadyDrawnPoints.Add(point);
-                            Draw.Line(point.worldPosition, connectedPoint.worldPosition);
-                            Draw.Line(point.upperWorldPosition, connectedPoint.upperWorldPosition);
-                            //Draw.Quad(point.worldPosition, connectedPoint.worldPosition, connectedPoint.worldPosition + Vector3.up * 2f);
-                        }
+                        if(edge.isInside)
+                            Draw.Color = graph.graphColor * .0f;
+                        else
+                            Draw.Color = graph.graphColor;
+                        Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition+Vector3.up *.0f);
+                        Draw.Line(edge.p1.upperWorldPosition, edge.p2.upperWorldPosition);
+                    }
+                    foreach(VectorPoint point in graph.points)
+                    {
+                        if(point.isInside)
+                            Draw.Color = graph.graphColor * .0f;
+                        else
+                            Draw.Color = graph.graphColor;
+                        Draw.Line(point.worldPosition, point.upperWorldPosition);
+                        Draw.Sphere(point.worldPosition, 0.1f);
                     }
                 }
 
                 foreach(RoofGraph graph in vectorBuilding.roofGraphs)
                 {
-                    alreadyDrawnPoints.Clear();
                     Draw.Color = graph.graphColor;
-                    foreach(VectorPoint point in graph.includedPoints)
+                    foreach(VectorEdge edge in graph.edges)
                     {
-                        foreach(VectorPoint connectedPoint in point.connectedPoints)
-                        {
-                            if(alreadyDrawnPoints.Contains(connectedPoint))
-                            {
-                                //skip
-                                continue;
-                            }
-                            alreadyDrawnPoints.Add(point);
-                            Draw.Line(point.worldPosition, connectedPoint.worldPosition);
-                            //Draw.Quad(point.worldPosition, connectedPoint.worldPosition, connectedPoint.worldPosition + Vector3.up * 2f);
-                        }
+                        Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition);
                     }
                 }
             }         
