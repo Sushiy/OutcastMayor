@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using OutcastMayor;
 using UnityEngine;
 
-public class ControlPoint : MonoBehaviour
+public class ControlPoint : ControlElement
 {
     public VectorPoint vectorPoint;
 
@@ -13,10 +13,5 @@ public class ControlPoint : MonoBehaviour
     {
         vectorPoint = _vectorPoint;
         vectorBuilding = _vectorBuilding;
-    }
-
-    void OnPointerDown()
-    {
-        //Select this
     }
 }

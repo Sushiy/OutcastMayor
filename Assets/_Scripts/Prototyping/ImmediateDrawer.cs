@@ -30,16 +30,16 @@ namespace OutcastMayor
                     foreach(VectorEdge edge in graph.edges)
                     {
                         if(edge.isInside)
-                            Draw.Color = graph.graphColor * .0f;
+                            Draw.Color = graph.graphColor * .2f;
                         else
                             Draw.Color = graph.graphColor;
-                        Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition+Vector3.up *.0f);
+                        Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition+Vector3.up *.1f);
                         Draw.Line(edge.p1.upperWorldPosition, edge.p2.upperWorldPosition);
                     }
                     foreach(VectorPoint point in graph.points)
                     {
                         if(point.isInside)
-                            Draw.Color = graph.graphColor * .0f;
+                            Draw.Color = graph.graphColor * .2f;
                         else
                             Draw.Color = graph.graphColor;
                         Draw.Line(point.worldPosition, point.upperWorldPosition);

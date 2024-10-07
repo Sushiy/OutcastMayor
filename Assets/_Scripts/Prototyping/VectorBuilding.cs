@@ -15,16 +15,16 @@ namespace OutcastMayor
     {
         public BasicPlayerInputManager inputManager;
 
-        public ControlPoint controlPoint;
-
         public enum BuildMode
         {
-            Line,
-            Rectangle,
-            Roof
+            Line = 0,
+            Rectangle = 1,
+            Roof = 2,
+            Move = 3
         }
 
         public BuildMode buildMode = BuildMode.Line;
+        public ControlPoint controlPointPrefab;
 
         [Header("Line Tool")]
         public VectorPoint lastLinePoint = null;
@@ -47,6 +47,9 @@ namespace OutcastMayor
         public List<RoofGraph> roofGraphs = new List<RoofGraph>();
         
         public RoofGraph currentRoofGraph;
+
+        public Action<List<VectorPoint>> onUpdatePoints;
+        public Action<List<VectorEdge>> onUpdateEdges;
 
         void  Awake()
         {
@@ -198,8 +201,8 @@ namespace OutcastMayor
                         }
                         else
                         {
-                            currentVectorPointGraph.AddPoint(clickedPoint.vectorPoint);
-                            currentVectorPointGraph.AddEdge(lastLinePoint, clickedPoint.vectorPoint);
+                            VectorEdge e = new VectorEdge(lastLinePoint, clickedPoint.vectorPoint);
+                            currentVectorPointGraph.AddShape(new List<VectorPoint>{lastLinePoint, clickedPoint.vectorPoint}, new List<VectorEdge>{e});
                             lastLinePoint = clickedPoint.vectorPoint;
                             if(lastLinePoint != clickedPoint.vectorPoint)   
                                 currentVectorPointGraph.closed = true;
@@ -217,11 +220,15 @@ namespace OutcastMayor
                 }
 
                 VectorPoint newPoint = new VectorPoint(clickPosition, currentVectorPointGraph);
-                if(lastLinePoint != null)
+                if(lastLinePoint == null)
                 {
-                    currentVectorPointGraph.AddEdge(lastLinePoint, newPoint);
+                    currentVectorPointGraph.AddPoint(newPoint);
                 }
-                currentVectorPointGraph.AddPoint(newPoint);
+                else
+                {
+                    VectorEdge e = new VectorEdge(lastLinePoint, newPoint);
+                    currentVectorPointGraph.AddShape(new List<VectorPoint>{lastLinePoint, newPoint}, new List<VectorEdge>{e});
+                }
                 lastLinePoint = newPoint;
                 
 
@@ -288,10 +295,10 @@ namespace OutcastMayor
 
                         currentVectorPointGraph.AddShape(new List<VectorPoint>{rectP1, rectP2, rectP3, rectP4}, new List<VectorEdge>{e1,e2,e3,e4});
                         
-                        //AddControlPoint(rectP1);
-                        //AddControlPoint(rectP2);
-                        //AddControlPoint(rectP3);
-                        //AddControlPoint(rectP4);
+                        AddControlPoint(rectP1);
+                        AddControlPoint(rectP2);
+                        AddControlPoint(rectP3);
+                        AddControlPoint(rectP4);
                         currentVectorPointGraph.closed = true;
                         rectState = 0;
                         //currentVectorPointGraph = null;
@@ -343,10 +350,10 @@ namespace OutcastMayor
 
                         currentVectorPointGraph.AddShape(new List<VectorPoint>{rectP1, rectP2, rectP3, rectP4}, new List<VectorEdge>{e1,e2,e3,e4});
 
-                        //AddControlPoint(rectP1);
-                        //AddControlPoint(rectP2);
-                        //AddControlPoint(rectP3);
-                        //AddControlPoint(rectP4);
+                        AddControlPoint(rectP1);
+                        AddControlPoint(rectP2);
+                        AddControlPoint(rectP3);
+                        AddControlPoint(rectP4);
                         currentVectorPointGraph.closed = true;
                         rectState = 0;
                         //currentVectorPointGraph = null;
@@ -418,10 +425,10 @@ namespace OutcastMayor
 
         public void AddControlPoint(VectorPoint _point)
         {
-            ControlPoint newControlPoint = Instantiate(controlPoint, transform);
+            ControlPoint newControlPoint = Instantiate(controlPointPrefab, transform);
             newControlPoint.transform.position = _point.worldPosition;
             newControlPoint.SetData(_point, this);
-            ControlPoint newUpperControlPoint = Instantiate(controlPoint, transform);
+            ControlPoint newUpperControlPoint = Instantiate(controlPointPrefab, transform);
             newUpperControlPoint.transform.position = _point.upperWorldPosition;
             newUpperControlPoint.SetData(_point, this);
             controlPoints.Add(newControlPoint);
@@ -491,7 +498,13 @@ namespace OutcastMayor
             else
                 Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this point");
         }
-
+        public void AddPoints(List<VectorPoint> _points)
+        {
+            foreach(VectorPoint p in points)
+            {
+                AddPoint(p);
+            }
+        }
         public void AddEdge(VectorEdge _edge)
         {
             if(!edges.Contains(_edge))
@@ -503,6 +516,18 @@ namespace OutcastMayor
                 Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this edge");
         }
 
+        public void AddEdge(VectorPoint _p1, VectorPoint _p2)
+        {
+            AddEdge(new VectorEdge(_p1, _p2));
+        }
+
+        public void AddEdges(List<VectorEdge> _edges)
+        {
+            foreach(VectorEdge e in _edges)
+            {
+                AddEdge(e);
+            }
+        }
         /// <summary>
         /// Add a shape (Points and edges) to the graph. Check if any of the points and edges are inside and mark them.
         /// </summary>
@@ -510,12 +535,6 @@ namespace OutcastMayor
         /// <param name="_incomingEdges"></param>
         public void AddShape(List<VectorPoint> _incomingPoints, List<VectorEdge> _incomingEdges)
         {
-            //Remove any duplicate points and edges
-
-
-            //Calculate overlap
-
-            //Find and add intersections
             List<VectorPoint> intersectionPoints = new List<VectorPoint>();
             List<VectorEdge> segmentedEdges = new List<VectorEdge>();
             List<VectorEdge> bisectedEdges = new List<VectorEdge>();
@@ -523,6 +542,30 @@ namespace OutcastMayor
             List<VectorEdge> testEdges = new List<VectorEdge>(edges);
             List<VectorEdge> originalIncomingEdges = new List<VectorEdge>(_incomingEdges);
             List<VectorEdge> incomingEdgeSegments = new List<VectorEdge>();
+
+            List<VectorPoint> insidePoints = new List<VectorPoint>();
+            List<VectorEdge> insideEdges = new List<VectorEdge>();
+
+            //Remove any duplicate points and edges
+            for(int i = _incomingPoints.Count-1; i >= 0; i--)
+            {
+                if(points.Contains(_incomingPoints[i]))
+                {
+                    _incomingPoints.Remove(_incomingPoints[i]);
+                }
+            }
+
+            for(int i = _incomingEdges.Count-1; i >= 0; i--)
+            {
+                VectorEdge e = _incomingEdges[i];
+                if(edges.Contains(e))
+                {
+                    insideEdges.Add(e);
+                    _incomingEdges.Remove(e);
+                }
+            }
+
+            //Find and add intersections
             Debug.Log("Original Edges:" + edges.Count + " Original Points: " + points.Count);
             Debug.Log("Incoming Edges:" + _incomingEdges.Count + " Incoming Points:" + _incomingPoints.Count);
             foreach(VectorEdge incomingEdge in _incomingEdges)
@@ -559,8 +602,6 @@ namespace OutcastMayor
             Debug.Log("Updated Edges:" + testEdges.Count);
             Debug.Log("Updated Incoming Edges:" + _incomingEdges.Count + " Updated Incoming Points:" + _incomingPoints.Count);
 
-            List<VectorPoint> insidePoints = new List<VectorPoint>();
-            List<VectorEdge> insideEdges = new List<VectorEdge>();
             //Check each incoming point and edge against the current edges.
             foreach(VectorPoint point in _incomingPoints)
             {
@@ -582,14 +623,14 @@ namespace OutcastMayor
             //Check each original point and edge against the incoming edges
             foreach(VectorPoint point in points)
             {
-                if(CheckInside(point, originalIncomingEdges))
+                if(!point.isInside && !insidePoints.Contains(point) && CheckInside(point, originalIncomingEdges))
                 {
                     insidePoints.Add(point);
                 }
             }
             foreach(VectorEdge edge in testEdges)
             {
-                if(CheckInside(edge, originalIncomingEdges))
+                if(!edge.isInside && !insideEdges.Contains(edge) && CheckInside(edge, originalIncomingEdges))
                 {
                     insideEdges.Add(edge);
                 }
@@ -606,18 +647,13 @@ namespace OutcastMayor
                 edge.isInside = true;
             }
             edges = testEdges;
-            edges.AddRange(_incomingEdges);                
+            AddEdges(_incomingEdges);
             foreach(VectorEdge edge in bisectedEdges)
             {
                 if(edges.Contains(edge))
                     edges.Remove(edge);
             }
             points.AddRange(_incomingPoints);
-        }
-
-        public void AddEdge(VectorPoint _p1, VectorPoint _p2)
-        {
-            AddEdge(new VectorEdge(_p1, _p2));
         }
 
         public bool ContainsEdge(VectorPoint _p1, VectorPoint _p2)
@@ -634,8 +670,8 @@ namespace OutcastMayor
         {
             bool intersects = false;
             List<VectorEdge> ownEdgeSegments = new List<VectorEdge>();
-            SortedList<float, VectorPoint> intersectionPointsSorted = new SortedList<float, VectorPoint>(); //Sorted by distance to startPoint.
-            intersectionPointsSorted.Add(0, _incomingEdge.p1);
+            List<VectorPoint> intersectionPointsSorted = new List<VectorPoint>(); //Sorted by distance to startPoint.
+            intersectionPointsSorted.Add(_incomingEdge.p1);
             foreach(VectorEdge edge in _edges)
             {
                 Vector3 intersectionPosition;
@@ -647,21 +683,33 @@ namespace OutcastMayor
                     //split the edge that came in
                     _newEdges.Add(new VectorEdge(intersectionPoint, edge.p1));
                     _newEdges.Add(new VectorEdge(intersectionPoint, edge.p2));
-                    float sqrDist = (_incomingEdge.p1.worldPosition - intersectionPoint.worldPosition).sqrMagnitude;
-                    Debug.Log("[GetEdgeIntersection] + segment length" + sqrDist);
-                    intersectionPointsSorted.Add(sqrDist, intersectionPoint);
+                    //float sqrDist = (_incomingEdge.p1.worldPosition - intersectionPoint.worldPosition).sqrMagnitude;
+                    //Debug.Log("[GetEdgeIntersection] + segment length" + sqrDist);
+                    intersectionPointsSorted.Add(intersectionPoint);
                     if(!_bisectedEdges.Contains(edge))
                         _bisectedEdges.Add(edge);
                 }
             }
-            intersectionPointsSorted.Add((_incomingEdge.p1.worldPosition - _incomingEdge.p2.worldPosition).sqrMagnitude, _incomingEdge.p2);
+            float l = (_incomingEdge.p1.worldPosition - _incomingEdge.p2.worldPosition).sqrMagnitude;
+            intersectionPointsSorted.Add(_incomingEdge.p2);
+            intersectionPointsSorted.Sort((x,y) => CompareSegmentLength(x,y, _incomingEdge.p1.worldPosition));
 
             for(int i = 0; i < intersectionPointsSorted.Count-1; i++)
             {
-                ownEdgeSegments.Add(new VectorEdge(intersectionPointsSorted.Values[i], intersectionPointsSorted.Values[i+1]));
+                ownEdgeSegments.Add(new VectorEdge(intersectionPointsSorted[i], intersectionPointsSorted[i+1]));
             }            
             _ownEdgeSegments.AddRange(ownEdgeSegments);       
             return intersects;
+        }
+
+        int CompareSegmentLength(VectorPoint _x, VectorPoint _y, Vector3 _worldPosition)
+        {
+            float lenX = (_x.worldPosition - _worldPosition).sqrMagnitude;
+            float lenY = (_y.worldPosition - _worldPosition).sqrMagnitude;
+
+            if(lenX == lenY) return 0;
+            else if(lenX > lenY) return 1;
+            else return -1;
         }
 
         public bool CheckInside(VectorPoint _point, List<VectorEdge> _testEdges)
@@ -738,12 +786,18 @@ namespace OutcastMayor
 
         public static bool LineIntersection(VectorEdge _e1, VectorEdge _e2, out Vector3 _intersectionPoint)
         {
+            _intersectionPoint = Vector3.zero;
+            
+            //If these lines share a point, they do not intersect
+            if(_e1.p1 == _e2.p1 || _e1.p2 == _e2.p2 || _e1.p1 == _e2.p2 || _e1.p2 == _e2.p1)
+            {
+                return false;
+            }
             Vector2 p1 = new Vector2(_e1.p1.worldPosition.x, _e1.p1.worldPosition.z);
             Vector2 p2 = new Vector2(_e1.p2.worldPosition.x, _e1.p2.worldPosition.z);
             Vector2 p3 = new Vector2(_e2.p1.worldPosition.x, _e2.p1.worldPosition.z);
             Vector2 p4 = new Vector2(_e2.p2.worldPosition.x, _e2.p2.worldPosition.z);
 
-            _intersectionPoint = Vector3.zero;
 
             float Ax,Bx,Cx,Ay,By,Cy,d,e,f,num;
             float x1lo,x1hi,y1lo,y1hi;            
