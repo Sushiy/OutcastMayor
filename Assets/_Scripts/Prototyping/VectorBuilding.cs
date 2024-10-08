@@ -254,6 +254,7 @@ namespace OutcastMayor
                         rectP1 = _clickedPoint.vectorPoint;
                         currentRectangleParent.position = _clickedPoint.vectorPoint.worldPosition;
                         rectState = 1;
+                        Debug.Log("[RectangleTool] Step1: Clicked on P1");
                     }
                     else if(rectState == 1)
                     {
@@ -261,24 +262,45 @@ namespace OutcastMayor
                         currentRectangleParent.transform.LookAt(rectP2.worldPosition, Vector3.up);
                         currentRectangle.Width = Vector3.Distance(rectP1.worldPosition, rectP2.worldPosition);
                         rectState = 2;
+                        Debug.Log("[RectangleTool] Step2: Clicked on P2");
                     }
                     else if(rectState == 2)
                     {
-                        Vector3 toClick = _clickPosition - rectP2.worldPosition;
+                        Vector3 toClick = _clickedPoint.vectorPoint.worldPosition - rectP2.worldPosition;
                         float height = Vector3.Dot(toClick, currentRectangleParent.right);
-                        if(Vector3.Dot(toClick.normalized, currentRectangleParent.right) == 1)
+                        
+                        Vector3 rectP3Pos = rectP2.worldPosition + height * currentRectangleParent.right;
+                        Vector3 rectP4Pos = rectP3Pos + (rectP1.worldPosition - rectP2.worldPosition);
+
+                        //Check if p3 is the clicked point
+                        float angleToP3 = Vector3.Dot(toClick.normalized, currentRectangleParent.right);
+                        Debug.Log("[RectangleTool] Step3: Angle to P3 " + angleToP3);                        
+                        float angleToP4 = Vector3.Dot(toClick.normalized, (currentRectangleParent.right+currentRectangleParent.forward).normalized);
+                        Debug.Log("[RectangleTool] Step3: Angle to P4 " + angleToP4);
+                        if(Mathf.Approximately(Mathf.Abs(angleToP3), 1))
                         {
                             //you actually hit the point with the corner :o
                             rectP3 = _clickedPoint.vectorPoint;
+                            rectP4 = new VectorPoint(rectP4Pos, currentVectorPointGraph);
+                            Debug.Log("[RectangleTool] Step3: Clicked on P3");
                         }
                         else
                         {
-                            Vector3 p3 = rectP2.worldPosition + height * currentRectangleParent.right;
-                            rectP3 = new VectorPoint(p3, currentVectorPointGraph);
+                            //Check if p4 is the clicked point
+                            if(Mathf.Approximately(Mathf.Abs(angleToP4), 1))
+                            {
+                                rectP3 = new VectorPoint(rectP3Pos, currentVectorPointGraph);
+                                rectP4 = _clickedPoint.vectorPoint;
+                                Debug.Log("[RectangleTool] Step3: Clicked on P4");
+                            }
+                            else
+                            {
+                                rectP3 = new VectorPoint(rectP3Pos, currentVectorPointGraph);                                
+                                rectP4 = new VectorPoint(rectP4Pos, currentVectorPointGraph);
+                                Debug.Log("[RectangleTool] Step3: Clicked Wrong Point");
+                            }
 
                         }
-
-                        rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), currentVectorPointGraph);
                         
                         bool isOpposite = height > 0;
                         currentRectangle.Height = height;
@@ -317,6 +339,7 @@ namespace OutcastMayor
                         rectP1 = new VectorPoint(_clickPosition, currentVectorPointGraph);
                         currentRectangleParent.position = _clickPosition;
                         rectState = 1;
+                        Debug.Log("[RectangleTool] Step1: Clicked No Point");
                     }
                     else if(rectState == 1)
                     {
@@ -326,6 +349,7 @@ namespace OutcastMayor
                         currentRectangleParent.LookAt(rectP2.worldPosition, Vector3.up);
                         currentRectangle.Width = dir.magnitude * Vector3.Dot(dir.normalized, currentRectangleParent.forward);
                         rectState = 2;
+                        Debug.Log("[RectangleTool] Step2: Clicked No Point");
                     }
                     else if(rectState == 2)
                     {
@@ -335,6 +359,7 @@ namespace OutcastMayor
 
                         rectP4 = new VectorPoint(rectP3.worldPosition + (rectP1.worldPosition - rectP2.worldPosition), currentVectorPointGraph);
                         
+                        Debug.Log("[RectangleTool] Step3: Clicked No Point");
                         bool isOpposite = height > 0;
                         currentRectangle.Height = height;
                         if(isOpposite)
@@ -480,6 +505,8 @@ namespace OutcastMayor
         public List<VectorPoint> points;
         public List<VectorEdge> edges;
 
+        public List<VectorEdge> deletedInsideEdges;
+
         public Color graphColor;
 
         public bool closed = false;
@@ -488,6 +515,7 @@ namespace OutcastMayor
         {
             points = new List<VectorPoint>();
             edges =  new List<VectorEdge>();
+            deletedInsideEdges = new List<VectorEdge>();
             graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
         }
 
@@ -536,7 +564,7 @@ namespace OutcastMayor
         public void AddShape(List<VectorPoint> _incomingPoints, List<VectorEdge> _incomingEdges)
         {
             List<VectorPoint> intersectionPoints = new List<VectorPoint>();
-            List<VectorEdge> segmentedEdges = new List<VectorEdge>();
+            List<VectorEdge> edgeSegments = new List<VectorEdge>();
             List<VectorEdge> bisectedEdges = new List<VectorEdge>();
             
             List<VectorEdge> testEdges = new List<VectorEdge>(edges);
@@ -546,7 +574,10 @@ namespace OutcastMayor
             List<VectorPoint> insidePoints = new List<VectorPoint>();
             List<VectorEdge> insideEdges = new List<VectorEdge>();
 
+            List<VectorEdge> duplicateEdges = new List<VectorEdge>();
             //Remove any duplicate points and edges
+            
+            /*
             for(int i = _incomingPoints.Count-1; i >= 0; i--)
             {
                 if(points.Contains(_incomingPoints[i]))
@@ -554,27 +585,34 @@ namespace OutcastMayor
                     _incomingPoints.Remove(_incomingPoints[i]);
                 }
             }
-
+            */
+            bool hasDuplicateEdge = false;
             for(int i = _incomingEdges.Count-1; i >= 0; i--)
             {
-                VectorEdge e = _incomingEdges[i];
-                if(edges.Contains(e))
+                VectorEdge duplicate = _incomingEdges[i];
+                if(edges.Contains(duplicate))
                 {
-                    insideEdges.Add(e);
-                    _incomingEdges.Remove(e);
+                    VectorEdge original = edges.Find(x => x.Equals(duplicate));
+                    duplicateEdges.Add(original);
+                    insideEdges.Add(original);
+                    _incomingEdges.Remove(duplicate);
+                    hasDuplicateEdge = true;
                 }
             }
+            Debug.Log("[AddShape] has duplicate Edge:" + hasDuplicateEdge);
 
             //Find and add intersections
-            Debug.Log("Original Edges:" + edges.Count + " Original Points: " + points.Count);
-            Debug.Log("Incoming Edges:" + _incomingEdges.Count + " Incoming Points:" + _incomingPoints.Count);
+            Debug.Log("[AddShape] Original Edges:" + edges.Count + " Original Points: " + points.Count);
+            Debug.Log("[AddShape] Incoming Edges:" + _incomingEdges.Count + " Incoming Points:" + _incomingPoints.Count);
+            bool hasOverlap = false;
             foreach(VectorEdge incomingEdge in _incomingEdges)
             {
-                if(GetEdgeIntersection(incomingEdge, testEdges, ref intersectionPoints, ref segmentedEdges, ref bisectedEdges, ref incomingEdgeSegments))
+                if(GetEdgeIntersection(incomingEdge, testEdges, ref intersectionPoints, ref edgeSegments, ref bisectedEdges, ref incomingEdgeSegments))
                 {
                     bisectedEdges.Add(incomingEdge);
+                    hasOverlap = true;
                 }
-                foreach(VectorEdge e in segmentedEdges)
+                foreach(VectorEdge e in edgeSegments)
                 {
                     if(!testEdges.Contains(e))
                         testEdges.Add(e);
@@ -586,53 +624,57 @@ namespace OutcastMayor
                 }
             }
 
-            //update incoming edges and points
-            _incomingPoints.AddRange(intersectionPoints);
-            foreach(VectorEdge edge in bisectedEdges)
+            //If there is an overlap, get the intersections
+            if(hasOverlap)
             {
-                if(_incomingEdges.Contains(edge))
-                    _incomingEdges.Remove(edge);
-            }
-            foreach(VectorEdge edge in incomingEdgeSegments)
-            {
-                if(!_incomingEdges.Contains(edge))
-                    _incomingEdges.Add(edge);
-            }            
-            Debug.Log("IntersectionPoints:" + intersectionPoints.Count + " Bisected Edges: " + bisectedEdges.Count);
-            Debug.Log("Updated Edges:" + testEdges.Count);
-            Debug.Log("Updated Incoming Edges:" + _incomingEdges.Count + " Updated Incoming Points:" + _incomingPoints.Count);
+                //update incoming edges and points
+                _incomingPoints.AddRange(intersectionPoints);
+                foreach(VectorEdge edge in bisectedEdges)
+                {
+                    if(_incomingEdges.Contains(edge))
+                        _incomingEdges.Remove(edge);
+                }
+                foreach(VectorEdge edge in incomingEdgeSegments)
+                {
+                    if(!_incomingEdges.Contains(edge))
+                        _incomingEdges.Add(edge);
+                }            
+                Debug.Log("[AddShape] IntersectionPoints:" + intersectionPoints.Count + " Bisected Edges: " + bisectedEdges.Count);
+                Debug.Log("[AddShape] Updated Edges:" + testEdges.Count);
+                Debug.Log("[AddShape] Updated Incoming Edges:" + _incomingEdges.Count + " Updated Incoming Points:" + _incomingPoints.Count);
 
-            //Check each incoming point and edge against the current edges.
-            foreach(VectorPoint point in _incomingPoints)
-            {
-                if(CheckInside(point, edges))
+                //Check each incoming point and edge against the current edges.
+                foreach(VectorPoint point in _incomingPoints)
                 {
-                    insidePoints.Add(point);
+                    if(CheckInside(point, edges))
+                    {
+                        insidePoints.Add(point);
+                    }
                 }
-            }
-            foreach(VectorEdge edge in _incomingEdges)
-            {
-                if(bisectedEdges.Contains(edge))
-                    continue;
-                if(CheckInside(edge, edges))
+                foreach(VectorEdge edge in _incomingEdges)
                 {
-                    insideEdges.Add(edge);
+                    if(bisectedEdges.Contains(edge))
+                        continue;
+                    if(CheckInside(edge, edges))
+                    {
+                        insideEdges.Add(edge);
+                    }
                 }
-            }
 
-            //Check each original point and edge against the incoming edges
-            foreach(VectorPoint point in points)
-            {
-                if(!point.isInside && !insidePoints.Contains(point) && CheckInside(point, originalIncomingEdges))
+                //Check each original point and edge against the incoming edges
+                foreach(VectorPoint point in points)
                 {
-                    insidePoints.Add(point);
+                    if(!point.isInside && !insidePoints.Contains(point) && CheckInside(point, originalIncomingEdges))
+                    {
+                        insidePoints.Add(point);
+                    }
                 }
-            }
-            foreach(VectorEdge edge in testEdges)
-            {
-                if(!edge.isInside && !insideEdges.Contains(edge) && CheckInside(edge, originalIncomingEdges))
+                foreach(VectorEdge edge in testEdges)
                 {
-                    insideEdges.Add(edge);
+                    if(!edge.isInside && !insideEdges.Contains(edge) && CheckInside(edge, originalIncomingEdges))
+                    {
+                        insideEdges.Add(edge);
+                    }
                 }
             }
             
