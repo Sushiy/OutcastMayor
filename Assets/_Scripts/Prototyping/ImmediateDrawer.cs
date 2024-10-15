@@ -30,7 +30,7 @@ namespace OutcastMayor
                     foreach(VectorEdge edge in graph.edges)
                     {
                         if(edge.isInside)
-                            Draw.Color = graph.graphColor * .2f;
+                            Draw.Color = graph.graphColor * .0f;
                         else
                             Draw.Color = graph.graphColor;
                         Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition+Vector3.up *.1f);

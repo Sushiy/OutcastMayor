@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using OutcastMayor;
+using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Pool;
@@ -10,52 +11,114 @@ using UnityEngine.Pool;
 public class ControlElementManager : MonoBehaviour
 {
     List<ControlPoint> controlPoints;
-    ControlPoint selectedControlPoint;
     [SerializeField]
     protected ControlPoint controlPointPrefab; 
+    List<ControlEdge> controlEdges;
+    [SerializeField]
+    protected ControlEdge controlEdgePrefab; 
 
     // Collection checks will throw errors if we try to release an item that is already in the pool.
     public bool collectionChecks = true;
     public int maxPoolSize = 50;
 
-    VectorBuilding vectorBuilding;
+    public VectorBuilding vectorBuilding;
 
     void Awake()
     {
-        vectorBuilding.onUpdatePoints += CheckPoints;
+        controlPoints = new List<ControlPoint>();
+        controlEdges = new List<ControlEdge>();
+        vectorBuilding.onUpdate += GetCheckPointsForGraph;
     }
 
-    void CheckPoints(List<VectorPoint> _graphPoints)
+    void GetCheckPointsForGraph(VectorPointGraph _graph)
     {
-        foreach(VectorPoint p in _graphPoints)
+        //Check points
+        List<VectorPoint> _graphPoints = _graph.points;
+        //Adjust the size of the controlpointlist
+        if(controlPoints.Count > _graphPoints.Count)
         {
-            if(controlPoints.Any(x => x.vectorPoint == p))
+            for(int i = controlPoints.Count-1; i >= _graphPoints.Count; i--)
             {
-                continue;
+                ControlPoint c = controlPoints[i];
+                PointPool.Release(c);
+                controlPoints.Remove(c);
+            }
+        }
+
+        //Get all the points that are already accounted for
+        for(int i = 0; i < _graphPoints.Count; i++)
+        {
+            if(controlPoints.Count > i)
+            {
+                if(controlPoints[i].vectorPoint == _graphPoints[i])
+                {
+                    continue;
+                }
+                else
+                {
+                    controlPoints[i].SetData(_graphPoints[i], vectorBuilding);
+                }
             }
             else
             {
-                ControlPoint newPoint = Pool.Get();
-                newPoint.vectorPoint = p;
-                controlPoints.Add(newPoint);
+                ControlPoint c = PointPool.Get();
+                c.SetData(_graphPoints[i], vectorBuilding);
+                controlPoints.Add(c);
             }
         }
+
+        //Check edges
+        List<VectorEdge> _graphEdges = _graph.edges;
+        //Adjust the size of the controlpointlist
+        if(controlEdges.Count > _graphEdges.Count)
+        {
+            for(int i = controlEdges.Count-1; i >= _graphEdges.Count; i--)
+            {
+                ControlEdge c = controlEdges[i];
+                EdgePool.Release(c);
+                controlEdges.Remove(c);
+            }
+        }
+
+        //Get all the points that are already accounted for
+        for(int i = 0; i < _graphEdges.Count; i++)
+        {
+            if(controlEdges.Count > i)
+            {
+                if(controlEdges[i].vectorEdge == _graphEdges[i])
+                {
+                    continue;
+                }
+                else
+                {
+                    controlEdges[i].SetData(_graphEdges[i], vectorBuilding);
+                }
+            }
+            else
+            {
+                ControlEdge c = EdgePool.Get();
+                c.SetData(_graphEdges[i], vectorBuilding);
+                controlEdges.Add(c);
+            }
+        }
+        
     }
 
-    IObjectPool<ControlPoint> pool;
-    public IObjectPool<ControlPoint> Pool
+#region PointPool
+    IObjectPool<ControlPoint> pointPool;
+    public IObjectPool<ControlPoint> PointPool
     {
         get
         {
-            if (pool == null)
+            if (pointPool == null)
             {
-                pool = new ObjectPool<ControlPoint>(CreatePooledItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, 20, maxPoolSize);
+                pointPool = new ObjectPool<ControlPoint>(CreatePooledPointItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, 20, maxPoolSize);
             }
-            return pool;
+            return pointPool;
         }
     }
 
-    ControlPoint CreatePooledItem()
+    ControlPoint CreatePooledPointItem()
     {
         ControlPoint point = Instantiate<ControlPoint>(controlPointPrefab, transform);
        return point;
@@ -75,4 +138,40 @@ public class ControlElementManager : MonoBehaviour
     {
         Destroy(_point.gameObject);
     }
+#endregion
+#region EdgePool
+    IObjectPool<ControlEdge> edgePool;
+    public IObjectPool<ControlEdge> EdgePool
+    {
+        get
+        {
+            if (edgePool == null)
+            {
+                edgePool = new ObjectPool<ControlEdge>(CreatePooledEdgeItem, OnTakeFromPool, OnReturnedToPool, OnDestroyPoolObject, collectionChecks, 20, maxPoolSize);
+            }
+            return edgePool;
+        }
+    }
+
+    ControlEdge CreatePooledEdgeItem()
+    {
+        ControlEdge edge = Instantiate<ControlEdge>(controlEdgePrefab, transform);
+        return edge;
+    }
+
+    void OnReturnedToPool(ControlEdge _edge)
+    {
+        _edge.gameObject.SetActive(false);
+    } 
+
+    void OnTakeFromPool(ControlEdge _edge)
+    {
+        _edge.gameObject.SetActive(true);
+    }
+
+    void OnDestroyPoolObject(ControlEdge _edge)
+    {
+        Destroy(_edge.gameObject);
+    }
+#endregion
 }

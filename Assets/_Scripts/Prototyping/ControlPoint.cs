@@ -12,6 +12,7 @@ public class ControlPoint : ControlElement
     public void SetData(VectorPoint _vectorPoint, VectorBuilding _vectorBuilding)
     {
         vectorPoint = _vectorPoint;
+        transform.position = vectorPoint.worldPosition;
         vectorBuilding = _vectorBuilding;
     }
 }
