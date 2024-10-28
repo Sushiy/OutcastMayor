@@ -4,7 +4,7 @@ using UnityEngine;
 using Shapes;
 using Unity.VisualScripting;
 
-namespace OutcastMayor
+namespace OutcastMayor.VectorBuilding
 {
     public class ImmediateDrawer : ImmediateModeShapeDrawer
     {
@@ -26,22 +26,22 @@ namespace OutcastMayor
 
                 foreach(VectorPointGraph graph in vectorBuilding.vectorPointGraphs)
                 {
-                    Draw.Color = graph.graphColor;
+                    Draw.Color = graph.GraphColor;
                     foreach(VectorEdge edge in graph.edges)
                     {
                         if(edge.isInside)
-                            Draw.Color = graph.graphColor * .0f;
+                            Draw.Color = graph.GraphColor * .0f;
                         else
-                            Draw.Color = graph.graphColor;
+                            Draw.Color = graph.GraphColor;
                         Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition+Vector3.up *.1f);
                         Draw.Line(edge.p1.upperWorldPosition, edge.p2.upperWorldPosition);
                     }
                     foreach(VectorPoint point in graph.points)
                     {
                         if(point.isInside)
-                            Draw.Color = graph.graphColor * .2f;
+                            Draw.Color = graph.GraphColor * .2f;
                         else
-                            Draw.Color = graph.graphColor;
+                            Draw.Color = graph.GraphColor;
                         Draw.Line(point.worldPosition, point.upperWorldPosition);
                         Draw.Sphere(point.worldPosition, 0.1f);
                     }
@@ -49,7 +49,7 @@ namespace OutcastMayor
 
                 foreach(RoofGraph graph in vectorBuilding.roofGraphs)
                 {
-                    Draw.Color = graph.graphColor;
+                    Draw.Color = graph.GraphColor;
                     foreach(VectorEdge edge in graph.edges)
                     {
                         Draw.Line(edge.p1.worldPosition, edge.p2.worldPosition);

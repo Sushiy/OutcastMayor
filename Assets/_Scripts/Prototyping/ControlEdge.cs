@@ -1,21 +1,22 @@
-using System.Collections;
-using System.Collections.Generic;
-using OutcastMayor;
 using UnityEngine;
 
-public class ControlEdge : ControlElement
+namespace OutcastMayor.VectorBuilding
 {
-    public VectorEdge vectorEdge;
-
-    public VectorBuilding vectorBuilding;
-
-    public void SetData(VectorEdge _vectorEdge, VectorBuilding _vectorBuilding)
+    public class ControlEdge : ControlElement
     {
-        vectorEdge = _vectorEdge;
+        public VectorEdge vectorEdge;
 
-        transform.position = vectorEdge.Center;
-        transform.localScale = new Vector3(1,1, vectorEdge.Length);
-        transform.LookAt(vectorEdge.p2.worldPosition);
-        vectorBuilding = _vectorBuilding;
+        public VectorBuilding vectorBuilding;
+
+        public void SetData(VectorEdge _vectorEdge, VectorBuilding _vectorBuilding)
+        {
+            vectorEdge = _vectorEdge;
+
+            transform.position = vectorEdge.Center;
+            transform.localScale = new Vector3(1,1, vectorEdge.Length);
+            transform.LookAt(vectorEdge.p2.worldPosition);
+            vectorBuilding = _vectorBuilding;
+        }
     }
+
 }

@@ -8,7 +8,7 @@ using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 using UnityEngine.UIElements;
 
-namespace OutcastMayor
+namespace OutcastMayor.VectorBuilding
 {
     public class VectorBuilding : MonoBehaviour
     {
@@ -18,8 +18,9 @@ namespace OutcastMayor
         {
             Line = 0,
             Rectangle = 1,
-            Roof = 2,
-            Move = 3
+            RectRoof = 2,
+            PolyRoof = 3,
+            Move = 4
         }
 
         public BuildMode buildMode = BuildMode.Line;
@@ -49,23 +50,25 @@ namespace OutcastMayor
         
         public RoofGraph currentRoofGraph;
 
-        public Action<VectorPointGraph> onUpdate;
+        public Action<VectorPointGraph> onUpdateGraph;
+        public Action<BuildMode> onChangeTool;
 
         void  Awake()
         {
             inputManager.onPrimaryPerformed += PrimaryClick;
             inputManager.onSecondaryPerformed += SecondaryClick;
-            inputManager.on1Pressed += ChangeToLineMode;
-            inputManager.on2Pressed += ChangeToRectangleMode;
-            inputManager.on3Pressed += ChangeToRoofMode;
+            inputManager.on1Pressed += () => ChangeToBuildMode(BuildMode.Line);
+            inputManager.on2Pressed += () => ChangeToBuildMode(BuildMode.Rectangle);
+            inputManager.on3Pressed += () => ChangeToBuildMode(BuildMode.RectRoof);
+            inputManager.on4Pressed += () => ChangeToBuildMode(BuildMode.PolyRoof);
 
             currentVectorPointGraph = new VectorPointGraph();
-            currentLine.Color = currentVectorPointGraph.graphColor;
+            currentLine.Color = currentVectorPointGraph.GraphColor;
             vectorPointGraphs.Add(currentVectorPointGraph);
 
             
             currentRoofGraph = new RoofGraph();
-            currentLine.Color = currentRoofGraph.graphColor;
+            currentLine.Color = currentRoofGraph.GraphColor;
             roofGraphs.Add(currentRoofGraph);
             p = new VectorPoint(Vector3.zero, currentVectorPointGraph);
         }
@@ -92,7 +95,7 @@ namespace OutcastMayor
                     currentLine.End = currentLine.transform.InverseTransformPoint(mousePosition);
                 }
             }            
-            else if(buildMode == BuildMode.Rectangle || buildMode == BuildMode.Roof)
+            else if(buildMode == BuildMode.Rectangle || buildMode == BuildMode.RectRoof)
             {
                 if(rectState == 0)
                 {                    
@@ -121,33 +124,11 @@ namespace OutcastMayor
             }
         }
 
-        /// <summary>
-        /// Place a continuous stream of linepoints
-        /// </summary>
-        [Button]
-        public void ChangeToLineMode()
+        public void ChangeToBuildMode(BuildMode _buildMode)
         {
-            buildMode = BuildMode.Line;
-        }
-
-        /// <summary>
-        /// Place a rectangle with 4 points
-        /// </summary>
-        [Button]
-        public void ChangeToRectangleMode()
-        {
-            buildMode = BuildMode.Rectangle;
-        }
-        /// <summary>
-        /// Place a rectangle with 4 points
-        /// </summary>
-        [Button]
-        public void ChangeToRoofMode()
-        {
-            buildMode = BuildMode.Roof;
-        }
-
-        
+            buildMode = _buildMode;
+            onChangeTool?.Invoke(buildMode);
+        }        
 
         public void SecondaryClick()
         {
@@ -172,94 +153,15 @@ namespace OutcastMayor
             {
                 ClickRectangleMode(clickPosition, clickedControl);
             }
-            if(buildMode == BuildMode.Roof)
+            if(buildMode == BuildMode.RectRoof)
             {
                 ClickRoofMode(clickPosition, clickedControl);
             }
         }
 
-        public void ClickLineMode(Vector3 _clickPosition, ControlElement _clickedControl)
+        public void OnGraphUpdated()
         {
-            if(_clickedControl != null)
-            {
-                VectorPoint clickedPoint;
-                if(_clickedControl is ControlPoint)
-                {
-                    clickedPoint = (_clickedControl as ControlPoint).vectorPoint;
-                    if(currentVectorPointGraph == null)
-                    {
-                        currentVectorPointGraph = clickedPoint.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
-                        if(lastLinePoint == null)
-                        {
-                            lastLinePoint = clickedPoint;
-                        }
-                    }
-                }
-                else
-                {
-                    VectorEdge v = (_clickedControl as ControlEdge).vectorEdge;
-                    
-                    if(currentVectorPointGraph == null)
-                    {
-                        currentVectorPointGraph = v.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
-                    }
-
-                    Vector3 edgeNormalized = v.Vector.normalized;
-                    float distance = Vector3.Dot(edgeNormalized, _clickPosition - v.p1.worldPosition);
-                    Vector3 worldPosition = v.p1.worldPosition + distance * edgeNormalized;
-                    clickedPoint = new VectorPoint(worldPosition, currentVectorPointGraph);
-                }
-                if(lastLinePoint != null)
-                {
-                    if(currentVectorPointGraph.ContainsEdge(lastLinePoint, clickedPoint))
-                    {
-                        Debug.LogWarning("[VectorBuilding] These points are already connected");
-                        lastLinePoint = clickedPoint;
-                    }
-                    else
-                    {
-                        VectorEdge e = new VectorEdge(lastLinePoint, clickedPoint);
-                        currentVectorPointGraph.AddShape(new List<VectorPoint>{lastLinePoint, clickedPoint}, new List<VectorEdge>{e});
-                        lastLinePoint = clickedPoint;
-                        if(lastLinePoint != clickedPoint)   
-                            currentVectorPointGraph.closed = true;
-                    }                            
-                }
-                else
-                {
-                    //Just set last point to this point and do nothing else?
-                    lastLinePoint = clickedPoint;
-                }
-            }
-            else
-            {
-                if(currentVectorPointGraph == null)
-                {
-                    currentVectorPointGraph = new VectorPointGraph();
-                    vectorPointGraphs.Add(currentVectorPointGraph);
-                    currentLine.Color = currentVectorPointGraph.graphColor;
-                }
-
-                VectorPoint newPoint = new VectorPoint(_clickPosition, currentVectorPointGraph);
-                if(lastLinePoint == null)
-                {
-                    currentVectorPointGraph.AddPoint(newPoint);
-                }
-                else
-                {
-                    VectorEdge e = new VectorEdge(lastLinePoint, newPoint);
-                    currentVectorPointGraph.AddShape(new List<VectorPoint>{lastLinePoint, newPoint}, new List<VectorEdge>{e});
-                }
-                lastLinePoint = newPoint;
-                
-
-                //Also add a controlPoint
-                AddControlPoint(newPoint);                        
-            }
-            onUpdate?.Invoke(currentVectorPointGraph);
-            currentLine.Start = currentLine.transform.InverseTransformPoint(lastLinePoint.worldPosition);
+            onUpdateGraph?.Invoke(currentVectorPointGraph);
         }
 
         public void ClickRectangleMode(Vector3 _clickPosition, ControlElement _clickedControl)
@@ -274,7 +176,7 @@ namespace OutcastMayor
                     if(currentVectorPointGraph == null)
                     {
                         currentVectorPointGraph = clickedPoint.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
+                        currentRectangle.Color = currentVectorPointGraph.GraphColor;
                     }
                 }
                 else
@@ -284,7 +186,7 @@ namespace OutcastMayor
                     if(currentVectorPointGraph == null)
                     {
                         currentVectorPointGraph = v.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
+                        currentRectangle.Color = currentVectorPointGraph.GraphColor;
                     }
 
                     Vector3 edgeNormalized = v.Vector.normalized;
@@ -365,7 +267,7 @@ namespace OutcastMayor
                     rectState = 0;
                     //currentVectorPointGraph = null;
                     
-                    onUpdate?.Invoke(currentVectorPointGraph);
+                    onUpdateGraph?.Invoke(currentVectorPointGraph);
                 }
             }
             else
@@ -374,7 +276,7 @@ namespace OutcastMayor
                 {
                     currentVectorPointGraph = new VectorPointGraph();
                     vectorPointGraphs.Add(currentVectorPointGraph);
-                    currentRectangle.Color = currentVectorPointGraph.graphColor;
+                    currentRectangle.Color = currentVectorPointGraph.GraphColor;
                 }
                 if(rectState == 0)
                 {
@@ -419,7 +321,7 @@ namespace OutcastMayor
                     currentVectorPointGraph.closed = true;
                     rectState = 0;
                     //currentVectorPointGraph = null;
-                    onUpdate?.Invoke(currentVectorPointGraph);
+                    onUpdateGraph?.Invoke(currentVectorPointGraph);
                 }
             }
         }
@@ -435,7 +337,7 @@ namespace OutcastMayor
                     if(currentVectorPointGraph == null)
                     {
                         currentVectorPointGraph = clickedPoint.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
+                        currentRectangle.Color = currentVectorPointGraph.GraphColor;
                     }
                 }
                 else
@@ -445,7 +347,7 @@ namespace OutcastMayor
                     if(currentVectorPointGraph == null)
                     {
                         currentVectorPointGraph = v.vectorPointGraph;
-                        currentRectangle.Color = currentVectorPointGraph.graphColor;
+                        currentRectangle.Color = currentVectorPointGraph.GraphColor;
                     }
 
                     Vector3 edgeNormalized = v.Vector.normalized;
@@ -460,7 +362,7 @@ namespace OutcastMayor
                 {
                     currentRoofGraph = new RoofGraph();
                     roofGraphs.Add(currentRoofGraph);
-                    currentRectangle.Color = currentRoofGraph.graphColor;
+                    currentRectangle.Color = currentRoofGraph.GraphColor;
                 }
                 if(rectState == 0)
                 {
@@ -505,7 +407,7 @@ namespace OutcastMayor
                     currentRoofGraph.GenerateRoofFromRect(currentRectangle.Width, Mathf.Abs(currentRectangle.Height));
                     currentRoofGraph.closed = true;
                     rectState = 0;
-                    onUpdate?.Invoke(currentRoofGraph);
+                    onUpdateGraph?.Invoke(currentRoofGraph);
                     //currentRoofGraph = null;
                 }
             }
@@ -524,6 +426,7 @@ namespace OutcastMayor
         } 
     }
 
+    [Serializable]
     public class VectorPoint
     {
         public Vector3 worldPosition;
@@ -544,6 +447,7 @@ namespace OutcastMayor
         }
     }
 
+    [Serializable]
     public class VectorEdge : IEquatable<VectorEdge>
     {
         public VectorPoint p1, p2;
@@ -583,15 +487,24 @@ namespace OutcastMayor
             return this == _other || (p1 == _other.p1 && p2 == _other.p2) || (p2 == _other.p1 && p1 == _other.p2);
         }
     }
-
+    [Serializable]
     public class VectorPointGraph
     {
         public List<VectorPoint> points;
         public List<VectorEdge> edges;
 
-        public List<VectorEdge> deletedInsideEdges;
-
-        public Color graphColor;
+        protected Color graphColor;
+        public Color GraphColor 
+        {
+            get
+            {
+                if(graphColor == Color.black)
+                {
+                    graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
+                }
+                return graphColor;
+            }
+        }
 
         public bool closed = false;
 
@@ -599,16 +512,17 @@ namespace OutcastMayor
         {
             points = new List<VectorPoint>();
             edges =  new List<VectorEdge>();
-            deletedInsideEdges = new List<VectorEdge>();
-            graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
         }
 
         public void AddPoint(VectorPoint _point)
         {
             if(!points.Contains(_point))
+            {
                 points.Add(_point);
+            }
             else
                 Debug.LogWarning("[VectorBuilding->VectorPointGraph] This graph already contains this point");
+            
         }
         public void AddPoints(List<VectorPoint> _points)
         {
@@ -1234,6 +1148,12 @@ namespace OutcastMayor
     }
 
     [Serializable]
+    public class WallGraph : VectorPointGraph
+    {
+        //TODO change walltools to actually make wallgraphs
+    }
+
+    [Serializable]
     public class RoofGraph : VectorPointGraph
     {
         public List<VectorPoint> roofPoints;
@@ -1251,7 +1171,6 @@ namespace OutcastMayor
         {
             points = new List<VectorPoint>();
             edges =  new List<VectorEdge>();
-            graphColor = UnityEngine.Random.ColorHSV(0f,1f, 0.5f,1f,.5f,1f);
         }
 
         public void GenerateRoofFromRect(float _width, float _height)

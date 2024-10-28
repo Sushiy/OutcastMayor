@@ -27,7 +27,7 @@ public class ControlElementManager : MonoBehaviour
     {
         controlPoints = new List<ControlPoint>();
         controlEdges = new List<ControlEdge>();
-        vectorBuilding.onUpdate += GetCheckPointsForGraph;
+        vectorBuilding.onUpdateGraph += GetCheckPointsForGraph;
     }
 
     void GetCheckPointsForGraph(VectorPointGraph _graph)
