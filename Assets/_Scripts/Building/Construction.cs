@@ -42,7 +42,7 @@ namespace OutcastMayor.Building
             get;
         }
 
-        public void SetConstruction(BuildRecipe recipe, Buildable finishedObject, Buildable blueprintObject)
+        public void SetConstruction(BuildRecipe recipe, Buildable finishedObject, Buildable blueprintObject, bool instantComplete = false)
         {
             //Data Setup
             this.finishedObject = finishedObject;
@@ -55,6 +55,10 @@ namespace OutcastMayor.Building
                 stockpiledMaterials[i].item = recipe.Materials[i].item;
                 stockpiledMaterials[i].count = 0;
                 actionPoints += buildRecipe.Materials[i].count;
+            }
+            if(instantComplete)
+            {
+                Complete();
             }
         }
 

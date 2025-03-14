@@ -17,6 +17,8 @@ namespace OutcastMayor
             }
         }
 
+        public InputActions inputActions;
+
         Vector2 moveInput;
         Vector2 lookInput;
         public PlayerMovement movement;
@@ -57,7 +59,125 @@ namespace OutcastMayor
             }
         }
 
-        public void OnMove(CallbackContext c)
+        void Awake()
+        {
+
+            inputActions = new InputActions();
+            //Activate Input Maps
+            inputActions.Player.Enable();
+            //Player input map
+            inputActions.Player.Move.performed += OnMovePerformed;
+            inputActions.Player.Move.canceled += OnMoveCanceled;
+            inputActions.Player.Look.performed += OnLook;
+            inputActions.Player.Look.canceled += OnLookCanceled;
+            inputActions.Player.Interact.performed += OnInteract;
+            inputActions.Player.Interact.canceled += OnInteract;
+            
+            inputActions.Player.Secondary.performed += OnSecondary;
+            inputActions.Player.Secondary.canceled += OnSecondary;
+
+            inputActions.Player.Inventory.performed += OnInventory;
+            inputActions.Player.Inventory.canceled += OnInventory;
+
+            inputActions.Player.Primary.performed += OnPrimary;
+            inputActions.Player.Primary.canceled += OnPrimary;
+
+            inputActions.Player.Item1.performed += OnItem1Key;
+            inputActions.Player.Item1.canceled += OnItem1Key;
+
+            inputActions.Player.Item2.performed += OnItem2Key;
+            inputActions.Player.Item2.canceled += OnItem2Key;
+            
+            inputActions.Player.Item3.performed += OnItem3Key;
+            inputActions.Player.Item3.canceled += OnItem3Key;
+            
+            inputActions.Player.Item4.performed += OnItem4Key;
+            inputActions.Player.Item4.canceled += OnItem4Key;
+
+            inputActions.Player.EnterBuildMode.performed += OnBuildMode;
+            inputActions.Player.EnterBuildMode.canceled += OnBuildMode;
+
+            inputActions.Player.EnterZoneMode.performed += OnZoningMode;
+            inputActions.Player.EnterZoneMode.canceled += OnZoningMode;
+
+            inputActions.Player.Position.performed += OnPosition;
+            inputActions.Player.Position.canceled += OnPositionCanceled;
+
+            
+            //BuildMode
+            inputActions.Buildmode.Rotate.performed += OnRotate;
+            inputActions.Buildmode.Rotate.canceled += OnRotate;
+
+            inputActions.Buildmode.ChangeVariant.performed += OnChangeVariant;
+            inputActions.Buildmode.ChangeVariant.canceled += OnChangeVariant;
+
+            inputActions.Buildmode.Destroy.performed += OnDemolish;
+            inputActions.Buildmode.Destroy.canceled += OnDemolish;
+
+            inputActions.Buildmode.OpenBuildmenu.performed += OnSecondary;
+            inputActions.Buildmode.OpenBuildmenu.canceled += OnSecondary;
+
+        }
+
+        void OnDestroy()
+        {
+
+            inputActions = new InputActions();
+            inputActions.Player.Move.performed -= OnMovePerformed;
+            inputActions.Player.Move.canceled -= OnMoveCanceled;
+            inputActions.Player.Look.performed -= OnLook;
+            inputActions.Player.Look.canceled -= OnLookCanceled;
+            inputActions.Player.Interact.performed -= OnInteract;
+            inputActions.Player.Interact.canceled -= OnInteract;
+            
+            inputActions.Player.Secondary.performed -= OnSecondary;
+            inputActions.Player.Secondary.canceled -= OnSecondary;
+
+            inputActions.Player.Inventory.performed -= OnInventory;
+            inputActions.Player.Inventory.canceled -= OnInventory;
+
+            inputActions.Player.Primary.performed -= OnPrimary;
+            inputActions.Player.Primary.canceled -= OnPrimary;
+
+            inputActions.Player.Item1.performed -= OnItem1Key;
+            inputActions.Player.Item1.canceled -= OnItem1Key;
+
+            inputActions.Player.Item2.performed -= OnItem2Key;
+            inputActions.Player.Item2.canceled -= OnItem2Key;
+            
+            inputActions.Player.Item3.performed -= OnItem3Key;
+            inputActions.Player.Item3.canceled -= OnItem3Key;
+            
+            inputActions.Player.Item4.performed -= OnItem4Key;
+            inputActions.Player.Item4.canceled -= OnItem4Key;
+
+            inputActions.Player.EnterBuildMode.performed -= OnBuildMode;
+            inputActions.Player.EnterBuildMode.canceled -= OnBuildMode;
+
+            inputActions.Player.EnterZoneMode.performed -= OnZoningMode;
+            inputActions.Player.EnterZoneMode.canceled -= OnZoningMode;
+
+            inputActions.Player.Position.performed -= OnPosition;
+            inputActions.Player.Position.canceled -= OnPositionCanceled;
+
+            
+            //BuildMode
+            inputActions.Buildmode.Rotate.performed -= OnRotate;
+            inputActions.Buildmode.Rotate.canceled -= OnRotate;
+
+            inputActions.Buildmode.ChangeVariant.performed -= OnChangeVariant;
+            inputActions.Buildmode.ChangeVariant.canceled -= OnChangeVariant;
+
+            inputActions.Buildmode.Destroy.performed -= OnDemolish;
+            inputActions.Buildmode.Destroy.canceled -= OnDemolish;
+
+            inputActions.Buildmode.OpenBuildmenu.performed -= OnSecondary;
+            inputActions.Buildmode.OpenBuildmenu.canceled -= OnSecondary;
+
+        }
+
+
+        public void OnMovePerformed(CallbackContext c)
         {
             moveInput = c.ReadValue<Vector2>();
             if (!UIManager.IsUIOpen && CameraController.ActiveCamera != CameraController.CameraType.Dialogue)
@@ -69,6 +189,12 @@ namespace OutcastMayor
                 movement.Move(Vector2.zero);
             }
         }
+        public void OnMoveCanceled(CallbackContext c)
+        {
+            moveInput = Vector2.zero;
+            movement.Move(moveInput);
+        }
+
         public void OnLook(CallbackContext c)
         {
             lookInput = c.ReadValue<Vector2>();
@@ -80,6 +206,12 @@ namespace OutcastMayor
             {
                 movement.Look(lookInput);
             }
+        }
+
+        public void OnLookCanceled(CallbackContext c)
+        {
+            lookInput = Vector2.zero;
+            movement.Look(lookInput);
         }
 
         public void OnInteract(CallbackContext value)
@@ -109,7 +241,7 @@ namespace OutcastMayor
             }
         }
 
-        public void OnFire(CallbackContext value)
+        public void OnPrimary(CallbackContext value)
         {
             keyPressed = value.performed;
             if (keyPressed && (!UIManager.IsUIOpen || (player.BuildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
@@ -220,7 +352,7 @@ namespace OutcastMayor
         }
 
         float alternateValue;
-        public void OnAlternate(CallbackContext value)
+        public void OnChangeVariant(CallbackContext value)
         {
             float v = value.ReadValue<float>();
             if (v != 0 && !value.performed)
@@ -249,6 +381,11 @@ namespace OutcastMayor
         public void OnPosition(CallbackContext c)
         {
             mousePosition = c.ReadValue<Vector2>();
+        }
+
+        public void OnPositionCanceled(CallbackContext c)
+        {
+            mousePosition = Vector2.zero;
         }
 
         public void Update()

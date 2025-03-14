@@ -40,6 +40,7 @@ public class CameraController : MonoBehaviour
             Debug.LogError("Two CameraControllers");
             Destroy(instance);
         }
+        ChangeToStandardCamera();
     }
 
     public static void ChangeToStandardCamera()

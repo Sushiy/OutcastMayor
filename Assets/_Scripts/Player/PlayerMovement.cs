@@ -33,6 +33,8 @@ namespace OutcastMayor
 
         private float verticalSpeed;
 
+        private bool isFlying;
+
         #region Input
         Vector2 moveInput;
         Vector2 lookInput;

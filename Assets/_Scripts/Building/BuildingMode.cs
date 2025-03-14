@@ -55,9 +55,12 @@ namespace OutcastMayor.Building
         [SerializeField]
         private PointerIndicator indicator;
 
+        [SerializeField]
+        bool autoCompleteBuilds = false;
+
         private void Start()
         {
-            buildActionMap = GetComponent<PlayerInput>().actions.FindActionMap("Buildmode");
+            buildActionMap = GetComponent<PlayerInputManager>().inputActions.Buildmode;
         }
 
         public void ChooseBuildRecipe(BuildRecipe buildRecipe)
@@ -98,7 +101,8 @@ namespace OutcastMayor.Building
         {
             Camera.main.cullingMask = defaultCullingMask;
             isActive = false;
-            indicator.SetVisible(false);
+            if(indicator)
+                indicator.SetVisible(false);
             UI.UIManager.Instance.HideBuildingView();
             Destroy(ghostBuilding.gameObject);
             Destroy(sensorBuilding.gameObject);
@@ -119,7 +123,7 @@ namespace OutcastMayor.Building
             blue.SetBlueprintMode(ghostMaterial);
             Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, blue.transform);
             c.transform.localScale = selectedRecipe.BuildScale;
-            c.SetConstruction(selectedRecipe, build, blue);
+            c.SetConstruction(selectedRecipe, build, blue, autoCompleteBuilds);
             return c;
         }
 
