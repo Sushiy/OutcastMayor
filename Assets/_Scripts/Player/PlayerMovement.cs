@@ -1,5 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
+using Sirenix.OdinInspector;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -25,6 +27,11 @@ namespace OutcastMayor
         [SerializeField]
         private float camToMoveAdjustSpeed = 2.0f;
 
+        [SerializeField]
+        float jumpHeight = 1.0f;
+
+        const float GRAVITY = -9.81f;
+
         Vector3 movementDelta;
         [SerializeField]
         private Transform rotationTarget;
@@ -34,6 +41,9 @@ namespace OutcastMayor
         private float verticalSpeed;
 
         private bool isFlying;
+        [SerializeField, Sirenix.OdinInspector.ReadOnly]
+        private bool isGrounded;
+        bool jumpedThisFrame;
 
         #region Input
         Vector2 moveInput;
@@ -59,6 +69,7 @@ namespace OutcastMayor
         // Update is called once per frame
         void Update()
         {
+            isGrounded = characterController.isGrounded;
             if (moveInput.sqrMagnitude > 0.0f)
             {
                 Player.Instance.CharacterAnimation.SetRunning(true);
@@ -97,13 +108,18 @@ namespace OutcastMayor
             followTransform.localEulerAngles = angles;
             #endregion
 
-            //Player gravity
+            //Player gravity     
             if (characterController.isGrounded)
             {
                 verticalSpeed = 0.0f;
+            }       
+            if(jumpedThisFrame)
+            {                
+                jumpedThisFrame = false;
+                verticalSpeed += Mathf.Sqrt(jumpHeight * -2.0f * GRAVITY) * Time.deltaTime;
             }
             float frameSpeed = moveSpeed * Time.deltaTime;
-            verticalSpeed -= 9.8f * Time.deltaTime * Time.deltaTime;
+            verticalSpeed += GRAVITY * Time.deltaTime * Time.deltaTime;
 
             //If the player is not moving, orbit the camera by rotating the player
             if (moveInput.x != 0 || moveInput.y != 0)
@@ -134,11 +150,20 @@ namespace OutcastMayor
             movementDelta.y = verticalSpeed;
             characterController.Move(movementDelta);
 
-
             //Debug Rays
             Debug.DrawRay(transform.position, rotationTarget.forward, Color.blue);
             Debug.DrawRay(transform.position, transform.forward, Color.yellow);
             Debug.DrawRay(transform.position, movementDelta.normalized, Color.green);
+        }
+
+        public void Jump()
+        {
+            if(characterController.isGrounded)
+            {
+                jumpedThisFrame = true;
+            }
+            else
+                print("not grounded");
         }
 
         public void TeleportTo(Vector3 position)

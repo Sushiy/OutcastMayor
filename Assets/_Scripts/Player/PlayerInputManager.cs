@@ -70,6 +70,10 @@ namespace OutcastMayor
             inputActions.Player.Move.canceled += OnMoveCanceled;
             inputActions.Player.Look.performed += OnLook;
             inputActions.Player.Look.canceled += OnLookCanceled;
+
+            inputActions.Player.Jump.performed += OnJump;
+            inputActions.Player.Jump.canceled += OnJumpCanceled;
+
             inputActions.Player.Interact.performed += OnInteract;
             inputActions.Player.Interact.canceled += OnInteract;
             
@@ -129,6 +133,8 @@ namespace OutcastMayor
             inputActions.Player.Look.canceled -= OnLookCanceled;
             inputActions.Player.Interact.performed -= OnInteract;
             inputActions.Player.Interact.canceled -= OnInteract;
+            inputActions.Player.Jump.performed -= OnJump;
+            inputActions.Player.Jump.canceled -= OnJumpCanceled;
             
             inputActions.Player.Secondary.performed -= OnSecondary;
             inputActions.Player.Secondary.canceled -= OnSecondary;
@@ -212,6 +218,20 @@ namespace OutcastMayor
         {
             lookInput = Vector2.zero;
             movement.Look(lookInput);
+        }
+
+        void OnJump(CallbackContext c)
+        {
+            if(c.performed)
+            {
+                print("jump");
+                movement.Jump();
+            }
+        }
+
+        void OnJumpCanceled(CallbackContext c)
+        {
+
         }
 
         public void OnInteract(CallbackContext value)
