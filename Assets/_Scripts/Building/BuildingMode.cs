@@ -14,7 +14,6 @@ namespace OutcastMayor.Building
             get;
         }
         [Header("References")]
-        [SerializeField]
         private Inventory inventory;
         [SerializeField]
         private Material ghostMaterial;
@@ -50,8 +49,6 @@ namespace OutcastMayor.Building
         /// </summary>
         private Buildable sensorBuilding;
 
-        private InputActionMap buildActionMap;
-
         [SerializeField]
         private PointerIndicator indicator;
 
@@ -60,7 +57,7 @@ namespace OutcastMayor.Building
 
         private void Start()
         {
-            buildActionMap = GetComponent<PlayerInputManager>().inputActions.Buildmode;
+            inventory = Player.Instance.Inventory;
         }
 
         public void ChooseBuildRecipe(BuildRecipe buildRecipe)
@@ -94,7 +91,6 @@ namespace OutcastMayor.Building
             {
                 ChooseBuildRecipe(selectedRecipe);
             }
-            buildActionMap.Enable();
         }
 
         public void ExitBuildMode()
@@ -106,7 +102,6 @@ namespace OutcastMayor.Building
             UI.UIManager.Instance.HideBuildingView();
             Destroy(ghostBuilding.gameObject);
             Destroy(sensorBuilding.gameObject);
-            buildActionMap.Disable();
         }
         public Construction Build(Vector3 position)
         {

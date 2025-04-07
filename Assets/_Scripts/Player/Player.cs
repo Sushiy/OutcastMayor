@@ -13,9 +13,6 @@ namespace OutcastMayor
         private RequestLog questLog;
         public RequestLog QuestLog => questLog;
 
-        private BuildingMode buildingMode;
-        public BuildingMode BuildingMode => buildingMode;
-
         private PlayerToolManager playerToolManager;
         public PlayerToolManager PlayerToolManager => playerToolManager;
 
@@ -42,7 +39,6 @@ namespace OutcastMayor
             }
 
             questLog = GetComponent<RequestLog>();
-            buildingMode = GetComponent<BuildingMode>();
             playerToolManager = GetComponent<PlayerToolManager>();
 
 

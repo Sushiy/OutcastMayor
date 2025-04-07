@@ -1,61 +1,85 @@
 using System.Collections;
 using System.Collections.Generic;
+using OutcastMayor;
+using StylizedGrassDemo;
 using UnityEngine;
 
-public class SwingableTool : MonoBehaviour
+namespace OutcastMayor
 {
-    Collider _collider;
-    Rigidbody _rigidbody;
-
-    Vector3 _oldPosition;
-    Vector3 _velocity;
-
-    private void Awake()
+    public class SwingableTool : Tool
     {
-        _collider = GetComponentInChildren<Collider>();
-        _rigidbody = GetComponent<Rigidbody>();
-    }
+        Collider _collider;
+        Rigidbody _rigidbody;
 
-    public void Equip()
-    {
-        gameObject.SetActive(true);
+        Vector3 _oldPosition;
+        Vector3 _velocity;
 
-        //Set collider to inactive just in case
-        _collider.enabled = false;
-    }
-
-    public void OnStartSwing()
-    {
-        _collider.enabled = true;
-        StartCoroutine(Swinging());
-    }
-
-    public void OnEndSwing()
-    {
-        print("OnEndSwing");
-        _collider.enabled = false;
-        StopCoroutine(Swinging());
-    }
-
-    IEnumerator Swinging()
-    {
-        while(true)
+        private void Awake()
         {
-            _velocity = (_collider.transform.position - _oldPosition) / Time.deltaTime;
-            _oldPosition = _collider.transform.position;
-            yield return new WaitForSeconds(.25f);
+            _collider = GetComponentInChildren<Collider>();
+            _rigidbody = GetComponent<Rigidbody>();
         }
 
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        print("Tool hit anything");
-        if(other.gameObject.layer == 10)
+        public override void Equip(Character _parentCharacter)
         {
-            print("Tool: " + gameObject.name + " hit Hittable: " + other.gameObject.name);
+            gameObject.SetActive(true);
 
-            other.gameObject.GetComponentInParent<IHittable>().OnHit(other.ClosestPointOnBounds(_collider.transform.position), _velocity);
+            //Set collider to inactive just in case
+            _collider.enabled = false;
+        }
+
+        public override void OnUseToolPrimary(Character _parentCharacter)
+        {
+            _parentCharacter.CharacterAnimation.SetSwing();
+        }
+
+        public override void OnToolAnimationEvent(string _evt)
+        {
+            if(_evt == "swingStart")
+            {
+                SwingStart();
+            }
+            else if(_evt == "swingEnd")
+            {
+                SwingEnd();
+            }
+        }
+
+        public void SwingStart()
+        {
+            print("OnStartSwing");
+            _collider.enabled = true;
+            StartCoroutine(Swinging());
+        }
+
+        public void SwingEnd()
+        {
+            print("OnEndSwing");
+            _collider.enabled = false;
+            StopCoroutine(Swinging());
+        }
+
+        IEnumerator Swinging()
+        {
+            while(true)
+            {
+                _velocity = (_collider.transform.position - _oldPosition) / Time.deltaTime;
+                _oldPosition = _collider.transform.position;
+                yield return new WaitForSeconds(.25f);
+            }
+
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            if(other.gameObject.layer == 10)
+            {
+                print("Tool: " + gameObject.name + " hit Hittable: " + other.gameObject.name);
+
+                other.gameObject.GetComponentInParent<IHittable>().OnHit(other.ClosestPointOnBounds(_collider.transform.position), _velocity);
+            }
         }
     }
+
+
 }

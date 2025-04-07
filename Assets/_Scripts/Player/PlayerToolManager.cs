@@ -5,7 +5,7 @@ using UnityEngine;
 namespace OutcastMayor
 {    public class PlayerToolManager : MonoBehaviour
     {
-        public SwingableTool activeTool;
+        public Tool activeTool;
 
         private Character parentCharacter;
 
@@ -17,29 +17,67 @@ namespace OutcastMayor
 
         public void OnHeldItemChanged(GameObject heldObject)
         {
-            activeTool = null;
+            if(activeTool)
+                activeTool.Unequip();
 
-            activeTool = heldObject.GetComponent<SwingableTool>();
+            activeTool = heldObject.GetComponent<Tool>();
             if(activeTool != null)
-                activeTool.Equip();
+                activeTool.Equip(parentCharacter);
         }
 
-        public void SwingTool()
+        public void ToolPrimary()
         {
-            if (activeTool)
-                parentCharacter.CharacterAnimation.SetSwing();
+            if(activeTool != null)
+                activeTool.OnUseToolPrimary(parentCharacter);
+        }
+        public void ToolSecondary()
+        {
+            if(activeTool != null)
+                activeTool.OnUseToolSecondary(parentCharacter);
+        }
+        public void ToolTertiary()
+        {
+            if(activeTool != null)
+                activeTool.OnUseToolTertiary(parentCharacter);
         }
 
-        public void OnSwingStart()
+
+        public void ToolMenu()
         {
-            if (activeTool)
-                activeTool.OnStartSwing();
+            if(activeTool != null)
+            {
+                activeTool.OnToolMenu();
+            }
         }
 
-        public void OnSwingEnd()
+        public void ToolRotate(float _value)
+        {
+            if(activeTool != null)
+            {
+                activeTool.OnRotateTool(_value);
+            }
+        }
+
+        public void ToolRotateVertical(float _value)
+        {
+            if(activeTool != null)
+            {
+                activeTool.OnRotateVerticalTool(_value);
+            }
+        }
+
+        public void OnToolAnimationEvent(string _value)
         {
             if (activeTool)
-                activeTool.OnEndSwing();
+                activeTool.OnToolAnimationEvent(_value);
+        }
+
+        public bool OnToolRaycast(Vector3 _raycastOrigin, Vector3 _raycastDirection)
+        {
+            if (activeTool)
+                return activeTool.OnProcessRaycast(_raycastOrigin, _raycastDirection);
+            else
+                return false;
         }
     }
 }

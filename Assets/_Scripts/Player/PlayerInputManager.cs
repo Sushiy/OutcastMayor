@@ -29,7 +29,7 @@ namespace OutcastMayor
 
         private bool inventoryPressed = false;
         private bool secondaryPressed = false;
-        private bool demolishPressed = false;
+        private bool tertiaryPressed = false;
 
         private bool keyPressed = false;
 
@@ -40,11 +40,9 @@ namespace OutcastMayor
 
         [Header("Raycast")]
         [SerializeField]
-        private LayerMask buildRaycastLayerMask;
-        [SerializeField]
         private LayerMask interactRaycastLayerMask;
         [SerializeField]
-        private Transform rayCastOrigin;
+        private Transform raycastOrigin;
         public bool raycastHit
         {
             private set;
@@ -72,7 +70,7 @@ namespace OutcastMayor
             inputActions.Player.Look.canceled += OnLookCanceled;
 
             inputActions.Player.Jump.performed += OnJump;
-            inputActions.Player.Jump.canceled += OnJumpCanceled;
+            inputActions.Player.Jump.canceled += OnJump;
 
             inputActions.Player.Interact.performed += OnInteract;
             inputActions.Player.Interact.canceled += OnInteract;
@@ -98,28 +96,20 @@ namespace OutcastMayor
             inputActions.Player.Item4.performed += OnItem4Key;
             inputActions.Player.Item4.canceled += OnItem4Key;
 
-            inputActions.Player.EnterBuildMode.performed += OnBuildMode;
-            inputActions.Player.EnterBuildMode.canceled += OnBuildMode;
-
-            inputActions.Player.EnterZoneMode.performed += OnZoningMode;
-            inputActions.Player.EnterZoneMode.canceled += OnZoningMode;
+            inputActions.Player.ToolMenu.performed += OnToolMenu;
+            inputActions.Player.ToolMenu.canceled += OnToolMenu;
 
             inputActions.Player.Position.performed += OnPosition;
             inputActions.Player.Position.canceled += OnPositionCanceled;
 
-            
-            //BuildMode
-            inputActions.Buildmode.Rotate.performed += OnRotate;
-            inputActions.Buildmode.Rotate.canceled += OnRotate;
+            inputActions.Player.Rotate.performed += OnRotate;
+            inputActions.Player.Rotate.canceled += OnRotate;
 
-            inputActions.Buildmode.ChangeVariant.performed += OnChangeVariant;
-            inputActions.Buildmode.ChangeVariant.canceled += OnChangeVariant;
+            inputActions.Player.RotateVertical.performed += OnRotateVertical;
+            inputActions.Player.RotateVertical.canceled += OnRotateVertical;
 
-            inputActions.Buildmode.Destroy.performed += OnDemolish;
-            inputActions.Buildmode.Destroy.canceled += OnDemolish;
-
-            inputActions.Buildmode.OpenBuildmenu.performed += OnSecondary;
-            inputActions.Buildmode.OpenBuildmenu.canceled += OnSecondary;
+            inputActions.Player.Tertiary.performed += OnTertiary;
+            inputActions.Player.Tertiary.canceled += OnTertiary;
 
         }
 
@@ -134,7 +124,7 @@ namespace OutcastMayor
             inputActions.Player.Interact.performed -= OnInteract;
             inputActions.Player.Interact.canceled -= OnInteract;
             inputActions.Player.Jump.performed -= OnJump;
-            inputActions.Player.Jump.canceled -= OnJumpCanceled;
+            inputActions.Player.Jump.canceled -= OnJump;
             
             inputActions.Player.Secondary.performed -= OnSecondary;
             inputActions.Player.Secondary.canceled -= OnSecondary;
@@ -157,28 +147,20 @@ namespace OutcastMayor
             inputActions.Player.Item4.performed -= OnItem4Key;
             inputActions.Player.Item4.canceled -= OnItem4Key;
 
-            inputActions.Player.EnterBuildMode.performed -= OnBuildMode;
-            inputActions.Player.EnterBuildMode.canceled -= OnBuildMode;
-
-            inputActions.Player.EnterZoneMode.performed -= OnZoningMode;
-            inputActions.Player.EnterZoneMode.canceled -= OnZoningMode;
+            inputActions.Player.ToolMenu.performed -= OnToolMenu;
+            inputActions.Player.ToolMenu.canceled -= OnToolMenu;
 
             inputActions.Player.Position.performed -= OnPosition;
             inputActions.Player.Position.canceled -= OnPositionCanceled;
 
-            
-            //BuildMode
-            inputActions.Buildmode.Rotate.performed -= OnRotate;
-            inputActions.Buildmode.Rotate.canceled -= OnRotate;
+            inputActions.Player.Rotate.performed -= OnRotate;
+            inputActions.Player.Rotate.canceled -= OnRotate;
 
-            inputActions.Buildmode.ChangeVariant.performed -= OnChangeVariant;
-            inputActions.Buildmode.ChangeVariant.canceled -= OnChangeVariant;
+            inputActions.Player.RotateVertical.performed -= OnRotateVertical;
+            inputActions.Player.RotateVertical.canceled -= OnRotateVertical;
 
-            inputActions.Buildmode.Destroy.performed -= OnDemolish;
-            inputActions.Buildmode.Destroy.canceled -= OnDemolish;
-
-            inputActions.Buildmode.OpenBuildmenu.performed -= OnSecondary;
-            inputActions.Buildmode.OpenBuildmenu.canceled -= OnSecondary;
+            inputActions.Player.Tertiary.performed -= OnTertiary;
+            inputActions.Player.Tertiary.canceled -= OnTertiary;
 
         }
 
@@ -229,11 +211,6 @@ namespace OutcastMayor
             }
         }
 
-        void OnJumpCanceled(CallbackContext c)
-        {
-
-        }
-
         public void OnInteract(CallbackContext value)
         {
             print("Interact");
@@ -246,9 +223,9 @@ namespace OutcastMayor
         public void OnSecondary(CallbackContext value)
         {
             secondaryPressed = value.performed;
-            if (secondaryPressed && player.BuildingMode.isActive)
+            if (secondaryPressed)
             {
-                UIManager.Instance.ToggleBuildingView();
+                Player.Instance.PlayerToolManager.ToolSecondary();
             }
         }
 
@@ -264,92 +241,46 @@ namespace OutcastMayor
         public void OnPrimary(CallbackContext value)
         {
             keyPressed = value.performed;
-            if (keyPressed && (!UIManager.IsUIOpen || (player.BuildingMode.isActive && topDownBuilding && !IsPointerOverUI)))
+            if (keyPressed && (!UIManager.IsUIOpen))
             {
-                if (player.BuildingMode.isActive)
-                {
-                    player.BuildingMode.Build();
-                }
-                else if (player.ZoningMode.isActive)
-                {
-                    player.ZoningMode.PlaceZone();
-                }
-                else
-                {
-                    Player.Instance.PlayerToolManager.SwingTool();
-                }
+                Player.Instance.PlayerToolManager.ToolPrimary();
             }
         }
 
         public void OnItem1Key(CallbackContext value)
         {
-            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            if (value.performed)
             {
                 player.HoldItem(0);
             }
         }
         public void OnItem2Key(CallbackContext value)
         {
-            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            if (value.performed)
             {
                 player.HoldItem(1);
             }
         }
         public void OnItem3Key(CallbackContext value)
         {
-            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            if (value.performed)
             {
                 player.HoldItem(2);
             }
         }
         public void OnItem4Key(CallbackContext value)
         {
-            if (value.performed && !player.BuildingMode.isActive && !player.ZoningMode.isActive)
+            if (value.performed)
             {
                 player.HoldItem(3);
             }
         }
 
-        public void OnBuildMode(CallbackContext value)
+        public void OnToolMenu(CallbackContext value)
         {
-            if (value.performed)
+            if(value.performed)
             {
-                if (!player.BuildingMode.isActive)
-                {
-                    player.BuildingMode.EnterBuildMode();
-                    if (topDownBuilding)
-                    {
-                        UIManager.forceCursor = true;
-                        UIManager.ShowCursor();
-                        CameraController.ChangeToTopDownCamera();
-                    }
-                }
-                else
-                {
-                    player.BuildingMode.ExitBuildMode();
-                    if (topDownBuilding)
-                    {
-                        UIManager.forceCursor = false;
-                        UIManager.HideCursor();
-                        CameraController.ChangeToStandardCamera();
-                    }
-                }
-            }
-        }
-
-        public void OnZoningMode(CallbackContext value)
-        {
-            if (value.performed)
-            {
-                Debug.Log("ZONINGMODE!");
-                if (!player.ZoningMode.isActive)
-                {
-                    player.ZoningMode.EnterZoningMode();
-                }
-                else
-                {
-                    player.ZoningMode.ExitZoningMode();
-                }
+                Player.Instance.PlayerToolManager.ToolMenu();
             }
         }
 
@@ -360,40 +291,24 @@ namespace OutcastMayor
             if (v != 0 && !value.performed)
                 return;
             rotateValue = v;
-            //print(rotateValue + ";" + value.performed.ToString());
-            if (player.BuildingMode.isActive)
-            {
-                player.BuildingMode.Rotate(rotateValue);
-            }
-            if (player.ZoningMode.isActive)
-            {
-                player.ZoningMode.Rotate(rotateValue);
-            }
+            Player.Instance.PlayerToolManager.ToolRotate(rotateValue);
         }
 
         float alternateValue;
-        public void OnChangeVariant(CallbackContext value)
+        public void OnRotateVertical(CallbackContext value)
         {
             float v = value.ReadValue<float>();
             if (v != 0 && !value.performed)
                 return;
             alternateValue = v;
-            //print(alternateValue + ";" + value.performed.ToString());
-            if (player.BuildingMode.isActive)
-            {
-                player.BuildingMode.Alternate(alternateValue);
-            }
+            Player.Instance.PlayerToolManager.ToolRotateVertical(rotateValue);
         }
-        public void OnDemolish(CallbackContext value)
+        public void OnTertiary(CallbackContext value)
         {
-            demolishPressed = value.performed;
-            if (demolishPressed)
+            tertiaryPressed = value.performed;
+            if (tertiaryPressed)
             {
-                if (interactor.hoveredInteractable is Building.Construction)
-                {
-                    ((Building.Construction)interactor.hoveredInteractable).Destroy();
-                    interactor.hoveredInteractable.OnEndHover(interactor);
-                }
+                Player.Instance.PlayerToolManager.ToolTertiary();
             }
         }
 
@@ -410,31 +325,14 @@ namespace OutcastMayor
 
         public void Update()
         {
-            if (player.BuildingMode.isActive)
+            if(Player.Instance.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
             {
-                Ray ray;
-                if (topDownBuilding)
-                {
-                    ray = Camera.main.ScreenPointToRay(mousePosition);
-                }
-                else
-                {
-                    ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
-                }
-                player.BuildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
-                raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
-            }
-            else if (player.ZoningMode.isActive)
-            {
-                Ray ray;
-
-                ray = new Ray(rayCastOrigin.position, rayCastOrigin.forward);
-                player.ZoningMode.ProcessRayCast(raycastHit, ray, hitInfo);
-                raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
+                //If this tool handles its own raycast, do that
             }
             else
             {
-                raycastHit = Physics.Raycast(rayCastOrigin.position, rayCastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
+                //Otherwise pass the raycast on to the interactor
+                raycastHit = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
                 interactor.ProcessRayCast(raycastHit, hitInfo);
             }
             //Debug.DrawLine(rayCastOrigin.position, hitInfo.point);

@@ -5,19 +5,13 @@ using UnityEngine.Events;
 
 public class CharacterAnimationEventCatcher : MonoBehaviour
 {
-    public UnityEvent OnSwingStart;
-    public UnityEvent OnSwingEnd;
+    public UnityEvent<string> onToolAnimationEvent;
 
     public UnityEvent OnStep;
 
-    public void SwingStart()
+    public void OnToolAnimationEvent(string _value)
     {
-        OnSwingStart?.Invoke();
-    }
-
-    public void SwingEnd()
-    {
-        OnSwingEnd?.Invoke();
+        onToolAnimationEvent?.Invoke(_value);
     }
 
     public void Step()
