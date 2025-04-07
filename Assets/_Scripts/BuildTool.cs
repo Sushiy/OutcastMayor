@@ -28,7 +28,6 @@ namespace OutcastMayor
         public override void Equip(Character _parentCharacter)
         {            
             gameObject.SetActive(true);
-            buildingMode = _parentCharacter.GetComponent<BuildingMode>();
             if(buildingMode)
                 buildingMode.EnterBuildMode();
         }

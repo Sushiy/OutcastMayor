@@ -225,7 +225,7 @@ namespace OutcastMayor
             secondaryPressed = value.performed;
             if (secondaryPressed)
             {
-                Player.Instance.PlayerToolManager.ToolSecondary();
+                player.PlayerToolManager.ToolSecondary();
             }
         }
 
@@ -243,7 +243,7 @@ namespace OutcastMayor
             keyPressed = value.performed;
             if (keyPressed && (!UIManager.IsUIOpen))
             {
-                Player.Instance.PlayerToolManager.ToolPrimary();
+                player.PlayerToolManager.ToolPrimary();
             }
         }
 
@@ -280,7 +280,7 @@ namespace OutcastMayor
         {
             if(value.performed)
             {
-                Player.Instance.PlayerToolManager.ToolMenu();
+                player.PlayerToolManager.ToolMenu();
             }
         }
 
@@ -291,7 +291,7 @@ namespace OutcastMayor
             if (v != 0 && !value.performed)
                 return;
             rotateValue = v;
-            Player.Instance.PlayerToolManager.ToolRotate(rotateValue);
+            player.PlayerToolManager.ToolRotate(rotateValue);
         }
 
         float alternateValue;
@@ -301,14 +301,14 @@ namespace OutcastMayor
             if (v != 0 && !value.performed)
                 return;
             alternateValue = v;
-            Player.Instance.PlayerToolManager.ToolRotateVertical(rotateValue);
+            player.PlayerToolManager.ToolRotateVertical(rotateValue);
         }
         public void OnTertiary(CallbackContext value)
         {
             tertiaryPressed = value.performed;
             if (tertiaryPressed)
             {
-                Player.Instance.PlayerToolManager.ToolTertiary();
+                player.PlayerToolManager.ToolTertiary();
             }
         }
 
@@ -325,7 +325,12 @@ namespace OutcastMayor
 
         public void Update()
         {
-            if(Player.Instance.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
+            if(!player.PlayerToolManager)
+            {
+                print("NO playertoolmanager");
+                return;
+            }
+            if(player.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
             {
                 //If this tool handles its own raycast, do that
             }
