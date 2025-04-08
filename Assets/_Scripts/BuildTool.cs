@@ -49,7 +49,7 @@ namespace OutcastMayor
         public override void OnToolMenu()
         {
             if(buildingMode)
-                UIManager.Instance.ToggleBuildingView();
+                UIManager.Instance.ToggleBuildingView(buildingMode);
         }
 
         public override void OnRotateTool(float _rotateValue)

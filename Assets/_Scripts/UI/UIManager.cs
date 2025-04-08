@@ -1,3 +1,4 @@
+using OutcastMayor.Building;
 using OutcastMayor.Requests;
 using System.Collections;
 using System.Collections.Generic;
@@ -90,8 +91,9 @@ namespace OutcastMayor.UI
             }
         }
 
-        public void ToggleBuildingView()
+        public void ToggleBuildingView(BuildingMode _buildingMode)
         {
+            buildingView.buildingMode = _buildingMode;
             if (buildingView.Visible)
             {
                 buildingView.Hide();

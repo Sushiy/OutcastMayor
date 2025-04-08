@@ -288,20 +288,20 @@ namespace OutcastMayor
         public void OnRotate(CallbackContext value)
         {
             float v = value.ReadValue<float>();
-            if (v != 0 && !value.performed)
+            if ((v != 0 && !value.performed) || UIManager.IsUIOpen)
                 return;
             rotateValue = v;
             player.PlayerToolManager.ToolRotate(rotateValue);
         }
 
-        float alternateValue;
+        float rotateVerticalValue;
         public void OnRotateVertical(CallbackContext value)
         {
             float v = value.ReadValue<float>();
             if (v != 0 && !value.performed)
                 return;
-            alternateValue = v;
-            player.PlayerToolManager.ToolRotateVertical(rotateValue);
+            rotateVerticalValue = v;
+            player.PlayerToolManager.ToolRotateVertical(rotateVerticalValue);
         }
         public void OnTertiary(CallbackContext value)
         {
