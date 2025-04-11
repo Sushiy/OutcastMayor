@@ -46,16 +46,19 @@ namespace OutcastMayor.Building
         public bool isBlueprint = false;
         protected static LayerMask buildLayer = 1 << 7;
 
+        Collider[] allColliders;
         private void Awake()
         {
             snappingPoints = GetComponentsInChildren<SnappingPoint>();
+            
+            allColliders = GetComponentsInChildren<Collider>();
         }
 
         public void SetGhostMode(Material ghostMaterial)
         {
             SetMaterials(ghostMaterial);
             gameObject.name = "Ghost";
-            SetLayerForAllColliders(2);
+            SetLayerForAllColliders(13);
         }
 
         public void SetSensorMode(Material sensorMaterial)
@@ -124,10 +127,9 @@ namespace OutcastMayor.Building
 
         private void SetLayerForAllColliders(int layer)
         {
-            Collider[] colliders = GetComponentsInChildren<Collider>();
-            for (int i = 0; i < colliders.Length; i++)
+            for (int i = 0; i < allColliders.Length; i++)
             {
-                colliders[i].gameObject.layer = layer;
+                allColliders[i].gameObject.layer = layer;
             }
         }
 

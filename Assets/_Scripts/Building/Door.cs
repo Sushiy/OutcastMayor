@@ -8,6 +8,8 @@ namespace OutcastMayor.Interaction
     public class Door : Interactable
     {
         private bool isOpen = false;
+        [SerializeField]
+        Vector3 axis = Vector3.forward;
         public override void Interact(Interactor interactor)
         {
             base.Interact(interactor);
@@ -20,11 +22,11 @@ namespace OutcastMayor.Interaction
             //3. Open the door by swinging it away from the interactor
             if (isOpen)
             {
-                transform.parent.DOLocalRotate(new Vector3(0, 0, 0), 1.0f);
+                transform.DOLocalRotate(new Vector3(0, 0, 0), 1.0f);
             }
             else
             {
-                transform.parent.DOLocalRotate(new Vector3(0, 0, 100 * -sign), 1.0f);
+                transform.DOLocalRotate(axis * 100 * -sign, 1.0f);
             }
             isOpen = !isOpen;
             //4. Turn Collision back on

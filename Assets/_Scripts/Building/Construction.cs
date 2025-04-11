@@ -47,6 +47,7 @@ namespace OutcastMayor.Building
             //Data Setup
             this.finishedObject = finishedObject;
             this.blueprintObject = blueprintObject;
+            blueprintObject.buildCollider.enabled = false;
             this.buildRecipe = recipe;
             stockpiledMaterials = new Inventory.ItemStack[recipe.Materials.Length];
             actionPoints = 0;

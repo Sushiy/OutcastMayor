@@ -98,8 +98,9 @@ MonoBehaviour:
   buildingParent: {fileID: 0}
   buildModeCullingMask:
     serializedVersion: 2
-    m_Bits: 7935
+    m_Bits: 16127
   recipes:
+  - {fileID: 11400000, guid: 4c1bd93169f94a5478b685e5aecbcefe, type: 2}
   - {fileID: 11400000, guid: 4680aa1424a01584792ff4b84c26ea6b, type: 2}
   - {fileID: 11400000, guid: 5645448ed267b154784c5bf373718cd0, type: 2}
   - {fileID: 11400000, guid: fcf1c86703dbf5f43a3b8365c212ec62, type: 2}
