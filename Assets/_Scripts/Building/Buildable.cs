@@ -58,7 +58,7 @@ namespace OutcastMayor.Building
         {
             SetMaterials(ghostMaterial);
             gameObject.name = "Ghost";
-            SetLayerForAllColliders(13);
+            SetLayerForAllColliders(LayerConstants.Ghost);
         }
 
         public void SetSensorMode(Material sensorMaterial)
@@ -66,7 +66,7 @@ namespace OutcastMayor.Building
             SetMaterials(sensorMaterial);
             SetInvisible();
             gameObject.name = "Sensor";
-            SetLayerForAllColliders(6);
+            SetLayerForAllColliders(LayerConstants.Snapping);
         }
 
         public void SetBlueprintMode(Material ghostMaterial)
@@ -93,14 +93,14 @@ namespace OutcastMayor.Building
 
         public void SetDefaultLayer()
         {
-            SetRendererLayers(0);
+            SetRendererLayers(LayerConstants.Default);
             isBlueprint = false;
             CheckForRoom();
         }
 
         public void SetBlueprintLayer()
         {
-            SetRendererLayers(7);
+            //SetRendererLayers(LayerConstants.BuildingOnly);
             isBlueprint = true;
         }
 
@@ -161,7 +161,7 @@ namespace OutcastMayor.Building
             if (isBlueprint) return;
             //Proposed Function:
             //1. Check the buildcollider "as trigger" for all overlapping objects
-            OverlapResult o = CheckOverlap();
+            OverlapResult o = CheckRoomOverlap();
             for (int i = 0; i < o.touchedRooms.Count; i++)
             {
                 RoomManager.CheckRoomIntegrity(o.touchedRooms[i]);
@@ -169,7 +169,7 @@ namespace OutcastMayor.Building
             }
         }
 
-        public virtual OverlapResult CheckOverlap()
+        public virtual OverlapResult CheckRoomOverlap()
         {
             OverlapResult result;
             result.touchedFloors = new List<Floor>();

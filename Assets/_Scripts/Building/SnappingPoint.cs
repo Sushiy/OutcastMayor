@@ -13,6 +13,9 @@ namespace OutcastMayor.Building
             Window = 1
         }
 
+        /// <summary>
+        /// 0 = not snapped, 1 = in snapping trigger, 2 = found snapping point, 3 = snapped...?
+        /// </summary>
         public int status = 0;
 
         private Color[] gizmoColors =
@@ -47,18 +50,14 @@ namespace OutcastMayor.Building
 
         private void OnTriggerEnter(Collider other)
         {
-            if (other.gameObject.layer == 6)
+            if (other.gameObject.layer == LayerConstants.Snapping)
             {
                 UpgradeStatus(1);
                 SnappingPoint p = other.GetComponent<SnappingPoint>();
                 if (p != null)
                 {
-                    UpgradeStatus(2);
-                    if (true)
-                    {
-                        UpgradeStatus(3);
-                        buildable.StartSnapping(this, p);
-                    }
+                    UpgradeStatus(3);
+                    buildable.StartSnapping(this, p);
                 }
             }
         }
@@ -73,7 +72,7 @@ namespace OutcastMayor.Building
 
         private void OnTriggerExit(Collider other)
         {
-            if (other.gameObject.layer == 6)
+            if (other.gameObject.layer == LayerConstants.Snapping)
             {
                 SnappingPoint p = other.GetComponent<SnappingPoint>();
                 if (p != null && p.snapType == snapType)

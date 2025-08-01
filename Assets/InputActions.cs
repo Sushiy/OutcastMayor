@@ -154,18 +154,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": true
                 },
                 {
-                    ""name"": ""RotateVertical"",
-                    ""type"": ""Value"",
-                    ""id"": ""818216e4-63cb-4610-9cca-3c10e8bec890"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Tertiary"",
                     ""type"": ""Button"",
                     ""id"": ""4ae966d7-b724-46f5-859d-227b17475229"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Ctrl"",
+                    ""type"": ""Button"",
+                    ""id"": ""46775705-2b2e-42d4-b50f-558d3b11abda"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -581,72 +581,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""Composite"",
-                    ""id"": ""94aedf7a-78a7-4120-93d2-d3ed9b198c5f"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""7964dd36-e59a-46fe-ac83-c59595589bf2"",
-                    ""path"": ""<Keyboard>/r"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""cb584793-1baa-4d63-9f10-4e2e7ab89fa9"",
-                    ""path"": ""<Keyboard>/f"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""289ea8cc-9056-42bd-89ad-edb99cf3f3e2"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""9c676f13-2914-4e0b-b752-043611b83574"",
-                    ""path"": ""<Gamepad>/dpad/down"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""d6f9303f-6cab-4567-9a2d-cbbe93e9f34c"",
-                    ""path"": ""<Gamepad>/dpad/up"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""RotateVertical"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
                     ""name"": """",
                     ""id"": ""c78e6f36-ac15-4754-85d0-9a16ebf64fc2"",
                     ""path"": ""<Mouse>/middleButton"",
@@ -665,6 +599,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Secondary"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""22b6e6dd-e10f-433b-b59a-a41b56591fb6"",
+                    ""path"": ""<Keyboard>/ctrl"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Ctrl"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1266,8 +1211,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Item4 = m_Player.FindAction("Item4", throwIfNotFound: true);
         m_Player_Position = m_Player.FindAction("Position", throwIfNotFound: true);
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
-        m_Player_RotateVertical = m_Player.FindAction("RotateVertical", throwIfNotFound: true);
         m_Player_Tertiary = m_Player.FindAction("Tertiary", throwIfNotFound: true);
+        m_Player_Ctrl = m_Player.FindAction("Ctrl", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1361,8 +1306,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Item4;
     private readonly InputAction m_Player_Position;
     private readonly InputAction m_Player_Rotate;
-    private readonly InputAction m_Player_RotateVertical;
     private readonly InputAction m_Player_Tertiary;
+    private readonly InputAction m_Player_Ctrl;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1381,8 +1326,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Item4 => m_Wrapper.m_Player_Item4;
         public InputAction @Position => m_Wrapper.m_Player_Position;
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
-        public InputAction @RotateVertical => m_Wrapper.m_Player_RotateVertical;
         public InputAction @Tertiary => m_Wrapper.m_Player_Tertiary;
+        public InputAction @Ctrl => m_Wrapper.m_Player_Ctrl;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1434,12 +1379,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Rotate.started += instance.OnRotate;
             @Rotate.performed += instance.OnRotate;
             @Rotate.canceled += instance.OnRotate;
-            @RotateVertical.started += instance.OnRotateVertical;
-            @RotateVertical.performed += instance.OnRotateVertical;
-            @RotateVertical.canceled += instance.OnRotateVertical;
             @Tertiary.started += instance.OnTertiary;
             @Tertiary.performed += instance.OnTertiary;
             @Tertiary.canceled += instance.OnTertiary;
+            @Ctrl.started += instance.OnCtrl;
+            @Ctrl.performed += instance.OnCtrl;
+            @Ctrl.canceled += instance.OnCtrl;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1486,12 +1431,12 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Rotate.started -= instance.OnRotate;
             @Rotate.performed -= instance.OnRotate;
             @Rotate.canceled -= instance.OnRotate;
-            @RotateVertical.started -= instance.OnRotateVertical;
-            @RotateVertical.performed -= instance.OnRotateVertical;
-            @RotateVertical.canceled -= instance.OnRotateVertical;
             @Tertiary.started -= instance.OnTertiary;
             @Tertiary.performed -= instance.OnTertiary;
             @Tertiary.canceled -= instance.OnTertiary;
+            @Ctrl.started -= instance.OnCtrl;
+            @Ctrl.performed -= instance.OnCtrl;
+            @Ctrl.canceled -= instance.OnCtrl;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1688,8 +1633,8 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnItem4(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
         void OnRotate(InputAction.CallbackContext context);
-        void OnRotateVertical(InputAction.CallbackContext context);
         void OnTertiary(InputAction.CallbackContext context);
+        void OnCtrl(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

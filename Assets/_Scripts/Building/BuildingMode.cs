@@ -35,9 +35,11 @@ namespace OutcastMayor.Building
         [SerializeField]
         private float raycastMaxDistance = 5.0f;
         private Quaternion buildRotation;
+        private Quaternion buildYRotation;
+        private Quaternion buildXLocalRotation;
         [SerializeField]
         private float rotateSpeed = 10.0f;
-        private float buildAngle = 0;
+        private Vector2 buildAngle = Vector2.zero;
 
 
         /// <summary>
@@ -124,38 +126,13 @@ namespace OutcastMayor.Building
 
         public void Build()
         {
-            Buildable snappedBuilding = null;
-            if (sensorBuilding.snappedPointOther != null)
-            {
-                snappedBuilding = sensorBuilding.snappedPointOther.buildable;
-            }
-            Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, buildPosition, buildRotation, buildingParent);
-            build.transform.localScale = selectedRecipe.BuildScale;
-            build.gameObject.SetActive(false);
-            Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, buildPosition, buildRotation, buildingParent);
-            blue.transform.localScale = selectedRecipe.BuildScale;
-            blue.SetBlueprintMode(ghostMaterial);
-            Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, buildPosition, buildRotation, blue.transform);
-            c.transform.localScale = selectedRecipe.BuildScale;
-            c.SetConstruction(selectedRecipe, build, blue);
+            Build(buildPosition);
         }
 
         private void Update()
         {
             if (isActive && ghostBuilding != null)
             {
-                /*
-                //Set the ghost to red if not all materials are in your inventory EDIT: this is no longer needed, as materials will be added afterwards
-                if(!selectedRecipe.IsValid(inventory))
-                {
-                    ghostMaterial.color = new Color(1, 0.071f,0.065f, 0.33f);
-                }
-                else
-                {
-                    ghostMaterial.color = new Color(0.0627f, 0.6358f, 1.0f, 0.33f);
-                }
-                */
-
                 Vector3 offset = Vector3.zero;
                 if (raycastHit)
                 {
@@ -206,37 +183,41 @@ namespace OutcastMayor.Building
                     d[7] = p[7].magnitude * Vector3.Dot(p[7], surfaceNormal.direction);
 
                     //Find the maximum of d and save all indices with that value
-                    float max = 0;
-                    List<int> maxIndices = new List<int>();
+                    float min = 0;
+                    List<int> minIndices = new List<int>();
                     for (int i = 0; i < 8; i++)
                     {
-                        if (Mathf.Abs(d[i] - max) < 0.01f)
+                        if (Mathf.Abs(d[i] - min) <= 0.01f)
                         {
-                            maxIndices.Add(i);
+                            minIndices.Add(i);
+                            if(d[i] < min)
+                                min = d[i];
                         }
-                        else if (d[i] > max)
+                        else if (d[i] < min)
                         {
-                            max = d[i];
-                            maxIndices.Clear();
-                            maxIndices.Add(i);
+                            min = d[i];
+                            minIndices.Clear();
+                            minIndices.Add(i);
                         }
                         Debug.DrawRay(v[i], -p[i], Color.blue);
+                        Debug.DrawRay(v[i], Vector3.up, Color.blue);
                     }
 
-                    //Avearage the maximum points we found
+                    //Average the maximum points we found
                     Vector3 averagePoint = Vector3.zero;
                     Vector3 averageProjection = Vector3.zero;
-                    for (int i = 0; i < maxIndices.Count; i++)
+                    for (int i = 0; i < minIndices.Count; i++)
                     {
-                        averagePoint += v[maxIndices[i]];
-                        averageProjection += p[maxIndices[i]];
-                        Debug.DrawRay(v[maxIndices[i]], -p[maxIndices[i]], Color.cyan);
+                        averagePoint += v[minIndices[i]];
+                        averageProjection += p[minIndices[i]];
+                        Debug.DrawRay(v[minIndices[i]], -p[minIndices[i]], Color.cyan);
+                        Debug.DrawRay(v[minIndices[i]], Vector3.up, Color.cyan);
                     }
-                    averagePoint /= maxIndices.Count;
-                    averageProjection /= maxIndices.Count;
+                    averagePoint /= minIndices.Count;
+                    averageProjection /= minIndices.Count;
                     //Debug.DrawRay(averagePoint, averageProjection, Color.yellow);
                     #endregion
-                    offset = averagePoint - surfaceNormal.origin;
+                    offset =  surfaceNormal.origin - averagePoint;
                     Debug.DrawRay(rayCastPosition, offset, Color.green);
                 }
 
@@ -249,10 +230,15 @@ namespace OutcastMayor.Building
                 if (sensorBuilding.snappedPointSelf != null)
                 {
                     Debug.DrawLine(sensorBuilding.snappedPointSelf.position, sensorBuilding.snappedPointOther.position, Color.red);
-                    buildPosition += sensorBuilding.snappedPointOther.position - sensorBuilding.snappedPointSelf.position;
+                    Vector3 snappedBuildPosition = buildPosition + sensorBuilding.snappedPointOther.position - sensorBuilding.snappedPointSelf.position;
+                    if ((snappedBuildPosition - sensorBuilding.snappedPointOther.buildable.transform.position).sqrMagnitude > .01f)
+                    {
+                        //you can snap, these objects don't end up in the same location
+                        buildPosition = snappedBuildPosition;
+                    }
                 }
                 ghostBuilding.transform.SetPositionAndRotation(buildPosition, buildRotation);
-            }
+             }
         }
 
         Ray surfaceNormal;
@@ -283,13 +269,23 @@ namespace OutcastMayor.Building
             }
         }
 
-        public void Rotate(float rotateInput)
+        public void Rotate(float rotateInput, bool _isModifierDown)
         {
             if (rotateInput != 0)
             {
                 //print("Rotate:" + Mathf.Sign(rotateInput));
-                buildAngle += Mathf.Sign(rotateInput) * rotateSpeed;
-                buildRotation = Quaternion.Euler(0, buildAngle, 0);
+                float angleDelta = Mathf.Sign(rotateInput) * rotateSpeed;
+                if (!_isModifierDown)
+                {
+                    buildAngle.y += angleDelta;
+                    buildAngle.y %= 360;
+                }
+                else
+                {
+                    buildAngle.x += angleDelta;
+                    buildAngle.x %= 360;
+                }
+                buildRotation = Quaternion.Euler(0, buildAngle.y, buildAngle.x);
             }
         }
         public void Alternate(float alternateInput)

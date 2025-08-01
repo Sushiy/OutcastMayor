@@ -31,7 +31,9 @@ namespace OutcastMayor
         private bool secondaryPressed = false;
         private bool tertiaryPressed = false;
 
-        private bool keyPressed = false;
+        private bool controlDown = false;
+
+        private bool primaryPressed = false;
 
         [SerializeField]
         private Player player;
@@ -74,7 +76,7 @@ namespace OutcastMayor
 
             inputActions.Player.Interact.performed += OnInteract;
             inputActions.Player.Interact.canceled += OnInteract;
-            
+
             inputActions.Player.Secondary.performed += OnSecondary;
             inputActions.Player.Secondary.canceled += OnSecondary;
 
@@ -89,10 +91,10 @@ namespace OutcastMayor
 
             inputActions.Player.Item2.performed += OnItem2Key;
             inputActions.Player.Item2.canceled += OnItem2Key;
-            
+
             inputActions.Player.Item3.performed += OnItem3Key;
             inputActions.Player.Item3.canceled += OnItem3Key;
-            
+
             inputActions.Player.Item4.performed += OnItem4Key;
             inputActions.Player.Item4.canceled += OnItem4Key;
 
@@ -105,11 +107,11 @@ namespace OutcastMayor
             inputActions.Player.Rotate.performed += OnRotate;
             inputActions.Player.Rotate.canceled += OnRotate;
 
-            inputActions.Player.RotateVertical.performed += OnRotateVertical;
-            inputActions.Player.RotateVertical.canceled += OnRotateVertical;
-
             inputActions.Player.Tertiary.performed += OnTertiary;
             inputActions.Player.Tertiary.canceled += OnTertiary;
+
+            inputActions.Player.Ctrl.performed += OnControl;
+            inputActions.Player.Ctrl.canceled += OnControl;
 
         }
 
@@ -156,16 +158,16 @@ namespace OutcastMayor
             inputActions.Player.Rotate.performed -= OnRotate;
             inputActions.Player.Rotate.canceled -= OnRotate;
 
-            inputActions.Player.RotateVertical.performed -= OnRotateVertical;
-            inputActions.Player.RotateVertical.canceled -= OnRotateVertical;
-
             inputActions.Player.Tertiary.performed -= OnTertiary;
             inputActions.Player.Tertiary.canceled -= OnTertiary;
+
+            inputActions.Player.Ctrl.performed -= OnControl;
+            inputActions.Player.Ctrl.canceled -= OnControl;
 
         }
 
 
-        public void OnMovePerformed(CallbackContext c)
+        void OnMovePerformed(CallbackContext c)
         {
             moveInput = c.ReadValue<Vector2>();
             if (!UIManager.IsUIOpen && CameraController.ActiveCamera != CameraController.CameraType.Dialogue)
@@ -177,13 +179,13 @@ namespace OutcastMayor
                 movement.Move(Vector2.zero);
             }
         }
-        public void OnMoveCanceled(CallbackContext c)
+        void OnMoveCanceled(CallbackContext c)
         {
             moveInput = Vector2.zero;
             movement.Move(moveInput);
         }
 
-        public void OnLook(CallbackContext c)
+        void OnLook(CallbackContext c)
         {
             lookInput = c.ReadValue<Vector2>();
             if (UIManager.IsUIOpen || CameraController.ActiveCamera != CameraController.CameraType.Standard)
@@ -196,7 +198,7 @@ namespace OutcastMayor
             }
         }
 
-        public void OnLookCanceled(CallbackContext c)
+        void OnLookCanceled(CallbackContext c)
         {
             lookInput = Vector2.zero;
             movement.Look(lookInput);
@@ -211,7 +213,7 @@ namespace OutcastMayor
             }
         }
 
-        public void OnInteract(CallbackContext value)
+        void OnInteract(CallbackContext value)
         {
             print("Interact");
             interactPressed = value.performed;
@@ -220,7 +222,7 @@ namespace OutcastMayor
                 interactor.Interact();
             }
         }
-        public void OnSecondary(CallbackContext value)
+        void OnSecondary(CallbackContext value)
         {
             secondaryPressed = value.performed;
             if (secondaryPressed)
@@ -229,7 +231,7 @@ namespace OutcastMayor
             }
         }
 
-        public void OnInventory(CallbackContext value)
+        void OnInventory(CallbackContext value)
         {
             inventoryPressed = value.performed;
             if (inventoryPressed)
@@ -238,37 +240,37 @@ namespace OutcastMayor
             }
         }
 
-        public void OnPrimary(CallbackContext value)
+        void OnPrimary(CallbackContext value)
         {
-            keyPressed = value.performed;
-            if (keyPressed && (!UIManager.IsUIOpen))
+            primaryPressed = value.performed;
+            if (primaryPressed && (!UIManager.IsUIOpen))
             {
                 player.PlayerToolManager.ToolPrimary();
             }
         }
 
-        public void OnItem1Key(CallbackContext value)
+        void OnItem1Key(CallbackContext value)
         {
             if (value.performed)
             {
                 player.HoldItem(0);
             }
         }
-        public void OnItem2Key(CallbackContext value)
+        void OnItem2Key(CallbackContext value)
         {
             if (value.performed)
             {
                 player.HoldItem(1);
             }
         }
-        public void OnItem3Key(CallbackContext value)
+        void OnItem3Key(CallbackContext value)
         {
             if (value.performed)
             {
                 player.HoldItem(2);
             }
         }
-        public void OnItem4Key(CallbackContext value)
+        void OnItem4Key(CallbackContext value)
         {
             if (value.performed)
             {
@@ -276,7 +278,7 @@ namespace OutcastMayor
             }
         }
 
-        public void OnToolMenu(CallbackContext value)
+        void OnToolMenu(CallbackContext value)
         {
             if(value.performed)
             {
@@ -285,25 +287,16 @@ namespace OutcastMayor
         }
 
         float rotateValue;
-        public void OnRotate(CallbackContext value)
+        void OnRotate(CallbackContext value)
         {
             float v = value.ReadValue<float>();
             if ((v != 0 && !value.performed) || UIManager.IsUIOpen)
                 return;
             rotateValue = v;
-            player.PlayerToolManager.ToolRotate(rotateValue);
+            player.PlayerToolManager.ToolRotate(rotateValue, controlDown);
         }
-
-        float rotateVerticalValue;
-        public void OnRotateVertical(CallbackContext value)
-        {
-            float v = value.ReadValue<float>();
-            if (v != 0 && !value.performed)
-                return;
-            rotateVerticalValue = v;
-            player.PlayerToolManager.ToolRotateVertical(rotateVerticalValue);
-        }
-        public void OnTertiary(CallbackContext value)
+        
+        void OnTertiary(CallbackContext value)
         {
             tertiaryPressed = value.performed;
             if (tertiaryPressed)
@@ -312,18 +305,26 @@ namespace OutcastMayor
             }
         }
 
+        void OnControl(CallbackContext value)
+        {
+            if (!controlDown && value.performed)
+                controlDown = true;
+            else if (controlDown && value.canceled)
+                controlDown = false;
+        }
+
         Vector2 mousePosition;
-        public void OnPosition(CallbackContext c)
+        void OnPosition(CallbackContext c)
         {
             mousePosition = c.ReadValue<Vector2>();
         }
 
-        public void OnPositionCanceled(CallbackContext c)
+        void OnPositionCanceled(CallbackContext c)
         {
             mousePosition = Vector2.zero;
         }
 
-        public void Update()
+        void Update()
         {
             if(!player.PlayerToolManager)
             {

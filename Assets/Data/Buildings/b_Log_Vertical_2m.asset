@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: b_SquareBeam_1m
+  m_Name: b_Log_Vertical_2m
   m_EditorClassIdentifier: 
-  Name: Square Beam 1m
+  Name: Log_Vertical 2m
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 1
-  buildingPrefab: {fileID: 1094437169021688344, guid: abaac31ebf8ba37449428ac0dc77fdaf, type: 3}
-  constructionPrefab: {fileID: 2659674548153265412, guid: f0fd86dfe3b3acd439dd533b0e46a75b, type: 3}
+  buildingPrefab: {fileID: 1094437169021688344, guid: 8eea92af2d16a5f4fbdad25912b47bea, type: 3}
+  constructionPrefab: {fileID: 1360465025972755384, guid: 2ac69d9b67cfd8a4fba7af7d609bdb91, type: 3}

@@ -21,7 +21,7 @@ namespace OutcastMayor
         }
         public virtual void OnUseToolTertiary(Character _parentCharacter)
         {
-
+            
         }
         public virtual void OnToolAnimationEvent(string _evt)
         {
@@ -32,12 +32,7 @@ namespace OutcastMayor
 
         }
 
-        public virtual void OnRotateTool(float _value)
-        {
-
-        }
-
-        public virtual void OnRotateVerticalTool(float _value)
+        public virtual void OnRotateTool(float _value, bool _isModifierDown)
         {
 
         }

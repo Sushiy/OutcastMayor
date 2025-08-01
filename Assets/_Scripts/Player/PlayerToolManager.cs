@@ -50,19 +50,11 @@ namespace OutcastMayor
             }
         }
 
-        public void ToolRotate(float _value)
+        public void ToolRotate(float _value, bool _isModifierDown)
         {
             if(activeTool != null)
             {
-                activeTool.OnRotateTool(_value);
-            }
-        }
-
-        public void ToolRotateVertical(float _value)
-        {
-            if(activeTool != null)
-            {
-                activeTool.OnRotateVerticalTool(_value);
+                activeTool.OnRotateTool(_value, _isModifierDown);
             }
         }
 

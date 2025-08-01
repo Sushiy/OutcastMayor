@@ -132,18 +132,18 @@
                     "initialStateCheck": true
                 },
                 {
-                    "name": "RotateVertical",
-                    "type": "Value",
-                    "id": "818216e4-63cb-4610-9cca-3c10e8bec890",
-                    "expectedControlType": "Axis",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": true
-                },
-                {
                     "name": "Tertiary",
                     "type": "Button",
                     "id": "4ae966d7-b724-46f5-859d-227b17475229",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ctrl",
+                    "type": "Button",
+                    "id": "46775705-2b2e-42d4-b50f-558d3b11abda",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -559,72 +559,6 @@
                     "isPartOfComposite": true
                 },
                 {
-                    "name": "Composite",
-                    "id": "94aedf7a-78a7-4120-93d2-d3ed9b198c5f",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateVertical",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "7964dd36-e59a-46fe-ac83-c59595589bf2",
-                    "path": "<Keyboard>/r",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "RotateVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "cb584793-1baa-4d63-9f10-4e2e7ab89fa9",
-                    "path": "<Keyboard>/f",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Keyboard&Mouse",
-                    "action": "RotateVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "1D Axis",
-                    "id": "289ea8cc-9056-42bd-89ad-edb99cf3f3e2",
-                    "path": "1DAxis",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateVertical",
-                    "isComposite": true,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "negative",
-                    "id": "9c676f13-2914-4e0b-b752-043611b83574",
-                    "path": "<Gamepad>/dpad/down",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
-                    "name": "positive",
-                    "id": "d6f9303f-6cab-4567-9a2d-cbbe93e9f34c",
-                    "path": "<Gamepad>/dpad/up",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "",
-                    "action": "RotateVertical",
-                    "isComposite": false,
-                    "isPartOfComposite": true
-                },
-                {
                     "name": "",
                     "id": "c78e6f36-ac15-4754-85d0-9a16ebf64fc2",
                     "path": "<Mouse>/middleButton",
@@ -643,6 +577,17 @@
                     "processors": "",
                     "groups": "",
                     "action": "Secondary",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "22b6e6dd-e10f-433b-b59a-a41b56591fb6",
+                    "path": "<Keyboard>/ctrl",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": ";Keyboard&Mouse",
+                    "action": "Ctrl",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

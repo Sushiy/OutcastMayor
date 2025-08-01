@@ -234,7 +234,7 @@ namespace OutcastMayor.Building
             }
         }
 
-        public override OverlapResult CheckOverlap()
+        public override OverlapResult CheckRoomOverlap()
         {
             OverlapResult result;
             result.touchedFloors = new List<Floor>();

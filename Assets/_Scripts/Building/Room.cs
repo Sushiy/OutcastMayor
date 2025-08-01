@@ -126,7 +126,7 @@ namespace OutcastMayor.Building
                 Floor activeFloor = floorQueue.Dequeue();
                 checkedFloors.Add(activeFloor);
                 activeFloor.OnChecked?.Invoke();
-                Buildable.OverlapResult overlapResult = activeFloor.CheckOverlap();
+                Buildable.OverlapResult overlapResult = activeFloor.CheckRoomOverlap();
                 for (int i = 0; i < overlapResult.touchedFloors.Count; i++)
                 {
                     if (overlapResult.touchedRooms.Count > 1)

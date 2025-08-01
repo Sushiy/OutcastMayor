@@ -15,10 +15,8 @@ MonoBehaviour:
   Name: Round Framing
   Icon: {fileID: 0}
   materials: []
-  buildingPrefab: {fileID: 0}
-  constructionPrefab: {fileID: 0}
+  buildingPrefab: {fileID: 1094437169021688344, guid: 9ac0a1a5ab71cac43b17838ca87ef9cf, type: 3}
+  constructionPrefab: {fileID: 2659674548153265412, guid: eb43353d43bcd1f4da208e639840370d, type: 3}
   buildRecipes:
   - {fileID: 11400000, guid: b3ace89a195007b4786d5602007a3545, type: 2}
   - {fileID: 11400000, guid: 030fda45ae1687d4e9aacb75aa1f3d89, type: 2}
-  - {fileID: 11400000, guid: a5023189eae64524cbb4e5f11ab6765c, type: 2}
-  - {fileID: 11400000, guid: 1628175633b10c4439d818748295684d, type: 2}

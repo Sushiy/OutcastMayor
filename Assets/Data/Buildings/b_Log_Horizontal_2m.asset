@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: b_RoundBeam_1m
+  m_Name: b_Log_Horizontal_2m
   m_EditorClassIdentifier: 
-  Name: Round Beam 1m
+  Name: Log_Vertical 2m
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
     count: 1
-  buildingPrefab: {fileID: 1094437169021688344, guid: 014d3a31c7b653b4e96d88ea1ee7567f, type: 3}
-  constructionPrefab: {fileID: 2659674548153265412, guid: 5fa8f7fb384c6794795dc0d3b3305006, type: 3}
+  buildingPrefab: {fileID: 1094437169021688344, guid: 8eea92af2d16a5f4fbdad25912b47bea, type: 3}
+  constructionPrefab: {fileID: 1360465025972755384, guid: 2ac69d9b67cfd8a4fba7af7d609bdb91, type: 3}

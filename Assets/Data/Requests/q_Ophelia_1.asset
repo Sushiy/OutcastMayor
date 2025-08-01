@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c59b6242227a44a2409abec90e7f7, type: 3}
+  m_Name: q_Ophelia_1
+  m_EditorClassIdentifier: 
+  requester: {fileID: 11400000, guid: 6a63df890b54df34685443ba0706caf3, type: 2}
+  title: Juice of Life
+  description: Bring Ophelia some Red Berries
+  reward: NOTHING
+  goals:
+  - goalType: 1
+    description: Bring 4 Red Berry
+    isCompleted: 0
+    requiredAmount: 4
+    currentAmount: 0
+    targetCharacter: {fileID: 11400000, guid: 6a63df890b54df34685443ba0706caf3, type: 2}
+  isCompleted: 0
+  CompletedDialogueValue: 

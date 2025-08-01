@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace OutcastMayor
 {
-    public class BuildTool : Tool
+    public class BasicBuildTool : Tool
     {
         BuildingMode buildingMode;
         public bool raycastHit
@@ -52,19 +52,18 @@ namespace OutcastMayor
                 UIManager.Instance.ToggleBuildingView(buildingMode);
         }
 
-        public override void OnRotateTool(float _rotateValue)
+        public override void OnRotateTool(float _rotateValue, bool _isModifierDown)
         {
             if(buildingMode)
-                buildingMode.Rotate(_rotateValue);
-        }
-
-        public override void OnRotateVerticalTool(float _value)
-        {
-            if(buildingMode)
-                buildingMode.Alternate(_value);
+                buildingMode.Rotate(_rotateValue, _isModifierDown);
         }
 
         public override void OnUseToolSecondary(Character _parentCharacter)
+        {
+            buildingMode.ExitBuildMode();
+        }
+
+        public override void OnUseToolTertiary(Character _parentCharacter)
         {
             if (_parentCharacter.Interactor.hoveredInteractable is Building.Construction)
             {
