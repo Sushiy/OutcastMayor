@@ -15,6 +15,7 @@ public class CharacterAnimation : MonoBehaviour
     private int fSpeedForwardHash = Animator.StringToHash("fSpeedForward");
     private int FSpeedSideHash = Animator.StringToHash("fSpeedSide");
     private int iCarryStateHash = Animator.StringToHash("iCarryState");
+    private int BGrounded = Animator.StringToHash("bGrounded");
 
     //Public Methods:
     public void SetJump()
@@ -36,6 +37,11 @@ public class CharacterAnimation : MonoBehaviour
     public void SetSpeedSide(float value)
     {
         _animator.SetFloat(FSpeedSideHash, value);
+    }
+
+    public void SetGrounded(bool value)
+    {
+        _animator.SetBool(BGrounded, value);
     }
 
     public void SetSwing()

@@ -1,146 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!54 &880789712306347721
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2426371832028047280}
-  serializedVersion: 2
-  m_Mass: 100
-  m_Drag: 0.5
-  m_AngularDrag: 0.3
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &3717580792794210298
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2426371832028047280}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.8
-  m_Direction: 2
-  m_Center: {x: 0.0077366456, y: 0.086603045, z: -0.00000023841858}
---- !u!114 &6249522306094463306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2426371832028047280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Wood
-  interaction: Pickup
-  source:
-    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
---- !u!54 &7233437745477057136
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295037583393788756}
-  serializedVersion: 2
-  m_Mass: 100
-  m_Drag: 0.5
-  m_AngularDrag: 0.3
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &558880623278283601
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295037583393788756}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.8
-  m_Direction: 2
-  m_Center: {x: 0.0077366456, y: 0.086603045, z: -0.000000059604645}
---- !u!114 &8726523566313139325
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3295037583393788756}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Wood
-  interaction: Pickup
-  source:
-    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
---- !u!54 &311468056808355379
-Rigidbody:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3955255251441049754}
-  serializedVersion: 2
-  m_Mass: 100
-  m_Drag: 0.5
-  m_AngularDrag: 0.3
-  m_UseGravity: 1
-  m_IsKinematic: 0
-  m_Interpolate: 0
-  m_Constraints: 0
-  m_CollisionDetection: 0
---- !u!136 &8574703665847801839
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3955255251441049754}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 0.1
-  m_Height: 0.8
-  m_Direction: 2
-  m_Center: {x: 0.0077366456, y: 0.086603045, z: 0}
---- !u!114 &1113215297324415361
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3955255251441049754}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  name: Wood
-  interaction: Pickup
-  source:
-    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
 --- !u!1 &8778180139260708842
 GameObject:
   m_ObjectHideFlags: 0
@@ -164,21 +23,23 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8778180139260708842}
+  serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4442857238902880800}
   - {fileID: 2806168723047565806}
   - {fileID: 3091691457371438346}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &2412586795703381509
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2936583099139784878}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
@@ -254,22 +115,126 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7233437745477057136}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 558880623278283601}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8726523566313139325}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 660758959419684212}
   m_SourcePrefab: {fileID: 100100000, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
---- !u!1 &3295037583393788756 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
-  m_PrefabInstance: {fileID: 2412586795703381509}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &2806168723047565806 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
   m_PrefabInstance: {fileID: 2412586795703381509}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &3295037583393788756 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+  m_PrefabInstance: {fileID: 2412586795703381509}
+  m_PrefabAsset: {fileID: 0}
+--- !u!54 &7233437745477057136
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295037583393788756}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0.5
+  m_AngularDrag: 0.3
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &558880623278283601
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295037583393788756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.8
+  m_Direction: 2
+  m_Center: {x: 0.0077366456, y: 0.086603045, z: -0.000000059604645}
+--- !u!114 &8726523566313139325
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295037583393788756}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Wood
+  interaction: Pickup
+  source:
+    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 5
+--- !u!65 &660758959419684212
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3295037583393788756}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.17, y: 0.17, z: 0.7100001}
+  m_Center: {x: 0.0077366456, y: 0.08660257, z: -1.2306962e-15}
 --- !u!1001 &3273375319260044001
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2936583099139784878}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
@@ -345,12 +310,115 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 880789712306347721}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 3717580792794210298}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6249522306094463306}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5412382298951037125}
   m_SourcePrefab: {fileID: 100100000, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
 --- !u!1 &2426371832028047280 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
   m_PrefabInstance: {fileID: 3273375319260044001}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &880789712306347721
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426371832028047280}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0.5
+  m_AngularDrag: 0.3
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &3717580792794210298
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426371832028047280}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.8
+  m_Direction: 2
+  m_Center: {x: 0.0077366456, y: 0.086603045, z: -0.00000023841858}
+--- !u!114 &6249522306094463306
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426371832028047280}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Wood
+  interaction: Pickup
+  source:
+    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 5
+--- !u!65 &5412382298951037125
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2426371832028047280}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.17, y: 0.17, z: 0.7100001}
+  m_Center: {x: 0.0077366456, y: 0.08660257, z: -1.2306962e-15}
 --- !u!4 &3091691457371438346 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
@@ -361,6 +429,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
+    serializedVersion: 3
     m_TransformParent: {fileID: 2936583099139784878}
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
@@ -436,12 +505,115 @@ PrefabInstance:
       value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 311468056808355379}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 8574703665847801839}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1113215297324415361}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5983395130002477232}
   m_SourcePrefab: {fileID: 100100000, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
 --- !u!1 &3955255251441049754 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}
   m_PrefabInstance: {fileID: 4189062765075848651}
   m_PrefabAsset: {fileID: 0}
+--- !u!54 &311468056808355379
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955255251441049754}
+  serializedVersion: 4
+  m_Mass: 100
+  m_Drag: 0.5
+  m_AngularDrag: 0.3
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 1
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
+--- !u!136 &8574703665847801839
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955255251441049754}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.1
+  m_Height: 0.8
+  m_Direction: 2
+  m_Center: {x: 0.0077366456, y: 0.086603045, z: 0}
+--- !u!114 &1113215297324415361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955255251441049754}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 461b9b89afd259547988545039aad4cd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  name: Wood
+  interaction: Pickup
+  source:
+    item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 5
+--- !u!65 &5983395130002477232
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3955255251441049754}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Size: {x: 0.17, y: 0.17, z: 0.7100001}
+  m_Center: {x: 0.0077366456, y: 0.08660257, z: -1.2306962e-15}
 --- !u!4 &4442857238902880800 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: f0cf1b4f9bd7cec4e9dd6c759b4a3025, type: 3}

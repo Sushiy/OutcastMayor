@@ -20,6 +20,8 @@ public class AIMovement : MonoBehaviour, IMovement
 
     CharacterAnimation characterAnimation;
 
+    bool movementLocked = false;
+
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
@@ -112,5 +114,9 @@ public class AIMovement : MonoBehaviour, IMovement
     public void SnapYRotation(Quaternion rotation)
     {
        navMeshAgent.transform.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+    }
+    public void LockMovement(bool locked)
+    {
+        movementLocked = locked;
     }
 }

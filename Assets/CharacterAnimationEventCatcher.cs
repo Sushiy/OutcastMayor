@@ -8,6 +8,7 @@ public class CharacterAnimationEventCatcher : MonoBehaviour
     public UnityEvent<string> onToolAnimationEvent;
 
     public UnityEvent OnStep;
+    public UnityEvent OnJump;
 
     public void OnToolAnimationEvent(string _value)
     {
@@ -18,5 +19,11 @@ public class CharacterAnimationEventCatcher : MonoBehaviour
     {
         //Analyze Ground!
         OnStep?.Invoke();
+    }
+
+    public void Jump()
+    {
+        //Analyze Ground!
+        OnJump?.Invoke();
     }
 }

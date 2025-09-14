@@ -159,8 +159,14 @@ namespace OutcastMayor.Requests
         FurnitureRequest
     }
 
-    public class FurnitureRequestGoal : RequestGoal
+    public class HouseRequestGoal : RequestGoal
     {
+        [SerializeField]
+        //Minimum Size of covered room
+        private float minRoomSize;
 
+        [SerializeField]
+        //Any requested furniture. Must be valid and inside the room...?
+        private BuildableFurniture[] requestedFurniture;
     }
 }

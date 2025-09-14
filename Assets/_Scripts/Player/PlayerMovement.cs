@@ -44,12 +44,15 @@ namespace OutcastMayor
         [SerializeField, Sirenix.OdinInspector.ReadOnly]
         private bool isGrounded;
         bool jumpedThisFrame;
+        bool jumpPressed;
 
         #region Input
         Vector2 moveInput;
         Vector2 lookInput;
 
         public Transform followTransform;
+
+        bool movementLocked = false;
 
         public void Move(Vector2 move)
         {
@@ -70,6 +73,13 @@ namespace OutcastMayor
         void Update()
         {
             isGrounded = characterController.isGrounded;
+            Player.Instance.CharacterAnimation.SetGrounded(isGrounded);
+
+            if (movementLocked)
+            {
+                moveInput = Vector2.zero;
+                lookInput = Vector2.zero;
+            }    
             if (moveInput.sqrMagnitude > 0.0f)
             {
                 Player.Instance.CharacterAnimation.SetRunning(true);
@@ -112,9 +122,9 @@ namespace OutcastMayor
             if (characterController.isGrounded)
             {
                 verticalSpeed = 0.0f;
-            }       
-            if(jumpedThisFrame)
-            {                
+            }
+            if (jumpedThisFrame)
+            {
                 jumpedThisFrame = false;
                 verticalSpeed += Mathf.Sqrt(jumpHeight * -2.0f * GRAVITY) * Time.deltaTime;
             }
@@ -156,11 +166,17 @@ namespace OutcastMayor
             Debug.DrawRay(transform.position, movementDelta.normalized, Color.green);
         }
 
+        public void ActualJump()
+        {
+            jumpedThisFrame = true;
+        }
+
         public void Jump()
         {
-            if(characterController.isGrounded)
+            if (characterController.isGrounded)
             {
-                jumpedThisFrame = true;
+                jumpPressed = true;
+                Player.Instance.CharacterAnimation.SetJump();
             }
             else
                 print("not grounded");
@@ -176,6 +192,11 @@ namespace OutcastMayor
         public void SnapYRotation(Quaternion rotation)
         {
             rotationTarget.rotation = Quaternion.Euler(0, rotation.eulerAngles.y, 0);
+        }
+
+        public void LockMovement(bool locked)
+        {
+            movementLocked = locked;
         }
     }
 

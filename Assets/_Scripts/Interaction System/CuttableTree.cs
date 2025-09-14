@@ -38,7 +38,7 @@ namespace OutcastMayor.Interaction
 
         public override void Interact(Interactor interactor)
         {
-
+            
         }
 
         public void Cut(float damage)
