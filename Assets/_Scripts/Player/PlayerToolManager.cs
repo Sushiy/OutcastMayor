@@ -52,11 +52,20 @@ namespace OutcastMayor
 
         public void ToolRotate(float _value, bool _isModifierDown)
         {
-            if(activeTool != null)
+            if (activeTool != null)
             {
                 activeTool.OnRotateTool(_value, _isModifierDown);
             }
         }
+        
+        public void ToolAlternate(float _value)
+        {
+            if(activeTool != null)
+            {
+                activeTool.OnAlternateTool(_value);
+            }
+        }
+
 
         public void OnToolAnimationEvent(string _value)
         {

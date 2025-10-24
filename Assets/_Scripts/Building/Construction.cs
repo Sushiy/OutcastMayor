@@ -49,6 +49,7 @@ namespace OutcastMayor.Building
             this.blueprintObject = blueprintObject;
             blueprintObject.buildCollider.gameObject.layer = 7;
             this.buildRecipe = recipe;
+            OnSetPosition();
             stockpiledMaterials = new Inventory.ItemStack[recipe.Materials.Length];
             actionPoints = 0;
             for (int i = 0; i < stockpiledMaterials.Length; i++)
@@ -61,6 +62,11 @@ namespace OutcastMayor.Building
             {
                 Complete();
             }
+        }
+
+        protected virtual void OnSetPosition()
+        {
+            
         }
 
         public override void Interact(Interactor interactor)

@@ -115,9 +115,11 @@ namespace OutcastMayor.Building
             Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             build.transform.localScale = selectedRecipe.BuildScale;
             build.gameObject.SetActive(false);
+            build.OnSetPosition();
             Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             blue.transform.localScale = selectedRecipe.BuildScale;
             blue.SetBlueprintMode(ghostMaterial);
+            blue.OnSetPosition();
             Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, blue.transform);
             c.transform.localScale = selectedRecipe.BuildScale;
             c.SetConstruction(selectedRecipe, build, blue, autoCompleteBuilds);
@@ -190,7 +192,7 @@ namespace OutcastMayor.Building
                         if (Mathf.Abs(d[i] - min) <= 0.01f)
                         {
                             minIndices.Add(i);
-                            if(d[i] < min)
+                            if (d[i] < min)
                                 min = d[i];
                         }
                         else if (d[i] < min)
@@ -217,15 +219,26 @@ namespace OutcastMayor.Building
                     averageProjection /= minIndices.Count;
                     //Debug.DrawRay(averagePoint, averageProjection, Color.yellow);
                     #endregion
-                    offset =  surfaceNormal.origin - averagePoint;
+                    offset = surfaceNormal.origin - averagePoint;
                     Debug.DrawRay(rayCastPosition, offset, Color.green);
+                }
+                Vector3 sensorPosition = rayCastPosition + offset;
+                
+                if(selectedRecipe is BuildRecipeHeight)
+                {
+                    sensorPosition += (selectedRecipe as BuildRecipeHeight).GetHeightOffset();
                 }
 
                 //Offset the sensor, this is to trigger snapping from the correct position
-                sensorBuilding.transform.SetPositionAndRotation(rayCastPosition + offset, buildRotation);
+                sensorBuilding.transform.SetPositionAndRotation(sensorPosition, buildRotation);
 
                 //Offset the buildposition
                 buildPosition = rayCastPosition + offset;
+                
+                if(selectedRecipe is BuildRecipeHeight)
+                {
+                    buildPosition += (selectedRecipe as BuildRecipeHeight).GetHeightOffset();
+                }
 
                 if (sensorBuilding.snappedPointSelf != null)
                 {
@@ -238,6 +251,7 @@ namespace OutcastMayor.Building
                     }
                 }
                 ghostBuilding.transform.SetPositionAndRotation(buildPosition, buildRotation);
+                ghostBuilding.OnSetPosition();
              }
         }
 
@@ -280,7 +294,7 @@ namespace OutcastMayor.Building
                     buildAngle.y += angleDelta;
                     buildAngle.y %= 360;
                 }
-                else
+                else if(!(ghostBuilding is Floor))
                 {
                     buildAngle.x += angleDelta;
                     buildAngle.x %= 360;

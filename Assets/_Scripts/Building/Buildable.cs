@@ -169,6 +169,11 @@ namespace OutcastMayor.Building
             }
         }
 
+        public virtual void OnSetPosition()
+        {
+            
+        }
+
         public virtual OverlapResult CheckRoomOverlap()
         {
             OverlapResult result;

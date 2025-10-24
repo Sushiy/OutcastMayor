@@ -38,6 +38,8 @@ namespace OutcastMayor.Interaction
         public void StopSleeping(Character character)
         {
             isOccupied = false;
+            character.WakeUp();
+            character.OnStopSleeping -= StopSleeping;
         }
     }
 

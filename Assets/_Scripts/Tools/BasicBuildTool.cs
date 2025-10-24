@@ -54,8 +54,14 @@ namespace OutcastMayor
 
         public override void OnRotateTool(float _rotateValue, bool _isModifierDown)
         {
-            if(buildingMode)
+            if (buildingMode)
                 buildingMode.Rotate(_rotateValue, _isModifierDown);
+        }
+
+        public override void OnAlternateTool(float _value)
+        {
+            if (buildingMode)
+                buildingMode.Alternate(_value);
         }
 
         public override void OnUseToolSecondary(Character _parentCharacter)

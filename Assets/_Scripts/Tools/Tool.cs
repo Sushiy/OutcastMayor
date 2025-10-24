@@ -36,6 +36,10 @@ namespace OutcastMayor
         {
 
         }
+        public virtual void OnAlternateTool(float _value)
+        {
+
+        }
 
         public virtual bool OnProcessRaycast(Vector3 _raycastOrigin, Vector3 _raycastDirection)
         {

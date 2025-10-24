@@ -34,7 +34,7 @@ namespace OutcastMayor.Building
             public List<Buildable> walls;
         }
 
-        private ValidityResult validityResult;
+        protected ValidityResult validityResult;
         public ValidityResult LastValidityResult
         {
             get
@@ -108,11 +108,11 @@ namespace OutcastMayor.Building
             }
             room = r;
             room.AddFloor(this);
-            SetRenderColor(r.roomColor);
+            //SetRenderColor(r.roomColor);
         }
 
 
-        private bool CheckVisibility(Floor f)
+        protected bool CheckVisibility(Floor f)
         {
             RaycastHit raycastHit;
             Buildable b;
@@ -216,7 +216,7 @@ namespace OutcastMayor.Building
             }
         }
 
-        private bool CheckDirectionForBuildable(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float range, out Buildable buildable)
+        protected bool CheckDirectionForBuildable(Vector3 origin, Vector3 direction, out RaycastHit hitInfo, float range, out Buildable buildable)
         {
             if (Physics.Raycast(origin, direction.normalized, out hitInfo, range, buildLayer))
             {

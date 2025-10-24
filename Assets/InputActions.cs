@@ -170,6 +170,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alternate"",
+                    ""type"": ""Button"",
+                    ""id"": ""a951bd0c-c813-48a4-bea8-043b3a56159e"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -610,6 +619,17 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Ctrl"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""f3184717-5fb1-4679-ac4b-710305326251"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Alternate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1213,6 +1233,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Tertiary = m_Player.FindAction("Tertiary", throwIfNotFound: true);
         m_Player_Ctrl = m_Player.FindAction("Ctrl", throwIfNotFound: true);
+        m_Player_Alternate = m_Player.FindAction("Alternate", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1308,6 +1329,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Tertiary;
     private readonly InputAction m_Player_Ctrl;
+    private readonly InputAction m_Player_Alternate;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1328,6 +1350,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Tertiary => m_Wrapper.m_Player_Tertiary;
         public InputAction @Ctrl => m_Wrapper.m_Player_Ctrl;
+        public InputAction @Alternate => m_Wrapper.m_Player_Alternate;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1385,6 +1408,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Ctrl.started += instance.OnCtrl;
             @Ctrl.performed += instance.OnCtrl;
             @Ctrl.canceled += instance.OnCtrl;
+            @Alternate.started += instance.OnAlternate;
+            @Alternate.performed += instance.OnAlternate;
+            @Alternate.canceled += instance.OnAlternate;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1437,6 +1463,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Ctrl.started -= instance.OnCtrl;
             @Ctrl.performed -= instance.OnCtrl;
             @Ctrl.canceled -= instance.OnCtrl;
+            @Alternate.started -= instance.OnAlternate;
+            @Alternate.performed -= instance.OnAlternate;
+            @Alternate.canceled -= instance.OnAlternate;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1635,6 +1664,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRotate(InputAction.CallbackContext context);
         void OnTertiary(InputAction.CallbackContext context);
         void OnCtrl(InputAction.CallbackContext context);
+        void OnAlternate(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {

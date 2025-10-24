@@ -1,0 +1,23 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7696e494ab84f60408284558a75f3064, type: 3}
+  m_Name: b_WoodFoundation
+  m_EditorClassIdentifier: 
+  Name: Wood Foundation
+  Icon: {fileID: 0}
+  materials:
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 2
+  buildingPrefab: {fileID: 1299753516267626754, guid: babb8a8e9a1d30d46aacfd478be19c0f, type: 3}
+  constructionPrefab: {fileID: 6862409197243004299, guid: f68f5f5a89e99654dbaeec948f0adea1, type: 3}
+  stepSize: 0.1
+  heightOffset: -0.40000185

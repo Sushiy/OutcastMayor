@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace OutcastMayor
@@ -32,6 +33,7 @@ namespace OutcastMayor
         private bool tertiaryPressed = false;
 
         private bool controlDown = false;
+        private bool alternateDown = false;
 
         private bool primaryPressed = false;
 
@@ -113,6 +115,9 @@ namespace OutcastMayor
             inputActions.Player.Ctrl.performed += OnControl;
             inputActions.Player.Ctrl.canceled += OnControl;
 
+            inputActions.Player.Alternate.performed += OnAlternate;
+            inputActions.Player.Alternate.canceled += OnAlternate;
+
         }
 
         void OnDestroy()
@@ -163,6 +168,9 @@ namespace OutcastMayor
 
             inputActions.Player.Ctrl.performed -= OnControl;
             inputActions.Player.Ctrl.canceled -= OnControl;
+
+            inputActions.Player.Alternate.performed -= OnAlternate;
+            inputActions.Player.Alternate.canceled -= OnAlternate;
 
         }
 
@@ -293,7 +301,10 @@ namespace OutcastMayor
             if ((v != 0 && !value.performed) || UIManager.IsUIOpen)
                 return;
             rotateValue = v;
-            player.PlayerToolManager.ToolRotate(rotateValue, controlDown);
+            if (alternateDown)
+                player.PlayerToolManager.ToolAlternate(rotateValue);
+            else
+                player.PlayerToolManager.ToolRotate(rotateValue, controlDown);
         }
         
         void OnTertiary(CallbackContext value)
@@ -311,6 +322,14 @@ namespace OutcastMayor
                 controlDown = true;
             else if (controlDown && value.canceled)
                 controlDown = false;
+        }
+
+        void OnAlternate(CallbackContext value)
+        {
+            if (!alternateDown && value.performed)
+                alternateDown = true;
+            else if (alternateDown && value.canceled)
+                alternateDown = false;
         }
 
         Vector2 mousePosition;
