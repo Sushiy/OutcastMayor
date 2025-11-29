@@ -6,22 +6,35 @@ namespace OutcastMayor.Requests
 {
     public class RequestLog : MonoBehaviour
     {
-        public List<Request> activeRequests;
+        public Dictionary<string, Request> activeRequests;
 
-        public List<Request> completedRequests;
+        public Dictionary<string, Request> completedRequests;
 
-        public void AddQuest(Request q)
+        public void AddQuest(Request _request)
         {
-            activeRequests.Add(q);
+            if(activeRequests == null)
+            {
+                activeRequests = new Dictionary<string, Request>();
+            }
+            activeRequests.Add(_request.RequestData.questID, _request);
+            _request.OnRequestCompleted += OnQuestCompleted;
         }
 
-        public void CheckActiveQuests()
+        void OnQuestCompleted(Request _request)
         {
-            for (int i = 0; i < activeRequests.Count; i++)
-            {
-                //Check each active quest if it is completed/completeable
+            activeRequests.Remove(_request.RequestData.questID);
+            
+            if(completedRequests == null)
+                completedRequests = new Dictionary<string, Request>();
 
-            }
+            completedRequests.Add(_request.RequestData.questID, _request);
+            _request.OnRequestCompleted -= OnQuestCompleted;
+        }
+
+        public void CheckActiveQuest(Request _request)
+        {
+            if(activeRequests.ContainsKey(_request.RequestData.questID))
+                activeRequests[_request.RequestData.questID].CheckGoal();
         }
     }
 }

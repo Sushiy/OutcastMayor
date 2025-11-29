@@ -2,8 +2,10 @@ using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using Sirenix.OdinInspector;
+using Unity.Mathematics;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.UIElements;
 
 namespace OutcastMayor
 {
@@ -31,6 +33,8 @@ namespace OutcastMayor
         float jumpHeight = 1.0f;
 
         const float GRAVITY = -9.81f;
+        [SerializeField]
+        LayerMask groundLayerMask;
 
         Vector3 movementDelta;
         [SerializeField]
@@ -72,7 +76,7 @@ namespace OutcastMayor
         // Update is called once per frame
         void Update()
         {
-            isGrounded = characterController.isGrounded;
+            isGrounded = Physics.CheckSphere(transform.position +Vector3.down *.2f, .2f, groundLayerMask);
             Player.Instance.CharacterAnimation.SetGrounded(isGrounded);
 
             if (movementLocked)
@@ -131,8 +135,8 @@ namespace OutcastMayor
             float frameSpeed = moveSpeed * Time.deltaTime;
             verticalSpeed += GRAVITY * Time.deltaTime * Time.deltaTime;
 
-            //If the player is not moving, orbit the camera by rotating the player
-            if (moveInput.x != 0 || moveInput.y != 0)
+            //If the player is moving, adjust the camera to the movement
+            if (IsMoving())
             {
                 //1.Set the player rotation based on the look transform
                 transform.rotation = Quaternion.Euler(0, followTransform.rotation.eulerAngles.y, 0);
@@ -153,6 +157,7 @@ namespace OutcastMayor
                     followTransform.rotation *= Quaternion.Euler(0, adjustAngle, 0);
                 }
             }
+            //If the player is not moving, allow free orbiting of the camera
             else
             {
                 movementDelta = Vector3.zero;
@@ -175,11 +180,11 @@ namespace OutcastMayor
         {
             if (characterController.isGrounded)
             {
-                jumpPressed = true;
+                print("[PlayerMovement] Jump!");
                 Player.Instance.CharacterAnimation.SetJump();
             }
             else
-                print("not grounded");
+                print("[PlayerMovement] Can't Jump: Not grounded");
         }
 
         public void TeleportTo(Vector3 position)
@@ -197,6 +202,11 @@ namespace OutcastMayor
         public void LockMovement(bool locked)
         {
             movementLocked = locked;
+        }
+
+        public bool IsMoving()
+        {
+            return moveInput.x != 0 || moveInput.y != 0;
         }
     }
 

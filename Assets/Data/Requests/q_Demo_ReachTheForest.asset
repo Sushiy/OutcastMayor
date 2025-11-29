@@ -1,0 +1,51 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c59b6242227a44a2409abec90e7f7, type: 3}
+  m_Name: q_Demo_ReachTheForest
+  m_EditorClassIdentifier: 
+  questID: q_benjo_1
+  requester: {fileID: 11400000, guid: 1f2d295c236ae5741b54846adfe0e08f, type: 2}
+  title: Reaching the Forest
+  description: The Old Bridge has collapsed. We need a new path.
+  reward: 
+  goals:
+  - rid: 5428174107131772937
+  - rid: 5428174107131772938
+  - rid: 5428174107131772939
+  CompletedDialogueValue: $benjo_quest_0_state
+  references:
+    version: 2
+    RefIds:
+    - rid: 5428174107131772937
+      type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
+      data:
+        description: Reach the first island
+        IsCompleted: 0
+        startPosition: {fileID: 0}
+        targetPosition: {fileID: 0}
+        shouldGoAfterCompetion: 1
+    - rid: 5428174107131772938
+      type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
+      data:
+        description: Reach the second island
+        IsCompleted: 0
+        startPosition: {fileID: 0}
+        targetPosition: {fileID: 0}
+        shouldGoAfterCompetion: 1
+    - rid: 5428174107131772939
+      type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
+      data:
+        description: Reach the forest
+        IsCompleted: 0
+        startPosition: {fileID: 0}
+        targetPosition: {fileID: 0}
+        shouldGoAfterCompetion: 1

@@ -9,4 +9,6 @@ public interface IMovement
     public void SnapYRotation(Quaternion rotation);
 
     public void LockMovement(bool locked);
+
+    public bool IsMoving();
 }

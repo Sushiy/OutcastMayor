@@ -9,11 +9,11 @@ namespace OutcastMayor
     /// NonPlayerCharacter
     /// </summary>
     [CreateAssetMenu(fileName = "NewNPC", menuName = "ScriptableObjects/NPC", order = 1)]
-    public class NPC : ScriptableObject
+    public class NPC_Data : ScriptableObject
     {
         [SerializeField] private string characterName;
 
-        [SerializeField] private Request[] availableRequests;
+        [SerializeField] private RequestData[] availableRequests;
 
         public string CharacterName
         {
@@ -23,7 +23,7 @@ namespace OutcastMayor
             }
         }
 
-        public Request GetQuest(int i)
+        public RequestData GetQuest(int i)
         {
             return availableRequests[i];
         }

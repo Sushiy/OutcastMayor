@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using OutcastMayor.Requests;
 using UnityEngine;
 using Yarn.Unity;
 
@@ -13,6 +14,7 @@ namespace OutcastMayor.Dialogue
         {
             dialogueRunner = GetComponent<DialogueRunner>();
             dialogueRunner.AddCommandHandler<string, int>("NewQuest", OnNewQuest);
+            dialogueRunner.AddCommandHandler<string, int>("CheckQuest", OnCheckQuest);
         }
 
         public static void StartDialogue(string node)
@@ -26,15 +28,21 @@ namespace OutcastMayor.Dialogue
         {
             CameraController.ChangeToStandardCamera();
         }
-
+        
         public void OnNewQuest(string characterName, int questIndex)
         {
-            Requests.Request q = NPCManager.GetNPCByName(characterName).GetQuest(questIndex);
-            q.Init();
-            UI.UIManager.Instance.ShowNewRequestView(q);
+            Request request = new Request(NPCManager.GetNPCByName(characterName).NPCData.GetQuest(questIndex));
+            UI.UIManager.Instance.ShowNewRequestView(request);
             if (Player.Instance == null)
                 print("No player");
-            Player.Instance.QuestLog.AddQuest(q);
+            Player.Instance.QuestLog.AddQuest(request);
+        }
+        public void OnCheckQuest(string characterName, int questIndex)
+        {
+            Request request = new Request(NPCManager.GetNPCByName(characterName).NPCData.GetQuest(questIndex));
+            if (Player.Instance == null)
+                print("No player");
+            Player.Instance.QuestLog.CheckActiveQuest(request);
         }
 
         public static void SetDialogueValue(string valueName, bool boolValue)

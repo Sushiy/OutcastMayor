@@ -25,7 +25,7 @@ namespace OutcastMayor.Building
         /// </summary>
         public bool IsDirty = false;
 
-        public HashSet<NPC> assignedNPCs;
+        public HashSet<NPC_Data> assignedNPCs;
 
         public Color roomColor;
 

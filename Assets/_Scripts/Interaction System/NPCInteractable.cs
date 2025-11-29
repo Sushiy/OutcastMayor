@@ -5,24 +5,22 @@ using UnityEngine;
 
 namespace OutcastMayor.Interaction
 {
+    [RequireComponent(typeof(NPC))]
     public class NPCInteractable : Interactable
     {
-        [SerializeField] private string firstDialogueLine;
-        [SerializeField] private NPC npc;
+        [SerializeField] private string baseDialogueLine;
+        private NPC npc;
+
         private void Start()
         {
-            if (npc != null)
-            {
-                NPCManager.AddNPC(npc);
-            }
+            npc = GetComponent<NPC>();
+            name = npc.CharacterName;
         }
 
         public override void Interact(Interactor interactor)
         {
             base.Interact(interactor);
-            print("test");
-            DialogueSystem.StartDialogue(firstDialogueLine);
-
+            DialogueSystem.StartDialogue(baseDialogueLine);
         }
     }
 }

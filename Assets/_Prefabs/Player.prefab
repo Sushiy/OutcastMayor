@@ -1027,8 +1027,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fb66bb2b5fff1414faa1217429917788, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  activeRequests: []
-  completedRequests: []
 --- !u!114 &7044264370447733069
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5297,6 +5295,9 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+  OnJump:
+    m_PersistentCalls:
+      m_Calls: []
 --- !u!114 &4005974494108789351
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -6924,10 +6925,6 @@ PrefabInstance:
       propertyPath: m_VerticalAlignment
       value: 512
       objectReference: {fileID: 0}
-    - target: {fileID: 2816750747742054274, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
-      propertyPath: m_enableWordWrapping
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 2986318703601575452, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
       propertyPath: m_Sprite
       value: 
@@ -7015,10 +7012,6 @@ PrefabInstance:
     - target: {fileID: 3635043402035541795, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
       propertyPath: m_RootOrder
       value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 3755523752265185955, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
-      propertyPath: m_enableWordWrapping
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3806708944238679584, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
       propertyPath: m_Layer
@@ -8363,10 +8356,6 @@ PrefabInstance:
     - target: {fileID: 6689994986403081283, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
       propertyPath: m_RootOrder
       value: 7
-      objectReference: {fileID: 0}
-    - target: {fileID: 6744835489078026883, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
-      propertyPath: m_enableWordWrapping
-      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6803180753691146267, guid: 16bfc1b9e8d523d4d8692b2cc98e5b70, type: 3}
       propertyPath: m_Layer

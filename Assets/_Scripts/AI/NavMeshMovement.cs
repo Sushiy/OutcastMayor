@@ -1,11 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
+using OutcastMayor;
 using UnityEngine;
 using UnityEngine.AI;
 using UnityEngine.Events;
 
 [RequireComponent(typeof(NavMeshAgent))]
-public class AIMovement : MonoBehaviour, IMovement
+public class NavMeshMovement : MonoBehaviour, IMovement
 {
     float runningSpeed = 5.0f;
     float walkingSpeed = 3.0f;
@@ -19,35 +20,62 @@ public class AIMovement : MonoBehaviour, IMovement
     bool startedPath;
 
     CharacterAnimation characterAnimation;
+    Character character;
 
     bool movementLocked = false;
+
+    [SerializeField, Sirenix.OdinInspector.ReadOnly]
+    bool isGrounded;
+    [SerializeField]
+    LayerMask groundLayerMask;
 
     private void Awake()
     {
         navMeshAgent = GetComponent<NavMeshAgent>();
         characterAnimation = GetComponent<CharacterAnimation>();
+        character = GetComponent<Character>();
         OnPathComplete = new UnityEvent();
     }
 
-    public void MoveTo(Vector3 position, bool running, UnityAction callback)
+    public bool CheckPositionReachable(Vector3 _targetPosition, out NavMeshPath _navMeshPath)
+    {
+        _navMeshPath = new NavMeshPath();
+        NavMeshHit sampledPosition;
+        if(NavMesh.SamplePosition(_targetPosition, out sampledPosition, 4.0f, NavMesh.AllAreas))
+        {
+            if(navMeshAgent.CalculatePath(sampledPosition.position, _navMeshPath) && _navMeshPath.status == NavMeshPathStatus.PathComplete)
+            {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public void TryMoveTo(Vector3 position, bool running, UnityAction callback)
     {
         OnPathComplete.RemoveAllListeners();
-        OnPathComplete.AddListener(callback);
-        if(navMeshAgent.SetDestination(position))
+        if(CheckPositionReachable(position, out NavMeshPath navMeshPath))
         {
-            running = Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) > minRunningDistance;
-            navMeshAgent.speed = running ? runningSpeed : walkingSpeed;
-            startedPath = true;
-            print("Path started");
-        }
-        else
-        {
-            print("Destination could not be set.");
+            OnPathComplete.AddListener(callback);
+            if(navMeshAgent.SetPath(navMeshPath))
+            {
+                running = Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) > minRunningDistance;
+                navMeshAgent.speed = running ? runningSpeed : walkingSpeed;
+                startedPath = true;
+                print($"[{name}->Movement]: Path started");
+            }
+            else
+            {
+                print($"[{name}->Movement]: Path not found");
+            }
+            
         }
     }
 
     private void Update()
     {
+        isGrounded = Physics.CheckSphere(transform.position +Vector3.down *.2f, .2f, groundLayerMask);
+        characterAnimation.SetGrounded(isGrounded);
         float velocity = navMeshAgent.velocity.magnitude;
         if (startedPath && velocity > 0)
         {

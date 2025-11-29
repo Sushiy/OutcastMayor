@@ -16,34 +16,42 @@ namespace OutcastMayor.UI
         {
             activeQuest = q;
             UpdateText(activeQuest);
-            activeQuest.OnUpdateRequest += UpdateText;
+            activeQuest.OnRequestCompleted += UpdateText;
             base.Show();
         }
 
         public override void Hide()
         {
-            activeQuest.OnUpdateRequest -= UpdateText;
+            activeQuest.OnRequestCompleted -= UpdateText;
             activeQuest = null;
             base.Hide();
         }
 
-        public void UpdateText(Request q)
+        public void UpdateText(Request _request)
         {
-            this.titleText.text = q.title;
-            if (q.isCompleted)
+            this.titleText.text = _request.RequestData.title;
+            if (_request.IsCompleted)
             {
-                this.descText.text = q.description;
-                goalText.text = "Speak to " + q.requester.CharacterName + " again.";
+                this.descText.text = _request.RequestData.description;
+                goalText.text = "Speak to " + _request.RequestData.requester.CharacterName + " again.";
             }
             else
             {
-                this.descText.text = q.description;
+                this.descText.text = _request.RequestData.description;
                 string s = "";
-                for (int i = 0; i < q.goals.Length; i++)
+                for (int i = 0; i < _request.RequestData.goals.Count; i++)
                 {
-                    s += "- " + q.goals[i].description + " " + q.goals[i].currentAmount + "/" + q.goals[i].requiredAmount;
-                    if (i + 1 < q.goals.Length)
+                    if(_request.RequestData.goals[i].IsCompleted)
+                    {
+                        s += "<color=green>";
+                    }
+                    s += "- " + _request.RequestData.goals[i].description;
+                    if (i + 1 < _request.RequestData.goals.Count)
                         s += "\n";
+                    if(_request.RequestData.goals[i].IsCompleted)
+                    {
+                        s += "</color>";
+                    }
                 }
                 goalText.text = s;
             }

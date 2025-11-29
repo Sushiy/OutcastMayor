@@ -1,0 +1,23 @@
+title:Benjo_Demo_Base
+---
+//This node controls Benjos dialogueflow
+<<set $benjo_spokenTo = $benjo_spokenTo + 1>>
+<<if $benjo_spokenTo is 1>>
+    <<jump Benjo_Demo_Quest0_0>>
+<<elseif $benjo_quest_0_state < 2>>
+    <<jump Benjo_Demo_Quest0_1>>
+<<endif>>
+===
+
+title: Benjo_Demo_Quest0_0
+---
+Benjo: I cannot reach the other side like this. We need some sort of a bridge to pull the wagon through.
+    -> One moment, I'll get it done!
+     <<NewQuest Benjo 0>>
+===
+title: Benjo_Demo_Quest0_1
+---
+Benjo: I suppose you're still working on that?
+    -> Yep, I need a little longer!
+     <<CheckQuest Benjo 0>>
+===

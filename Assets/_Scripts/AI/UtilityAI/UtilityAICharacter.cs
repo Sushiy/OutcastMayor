@@ -25,7 +25,7 @@ namespace OutcastMayor.UtilityAI
         public float satedness;
         //how sleepy the npc is
         public float sleepy;
-        private AIMovement aiMovement;
+        private NavMeshMovement aiMovement;
 
         //Temporary stuff
         public List<Construction> availableConstructions;
@@ -53,7 +53,7 @@ namespace OutcastMayor.UtilityAI
             base.Awake();
             availableConstructions = new List<Construction>();
             reasoner = new Reasoner(); //??
-            aiMovement = GetComponent<AIMovement>();
+            aiMovement = GetComponent<NavMeshMovement>();
 
             //Setup states
             IdleState = new State(IdleStart, IdleUpdate, IdleExit, this, "Idle");
@@ -149,7 +149,7 @@ namespace OutcastMayor.UtilityAI
             if(!aiMovement.IsAlreadyArrived(position))
             {
                 ChangeState(MoveToState);
-                aiMovement.MoveTo(position, running, ArrivedAtLocation);
+                aiMovement.TryMoveTo(position, running, ArrivedAtLocation);
             }
             else
             {

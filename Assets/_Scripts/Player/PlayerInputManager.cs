@@ -117,6 +117,7 @@ namespace OutcastMayor
 
             inputActions.Player.Alternate.performed += OnAlternate;
             inputActions.Player.Alternate.canceled += OnAlternate;
+            print("Awake?");
 
         }
 
@@ -223,11 +224,15 @@ namespace OutcastMayor
 
         void OnInteract(CallbackContext value)
         {
-            print("Interact");
             interactPressed = value.performed;
             if (interactPressed && !UIManager.IsUIOpen)
             {
+                print("Interact performed");  
                 interactor.Interact();
+            }
+            if(value.canceled)
+            {
+                print("Interact canceled");
             }
         }
         void OnSecondary(CallbackContext value)

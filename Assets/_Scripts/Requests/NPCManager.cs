@@ -6,7 +6,7 @@ namespace OutcastMayor
 {
     public class NPCManager : MonoBehaviour
     {
-        private List<NPC> npcs;
+        private Dictionary<string, NPC> npcs;
 
         public static NPCManager Instance;
 
@@ -23,23 +23,20 @@ namespace OutcastMayor
             }
             if (npcs == null)
             {
-                npcs = new List<NPC>();
+                npcs = new Dictionary<string, NPC>();
             }
         }
 
         public static void AddNPC(NPC npc)
         {
-            Instance.npcs.Add(npc);
+            Instance.npcs.Add(npc.CharacterName, npc);
         }
 
         public static NPC GetNPCByName(string name)
         {
-            for (int i = 0; i < Instance.npcs.Count; i++)
+            if(Instance.npcs.ContainsKey(name))
             {
-                if (name == Instance.npcs[i].CharacterName)
-                {
-                    return Instance.npcs[i];
-                }
+                return Instance.npcs[name];
             }
             return null;
         }
