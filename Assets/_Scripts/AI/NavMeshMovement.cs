@@ -54,12 +54,15 @@ public class NavMeshMovement : MonoBehaviour, IMovement
     public void TryMoveTo(Vector3 position, bool running, UnityAction callback)
     {
         OnPathComplete.RemoveAllListeners();
+        
+        navMeshAgent.agentTypeID = character.WeightedDown? AgentTypeID.GetAgenTypeIDByName("Large") : AgentTypeID.GetAgenTypeIDByName("Medium");
+
         if(CheckPositionReachable(position, out NavMeshPath navMeshPath))
         {
             OnPathComplete.AddListener(callback);
             if(navMeshAgent.SetPath(navMeshPath))
             {
-                running = Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) > minRunningDistance;
+                running = !character.WeightedDown && Vector3.Distance(navMeshAgent.destination, navMeshAgent.transform.position) > minRunningDistance;
                 navMeshAgent.speed = running ? runningSpeed : walkingSpeed;
                 startedPath = true;
                 print($"[{name}->Movement]: Path started");
@@ -147,4 +150,23 @@ public class NavMeshMovement : MonoBehaviour, IMovement
     {
         movementLocked = locked;
     }
+
+     public static class AgentTypeID
+ {
+     public static int GetAgenTypeIDByName(string agentTypeName)
+     {
+         int count = NavMesh.GetSettingsCount();
+         string[] agentTypeNames = new string[count + 2];
+         for (var i = 0; i < count; i++)
+         {
+             int id = NavMesh.GetSettingsByIndex(i).agentTypeID;
+             string name = NavMesh.GetSettingsNameFromID(id);
+             if(name == agentTypeName)
+             {
+                 return id;
+             }
+         }
+         return -1;
+     }
+ }
 }

@@ -241,12 +241,19 @@ namespace OutcastMayor.Building
             result.touchedRooms = new List<Room>();
 
             Collider[] colliders = Physics.OverlapBox(transform.position, buildCollider.size / 2.0f, transform.rotation, buildLayer);
-            print("Touched: " + colliders.Length + " buildables");
+            print("[Floor->CheckRoomOverlap] Overlapped: " + colliders.Length + " buildables");
             //2. Step through all of the objects, find floors and tell them to check their rooms!
             for (int i = 0; i < colliders.Length; i++)
             {
+                if (colliders[i] == buildCollider) 
+                {
+                    continue;
+                }
                 Floor f = colliders[i].GetComponentInParent<Floor>();
-                if (f == this) continue;
+                if (f == this) 
+                {
+                    continue;
+                }
                 if (f && CheckVisibility(f))
                 {
                     result.touchedFloors.Add(f);
@@ -256,7 +263,7 @@ namespace OutcastMayor.Building
                     }
                 }
             }
-            print("Touched: " + result.touchedFloors.Count + " floors & " + result.touchedRooms.Count + " rooms");
+            print("[Floor->CheckRoomOverlap] Overlapped: " + result.touchedFloors.Count + " floors & " + result.touchedRooms.Count + " rooms");
             return result;
         }
 

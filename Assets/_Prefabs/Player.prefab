@@ -414,6 +414,7 @@ GameObject:
   - component: {fileID: 1919495045}
   - component: {fileID: 1919495046}
   - component: {fileID: 1919495047}
+  - component: {fileID: 307751184609377779}
   m_Layer: 12
   m_Name: Player
   m_TagString: Player
@@ -850,6 +851,9 @@ MonoBehaviour:
   minVerticalCamAngle: 60
   camToMoveAdjustSpeed: 0
   jumpHeight: 1
+  groundLayerMask:
+    serializedVersion: 2
+    m_Bits: 0
   rotationTarget: {fileID: 3268295617063870956}
   isGrounded: 0
   followTransform: {fileID: 5109792675333847852}
@@ -1179,6 +1183,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 655fbb371ec086540bcafbfb25db56a7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &307751184609377779
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5109792676359509119}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9e4976c425cc0d44a845f19f7a947152, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rooms: []
+  validRoomFXPrefab: {fileID: 0}
 --- !u!1 &5193980011138726717
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,6 +28,11 @@ namespace OutcastMayor
         [HideInInspector]
         public UnityEvent<GameObject> OnHeldItemChanged;
 
+        new Rigidbody rigidbody;
+        public Rigidbody Rigidbody => rigidbody;
+
+        protected bool weightedDown;
+        public bool WeightedDown => weightedDown;
         public bool isSleeping
         {
             protected set;
@@ -45,6 +50,7 @@ namespace OutcastMayor
             interactor.SetParentCharacter(this);
             characterAnimation = GetComponent<CharacterAnimation>();
             movement = GetComponent<IMovement>();
+            rigidbody = GetComponent<Rigidbody>();
             HoldItem(0);
         }
 
@@ -64,6 +70,11 @@ namespace OutcastMayor
             isSleeping = false;
             characterAnimation.SetSleeping(false);
             OnStopSleeping?.Invoke(this);
+        }
+
+        public virtual void SetWeightedDown(bool _weightedDown)
+        {
+            weightedDown = _weightedDown;
         }
 
         public virtual void HoldItem(int slotID)

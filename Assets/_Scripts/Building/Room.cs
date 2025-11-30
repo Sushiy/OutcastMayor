@@ -131,7 +131,7 @@ namespace OutcastMayor.Building
                 {
                     if (overlapResult.touchedRooms.Count > 1)
                     {
-                        Debug.LogError("You are touching another room!");
+                        Debug.Log("[Room->CheckFloorContinuity] You are touching another room!");
                     }
                     if (!checkedFloors.Contains(overlapResult.touchedFloors[i]) && !floorQueue.Contains(overlapResult.touchedFloors[i]))
                     {
@@ -142,7 +142,7 @@ namespace OutcastMayor.Building
                         }
                         else
                         {
-                            Debug.LogError("You are touching another room!");
+                            Debug.Log("[Room->CheckFloorContinuity] You are touching another room!");
                         }
                     }
                 }
@@ -155,17 +155,17 @@ namespace OutcastMayor.Building
 
             if (uncheckedFloorCount == 0)
             {
-                Debug.Log("FloorContinuity: Okay");
+                Debug.Log("[Room->CheckFloorContinuity] FloorContinuity: Okay");
             }
             else if (uncheckedFloorCount > 0)
             {
                 //All those which were not checked are a new room!
-                Debug.Log("FloorContinuity: Split");
+                Debug.Log("[Room->CheckFloorContinuity] FloorContinuity: Split");
                 SplitRoom(uncheckedFloors.ToArray());
             }
             else if (checkCounter > floors.Count)
             {
-                Debug.Log("FloorContinuity: Merge");
+                Debug.Log("[Room->CheckFloorContinuity] FloorContinuity: Merge");
             }
 
         }

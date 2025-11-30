@@ -19,6 +19,7 @@ namespace OutcastMayor.Building
         private void Awake()
         {
             instance = this;
+            rooms = new List<Room>();
         }
 
         public static Room CreateRoom()

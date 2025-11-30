@@ -142,6 +142,7 @@ namespace OutcastMayor.Building
         public void Complete()
         {
             //Remove the construction object
+            blueprintObject.gameObject.SetActive(false);
             Destroy(blueprintObject.gameObject);
             //Activate the normal object
             finishedObject.gameObject.SetActive(true);
