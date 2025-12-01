@@ -39,8 +39,20 @@ namespace OutcastMayor.Building
         private Quaternion buildXLocalRotation;
         [SerializeField]
         private float rotateSpeed = 10.0f;
+        [SerializeField]
         private Vector2 buildAngle = Vector2.zero;
+        
+        [SerializeField]
+        private float baseBuildAngleY = 0;
 
+        public enum BuildRotationMode
+        {
+            fixedAngle = 0,
+            viewAngle = 1,
+            normalAngle
+        }
+
+        public BuildRotationMode buildRotationMode = BuildRotationMode.fixedAngle;
 
         /// <summary>
         /// This copy snaps to where the player wants to build
@@ -135,6 +147,25 @@ namespace OutcastMayor.Building
         {
             if (isActive && ghostBuilding != null)
             {
+                
+                switch(buildRotationMode)
+                {
+                    case BuildRotationMode.fixedAngle:
+                        baseBuildAngleY = 0;
+                        break;
+                    case BuildRotationMode.viewAngle:
+                        Vector3 flatView = Camera.main.transform.forward;
+                        flatView.y = 0;
+                        baseBuildAngleY =  Quaternion.LookRotation(flatView).eulerAngles.y;
+                        break;
+                    case BuildRotationMode.normalAngle:
+                        Vector3 flatNormal = surfaceNormal.direction;
+                        flatNormal.y = 0;
+                        baseBuildAngleY = Quaternion.LookRotation(flatNormal).eulerAngles.y;
+                        break;
+                }
+                buildRotation = Quaternion.Euler(0, (baseBuildAngleY + buildAngle.y)%360, buildAngle.x);
+
                 Vector3 offset = Vector3.zero;
                 if (raycastHit)
                 {
@@ -294,12 +325,12 @@ namespace OutcastMayor.Building
                     buildAngle.y += angleDelta;
                     buildAngle.y %= 360;
                 }
-                else if(!(ghostBuilding is Floor))
+                else if(!(ghostBuilding is Foundation))
                 {
                     buildAngle.x += angleDelta;
                     buildAngle.x %= 360;
                 }
-                buildRotation = Quaternion.Euler(0, buildAngle.y, buildAngle.x);
+                buildRotation = Quaternion.Euler(0, (baseBuildAngleY + buildAngle.y)%360, buildAngle.x);
             }
         }
         public void Alternate(float alternateInput)

@@ -11,7 +11,6 @@ GameObject:
   - component: {fileID: 441409600782052031}
   - component: {fileID: 1308088236316132656}
   - component: {fileID: 2378574136965210502}
-  - component: {fileID: 3618821305032248198}
   - component: {fileID: 1208619712692400904}
   m_Layer: 9
   m_Name: toolHammer
@@ -81,40 +80,6 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 0
---- !u!114 &3618821305032248198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 368198024235444286}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b76f0d7d9ae7b4145b0efa51f14ae675, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  ghostMaterial: {fileID: 2100000, guid: adbcebed46d987b4380b5a819f5218a0, type: 2}
-  sensorMaterial: {fileID: 2100000, guid: 2e6d6b41841a0c1448fa71a33d23fa3a, type: 2}
-  buildingParent: {fileID: 0}
-  buildModeCullingMask:
-    serializedVersion: 2
-    m_Bits: 16127
-  recipes:
-  - {fileID: 11400000, guid: 4c1bd93169f94a5478b685e5aecbcefe, type: 2}
-  - {fileID: 11400000, guid: 4680aa1424a01584792ff4b84c26ea6b, type: 2}
-  - {fileID: 11400000, guid: 5645448ed267b154784c5bf373718cd0, type: 2}
-  - {fileID: 11400000, guid: fcf1c86703dbf5f43a3b8365c212ec62, type: 2}
-  - {fileID: 11400000, guid: 572eae68d791eae448800914cb8a407e, type: 2}
-  - {fileID: 11400000, guid: ce3676f88ff561c418f284610451463c, type: 2}
-  - {fileID: 11400000, guid: 946f1862cc93f0247970e7f644391905, type: 2}
-  - {fileID: 11400000, guid: 94e23359bc890524ab6eb4c90c7bc91e, type: 2}
-  - {fileID: 11400000, guid: 32102d8be627c1b4fb04f73616098571, type: 2}
-  - {fileID: 11400000, guid: 947d6191669282642a94546a865175a1, type: 2}
-  - {fileID: 11400000, guid: 1696336466d0a8943b4a54cbd34b7a8d, type: 2}
-  raycastMaxDistance: 5
-  rotateSpeed: 22.5
-  indicator: {fileID: 0}
-  autoCompleteBuilds: 0
 --- !u!114 &1208619712692400904
 MonoBehaviour:
   m_ObjectHideFlags: 0

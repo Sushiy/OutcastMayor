@@ -22,11 +22,16 @@ namespace OutcastMayor
 
         void Awake()
         {
-            buildingMode = GetComponent<BuildingMode>();            
+            
         }
 
         public override void Equip(Character _parentCharacter)
-        {            
+        {
+            base.Equip(_parentCharacter);
+            buildingMode = parentCharacter.GetComponent<BuildingMode>();
+            if(!buildingMode)
+                return;
+            
             gameObject.SetActive(true);
             if(buildingMode)
                 buildingMode.EnterBuildMode();
@@ -82,10 +87,15 @@ namespace OutcastMayor
         
         public override bool OnProcessRaycast(Vector3 _raycastOrigin, Vector3 _raycastDirection)
         {
-            Ray ray = new Ray(_raycastOrigin, _raycastDirection);
-            buildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
-            raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
-            return true;
+            if(buildingMode)
+            {
+                Ray ray = new Ray(_raycastOrigin, _raycastDirection);
+                buildingMode.ProcessRayCast(raycastHit, ray, hitInfo);
+                raycastHit = Physics.Raycast(ray, out hitInfo, 10.0f, buildRaycastLayerMask);
+                return true;                
+            }
+            else
+                return false;
         }
     }
 

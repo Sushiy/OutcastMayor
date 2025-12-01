@@ -7,8 +7,13 @@ namespace OutcastMayor
 {
     public abstract class Tool : MonoBehaviour
     {
-        public abstract void Equip(Character _parentCharacter);
+        
+        protected Character parentCharacter;
 
+        public virtual void Equip(Character _parentCharacter)
+        {
+            parentCharacter = _parentCharacter;
+        }
         public virtual void Unequip()
         {
 

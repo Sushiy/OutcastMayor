@@ -22,6 +22,7 @@ namespace OutcastMayor
 
         public override void Equip(Character _parentCharacter)
         {
+            base.Equip(_parentCharacter);
             gameObject.SetActive(true);
 
             //Set collider to inactive just in case
