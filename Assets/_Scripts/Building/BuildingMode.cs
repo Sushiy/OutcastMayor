@@ -1,4 +1,5 @@
 using OutcastMayor.Items;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,7 +15,7 @@ namespace OutcastMayor.Building
             get;
         }
         [Header("References")]
-        private Inventory inventory;
+        private Player player;
         [SerializeField]
         private Material ghostMaterial;
         [SerializeField]
@@ -69,9 +70,18 @@ namespace OutcastMayor.Building
         [SerializeField]
         bool autoCompleteBuilds = false;
 
+        //Events
+        public Action<BuildRotationMode> onBuildRotationModeChanged;
+
         private void Start()
         {
-            inventory = Player.Instance.Inventory;
+            player = Player.Instance;
+            player.PlayerInputManager.onRotationModePressed += NextRotationMode;
+        }
+
+        void OnDestroy()
+        {
+            player.PlayerInputManager.onRotationModePressed -= NextRotationMode;
         }
 
         public void ChooseBuildRecipe(BuildRecipe buildRecipe)
@@ -95,6 +105,7 @@ namespace OutcastMayor.Building
         public void EnterBuildMode()
         {
             isActive = true;
+            player.ChangeState(player.BuildingState);
             defaultCullingMask = Camera.main.cullingMask;
             Camera.main.cullingMask = buildModeCullingMask;
             if (selectedRecipe == null)
@@ -105,6 +116,7 @@ namespace OutcastMayor.Building
             {
                 ChooseBuildRecipe(selectedRecipe);
             }
+            UI.UIManager.Instance.ShowBuildingModeHud();
         }
 
         public void ExitBuildMode()
@@ -114,6 +126,7 @@ namespace OutcastMayor.Building
             if(indicator)
                 indicator.SetVisible(false);
             UI.UIManager.Instance.HideBuildingView();
+            UI.UIManager.Instance.HideBuildingModeHud();
             Destroy(ghostBuilding.gameObject);
             Destroy(sensorBuilding.gameObject);
         }
@@ -127,11 +140,11 @@ namespace OutcastMayor.Building
             Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             build.transform.localScale = selectedRecipe.BuildScale;
             build.gameObject.SetActive(false);
-            build.OnSetPosition();
+            build.OnBuild();
             Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             blue.transform.localScale = selectedRecipe.BuildScale;
             blue.SetBlueprintMode(ghostMaterial);
-            blue.OnSetPosition();
+            blue.OnBuild();
             Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, blue.transform);
             c.transform.localScale = selectedRecipe.BuildScale;
             c.SetConstruction(selectedRecipe, build, blue, autoCompleteBuilds);
@@ -161,7 +174,10 @@ namespace OutcastMayor.Building
                     case BuildRotationMode.normalAngle:
                         Vector3 flatNormal = surfaceNormal.direction;
                         flatNormal.y = 0;
-                        baseBuildAngleY = Quaternion.LookRotation(flatNormal).eulerAngles.y;
+                        if(flatNormal != Vector3.zero)
+                        {
+                            baseBuildAngleY = Quaternion.LookRotation(flatNormal).eulerAngles.y; 
+                        }
                         break;
                 }
                 buildRotation = Quaternion.Euler(0, (baseBuildAngleY + buildAngle.y)%360, buildAngle.x);
@@ -271,7 +287,7 @@ namespace OutcastMayor.Building
                     buildPosition += (selectedRecipe as BuildRecipeHeight).GetHeightOffset();
                 }
 
-                if (sensorBuilding.snappedPointSelf != null)
+                if (sensorBuilding.snappedPointSelf != null && sensorBuilding.snappedPointOther != null)
                 {
                     Debug.DrawLine(sensorBuilding.snappedPointSelf.position, sensorBuilding.snappedPointOther.position, Color.red);
                     Vector3 snappedBuildPosition = buildPosition + sensorBuilding.snappedPointOther.position - sensorBuilding.snappedPointSelf.position;
@@ -312,6 +328,12 @@ namespace OutcastMayor.Building
                 }
                 rayCastPosition = ray.origin + ray.direction * raycastMaxDistance;
             }
+        }
+
+        public void NextRotationMode()
+        {
+            buildRotationMode = (BuildRotationMode)(((int)buildRotationMode +1)%3);
+            onBuildRotationModeChanged?.Invoke(buildRotationMode);
         }
 
         public void Rotate(float rotateInput, bool _isModifierDown)

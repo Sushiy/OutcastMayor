@@ -1,9 +1,6 @@
 using OutcastMayor.UI;
-using System.Collections;
-using System.Collections.Generic;
+using System;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 using static UnityEngine.InputSystem.InputAction;
 
 namespace OutcastMayor
@@ -18,7 +15,8 @@ namespace OutcastMayor
             }
         }
 
-        public InputActions inputActions;
+        [SerializeField]
+        private InputActions inputActions;
 
         Vector2 moveInput;
         Vector2 lookInput;
@@ -34,8 +32,15 @@ namespace OutcastMayor
 
         private bool controlDown = false;
         private bool alternateDown = false;
-
         private bool primaryPressed = false;
+
+        public Action onPrimaryPressed;
+        public Action onSecondaryPressed;
+        public Action onTertiaryPressed;
+        public Action onInteractPressed;
+        public Action onInventoryPressed;
+        public Action onRotationModePressed;
+        public Action onBuildModePressed;
 
         [SerializeField]
         private Player player;
@@ -70,54 +75,47 @@ namespace OutcastMayor
             //Player input map
             inputActions.Player.Move.performed += OnMovePerformed;
             inputActions.Player.Move.canceled += OnMoveCanceled;
-            inputActions.Player.Look.performed += OnLook;
+
+            inputActions.Player.Look.performed += OnLookPerformed;
             inputActions.Player.Look.canceled += OnLookCanceled;
 
             inputActions.Player.Jump.performed += OnJump;
-            inputActions.Player.Jump.canceled += OnJump;
 
             inputActions.Player.Interact.performed += OnInteract;
-            inputActions.Player.Interact.canceled += OnInteract;
 
             inputActions.Player.Secondary.performed += OnSecondary;
-            inputActions.Player.Secondary.canceled += OnSecondary;
 
             inputActions.Player.Inventory.performed += OnInventory;
-            inputActions.Player.Inventory.canceled += OnInventory;
 
             inputActions.Player.Primary.performed += OnPrimary;
-            inputActions.Player.Primary.canceled += OnPrimary;
 
             inputActions.Player.Item1.performed += OnItem1Key;
-            inputActions.Player.Item1.canceled += OnItem1Key;
 
             inputActions.Player.Item2.performed += OnItem2Key;
-            inputActions.Player.Item2.canceled += OnItem2Key;
 
             inputActions.Player.Item3.performed += OnItem3Key;
-            inputActions.Player.Item3.canceled += OnItem3Key;
 
             inputActions.Player.Item4.performed += OnItem4Key;
-            inputActions.Player.Item4.canceled += OnItem4Key;
-
-            inputActions.Player.ToolMenu.performed += OnToolMenu;
-            inputActions.Player.ToolMenu.canceled += OnToolMenu;
 
             inputActions.Player.Position.performed += OnPosition;
             inputActions.Player.Position.canceled += OnPositionCanceled;
 
-            inputActions.Player.Rotate.performed += OnRotate;
-            inputActions.Player.Rotate.canceled += OnRotate;
-
             inputActions.Player.Tertiary.performed += OnTertiary;
-            inputActions.Player.Tertiary.canceled += OnTertiary;
 
-            inputActions.Player.Ctrl.performed += OnControl;
-            inputActions.Player.Ctrl.canceled += OnControl;
+            inputActions.Player.Ctrl.performed += OnControlPerformed;
+            inputActions.Player.Ctrl.canceled += OnControlCanceled;  
 
-            inputActions.Player.Alternate.performed += OnAlternate;
-            inputActions.Player.Alternate.canceled += OnAlternate;
-            print("Awake?");
+            inputActions.Player.ToolMenu.performed += OnToolMenu;
+
+            //BuildMode specific stuff
+            inputActions.BuildMode.Rotate.performed += OnRotate; 
+
+            inputActions.BuildMode.RotationMode.performed += OnRotationMode; 
+
+            inputActions.BuildMode.Alternate.performed += OnAlternatePerformed;
+            inputActions.BuildMode.Alternate.canceled += OnAlternateCanceled;
+            
+            print("[PlayerInputManager] Awake completed");
 
         }
 
@@ -127,55 +125,78 @@ namespace OutcastMayor
             inputActions = new InputActions();
             inputActions.Player.Move.performed -= OnMovePerformed;
             inputActions.Player.Move.canceled -= OnMoveCanceled;
-            inputActions.Player.Look.performed -= OnLook;
+
+            inputActions.Player.Look.performed -= OnLookPerformed;
             inputActions.Player.Look.canceled -= OnLookCanceled;
+
             inputActions.Player.Interact.performed -= OnInteract;
-            inputActions.Player.Interact.canceled -= OnInteract;
+
             inputActions.Player.Jump.performed -= OnJump;
-            inputActions.Player.Jump.canceled -= OnJump;
             
             inputActions.Player.Secondary.performed -= OnSecondary;
-            inputActions.Player.Secondary.canceled -= OnSecondary;
 
             inputActions.Player.Inventory.performed -= OnInventory;
-            inputActions.Player.Inventory.canceled -= OnInventory;
 
             inputActions.Player.Primary.performed -= OnPrimary;
-            inputActions.Player.Primary.canceled -= OnPrimary;
 
             inputActions.Player.Item1.performed -= OnItem1Key;
-            inputActions.Player.Item1.canceled -= OnItem1Key;
 
             inputActions.Player.Item2.performed -= OnItem2Key;
-            inputActions.Player.Item2.canceled -= OnItem2Key;
             
             inputActions.Player.Item3.performed -= OnItem3Key;
-            inputActions.Player.Item3.canceled -= OnItem3Key;
             
             inputActions.Player.Item4.performed -= OnItem4Key;
-            inputActions.Player.Item4.canceled -= OnItem4Key;
-
-            inputActions.Player.ToolMenu.performed -= OnToolMenu;
-            inputActions.Player.ToolMenu.canceled -= OnToolMenu;
 
             inputActions.Player.Position.performed -= OnPosition;
             inputActions.Player.Position.canceled -= OnPositionCanceled;
 
-            inputActions.Player.Rotate.performed -= OnRotate;
-            inputActions.Player.Rotate.canceled -= OnRotate;
-
             inputActions.Player.Tertiary.performed -= OnTertiary;
-            inputActions.Player.Tertiary.canceled -= OnTertiary;
 
-            inputActions.Player.Ctrl.performed -= OnControl;
-            inputActions.Player.Ctrl.canceled -= OnControl;
+            inputActions.Player.Ctrl.performed -= OnControlPerformed;
+            inputActions.Player.Ctrl.canceled -= OnControlCanceled;
 
-            inputActions.Player.Alternate.performed -= OnAlternate;
-            inputActions.Player.Alternate.canceled -= OnAlternate;
+            inputActions.Player.ToolMenu.performed -= OnToolMenu;
+
+            //BuildMode specific stuff
+            inputActions.BuildMode.Rotate.performed += OnRotate;
+            inputActions.BuildMode.Rotate.canceled += OnRotate;  
+
+            inputActions.BuildMode.RotationMode.performed -= OnRotationMode;
+
+            inputActions.BuildMode.Alternate.performed += OnAlternatePerformed;
+            inputActions.BuildMode.Alternate.canceled += OnAlternateCanceled;
+        }
+
+        void Update()
+        {
+            if(!player.PlayerToolManager)
+            {
+                print("NO playertoolmanager");
+                return;
+            }
+            if(player.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
+            {
+                //If this tool handles its own raycast, do that
+            }
+            else
+            {
+                //Otherwise pass the raycast on to the interactor
+                raycastHit = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
+                interactor.ProcessRayCast(raycastHit, hitInfo);
+            }
+            //Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
 
         }
 
+        public void SetBuildMode(bool _active)
+        {
+            if(_active)
+                inputActions.BuildMode.Enable();
+            else
+                inputActions.BuildMode.Disable();
+        }
 
+#region CallbackMethdods
         void OnMovePerformed(CallbackContext c)
         {
             moveInput = c.ReadValue<Vector2>();
@@ -194,7 +215,7 @@ namespace OutcastMayor
             movement.Move(moveInput);
         }
 
-        void OnLook(CallbackContext c)
+        void OnLookPerformed(CallbackContext c)
         {
             lookInput = c.ReadValue<Vector2>();
             if (UIManager.IsUIOpen || CameraController.ActiveCamera != CameraController.CameraType.Standard)
@@ -224,15 +245,10 @@ namespace OutcastMayor
 
         void OnInteract(CallbackContext value)
         {
-            interactPressed = value.performed;
-            if (interactPressed && !UIManager.IsUIOpen)
+            if (!UIManager.IsUIOpen)
             {
                 print("Interact performed");  
                 interactor.Interact();
-            }
-            if(value.canceled)
-            {
-                print("Interact canceled");
             }
         }
         void OnSecondary(CallbackContext value)
@@ -311,6 +327,15 @@ namespace OutcastMayor
             else
                 player.PlayerToolManager.ToolRotate(rotateValue, controlDown);
         }
+
+         void OnRotationMode(CallbackContext value)
+        {
+            if (value.performed)
+            {
+                onRotationModePressed?.Invoke();
+            }
+        }
+
         
         void OnTertiary(CallbackContext value)
         {
@@ -321,22 +346,27 @@ namespace OutcastMayor
             }
         }
 
-        void OnControl(CallbackContext value)
+        void OnControlPerformed(CallbackContext value)
         {
             if (!controlDown && value.performed)
                 controlDown = true;
-            else if (controlDown && value.canceled)
+        }
+        void OnControlCanceled(CallbackContext value)
+        {
+            if (controlDown && value.canceled)
                 controlDown = false;
         }
 
-        void OnAlternate(CallbackContext value)
+        void OnAlternatePerformed(CallbackContext value)
         {
-            if (!alternateDown && value.performed)
+            if (!alternateDown)
                 alternateDown = true;
-            else if (alternateDown && value.canceled)
+        }
+        void OnAlternateCanceled(CallbackContext value)
+        {
+            if (alternateDown)
                 alternateDown = false;
         }
-
         Vector2 mousePosition;
         void OnPosition(CallbackContext c)
         {
@@ -347,27 +377,9 @@ namespace OutcastMayor
         {
             mousePosition = Vector2.zero;
         }
+#endregion
 
-        void Update()
-        {
-            if(!player.PlayerToolManager)
-            {
-                print("NO playertoolmanager");
-                return;
-            }
-            if(player.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
-            {
-                //If this tool handles its own raycast, do that
-            }
-            else
-            {
-                //Otherwise pass the raycast on to the interactor
-                raycastHit = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
-                interactor.ProcessRayCast(raycastHit, hitInfo);
-            }
-            //Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
-
-        }
+    
     }
 
 }

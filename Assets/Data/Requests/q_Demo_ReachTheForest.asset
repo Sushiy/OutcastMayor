@@ -30,22 +30,22 @@ MonoBehaviour:
       data:
         description: Reach the first island
         IsCompleted: 0
-        startPosition: {fileID: 0}
-        targetPosition: {fileID: 0}
+        startPositionMarkerID: q_benjo_1_pos0
+        targetPositionMarkerID: q_benjo_1_pos1
         shouldGoAfterCompetion: 1
     - rid: 5428174107131772938
       type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
       data:
         description: Reach the second island
         IsCompleted: 0
-        startPosition: {fileID: 0}
-        targetPosition: {fileID: 0}
+        startPositionMarkerID: q_benjo_1_pos1
+        targetPositionMarkerID: q_benjo_1_pos2
         shouldGoAfterCompetion: 1
     - rid: 5428174107131772939
       type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
       data:
         description: Reach the forest
         IsCompleted: 0
-        startPosition: {fileID: 0}
-        targetPosition: {fileID: 0}
+        startPositionMarkerID: q_benjo_1_pos2
+        targetPositionMarkerID: q_benjo_1_pos3
         shouldGoAfterCompetion: 1

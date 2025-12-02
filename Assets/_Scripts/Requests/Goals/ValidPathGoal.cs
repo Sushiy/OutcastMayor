@@ -1,4 +1,5 @@
 using OutcastMayor.Building;
+using OutcastMayor.UtilityAI;
 using System;
 using UnityEngine;
 using UnityEngine.AI;
@@ -9,15 +10,22 @@ namespace OutcastMayor.Requests
     public class ValidPathGoal : RequestGoal
     {
         [SerializeField]
-        private Transform startPosition;
+        private string startPositionMarkerID = "";
+        private Vector3 startPosition = Vector3.zero;
         [SerializeField]
-        private Transform targetPosition;
+        private string targetPositionMarkerID = "";
+        private Vector3 targetPosition = Vector3.zero;
         [SerializeField]
         private bool shouldGoAfterCompetion;
 
-    
+        public override void Init(string _npcName, System.Action _callback)
+        {
+            base.Init(_npcName, _callback);
+            startPosition = Blackboard.GetRequestPositionMarker(startPositionMarkerID).transform.position;
+            targetPosition = Blackboard.GetRequestPositionMarker(targetPositionMarkerID).transform.position;
+        }
 
-        public override void Clear(Action callback)
+        public override void Clear(System.Action callback)
         {
             
         }
@@ -28,7 +36,7 @@ namespace OutcastMayor.Requests
             if(isCompleted) return true;
 
             NavMeshPath path = new NavMeshPath();
-            bool foundPath = NavMesh.CalculatePath(startPosition.position, targetPosition.position, NavMesh.AllAreas, path);
+            bool foundPath = NavMesh.CalculatePath(startPosition, targetPosition, NavMesh.AllAreas, path);
             if(foundPath)
             {
                 Color c;
@@ -59,7 +67,7 @@ namespace OutcastMayor.Requests
             }
             else
             {
-                Debug.DrawLine(startPosition.position,targetPosition.position, Color.red, 5.0f);
+                Debug.DrawLine(startPosition,targetPosition, Color.red, 5.0f);
             }
             return false;
         }

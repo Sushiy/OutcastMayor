@@ -146,7 +146,7 @@ namespace OutcastMayor.Building
             Destroy(blueprintObject.gameObject);
             //Activate the normal object
             finishedObject.gameObject.SetActive(true);
-            finishedObject.SetDefaultLayer();
+            finishedObject.SetBuildingLayer();
             if (completePS)
                 completePS.Play();
             OnEndHover(null);

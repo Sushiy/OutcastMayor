@@ -78,11 +78,19 @@ namespace OutcastMayor
 
         public override void OnUseToolTertiary(Character _parentCharacter)
         {
-            if (_parentCharacter.Interactor.hoveredInteractable is Building.Construction)
+            if (raycastHit)
             {
-                ((Building.Construction)_parentCharacter.Interactor.hoveredInteractable).Destroy();
-                _parentCharacter.Interactor.hoveredInteractable.OnEndHover(_parentCharacter.Interactor);
+                Buildable b = hitInfo.collider.GetComponentInParent<Buildable>();
+                if(b)
+                {
+                    Construction c = b.GetComponentInChildren<Construction>();
+                    if(_parentCharacter.Interactor.hoveredInteractable == c)
+                        _parentCharacter.Interactor.hoveredInteractable.OnEndHover(_parentCharacter.Interactor);
+
+                    c.Destroy();
+                }
             }
+
         }
         
         public override bool OnProcessRaycast(Vector3 _raycastOrigin, Vector3 _raycastDirection)

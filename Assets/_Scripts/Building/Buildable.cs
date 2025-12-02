@@ -6,8 +6,6 @@ using UnityEngine.Events;
 
 namespace OutcastMayor.Building
 {
-
-    [RequireComponent(typeof(Rigidbody))]
     public class Buildable : MonoBehaviour
     {
         [Header("Placement System")]
@@ -91,9 +89,9 @@ namespace OutcastMayor.Building
             }
         }
 
-        public void SetDefaultLayer()
+        public void SetBuildingLayer()
         {
-            SetRendererLayers(LayerConstants.Default);
+            SetRendererLayers(LayerConstants.Building);
             isBlueprint = false;
             CheckForRoom();
         }
@@ -127,6 +125,8 @@ namespace OutcastMayor.Building
 
         private void SetLayerForAllColliders(int layer)
         {
+            //also set your own layer because rigidbody
+            gameObject.layer = layer;
             for (int i = 0; i < allColliders.Length; i++)
             {
                 allColliders[i].gameObject.layer = layer;
@@ -172,6 +172,11 @@ namespace OutcastMayor.Building
         public virtual void OnSetPosition()
         {
             
+        }
+
+        public virtual void OnBuild()
+        {
+            Destroy(GetComponent<Rigidbody>());
         }
 
         public virtual OverlapResult CheckRoomOverlap()

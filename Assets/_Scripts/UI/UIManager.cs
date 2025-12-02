@@ -17,6 +17,8 @@ namespace OutcastMayor.UI
         [SerializeField]
         private BuildingView buildingView;
         [SerializeField]
+        private BuildingModeHUD buildingModeHUD;
+        [SerializeField]
         private NewRequestView newRequestView;
         [SerializeField]
         private HoverUIController hoverUIController;
@@ -110,6 +112,15 @@ namespace OutcastMayor.UI
             {
                 buildingView.Hide();
             }
+        }
+
+        public void ShowBuildingModeHud()
+        {
+            buildingModeHUD.Show();
+        }
+        public void HideBuildingModeHud()
+        {
+            buildingModeHUD.Hide();
         }
 
         public void ShowNewRequestView(Request q)

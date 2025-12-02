@@ -49,7 +49,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Primary"",
                     ""type"": ""Button"",
                     ""id"": ""f30e0268-900b-4a7e-8d0a-fb1df257230a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -58,7 +58,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Secondary"",
                     ""type"": ""Button"",
                     ""id"": ""545319d7-3891-404a-b070-7b893226435e"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -67,7 +67,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Inventory"",
                     ""type"": ""Button"",
                     ""id"": ""1a077e24-7dc1-4a70-8cb2-6aa0bd4ff89a"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -76,15 +76,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Interact"",
                     ""type"": ""Button"",
                     ""id"": ""3943d0e0-0e27-40ee-b5b9-3a91408bb011"",
-                    ""expectedControlType"": ""Button"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": false
-                },
-                {
-                    ""name"": ""ToolMenu"",
-                    ""type"": ""Button"",
-                    ""id"": ""53ca4d6a-4701-40fb-9a16-15f36f014646"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -94,7 +85,7 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""name"": ""Jump"",
                     ""type"": ""Button"",
                     ""id"": ""1e415e76-69f2-4477-8a0d-78f2d0cef7c4"",
-                    ""expectedControlType"": ""Button"",
+                    ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
@@ -145,15 +136,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Rotate"",
-                    ""type"": ""Value"",
-                    ""id"": ""794e60c6-b922-4d57-9138-be9f171acd8f"",
-                    ""expectedControlType"": ""Axis"",
-                    ""processors"": """",
-                    ""interactions"": """",
-                    ""initialStateCheck"": true
-                },
-                {
                     ""name"": ""Tertiary"",
                     ""type"": ""Button"",
                     ""id"": ""4ae966d7-b724-46f5-859d-227b17475229"",
@@ -172,9 +154,9 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""initialStateCheck"": false
                 },
                 {
-                    ""name"": ""Alternate"",
+                    ""name"": ""ToolMenu"",
                     ""type"": ""Button"",
-                    ""id"": ""a951bd0c-c813-48a4-bea8-043b3a56159e"",
+                    ""id"": ""53ca4d6a-4701-40fb-9a16-15f36f014646"",
                     ""expectedControlType"": """",
                     ""processors"": """",
                     ""interactions"": """",
@@ -547,50 +529,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
-                    ""id"": ""59694c7b-9ae6-4542-9a1b-bcc534100b50"",
-                    ""path"": ""<Mouse>/scroll/y"",
-                    ""interactions"": """",
-                    ""processors"": ""Scale(factor=10)"",
-                    ""groups"": ""Keyboard&Mouse"",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""7081ef56-3388-40a1-80cd-b86ba1ef2d09"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""08b80785-5af4-44d6-806f-1db372177bff"",
-                    ""path"": ""<Gamepad>/dpad/left"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": ""positive"",
-                    ""id"": ""ea82464a-14c2-4fd4-a4a6-a363f8740a8f"",
-                    ""path"": ""<Gamepad>/dpad/right"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Rotate"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": true
-                },
-                {
-                    ""name"": """",
                     ""id"": ""c78e6f36-ac15-4754-85d0-9a16ebf64fc2"",
                     ""path"": ""<Mouse>/middleButton"",
                     ""interactions"": """",
@@ -619,17 +557,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""Ctrl"",
-                    ""isComposite"": false,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": """",
-                    ""id"": ""f3184717-5fb1-4679-ac4b-710305326251"",
-                    ""path"": ""<Keyboard>/alt"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": "";Keyboard&Mouse"",
-                    ""action"": ""Alternate"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1150,6 +1077,107 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 }
             ]
+        },
+        {
+            ""name"": ""BuildMode"",
+            ""id"": ""a8788c2b-21c9-43c8-9529-b037417af354"",
+            ""actions"": [
+                {
+                    ""name"": ""Rotate"",
+                    ""type"": ""Value"",
+                    ""id"": ""554911dc-9285-4933-a8af-3942eaac2d96"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""RotationMode"",
+                    ""type"": ""Button"",
+                    ""id"": ""f8be5f11-7270-4e4d-9723-5420f3f166e7"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Alternate"",
+                    ""type"": ""Button"",
+                    ""id"": ""04c213a0-91fc-4f73-b2bf-d28f64eb3352"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                }
+            ],
+            ""bindings"": [
+                {
+                    ""name"": """",
+                    ""id"": ""35093f12-265d-4a14-b3a4-6a46bf7e21f2"",
+                    ""path"": ""<Keyboard>/r"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""RotationMode"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a515bab8-7330-4e1a-9e2e-84397bbde6ec"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": ""Scale(factor=10)"",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""1D Axis"",
+                    ""id"": ""895a9fe4-e228-4c0d-8eeb-233a59c00100"",
+                    ""path"": ""1DAxis"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": true,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": ""negative"",
+                    ""id"": ""42e0a640-93e3-4d32-a5e8-e9332f1101f5"",
+                    ""path"": ""<Gamepad>/dpad/left"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": ""positive"",
+                    ""id"": ""ba127517-b4a9-442a-a54b-fb9e8c433578"",
+                    ""path"": ""<Gamepad>/dpad/right"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Rotate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""daa2f7b8-ffb1-47cb-b52f-7d74bb8121bf"",
+                    ""path"": ""<Keyboard>/alt"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Alternate"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                }
+            ]
         }
     ],
     ""controlSchemes"": [
@@ -1223,17 +1251,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_Player_Secondary = m_Player.FindAction("Secondary", throwIfNotFound: true);
         m_Player_Inventory = m_Player.FindAction("Inventory", throwIfNotFound: true);
         m_Player_Interact = m_Player.FindAction("Interact", throwIfNotFound: true);
-        m_Player_ToolMenu = m_Player.FindAction("ToolMenu", throwIfNotFound: true);
         m_Player_Jump = m_Player.FindAction("Jump", throwIfNotFound: true);
         m_Player_Item1 = m_Player.FindAction("Item1", throwIfNotFound: true);
         m_Player_Item2 = m_Player.FindAction("Item2", throwIfNotFound: true);
         m_Player_Item3 = m_Player.FindAction("Item3", throwIfNotFound: true);
         m_Player_Item4 = m_Player.FindAction("Item4", throwIfNotFound: true);
         m_Player_Position = m_Player.FindAction("Position", throwIfNotFound: true);
-        m_Player_Rotate = m_Player.FindAction("Rotate", throwIfNotFound: true);
         m_Player_Tertiary = m_Player.FindAction("Tertiary", throwIfNotFound: true);
         m_Player_Ctrl = m_Player.FindAction("Ctrl", throwIfNotFound: true);
-        m_Player_Alternate = m_Player.FindAction("Alternate", throwIfNotFound: true);
+        m_Player_ToolMenu = m_Player.FindAction("ToolMenu", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1246,12 +1272,18 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        // BuildMode
+        m_BuildMode = asset.FindActionMap("BuildMode", throwIfNotFound: true);
+        m_BuildMode_Rotate = m_BuildMode.FindAction("Rotate", throwIfNotFound: true);
+        m_BuildMode_RotationMode = m_BuildMode.FindAction("RotationMode", throwIfNotFound: true);
+        m_BuildMode_Alternate = m_BuildMode.FindAction("Alternate", throwIfNotFound: true);
     }
 
     ~@InputActions()
     {
         UnityEngine.Debug.Assert(!m_Player.enabled, "This will cause a leak and performance issues, InputActions.Player.Disable() has not been called.");
         UnityEngine.Debug.Assert(!m_UI.enabled, "This will cause a leak and performance issues, InputActions.UI.Disable() has not been called.");
+        UnityEngine.Debug.Assert(!m_BuildMode.enabled, "This will cause a leak and performance issues, InputActions.BuildMode.Disable() has not been called.");
     }
 
     public void Dispose()
@@ -1319,17 +1351,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_Secondary;
     private readonly InputAction m_Player_Inventory;
     private readonly InputAction m_Player_Interact;
-    private readonly InputAction m_Player_ToolMenu;
     private readonly InputAction m_Player_Jump;
     private readonly InputAction m_Player_Item1;
     private readonly InputAction m_Player_Item2;
     private readonly InputAction m_Player_Item3;
     private readonly InputAction m_Player_Item4;
     private readonly InputAction m_Player_Position;
-    private readonly InputAction m_Player_Rotate;
     private readonly InputAction m_Player_Tertiary;
     private readonly InputAction m_Player_Ctrl;
-    private readonly InputAction m_Player_Alternate;
+    private readonly InputAction m_Player_ToolMenu;
     public struct PlayerActions
     {
         private @InputActions m_Wrapper;
@@ -1340,17 +1370,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         public InputAction @Secondary => m_Wrapper.m_Player_Secondary;
         public InputAction @Inventory => m_Wrapper.m_Player_Inventory;
         public InputAction @Interact => m_Wrapper.m_Player_Interact;
-        public InputAction @ToolMenu => m_Wrapper.m_Player_ToolMenu;
         public InputAction @Jump => m_Wrapper.m_Player_Jump;
         public InputAction @Item1 => m_Wrapper.m_Player_Item1;
         public InputAction @Item2 => m_Wrapper.m_Player_Item2;
         public InputAction @Item3 => m_Wrapper.m_Player_Item3;
         public InputAction @Item4 => m_Wrapper.m_Player_Item4;
         public InputAction @Position => m_Wrapper.m_Player_Position;
-        public InputAction @Rotate => m_Wrapper.m_Player_Rotate;
         public InputAction @Tertiary => m_Wrapper.m_Player_Tertiary;
         public InputAction @Ctrl => m_Wrapper.m_Player_Ctrl;
-        public InputAction @Alternate => m_Wrapper.m_Player_Alternate;
+        public InputAction @ToolMenu => m_Wrapper.m_Player_ToolMenu;
         public InputActionMap Get() { return m_Wrapper.m_Player; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1378,9 +1406,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Interact.started += instance.OnInteract;
             @Interact.performed += instance.OnInteract;
             @Interact.canceled += instance.OnInteract;
-            @ToolMenu.started += instance.OnToolMenu;
-            @ToolMenu.performed += instance.OnToolMenu;
-            @ToolMenu.canceled += instance.OnToolMenu;
             @Jump.started += instance.OnJump;
             @Jump.performed += instance.OnJump;
             @Jump.canceled += instance.OnJump;
@@ -1399,18 +1424,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Position.started += instance.OnPosition;
             @Position.performed += instance.OnPosition;
             @Position.canceled += instance.OnPosition;
-            @Rotate.started += instance.OnRotate;
-            @Rotate.performed += instance.OnRotate;
-            @Rotate.canceled += instance.OnRotate;
             @Tertiary.started += instance.OnTertiary;
             @Tertiary.performed += instance.OnTertiary;
             @Tertiary.canceled += instance.OnTertiary;
             @Ctrl.started += instance.OnCtrl;
             @Ctrl.performed += instance.OnCtrl;
             @Ctrl.canceled += instance.OnCtrl;
-            @Alternate.started += instance.OnAlternate;
-            @Alternate.performed += instance.OnAlternate;
-            @Alternate.canceled += instance.OnAlternate;
+            @ToolMenu.started += instance.OnToolMenu;
+            @ToolMenu.performed += instance.OnToolMenu;
+            @ToolMenu.canceled += instance.OnToolMenu;
         }
 
         private void UnregisterCallbacks(IPlayerActions instance)
@@ -1433,9 +1455,6 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Interact.started -= instance.OnInteract;
             @Interact.performed -= instance.OnInteract;
             @Interact.canceled -= instance.OnInteract;
-            @ToolMenu.started -= instance.OnToolMenu;
-            @ToolMenu.performed -= instance.OnToolMenu;
-            @ToolMenu.canceled -= instance.OnToolMenu;
             @Jump.started -= instance.OnJump;
             @Jump.performed -= instance.OnJump;
             @Jump.canceled -= instance.OnJump;
@@ -1454,18 +1473,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
             @Position.started -= instance.OnPosition;
             @Position.performed -= instance.OnPosition;
             @Position.canceled -= instance.OnPosition;
-            @Rotate.started -= instance.OnRotate;
-            @Rotate.performed -= instance.OnRotate;
-            @Rotate.canceled -= instance.OnRotate;
             @Tertiary.started -= instance.OnTertiary;
             @Tertiary.performed -= instance.OnTertiary;
             @Tertiary.canceled -= instance.OnTertiary;
             @Ctrl.started -= instance.OnCtrl;
             @Ctrl.performed -= instance.OnCtrl;
             @Ctrl.canceled -= instance.OnCtrl;
-            @Alternate.started -= instance.OnAlternate;
-            @Alternate.performed -= instance.OnAlternate;
-            @Alternate.canceled -= instance.OnAlternate;
+            @ToolMenu.started -= instance.OnToolMenu;
+            @ToolMenu.performed -= instance.OnToolMenu;
+            @ToolMenu.canceled -= instance.OnToolMenu;
         }
 
         public void RemoveCallbacks(IPlayerActions instance)
@@ -1601,6 +1617,68 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         }
     }
     public UIActions @UI => new UIActions(this);
+
+    // BuildMode
+    private readonly InputActionMap m_BuildMode;
+    private List<IBuildModeActions> m_BuildModeActionsCallbackInterfaces = new List<IBuildModeActions>();
+    private readonly InputAction m_BuildMode_Rotate;
+    private readonly InputAction m_BuildMode_RotationMode;
+    private readonly InputAction m_BuildMode_Alternate;
+    public struct BuildModeActions
+    {
+        private @InputActions m_Wrapper;
+        public BuildModeActions(@InputActions wrapper) { m_Wrapper = wrapper; }
+        public InputAction @Rotate => m_Wrapper.m_BuildMode_Rotate;
+        public InputAction @RotationMode => m_Wrapper.m_BuildMode_RotationMode;
+        public InputAction @Alternate => m_Wrapper.m_BuildMode_Alternate;
+        public InputActionMap Get() { return m_Wrapper.m_BuildMode; }
+        public void Enable() { Get().Enable(); }
+        public void Disable() { Get().Disable(); }
+        public bool enabled => Get().enabled;
+        public static implicit operator InputActionMap(BuildModeActions set) { return set.Get(); }
+        public void AddCallbacks(IBuildModeActions instance)
+        {
+            if (instance == null || m_Wrapper.m_BuildModeActionsCallbackInterfaces.Contains(instance)) return;
+            m_Wrapper.m_BuildModeActionsCallbackInterfaces.Add(instance);
+            @Rotate.started += instance.OnRotate;
+            @Rotate.performed += instance.OnRotate;
+            @Rotate.canceled += instance.OnRotate;
+            @RotationMode.started += instance.OnRotationMode;
+            @RotationMode.performed += instance.OnRotationMode;
+            @RotationMode.canceled += instance.OnRotationMode;
+            @Alternate.started += instance.OnAlternate;
+            @Alternate.performed += instance.OnAlternate;
+            @Alternate.canceled += instance.OnAlternate;
+        }
+
+        private void UnregisterCallbacks(IBuildModeActions instance)
+        {
+            @Rotate.started -= instance.OnRotate;
+            @Rotate.performed -= instance.OnRotate;
+            @Rotate.canceled -= instance.OnRotate;
+            @RotationMode.started -= instance.OnRotationMode;
+            @RotationMode.performed -= instance.OnRotationMode;
+            @RotationMode.canceled -= instance.OnRotationMode;
+            @Alternate.started -= instance.OnAlternate;
+            @Alternate.performed -= instance.OnAlternate;
+            @Alternate.canceled -= instance.OnAlternate;
+        }
+
+        public void RemoveCallbacks(IBuildModeActions instance)
+        {
+            if (m_Wrapper.m_BuildModeActionsCallbackInterfaces.Remove(instance))
+                UnregisterCallbacks(instance);
+        }
+
+        public void SetCallbacks(IBuildModeActions instance)
+        {
+            foreach (var item in m_Wrapper.m_BuildModeActionsCallbackInterfaces)
+                UnregisterCallbacks(item);
+            m_Wrapper.m_BuildModeActionsCallbackInterfaces.Clear();
+            AddCallbacks(instance);
+        }
+    }
+    public BuildModeActions @BuildMode => new BuildModeActions(this);
     private int m_KeyboardMouseSchemeIndex = -1;
     public InputControlScheme KeyboardMouseScheme
     {
@@ -1654,17 +1732,15 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnSecondary(InputAction.CallbackContext context);
         void OnInventory(InputAction.CallbackContext context);
         void OnInteract(InputAction.CallbackContext context);
-        void OnToolMenu(InputAction.CallbackContext context);
         void OnJump(InputAction.CallbackContext context);
         void OnItem1(InputAction.CallbackContext context);
         void OnItem2(InputAction.CallbackContext context);
         void OnItem3(InputAction.CallbackContext context);
         void OnItem4(InputAction.CallbackContext context);
         void OnPosition(InputAction.CallbackContext context);
-        void OnRotate(InputAction.CallbackContext context);
         void OnTertiary(InputAction.CallbackContext context);
         void OnCtrl(InputAction.CallbackContext context);
-        void OnAlternate(InputAction.CallbackContext context);
+        void OnToolMenu(InputAction.CallbackContext context);
     }
     public interface IUIActions
     {
@@ -1678,5 +1754,11 @@ public partial class @InputActions: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+    }
+    public interface IBuildModeActions
+    {
+        void OnRotate(InputAction.CallbackContext context);
+        void OnRotationMode(InputAction.CallbackContext context);
+        void OnAlternate(InputAction.CallbackContext context);
     }
 }

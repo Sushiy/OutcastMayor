@@ -40,6 +40,8 @@ namespace OutcastMayor
         }
 
         int heldItemSlotID = 0;
+        Item heldItem;
+        public Dictionary<int, (Item, GameObject)> heldItems;
 
         public Action<Character> OnStopSleeping;
 
@@ -51,6 +53,7 @@ namespace OutcastMayor
             characterAnimation = GetComponent<CharacterAnimation>();
             movement = GetComponent<IMovement>();
             rigidbody = GetComponent<Rigidbody>();
+            heldItems = new Dictionary<int, (Item, GameObject)>();
             HoldItem(0);
         }
 
@@ -79,25 +82,52 @@ namespace OutcastMayor
 
         public virtual void HoldItem(int slotID)
         {
+            if(heldItemSlotID == slotID) return;
             //if we are already holding an item, kick it out?
-            if(heldItemPrefab)
+            if(heldItem != null && heldItemPrefab != null)
             {
-                Destroy(heldItemPrefab.gameObject);
+                heldItemPrefab.SetActive(false);
                 heldItemPrefab = null;
+                heldItem = null;
             }
 
-            heldItemSlotID = slotID;
-            Item item = inventory.slots[slotID].item;
             if(inventory.slots[slotID].count > 0)
             {
-                if(item.HasTag(Item.Tag.Equippable))
+                heldItemSlotID = slotID;
+                heldItem = inventory.slots[slotID].item;
+                if(heldItems.ContainsKey(heldItemSlotID))
                 {
-                    heldItemPrefab = Instantiate(item.prefab, toolTransform);
+                    if(heldItems[heldItemSlotID].Item1 == heldItem)
+                    {
+                        //Use the item from the dictionary
+                        heldItemPrefab = heldItems[heldItemSlotID].Item2;
+                        heldItemPrefab.SetActive(true);
+                    }
+                    else
+                    {
+                        //Spawn the object
+                        heldItemPrefab = Instantiate(heldItem.prefab);  
+                        //Update the item dictionary
+                        Destroy(heldItems[heldItemSlotID].Item2);
+                        heldItems[heldItemSlotID] = (heldItem, heldItemPrefab);                        
+                    }
+                }
+                else
+                {
+                    //Spawn the object
+                    heldItemPrefab = Instantiate(heldItem.prefab);
+                    //Update the item dictionary
+                    heldItems.Add(heldItemSlotID, (heldItem, heldItemPrefab));                    
+                }
+
+                if(heldItem.HasTag(Item.Tag.Equippable))
+                {
+                    heldItemPrefab.transform.parent = toolTransform;
                     characterAnimation.SetCarryState(0);
                 }
                 else
                 {
-                    heldItemPrefab = Instantiate(item.prefab, carryTransform);
+                    heldItemPrefab.transform.parent = carryTransform;
                     characterAnimation.SetCarryState(1);
                 }
                 OnHeldItemChanged?.Invoke(heldItemPrefab);
