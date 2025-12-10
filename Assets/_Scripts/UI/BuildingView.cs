@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using OutcastMayor.Building;
+using Sirenix.Utilities;
+using Unity.VisualScripting;
 
 namespace OutcastMayor.UI
 {
@@ -9,7 +11,18 @@ namespace OutcastMayor.UI
     {
         public BuildingMode buildingMode;
 
-        public RecipeButton[] recipeButtons;
+        [SerializeField]
+        private RecipeButton recipeButtonPrefab;
+
+        [SerializeField]
+        private Transform recipeButtonParent;
+
+        private List<RecipeButton> recipeButtons;
+
+        void Start()
+        {
+            
+        }
 
         public override void Show()
         {
@@ -20,24 +33,34 @@ namespace OutcastMayor.UI
         public void UpdateData()
         {
             //What do I do if i am lacking recipe buttons?
-
-            for (int i = 0; i < recipeButtons.Length; i++)
+            
+            if(buildingMode == null) return;
+            if(recipeButtons == null)
+                recipeButtons = new List<RecipeButton>();
+            
+            //Adjust Buttons
+            for (int i = 0; i < buildingMode.recipes.Length; i++)
             {
-                if (i < buildingMode.recipes.Length)
+                if (i < recipeButtons.Count)
                 {
-                    recipeButtons[i].SetData(buildingMode.recipes[i].Name, buildingMode.recipes[i].Icon);
+                    //Update an existing Button and activate it
+                    recipeButtons[i].SetData(buildingMode.recipes[i].Name, buildingMode.recipes[i].Icon, ChooseBuilding, i);
                     recipeButtons[i].gameObject.SetActive(true);
                 }
                 else
                 {
-                    recipeButtons[i].gameObject.SetActive(false);
+                    //Spawn a new button
+                    RecipeButton b = Instantiate<RecipeButton>(recipeButtonPrefab, recipeButtonParent);
+                    b.SetData(buildingMode.recipes[i].Name, buildingMode.recipes[i].Icon, ChooseBuilding, i);
+                    b.gameObject.SetActive(true);
+                    recipeButtons.Add(b);
                 }
             }
         }
 
-        public void ButtonClicked(int i)
+        public void ChooseBuilding(int i)
         {
-            print("Clicked Button " + i);
+            print("[BuildingView] Clicked Button " + i);
             buildingMode.ChooseBuildRecipe(buildingMode.recipes[i]);
         }
     }

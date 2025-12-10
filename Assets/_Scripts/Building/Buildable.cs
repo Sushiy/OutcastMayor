@@ -99,6 +99,7 @@ namespace OutcastMayor.Building
         public void SetBlueprintLayer()
         {
             //SetRendererLayers(LayerConstants.BuildingOnly);
+            SetLayerForAllDefaultColliders(LayerConstants.BuildingBlueprint);
             isBlueprint = true;
         }
 
@@ -130,6 +131,17 @@ namespace OutcastMayor.Building
             for (int i = 0; i < allColliders.Length; i++)
             {
                 allColliders[i].gameObject.layer = layer;
+            }
+        }
+
+        private void SetLayerForAllDefaultColliders(int layer)
+        {
+            //also set your own layer because rigidbody
+            gameObject.layer = layer;
+            for (int i = 0; i < allColliders.Length; i++)
+            {
+                if(allColliders[i].gameObject.layer == LayerConstants.Default)
+                    allColliders[i].gameObject.layer = layer;
             }
         }
 

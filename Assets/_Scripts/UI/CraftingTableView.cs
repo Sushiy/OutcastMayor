@@ -36,7 +36,7 @@ namespace OutcastMayor.UI
                 {
                     Recipe r = craftingTable.recipes[i];
                     recipeButtons[i].gameObject.SetActive(true);
-                    recipeButtons[i].SetData(r.Name, r.Icon);
+                    recipeButtons[i].SetData(r.Name, r.Icon, ShowRecipe, i);
                 }
                 else
                 {

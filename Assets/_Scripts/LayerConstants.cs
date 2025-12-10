@@ -8,7 +8,7 @@ public class LayerConstants : MonoBehaviour
     public static int Interactable = 3;
     public static int Snapping = 6;
     public static int BuildModeOnly = 7;
-    public static int ConstructionOnly = 8;
+    public static int BuildingBlueprint = 8;
     public static int Tool = 9;
     public static int Hittable = 10;
     public static int Terrain = 11;
