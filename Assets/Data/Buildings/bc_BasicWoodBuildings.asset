@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65bbd1149ba3cd49a214dfb1d96e5b2, type: 3}
+  m_Name: bc_BasicWoodBuildings
+  m_EditorClassIdentifier: 
+  buildRecipes:
+  - {fileID: 11400000, guid: 572eae68d791eae448800914cb8a407e, type: 2}
+  - {fileID: 11400000, guid: 94e23359bc890524ab6eb4c90c7bc91e, type: 2}
+  - {fileID: 11400000, guid: 1696336466d0a8943b4a54cbd34b7a8d, type: 2}
+  - {fileID: 11400000, guid: 5645448ed267b154784c5bf373718cd0, type: 2}
+  - {fileID: 11400000, guid: 4680aa1424a01584792ff4b84c26ea6b, type: 2}
+  - {fileID: 11400000, guid: ce3676f88ff561c418f284610451463c, type: 2}
+  - {fileID: 11400000, guid: 66c8703ef2748534aa52476cca4bd342, type: 2}
+  - {fileID: 11400000, guid: 946f1862cc93f0247970e7f644391905, type: 2}
+  - {fileID: 11400000, guid: 947d6191669282642a94546a865175a1, type: 2}
+  - {fileID: 11400000, guid: fcf1c86703dbf5f43a3b8365c212ec62, type: 2}

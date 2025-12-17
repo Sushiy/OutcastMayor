@@ -1,0 +1,17 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e65bbd1149ba3cd49a214dfb1d96e5b2, type: 3}
+  m_Name: bc_BasicFurniture
+  m_EditorClassIdentifier: 
+  buildRecipes:
+  - {fileID: 11400000, guid: 6054360e6916fd046a22e2e4d144d180, type: 2}
+  - {fileID: 11400000, guid: 6177a88742ab7dd40ba08303e748c5ce, type: 2}

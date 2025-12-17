@@ -15,10 +15,9 @@ MonoBehaviour:
   Name: Campfire
   Icon: {fileID: 0}
   materials:
-  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 4
   - item: {fileID: 11400000, guid: a79403a30ae7d794d88b748b37880ba5, type: 2}
-    count: 5
-  actionPoints: 0
+    count: 2
+  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
+    count: 3
   buildingPrefab: {fileID: 498444498743871664, guid: 3f5d877ce04b64c4bbc88f6d770a290b, type: 3}
-  constructionPrefab: {fileID: 0}
+  constructionPrefab: {fileID: 2659674548153265412, guid: d1a21d6aa0f02ce4c8c970c18df5f439, type: 3}
