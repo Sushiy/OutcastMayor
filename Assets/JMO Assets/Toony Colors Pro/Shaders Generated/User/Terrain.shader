@@ -34,6 +34,8 @@ Shader "Toony Colors Pro 2/User/Terrain"
 		
 		[TCP2HeaderHelp(Triplanar Mapping)]
 		[NoScaleOffset] _TriSide ("Walls", 2D) = "white" {}
+		_TriSideScaling ("Walls Scaling", float) = 1
+		_TriSideAlbedo ("Walls Color", Color) = (1,1,1,1)
 		[TCP2Vector4Floats(Contrast X,Contrast Y,Contrast Z,Smoothing,1,16,1,16,1,16,0.01,1)] _TriplanarBlendStrength ("Triplanar Parameters", Vector) = (2,8,2,0.5)
 		_TriplanarHeightOffset ("Alpha Blend Offset", Range(-1,1)) = 0
 		_TriplanarHeightSmooth ("Alpha Blend Smoothing", Range(0.001,1)) = 0.1
@@ -148,6 +150,8 @@ Shader "Toony Colors Pro 2/User/Terrain"
 			float _BandsSmoothing;
 			fixed4 _SColor;
 			fixed4 _HColor;
+			float _TriSideScaling;
+			fixed4 _TriSideAlbedo;
 		CBUFFER_END
 
 		// Built-in renderer (CG) to SRP (HLSL) bindings
@@ -544,15 +548,15 @@ Shader "Toony Colors Pro 2/User/Terrain"
 				half4 albedoAlpha = half4(albedo, alpha);
 				
 				// Triplanar Texture Blending
-				half2 uv_sideX = positionWS.zy;
-				half2 uv_sideZ = positionWS.xy;
+				half2 uv_sideX = positionWS.zy * _TriSideScaling;
+				half2 uv_sideZ = positionWS.xy * _TriSideScaling;
 				float3 triplanarNormal = normalWS_Vertex;
 				
 				half4 triplanar = half4(0, 0, 0, 0);
 				
 				//walls
-				fixed4 tex_sideX = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideX).rgba );
-				fixed4 tex_sideZ = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideZ).rgba );
+				fixed4 tex_sideX = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideX).rgba )*_TriSideAlbedo;
+				fixed4 tex_sideZ = ( TCP2_TEX2D_SAMPLE(_TriSide, _TriSide, uv_sideZ).rgba )*_TriSideAlbedo;
 				
 				//blending
 				half3 blendWeights = pow(abs(triplanarNormal), __triplanarParameters.xyz / __triplanarParameters.w);

@@ -2,20 +2,25 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 6
+  serializedVersion: 8
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: ToonyTerrain
   m_Shader: {fileID: 4800000, guid: 3ec2442fb7a31924e8f9a8be2a825741, type: 3}
-  m_ShaderKeywords: _TERRAIN_INSTANCED_PERPIXEL_NORMAL
+  m_Parent: {fileID: 0}
+  m_ModifiedSerializedProperties: 0
+  m_ValidKeywords:
+  - _TERRAIN_INSTANCED_PERPIXEL_NORMAL
+  m_InvalidKeywords: []
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
   stringTagMap: {}
   disabledShaderPasses: []
+  m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
     m_TexEnvs:
@@ -136,8 +141,8 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _TriSide:
-        m_Texture: {fileID: 2800000, guid: 46a6bbeaeb655b041bee53434a13f801, type: 3}
-        m_Scale: {x: 1, y: 1}
+        m_Texture: {fileID: 2800000, guid: 82bdee967b2bb5742ae7493e6f7f90cf, type: 3}
+        m_Scale: {x: -0.42, y: 3.47}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
         m_Texture: {fileID: 0}
@@ -171,15 +176,15 @@ Material:
     - _GlossMapScale: 0
     - _Glossiness: 0
     - _GlossyReflections: 0
-    - _HeightTransition: 0
-    - _Layer0HeightOffset: 0
-    - _Layer1HeightOffset: 0
-    - _Layer2HeightOffset: 0
-    - _Layer3HeightOffset: 0
-    - _Layer4HeightOffset: 0
-    - _Layer5HeightOffset: 0
-    - _Layer6HeightOffset: 0
-    - _Layer7HeightOffset: 0
+    - _HeightTransition: 0.01
+    - _Layer0HeightOffset: 1
+    - _Layer1HeightOffset: 1
+    - _Layer2HeightOffset: 1
+    - _Layer3HeightOffset: 1
+    - _Layer4HeightOffset: 1
+    - _Layer5HeightOffset: 1
+    - _Layer6HeightOffset: 1
+    - _Layer7HeightOffset: 1
     - _Metallic: 0
     - _OcclusionStrength: 1
     - _Parallax: 0.005
@@ -195,8 +200,9 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TriplanarHeightOffset: -0.064
-    - _TriplanarHeightSmooth: 0.1
+    - _TriSideScaling: 0.1
+    - _TriplanarHeightOffset: -0.44
+    - _TriplanarHeightSmooth: 0.001
     - _WorkflowMode: 1
     - _ZWrite: 1
     - __dummy__: 0
@@ -205,11 +211,12 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
     - _HColor: {r: 1, g: 1, b: 1, a: 1}
-    - _Layer0Albedo: {r: 1, g: 1, b: 1, a: 1}
-    - _Layer1Albedo: {r: 1, g: 1, b: 1, a: 1}
+    - _Layer0Albedo: {r: 0.7924528, g: 0.7924528, b: 0.7924528, a: 1}
+    - _Layer1Albedo: {r: 0.764151, g: 0.764151, b: 0.764151, a: 1}
     - _SColor: {r: 0.49715206, g: 0.5162676, b: 0.7169812, a: 1}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
-    - _TriplanarBlendStrength: {r: 2, g: 5.5, b: 2, a: 0.325}
+    - _TriSideAlbedo: {r: 0.4716981, g: 0.4443625, b: 0.3760235, a: 1}
+    - _TriplanarBlendStrength: {r: 2.7, g: 8.6, b: 3, a: 0.057}
   m_BuildTextureStacks: []
 --- !u!114 &5806341175270209115
 MonoBehaviour:
