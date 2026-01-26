@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using Unity.Cinemachine;
 
 namespace OutcastMayor.Interaction
 {
@@ -26,7 +27,7 @@ namespace OutcastMayor.Interaction
 
         [Header("Minigame References")]
         [SerializeField]
-        private Cinemachine.CinemachineVirtualCamera minigameCamera;
+        private CinemachineCamera minigameCamera;
         [SerializeField]
         private Transform teleportTarget;
         [SerializeField]

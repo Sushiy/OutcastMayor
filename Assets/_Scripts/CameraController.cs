@@ -1,15 +1,16 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Unity.Cinemachine;
 
 public class CameraController : MonoBehaviour
 {
     [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera camStandard;
+    private CinemachineCamera camStandard;
     [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera camTopDown;
+    private CinemachineCamera camTopDown;
     [SerializeField]
-    private Cinemachine.CinemachineVirtualCamera camDialogue;
+    private CinemachineCamera camDialogue;
 
     public enum CameraType
     {
