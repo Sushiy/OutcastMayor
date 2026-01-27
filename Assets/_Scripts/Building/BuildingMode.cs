@@ -139,15 +139,17 @@ namespace OutcastMayor.Building
             }
             Buildable build = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             build.transform.localScale = selectedRecipe.BuildScale;
-            build.gameObject.SetActive(false);
-            build.OnBuild();
-            Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
+            build.OnBuild(snappedBuilding);
+            build.SetBlueprintMode(ghostMaterial);
+            
+            /*Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
             blue.transform.localScale = selectedRecipe.BuildScale;
             blue.SetBlueprintMode(ghostMaterial);
-            blue.OnBuild();
-            Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, blue.transform);
+            blue.OnBuild(snappedBuilding);
+            */
+            Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, build.transform);
             c.transform.localScale = selectedRecipe.BuildScale;
-            c.SetConstruction(selectedRecipe, build, blue, autoCompleteBuilds);
+            c.SetConstruction(selectedRecipe, build, autoCompleteBuilds);
             return c;
         }
 

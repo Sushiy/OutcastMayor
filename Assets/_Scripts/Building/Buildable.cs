@@ -50,7 +50,9 @@ namespace OutcastMayor.Building
             snappingPoints = GetComponentsInChildren<SnappingPoint>();
             
             allColliders = GetComponentsInChildren<Collider>();
+            blueprintRenderers = new List<MeshRenderer>();
         }
+
 
         public void SetGhostMode(Material ghostMaterial)
         {
@@ -67,10 +69,32 @@ namespace OutcastMayor.Building
             SetLayerForAllColliders(LayerConstants.Snapping);
         }
 
+        public List<MeshRenderer> blueprintRenderers;
+
         public void SetBlueprintMode(Material ghostMaterial)
-        {
-            SetBlueprintLayer();
-            SetMaterials(ghostMaterial);
+        { 
+            //make a copy of all meshes and then show them?
+            for(int m = 0; m < meshRenderers.Length; m++)
+            {
+                MeshRenderer original = meshRenderers[m];
+                GameObject g = new GameObject("blueprint");
+                g.transform.parent = original.transform.parent;
+                g.transform.SetPositionAndRotation(original.transform.position, original.transform.rotation);
+                g.transform.localScale = original.transform.localScale;
+                MeshFilter meshfilter = g.AddComponent<MeshFilter>();
+                MeshRenderer copy = g.AddComponent<MeshRenderer>();
+                meshfilter.sharedMesh = original.GetComponent<MeshFilter>().sharedMesh;
+                Material[] materials = original.materials;
+                for (int i = 0; i < materials.Length; i++)
+                {
+                    materials[i] = ghostMaterial;
+                }
+                copy.materials = materials;
+                original.gameObject.SetActive(false);
+                blueprintRenderers.Add(copy);
+            }
+            SetColliderLayersFromTo(LayerConstants.Default, LayerConstants.BuildingBlueprint);
+            isBlueprint = true;
         }
 
         private void SetRendererLayers(int i)
@@ -81,26 +105,20 @@ namespace OutcastMayor.Building
             }
         }
 
-        public void SetRenderColor(Color c)
+        public void OnBlueprintCompleted()
         {
-            for (int m = 0; m < meshRenderers.Length; m++)
+            //make a copy of all meshes and then show them?
+            for(int m = blueprintRenderers.Count-1; m >= 0; m--)
             {
-                meshRenderers[m].material.color = c;
+                blueprintRenderers[m].gameObject.SetActive(false);
+                Destroy(blueprintRenderers[m].gameObject);
+                meshRenderers[m].gameObject.SetActive(true);
             }
-        }
-
-        public void SetBuildingLayer()
-        {
+            blueprintRenderers.Clear();
+            SetColliderLayersFromTo(LayerConstants.BuildingBlueprint, LayerConstants.Default);
             SetRendererLayers(LayerConstants.Building);
-            isBlueprint = false;
             CheckForRoom();
-        }
-
-        public void SetBlueprintLayer()
-        {
-            //SetRendererLayers(LayerConstants.BuildingOnly);
-            SetLayerForAllDefaultColliders(LayerConstants.BuildingBlueprint);
-            isBlueprint = true;
+            isBlueprint = false;
         }
 
         private void SetInvisible()
@@ -124,6 +142,17 @@ namespace OutcastMayor.Building
             }
         }
 
+        private void ResetLayers()
+        {
+            SetLayerForAllColliders(LayerConstants.Default);
+            buildCollider.gameObject.layer = LayerConstants.BuildModeOnly;
+            for(int i = 0; i < snappingPoints.Length; i++)
+            {
+                snappingPoints[i].gameObject.layer = LayerConstants.Snapping;
+            }         
+        }
+
+
         private void SetLayerForAllColliders(int layer)
         {
             //also set your own layer because rigidbody
@@ -134,14 +163,14 @@ namespace OutcastMayor.Building
             }
         }
 
-        private void SetLayerForAllDefaultColliders(int layer)
+        private void SetColliderLayersFromTo(int fromLayer, int toLayer)
         {
             //also set your own layer because rigidbody
-            gameObject.layer = layer;
+            gameObject.layer = toLayer;
             for (int i = 0; i < allColliders.Length; i++)
             {
-                if(allColliders[i].gameObject.layer == LayerConstants.Default)
-                    allColliders[i].gameObject.layer = layer;
+                if(allColliders[i].gameObject.layer == fromLayer)
+                    allColliders[i].gameObject.layer = toLayer;
             }
         }
 
@@ -186,7 +215,7 @@ namespace OutcastMayor.Building
             
         }
 
-        public virtual void OnBuild()
+        public virtual void OnBuild(Buildable snappedBuilding)
         {
             Destroy(GetComponent<Rigidbody>());
         }

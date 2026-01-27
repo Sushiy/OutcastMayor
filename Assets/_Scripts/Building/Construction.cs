@@ -8,7 +8,7 @@ namespace OutcastMayor.Building
 {
     public class Construction : Interactable
     {
-        private Buildable finishedObject;
+        public Buildable finishedObject;
         private Buildable blueprintObject;
 
         [Header("Building Progress")]
@@ -42,12 +42,10 @@ namespace OutcastMayor.Building
             get;
         }
 
-        public void SetConstruction(BuildRecipe recipe, Buildable finishedObject, Buildable blueprintObject, bool instantComplete = false)
+        public void SetConstruction(BuildRecipe recipe, Buildable finishedObject, bool instantComplete = false)
         {
             //Data Setup
             this.finishedObject = finishedObject;
-            this.blueprintObject = blueprintObject;
-            blueprintObject.buildCollider.gameObject.layer = 7;
             this.buildRecipe = recipe;
             OnSetPosition();
             stockpiledMaterials = new Inventory.ItemStack[recipe.Materials.Length];
@@ -141,16 +139,15 @@ namespace OutcastMayor.Building
 
         public void Complete()
         {
-            //Remove the construction object
-            blueprintObject.gameObject.SetActive(false);
-            Destroy(blueprintObject.gameObject);
-            //Activate the normal object
-            finishedObject.gameObject.SetActive(true);
-            finishedObject.SetBuildingLayer();
+            //blueprintObject.gameObject.SetActive(false);
+            //Destroy(blueprintObject.gameObject);
+            finishedObject.OnBlueprintCompleted();
             if (completePS)
                 completePS.Play();
             OnEndHover(null);
             NavMeshBaker.ShouldRebuild = true;
+            //Remove the construction object
+            Destroy(this.gameObject);
         }
 
         public void Destroy()
