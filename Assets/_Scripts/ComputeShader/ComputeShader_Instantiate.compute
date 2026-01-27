@@ -1,0 +1,13 @@
+// Each #kernel tells which function to compile; you can have many kernels
+#pragma kernel CSMain
+
+StructuredBuffer<float3> _VertexBuffer;
+float4x4 _LocalToWorld;
+float4 _Sphere;
+uint _VertexCount;
+
+[numthreads(32,1,1)]
+void CSMain (uint id : SV_DispatchThreadID)
+{
+    // TODO: insert actual code here!
+}
