@@ -15,6 +15,7 @@ MonoBehaviour:
   Name: Tent
   Icon: {fileID: 0}
   materials:
-  - item: {fileID: 11400000, guid: 45b23391d0cec114eb58e572b622b0bf, type: 2}
-    count: 5
-  prefab: {fileID: 3125772605847581528, guid: 65a9394de288f9441b953432ca79a447, type: 3}
+  - item: {fileID: 11400000, guid: 841fc750971acba4eaba3920c7cc081d, type: 2}
+    count: 1
+  buildingPrefab: {fileID: 6600894651659344228, guid: c70a75eb055fa6d4c9e47625db1e713a, type: 3}
+  constructionPrefab: {fileID: 1527629976948264906, guid: a24d80cc6c1be3c40a00e465da0fff3d, type: 3}

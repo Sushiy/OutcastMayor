@@ -1,0 +1,40 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3a0c59b6242227a44a2409abec90e7f7, type: 3}
+  m_Name: q_Demo_1_BuildACamp
+  m_EditorClassIdentifier: 
+  questID: q_benjo_1
+  requester: {fileID: 11400000, guid: 1f2d295c236ae5741b54846adfe0e08f, type: 2}
+  title: It all begins with shelter
+  description: Place a base camp
+  reward: Unlocks additional building items
+  goals:
+  - rid: 2791491375978250320
+  - rid: 2791491375978250337
+  CompletedDialogueValue: $benjo_quest_1_state
+  references:
+    version: 2
+    RefIds:
+    - rid: 2791491375978250320
+      type: {class: PlacedBuildableGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
+      data:
+        description: Place a campfire
+        IsCompleted: 0
+        buildable: {fileID: 498444498743871664, guid: 3f5d877ce04b64c4bbc88f6d770a290b, type: 3}
+        targetCount: 1
+    - rid: 2791491375978250337
+      type: {class: PlacedBuildableGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
+      data:
+        description: Place Tents
+        IsCompleted: 0
+        buildable: {fileID: 6600894651659344228, guid: c70a75eb055fa6d4c9e47625db1e713a, type: 3}
+        targetCount: 2

@@ -1,8 +1,11 @@
 title:Benjo_Demo_Base
 ---
+<<declare $benjo_spokenTo = 0>>
+<<declare $benjo_quest_0_state = 0>>
+<<declare $benjo_quest_1_state = 0>>
 //This node controls Benjos dialogueflow
 <<set $benjo_spokenTo = $benjo_spokenTo + 1>>
-<<if $benjo_spokenTo is 1>>
+<<if $benjo_quest_0_state < 1>>
     <<jump Benjo_Demo_Quest0_0>>
 <<elseif $benjo_quest_0_state < 2>>
     <<jump Benjo_Demo_Quest0_1>>
@@ -14,10 +17,45 @@ title: Benjo_Demo_Quest0_0
 Benjo: I cannot reach the other side like this. We need some sort of a bridge to pull the wagon through.
     -> One moment, I'll get it done!
      <<NewQuest Benjo 0>>
+     <<set $benjo_quest_0_state = 1>>
 ===
 title: Benjo_Demo_Quest0_1
 ---
 Benjo: I suppose you're still working on that?
     -> Yep, I need a little longer!
      <<CheckQuest Benjo 0>>
+===
+title:Benjo_Demo_Part2
+---
+//This node controls Benjos dialogueflow
+<<set $benjo_spokenTo = $benjo_spokenTo + 1>>
+<<if $benjo_quest_1_state < 1>>
+    <<jump Benjo_Demo_Quest1_Start>>
+<<elseif $benjo_quest_1_state < 2>>
+    <<jump Benjo_Demo_Quest1_0>>
+<<elseif $benjo_quest_1_state >= 2>>
+    <<jump Benjo_Demo_Quest1_Finish>>
+<<endif>>
+===
+
+title: Benjo_Demo_Quest1_Start
+---
+Benjo: We should set up camp!
+Benjo: Could you build a campfire and put our two tents nearby?
+    -> Sure!
+     <<NewQuest Benjo 1>>
+     <<set $benjo_quest_1_state = 1>>
+===
+title: Benjo_Demo_Quest1_0
+---
+Benjo: Do you need any help with it?
+    -> No, I got this! Camping life!
+     <<CheckQuest Benjo 1>>
+===
+title: Benjo_Demo_Quest1_Finish
+---
+Benjo: Amazing! I can't wait to sleep out here.
+Benjo: Our new life begins! WITH DINNER!
+Benjo: We did bring dinner, right?
+    -> Yeah we did. Lets have dinner!
 ===

@@ -181,7 +181,7 @@ namespace OutcastMayor
             else
             {
                 //Otherwise pass the raycast on to the interactor
-                raycastHit = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask);
+                raycastHit = Physics.Raycast(raycastOrigin.position, raycastOrigin.forward, out hitInfo, 10.0f, interactRaycastLayerMask, QueryTriggerInteraction.Collide);
                 interactor.ProcessRayCast(raycastHit, hitInfo);
             }
             //Debug.DrawLine(rayCastOrigin.position, hitInfo.point);
@@ -245,6 +245,7 @@ namespace OutcastMayor
 
         void OnInteract(CallbackContext value)
         {
+            if(!value.performed) return;
             if (!UIManager.IsUIOpen)
             {
                 print("Interact performed");  

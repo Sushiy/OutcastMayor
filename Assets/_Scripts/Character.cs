@@ -54,6 +54,10 @@ namespace OutcastMayor
             movement = GetComponent<IMovement>();
             rigidbody = GetComponent<Rigidbody>();
             heldItems = new Dictionary<int, (Item, GameObject)>();
+        }
+
+        void Start()
+        {            
             HoldItem(0);
         }
 
@@ -136,7 +140,11 @@ namespace OutcastMayor
                     heldItemGameObject.transform.localScale = Vector3.one;
                     characterAnimation.SetCarryState(1);
                 }
-                OnHeldItemChanged?.Invoke(heldItemGameObject);
+
+                if(OnHeldItemChanged != null)
+                {
+                    OnHeldItemChanged?.Invoke(heldItemGameObject);                    
+                }
             }
             else
             {

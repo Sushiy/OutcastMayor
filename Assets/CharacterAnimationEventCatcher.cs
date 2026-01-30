@@ -15,6 +15,15 @@ public class CharacterAnimationEventCatcher : MonoBehaviour
         onToolAnimationEvent?.Invoke(_value);
     }
 
+    public void SwingStart()
+    {
+        
+    }
+    public void SwingEnd()
+    {
+        
+    }
+
     public void Step()
     {
         //Analyze Ground!

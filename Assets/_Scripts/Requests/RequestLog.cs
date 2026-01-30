@@ -17,7 +17,7 @@ namespace OutcastMayor.Requests
                 activeRequests = new Dictionary<string, Request>();
             }
             activeRequests.Add(_request.RequestData.questID, _request);
-            _request.OnRequestCompleted += OnQuestCompleted;
+            _request.OnRequestUpdated += OnQuestCompleted;
         }
 
         void OnQuestCompleted(Request _request)
@@ -28,13 +28,13 @@ namespace OutcastMayor.Requests
                 completedRequests = new Dictionary<string, Request>();
 
             completedRequests.Add(_request.RequestData.questID, _request);
-            _request.OnRequestCompleted -= OnQuestCompleted;
+            _request.OnRequestUpdated -= OnQuestCompleted;
         }
 
         public void CheckActiveQuest(Request _request)
         {
             if(activeRequests.ContainsKey(_request.RequestData.questID))
-                activeRequests[_request.RequestData.questID].CheckGoal();
+                activeRequests[_request.RequestData.questID].CheckGoals();
         }
     }
 }

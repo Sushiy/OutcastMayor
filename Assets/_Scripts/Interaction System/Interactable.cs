@@ -23,5 +23,15 @@ namespace OutcastMayor
         {
             UI.UIManager.HideHoverUI();
         }
+
+        public virtual void Enable()
+        {
+            enabled = true;
+        }
+
+        public virtual void Disable()
+        {
+            enabled = false;
+        }
     }
 }

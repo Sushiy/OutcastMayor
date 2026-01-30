@@ -16,7 +16,20 @@ namespace OutcastMayor.Requests
         private string targetPositionMarkerID = "";
         private Vector3 targetPosition = Vector3.zero;
         [SerializeField]
-        private bool shouldGoAfterCompetion;
+        private bool shouldGoAfterCompletion;
+
+        public ValidPathGoal()
+        {
+            
+        }
+
+        public ValidPathGoal(ValidPathGoal _source)
+        {
+            description = _source.description;
+            startPositionMarkerID = _source.startPositionMarkerID;
+            targetPositionMarkerID = _source.targetPositionMarkerID;
+            shouldGoAfterCompletion = _source.shouldGoAfterCompletion;
+        }
 
         public override void Init(string _npcName, System.Action _callback)
         {
@@ -25,7 +38,7 @@ namespace OutcastMayor.Requests
             targetPosition = Blackboard.GetRequestPositionMarker(targetPositionMarkerID).transform.position;
         }
 
-        public override void Clear(System.Action callback)
+        public override void Clear()
         {
             
         }
@@ -58,7 +71,7 @@ namespace OutcastMayor.Requests
                     Debug.DrawLine(path.corners[i],path.corners[i+1], c, 5.0f);
                 }
                 
-                if(shouldGoAfterCompetion)
+                if(shouldGoAfterCompletion)
                 {
                     NPCManager.GetNPCByName(npcName).GoTo(targetPosition);
                 }
@@ -70,6 +83,11 @@ namespace OutcastMayor.Requests
                 Debug.DrawLine(startPosition,targetPosition, Color.red, 5.0f);
             }
             return false;
+        }
+
+        public override RequestGoal GetCopy()
+        {
+            return new ValidPathGoal(this);
         }
     }
 }

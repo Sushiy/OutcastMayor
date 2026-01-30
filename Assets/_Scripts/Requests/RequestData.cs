@@ -26,63 +26,9 @@ namespace OutcastMayor.Requests
         [SerializeReference]
         public List<RequestGoal> goals;
 
-        [Button]
-        public void AddValidRoomGoal()
-        {
-            if(goals == null)
-            {
-                goals = new List<RequestGoal>();
-            }
-            goals.Add(new ValidRoomGoal());
-        }
-        [Button]
-        public void AddValidPathGoal()
-        {
-            if(goals == null)
-            {
-                goals = new List<RequestGoal>();
-            }
-            goals.Add(new ValidRoomGoal());
-        }
-
         public Action<bool> OnRequestCompleted;
 
         public string CompletedDialogueValue;
-
-        public void Init()
-        {
-            for (int i = 0; i < goals.Count; i++)
-            {
-                goals[i].Init(requester.CharacterName, CheckGoals);
-            }
-            CheckGoals();
-        }
-
-        public void CheckGoals()
-        {
-            bool isCompleted = true;
-            for (int i = 0; i < goals.Count; i++)
-            {
-                if (!goals[i].CheckGoal())
-                {
-                    isCompleted = false;
-                }
-            }
-            Debug.Log("[Request] Quest: " + title + " is completed: " + isCompleted);
-            OnRequestCompleted?.Invoke(isCompleted);
-            if (isCompleted)
-                Complete();
-        }
-
-        public void Complete()
-        {
-            for (int i = 0; i < goals.Count; i++)
-            {
-                goals[i].Clear(CheckGoals);
-            }
-            DialogueSystem.SetDialogueValue(CompletedDialogueValue, 2);
-        }
-
     }
 
     /// <summary>
@@ -91,20 +37,30 @@ namespace OutcastMayor.Requests
     [System.Serializable]
     public abstract class RequestGoal
     {
-        public string description;
+        [SerializeField]
+        protected string description;
         protected bool isCompleted = false;
         public bool IsCompleted;
 
         protected string npcName;
+        protected System.Action checkGoalCallback;
 
-        public virtual void Init(string _npcName, System.Action _callback)
+        public virtual void Init(string _npcName, System.Action _checkGoalCallback)
         {
             isCompleted = false;
             npcName = _npcName;
+            checkGoalCallback = _checkGoalCallback;
         }
 
-        public abstract void Clear(System.Action _callback);
+        public abstract RequestGoal GetCopy();
+
+        public abstract void Clear();
 
         public abstract bool CheckGoal();
+
+        public virtual string GetGoalDescription()
+        {
+            return description;
+        }
     }
 }

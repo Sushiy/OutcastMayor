@@ -73,6 +73,8 @@ namespace OutcastMayor.Building
         //Events
         public Action<BuildRotationMode> onBuildRotationModeChanged;
 
+        public Action<Buildable> onBuildablePlaced;
+
         private void Start()
         {
             player = Player.Instance;
@@ -141,12 +143,8 @@ namespace OutcastMayor.Building
             build.transform.localScale = selectedRecipe.BuildScale;
             build.OnBuild(snappedBuilding);
             build.SetBlueprintMode(ghostMaterial);
+            onBuildablePlaced(build);
             
-            /*Buildable blue = GameObject.Instantiate(selectedRecipe.BuildingPrefab, position, buildRotation, buildingParent);
-            blue.transform.localScale = selectedRecipe.BuildScale;
-            blue.SetBlueprintMode(ghostMaterial);
-            blue.OnBuild(snappedBuilding);
-            */
             Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, build.transform);
             c.transform.localScale = selectedRecipe.BuildScale;
             c.SetConstruction(selectedRecipe, build, autoCompleteBuilds);

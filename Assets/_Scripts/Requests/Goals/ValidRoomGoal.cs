@@ -9,21 +9,31 @@ namespace OutcastMayor.Requests
     {
         RoomManager roomManager;
 
-        public override void Init(string _npcName, Action _callback)
+        public ValidRoomGoal()
         {
-            base.Init(_npcName, _callback);
+            
+        }
+
+        public ValidRoomGoal(ValidRoomGoal _source)
+        {
+            description = _source.description;
+        }
+
+        public override void Init(string _npcName, Action _checkGoalCallback)
+        {
+            base.Init(_npcName, _checkGoalCallback);
             roomManager = RoomManager.instance;
             if(roomManager != null)
             {
-                roomManager.OnRoomValidated += _callback;
+                roomManager.OnRoomValidated += checkGoalCallback;
             }
         }
 
-        public override void Clear(Action _callback)
+        public override void Clear()
         {
             if(roomManager != null)
             {
-                roomManager.OnRoomValidated -= _callback;
+                roomManager.OnRoomValidated -= checkGoalCallback;
             }
             roomManager = null;
         }
@@ -31,6 +41,11 @@ namespace OutcastMayor.Requests
         public override bool CheckGoal()
         {
             return RoomManager.HasValidRoom();
+        }
+
+        public override RequestGoal GetCopy()
+        {
+            return new ValidRoomGoal(this);
         }
     }
 }

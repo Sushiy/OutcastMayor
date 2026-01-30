@@ -10,9 +10,9 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3a0c59b6242227a44a2409abec90e7f7, type: 3}
-  m_Name: q_Demo_ReachTheForest
+  m_Name: q_Demo_0_ReachTheForest
   m_EditorClassIdentifier: 
-  questID: q_benjo_1
+  questID: q_benjo_0
   requester: {fileID: 11400000, guid: 1f2d295c236ae5741b54846adfe0e08f, type: 2}
   title: Reaching the Forest
   description: The Old Bridge has collapsed. We need a new path.
@@ -32,7 +32,7 @@ MonoBehaviour:
         IsCompleted: 0
         startPositionMarkerID: q_benjo_1_pos0
         targetPositionMarkerID: q_benjo_1_pos1
-        shouldGoAfterCompetion: 1
+        shouldGoAfterCompletion: 0
     - rid: 5428174107131772938
       type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
       data:
@@ -40,7 +40,7 @@ MonoBehaviour:
         IsCompleted: 0
         startPositionMarkerID: q_benjo_1_pos1
         targetPositionMarkerID: q_benjo_1_pos2
-        shouldGoAfterCompetion: 1
+        shouldGoAfterCompletion: 0
     - rid: 5428174107131772939
       type: {class: ValidPathGoal, ns: OutcastMayor.Requests, asm: Assembly-CSharp}
       data:
@@ -48,4 +48,4 @@ MonoBehaviour:
         IsCompleted: 0
         startPositionMarkerID: q_benjo_1_pos2
         targetPositionMarkerID: q_benjo_1_pos3
-        shouldGoAfterCompetion: 1
+        shouldGoAfterCompletion: 0

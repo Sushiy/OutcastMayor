@@ -33,7 +33,7 @@ namespace OutcastMayor
         public void ProcessRayCast(bool raycastHit, RaycastHit hitInfo)
         {
             Interactable previousInteractable = hoveredInteractable;
-            if (raycastHit)
+            if (raycastHit && hitInfo.collider.gameObject.layer == LayerConstants.Interactable)
             {
                 //If this is the same collider as last time, 
                 if (hitInfo.collider == hoveredCollider)
@@ -46,7 +46,7 @@ namespace OutcastMayor
                 hoveredInteractable = hitInfo.collider.GetComponentInParent<Interactable>();
 
                 //print("Hovered = " + (hoveredInteractable != null) + " previous = " + (previousInteractable != null));
-                if (hoveredInteractable != null)
+                if (hoveredInteractable != null && hoveredInteractable.isActiveAndEnabled)
                 {
                     //Start hovering on the next interactable
                     hoveredInteractable.OnStartHover(this);

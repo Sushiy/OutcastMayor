@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 77fa1f15909edd246a6fab20157da32b, type: 3}
+  m_Name: i_Packed Tent
+  m_EditorClassIdentifier: 
+  DisplayName: Packed Tent
+  icon: {fileID: 21300000, guid: 2ae38226d210f5f40a4d13e005867273, type: 3}
+  stackLimit: 1
+  weight: 10
+  tags: 0
+  prefab: {fileID: 4035125145157436310, guid: dfce3b51c53008a4fbaafc2ad30be36f, type: 3}

@@ -16,19 +16,20 @@ namespace OutcastMayor.UI
         {
             activeQuest = q;
             UpdateText(activeQuest);
-            activeQuest.OnRequestCompleted += UpdateText;
+            activeQuest.OnRequestUpdated += UpdateText;
             base.Show();
         }
 
         public override void Hide()
         {
-            activeQuest.OnRequestCompleted -= UpdateText;
+            activeQuest.OnRequestUpdated -= UpdateText;
             activeQuest = null;
             base.Hide();
         }
 
         public void UpdateText(Request _request)
         {
+            print($"UPDATE REQUEST TEXT {_request.RequestData.questID} : {_request.IsCompleted}");
             this.titleText.text = _request.RequestData.title;
             if (_request.IsCompleted)
             {
@@ -39,19 +40,19 @@ namespace OutcastMayor.UI
             {
                 this.descText.text = _request.RequestData.description;
                 string s = "";
-                for (int i = 0; i < _request.RequestData.goals.Count; i++)
+                for (int i = 0; i < _request.goals.Length; i++)
                 {
-                    if(_request.RequestData.goals[i].IsCompleted)
+                    if(_request.goals[i].IsCompleted)
                     {
                         s += "<color=green>";
                     }
-                    s += "- " + _request.RequestData.goals[i].description;
-                    if (i + 1 < _request.RequestData.goals.Count)
-                        s += "\n";
-                    if(_request.RequestData.goals[i].IsCompleted)
+                    s += "- " + _request.goals[i].GetGoalDescription();
+                    if(_request.goals[i].IsCompleted)
                     {
                         s += "</color>";
                     }
+                    if (i + 1 < _request.goals.Length)
+                        s += "\n";
                 }
                 goalText.text = s;
             }

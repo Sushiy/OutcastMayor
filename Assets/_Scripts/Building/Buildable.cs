@@ -8,6 +8,9 @@ namespace OutcastMayor.Building
 {
     public class Buildable : MonoBehaviour
     {
+        public string buildpiece_ID = "";
+        public string Buildpiece_ID => buildpiece_ID;
+
         [Header("Placement System")]
         [SerializeField]
         private MeshRenderer[] meshRenderers;
@@ -45,6 +48,9 @@ namespace OutcastMayor.Building
         protected static LayerMask buildLayer = 1 << 7;
 
         Collider[] allColliders;
+
+        public System.Action<Buildable> OnBuildableCompleted;
+
         private void Awake()
         {
             snappingPoints = GetComponentsInChildren<SnappingPoint>();
@@ -73,6 +79,11 @@ namespace OutcastMayor.Building
 
         public void SetBlueprintMode(Material ghostMaterial)
         { 
+            Interactable interactable = GetComponent<Interactable>();
+            if(interactable)
+            {
+                interactable.Disable();
+            }
             //make a copy of all meshes and then show them?
             for(int m = 0; m < meshRenderers.Length; m++)
             {
@@ -119,6 +130,12 @@ namespace OutcastMayor.Building
             SetRendererLayers(LayerConstants.Building);
             CheckForRoom();
             isBlueprint = false;
+            Interactable interactable = GetComponent<Interactable>();
+            if(interactable)
+            {
+                interactable.Enable();
+            }
+            OnBuildableCompleted?.Invoke(this);
         }
 
         private void SetInvisible()
