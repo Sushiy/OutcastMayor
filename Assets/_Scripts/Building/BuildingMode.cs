@@ -143,7 +143,7 @@ namespace OutcastMayor.Building
             build.transform.localScale = selectedRecipe.BuildScale;
             build.OnBuild(snappedBuilding);
             build.SetBlueprintMode(ghostMaterial);
-            onBuildablePlaced(build);
+            onBuildablePlaced?.Invoke(build);
             
             Construction c = GameObject.Instantiate(selectedRecipe.ConstructionPrefab, position, buildRotation, build.transform);
             c.transform.localScale = selectedRecipe.BuildScale;

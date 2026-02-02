@@ -2912,7 +2912,7 @@ Transform:
   m_GameObject: {fileID: 302394880}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.15}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -2933,8 +2933,8 @@ MonoBehaviour:
   m_SerializedVersion: 0
   m_AgentTypeID: 0
   m_CollectObjects: 1
-  m_Size: {x: 172.07623, y: 31.944088, z: 93.13106}
-  m_Center: {x: -21.564545, y: 12.972044, z: 3.6727066}
+  m_Size: {x: 500, y: 50, z: 200}
+  m_Center: {x: 0, y: 25, z: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 18432
@@ -2943,8 +2943,8 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 64
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
@@ -4565,7 +4565,6 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
-  - {fileID: 1073625988}
   - {fileID: 580115945}
   - {fileID: 855389532}
   - {fileID: 1447175348}
@@ -10013,7 +10012,7 @@ Transform:
   m_GameObject: {fileID: 802019402}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 1.1499991}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -10034,8 +10033,8 @@ MonoBehaviour:
   m_SerializedVersion: 0
   m_AgentTypeID: -1372625422
   m_CollectObjects: 1
-  m_Size: {x: 172.07623, y: 31.944088, z: 93.13106}
-  m_Center: {x: -21.564545, y: 12.972044, z: 3.6727066}
+  m_Size: {x: 500, y: 50, z: 200}
+  m_Center: {x: 0, y: 25, z: 0}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 18432
@@ -10044,13 +10043,13 @@ MonoBehaviour:
   m_GenerateLinks: 0
   m_IgnoreNavMeshAgent: 1
   m_IgnoreNavMeshObstacle: 1
-  m_OverrideTileSize: 0
-  m_TileSize: 256
+  m_OverrideTileSize: 1
+  m_TileSize: 64
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.33333334
   m_MinRegionArea: 2
   m_NavMeshData: {fileID: 23800000, guid: a6a70c5c16afbd248b988d1195fcbf25, type: 2}
-  m_BuildHeightMesh: 0
+  m_BuildHeightMesh: 1
 --- !u!4 &810887144 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 954f6c6bde9aa074597736d597b5a267, type: 3}
@@ -12254,6 +12253,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1073625988}
   - component: {fileID: 1073625989}
+  - component: {fileID: 1073625990}
   m_Layer: 0
   m_Name: NavMeshSurface_SwampIsles
   m_TagString: Untagged
@@ -12270,13 +12270,13 @@ Transform:
   m_GameObject: {fileID: 1073625987}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 103.42468, y: -56.36, z: 275.5553}
-  m_LocalScale: {x: 17.276562, y: 19.755, z: 17.689594}
+  m_LocalPosition: {x: -180.5, y: -23.660004, z: -52.844696}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 302394881}
   - {fileID: 802019403}
-  m_Father: {fileID: 492312819}
+  m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1073625989
 MonoBehaviour:
@@ -12293,6 +12293,21 @@ MonoBehaviour:
   navMeshSurfaces:
   - {fileID: 302394882}
   - {fileID: 802019404}
+  rebuildBoundSize: {x: 30, y: 30, z: 30}
+  updateInterval: 1
+--- !u!114 &1073625990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1073625987}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba06ad262e36c6f4c9219374a7f9a9e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::ChunkManager
+  tileSize: 64
 --- !u!4 &1082935885 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 01371fef1743801438fa957919fa3756, type: 3}
@@ -14508,7 +14523,7 @@ Transform:
   m_GameObject: {fileID: 1388039732}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -324.01492, y: -4.670231, z: -76.98589}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -20965,3 +20980,4 @@ SceneRoots:
   - {fileID: 1497631691}
   - {fileID: 1407340651}
   - {fileID: 1388039733}
+  - {fileID: 1073625988}

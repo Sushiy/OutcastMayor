@@ -145,7 +145,7 @@ namespace OutcastMayor.Building
             if (completePS)
                 completePS.Play();
             OnEndHover(null);
-            NavMeshBaker.ShouldRebuild = true;
+            NavMeshBaker.SetNavMeshUpdate(transform.position);
             //Remove the construction object
             Destroy(this.gameObject);
         }
