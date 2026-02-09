@@ -10,12 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f2db4f9c363b76f47926f892a2a07bd6, type: 3}
-  m_Name: b_Tent
+  m_Name: b_Bedroll
   m_EditorClassIdentifier: 
-  Name: Tent
+  Name: Bedroll
   Icon: {fileID: 0}
   materials:
   - item: {fileID: 11400000, guid: 841fc750971acba4eaba3920c7cc081d, type: 2}
     count: 1
-  buildingPrefab: {fileID: 6600894651659344228, guid: c70a75eb055fa6d4c9e47625db1e713a, type: 3}
-  constructionPrefab: {fileID: 1527629976948264906, guid: a24d80cc6c1be3c40a00e465da0fff3d, type: 3}
+  buildingPrefab: {fileID: 8575884198669785068, guid: b961ef1cd4b0f7b4e846125ab443b45b, type: 3}
+  constructionPrefab: {fileID: 1527629976948264906, guid: 94c880894da6a324193e8c723ce3a6a3, type: 3}

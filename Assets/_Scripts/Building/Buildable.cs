@@ -45,13 +45,12 @@ namespace OutcastMayor.Building
         public Buildable anchorParent;
         public UnityEvent OnChecked;
         public bool isBlueprint = false;
-        protected static LayerMask buildLayer = 1 << 7;
 
         Collider[] allColliders;
 
         public System.Action<Buildable> OnBuildableCompleted;
 
-        private void Awake()
+        protected virtual void Awake()
         {
             snappingPoints = GetComponentsInChildren<SnappingPoint>();
             
@@ -77,13 +76,8 @@ namespace OutcastMayor.Building
 
         public List<MeshRenderer> blueprintRenderers;
 
-        public void SetBlueprintMode(Material ghostMaterial)
+        public virtual void SetBlueprintMode(Material ghostMaterial)
         { 
-            Interactable interactable = GetComponent<Interactable>();
-            if(interactable)
-            {
-                interactable.Disable();
-            }
             //make a copy of all meshes and then show them?
             for(int m = 0; m < meshRenderers.Length; m++)
             {
@@ -116,7 +110,7 @@ namespace OutcastMayor.Building
             }
         }
 
-        public void OnBlueprintCompleted()
+        public virtual void OnBlueprintCompleted()
         {
             //make a copy of all meshes and then show them?
             for(int m = blueprintRenderers.Count-1; m >= 0; m--)
@@ -130,11 +124,6 @@ namespace OutcastMayor.Building
             SetRendererLayers(LayerConstants.Building);
             CheckForRoom();
             isBlueprint = false;
-            Interactable interactable = GetComponent<Interactable>();
-            if(interactable)
-            {
-                interactable.Enable();
-            }
             OnBuildableCompleted?.Invoke(this);
         }
 
@@ -243,7 +232,7 @@ namespace OutcastMayor.Building
             result.touchedFloors = new List<Floor>();
             result.touchedRooms = new List<Room>();
 
-            Collider[] colliders = Physics.OverlapBox(transform.position, buildCollider.size / 2.0f, transform.rotation, buildLayer);
+            Collider[] colliders = Physics.OverlapBox(transform.position, buildCollider.size / 2.0f, transform.rotation, 1 << LayerConstants.BuildModeOnly);
             //print("Touched: " + colliders.Length + " buildables");
             //2. Step through all of the objects, find floors and tell them to check their rooms!
             for (int i = 0; i < colliders.Length; i++)

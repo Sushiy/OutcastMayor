@@ -138,6 +138,8 @@ namespace OutcastMayor
             //If the player is moving, adjust the camera to the movement
             if (IsMoving())
             {
+                Player.Instance.WakeUp();
+                
                 //1.Set the player rotation based on the look transform
                 transform.rotation = Quaternion.Euler(0, followTransform.rotation.eulerAngles.y, 0);
                 //reset the y rotation of the look transform
@@ -181,6 +183,7 @@ namespace OutcastMayor
             if (characterController.isGrounded)
             {
                 print("[PlayerMovement] Jump!");
+                Player.Instance.WakeUp();
                 Player.Instance.CharacterAnimation.SetJump();
             }
             else

@@ -3,6 +3,7 @@ title:Benjo_Demo_Base
 <<declare $benjo_spokenTo = 0>>
 <<declare $benjo_quest_0_state = 0>>
 <<declare $benjo_quest_1_state = 0>>
+<<declare $arlen_quest_0_state = 0>>
 //This node controls Benjos dialogueflow
 <<set $benjo_spokenTo = $benjo_spokenTo + 1>>
 <<if $benjo_quest_0_state < 1>>
@@ -58,4 +59,29 @@ Benjo: Amazing! I can't wait to sleep out here.
 Benjo: Our new life begins! WITH DINNER!
 Benjo: We did bring dinner, right?
     -> Yeah we did. Lets have dinner!
+===
+
+
+title: Arlen_Demo_Intro
+---
+Arlen: Well, who do we have here?
+    -> Greetings!
+Arlen: Greetings to you as well! Is it you who have been cutting the trees in the valley?
+    -> Indeed! Is it a problem?
+Arlen: Oh not at all, I was just surprised to hear someone work out here. It's rare.
+    -> We are building a village.
+Arlen: Is that so? A goblin village...sounds like a thing of myths to be honest.
+Arlen: But that means you're good with those tools of yours? Perhaps we can help each other out?
+    -> What do you need?
+    <<jump Arlen_Demo_Quest0_Start>>
+===
+
+title: Arlen_Demo_Quest0_Start
+---
+Arlen: So every year I hike out into the hills to pray at my family shrine.
+Arlen: But there was a rock slide, so the path is broken off. Perhaps you could fill in the gaps?
+Arlen: In exchange I would be happy to help you out with some stonework or heavy lifting you need in the village.
+    -> I am happy to help. And anyone is welcome to pitch in with our project.
+     <<NewQuest Arlen 1>>
+     <<set $arlen_quest_0_state = 1>>
 ===

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using OutcastMayor.Building;
 using UnityEngine;
 
 namespace OutcastMayor.Interaction
@@ -11,19 +12,31 @@ namespace OutcastMayor.Interaction
     {
         private int sleepHash = Animator.StringToHash("bIsSleeping");
 
-        public bool isOccupied = false;
+        [SerializeField]
+        private bool isOccupied = false;
+
+        [SerializeField]
+        private bool isValid = false;
+        public LayerMask layer;
 
         public override void Interact(Interactor interactor)
         {
             base.Interact(interactor);
-
-            //If the bed is not occupied and the player is not currently sleeping, sleep.
-            if (!isOccupied)
+            if(BuildableUtility.CheckCovered(transform.position))
             {
-                StartSleeping(interactor.parentCharacter);
+                //If the bed is not occupied and the player is not currently sleeping, sleep.
+                if (!isOccupied)
+                {
+                    StartSleeping(interactor.parentCharacter);
+                }
             }
+            else
+            {
+                Debug.Log("Bed is not covered");
+            }
+            
         }
-
+        
         public void StartSleeping(Character character)
         {
             isOccupied = true;

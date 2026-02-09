@@ -68,15 +68,21 @@ namespace OutcastMayor
 
         public virtual void Sleep()
         {
-            isSleeping = true;
-            characterAnimation.SetSleeping(true);
+            if(!isSleeping)
+            {
+                isSleeping = true;
+                characterAnimation.SetSleeping(true);                
+            }
         }
 
         public virtual void WakeUp()
         {
-            isSleeping = false;
-            characterAnimation.SetSleeping(false);
-            OnStopSleeping?.Invoke(this);
+            if(isSleeping)
+            {
+                isSleeping = false;
+                characterAnimation.SetSleeping(false);
+                OnStopSleeping?.Invoke(this);                
+            }
         }
 
         public virtual void SetWeightedDown(bool _weightedDown)
