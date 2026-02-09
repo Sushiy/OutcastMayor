@@ -151,6 +151,11 @@ namespace OutcastMayor.Building
             return c;
         }
 
+        public void ToggleBuildMenu()
+        {
+            UI.UIManager.Instance.ToggleBuildingView(this);            
+        }
+
         public void Build()
         {
             Build(buildPosition);

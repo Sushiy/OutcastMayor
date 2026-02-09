@@ -1,4 +1,5 @@
 {
+    "version": 1,
     "name": "InputActions",
     "maps": [
         {
@@ -42,6 +43,15 @@
                     "initialStateCheck": false
                 },
                 {
+                    "name": "Tertiary",
+                    "type": "Button",
+                    "id": "4ae966d7-b724-46f5-859d-227b17475229",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
                     "name": "Inventory",
                     "type": "Button",
                     "id": "1a077e24-7dc1-4a70-8cb2-6aa0bd4ff89a",
@@ -63,6 +73,15 @@
                     "name": "Jump",
                     "type": "Button",
                     "id": "1e415e76-69f2-4477-8a0d-78f2d0cef7c4",
+                    "expectedControlType": "",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "Ctrl",
+                    "type": "Button",
+                    "id": "46775705-2b2e-42d4-b50f-558d3b11abda",
                     "expectedControlType": "",
                     "processors": "",
                     "interactions": "",
@@ -105,7 +124,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Position",
+                    "name": "CursorPosition",
                     "type": "PassThrough",
                     "id": "612b90a1-e026-4586-9197-92a3de0b7b11",
                     "expectedControlType": "Vector2",
@@ -114,25 +133,7 @@
                     "initialStateCheck": false
                 },
                 {
-                    "name": "Tertiary",
-                    "type": "Button",
-                    "id": "4ae966d7-b724-46f5-859d-227b17475229",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "Ctrl",
-                    "type": "Button",
-                    "id": "46775705-2b2e-42d4-b50f-558d3b11abda",
-                    "expectedControlType": "",
-                    "processors": "",
-                    "interactions": "",
-                    "initialStateCheck": false
-                },
-                {
-                    "name": "ToolMenu",
+                    "name": "BuildMenu",
                     "type": "Button",
                     "id": "53ca4d6a-4701-40fb-9a16-15f36f014646",
                     "expectedControlType": "",
@@ -413,7 +414,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Keyboard&Mouse",
-                    "action": "ToolMenu",
+                    "action": "BuildMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -424,7 +425,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "Gamepad",
-                    "action": "ToolMenu",
+                    "action": "BuildMenu",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },
@@ -501,7 +502,7 @@
                     "interactions": "",
                     "processors": "",
                     "groups": "",
-                    "action": "Position",
+                    "action": "CursorPosition",
                     "isComposite": false,
                     "isPartOfComposite": false
                 },

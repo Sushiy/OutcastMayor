@@ -1,6 +1,7 @@
 using OutcastMayor.Building;
 using OutcastMayor.Requests;
 using OutcastMayor.Zoning;
+using UnityEditor.EditorTools;
 using UnityEngine;
 
 namespace OutcastMayor
@@ -28,6 +29,9 @@ namespace OutcastMayor
         [SerializeField]
         private BuildingMode buildingMode;
         public BuildingMode BuildingMode => buildingMode;
+
+        [SerializeField]
+        Tool buildingTool;
 
         public State DefaultState;
         public State InteractingState;
@@ -66,13 +70,55 @@ namespace OutcastMayor
             base.Awake();
         }
 
-        public void BuildingStateEnter()
+        private void BuildingStateEnter()
         {
-            playerInputManager.SetBuildMode(true);
+            playerInputManager.SetBuildMode(true);;
         }
-        public void BuildingStateExit(State _nextState)
+        private void BuildingStateExit(State _nextState)
         {
             playerInputManager.SetBuildMode(false);
+        }
+
+        public virtual void EquipBuildTool()
+        {
+            //if(heldItemSlotID == slotID) return;
+            //if we are already holding an item, kick it out?
+            if(heldItem != null && heldItemGameObject != null)
+            {
+                heldItemGameObject.SetActive(false);
+                heldItemGameObject = null;
+                heldItem = null;
+            }
+
+            if(buildingTool != null)
+            {
+                heldItemGameObject = buildingTool.gameObject;
+                heldItemGameObject.SetActive(true);
+
+                heldItemGameObject.transform.parent = toolTransform;
+                heldItemGameObject.transform.localPosition = Vector3.zero;
+                heldItemGameObject.transform.localRotation = Quaternion.identity;
+                heldItemGameObject.transform.localScale = Vector3.one;
+                characterAnimation.SetCarryState(0);
+
+                if(OnHeldItemChanged != null)
+                {
+                    OnHeldItemChanged?.Invoke(heldItemGameObject);
+                }
+            }
+        }
+
+        public void ToggleBuildMode()
+        {
+            if(currentState == BuildingState)
+            {
+                HoldItem(heldItemSlotID);
+                ChangeState(DefaultState);
+            }
+            else if(currentState != PausedState)
+            {
+                EquipBuildTool();
+            }
         }
 
         public override void Sleep()

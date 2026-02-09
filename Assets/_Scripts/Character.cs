@@ -19,11 +19,11 @@ namespace OutcastMayor
         public IMovement Movement => movement;
 
         [SerializeField]
-        Transform toolTransform;
+        protected Transform toolTransform;
         [SerializeField]
-        Transform carryTransform;
+        protected Transform carryTransform;
 
-        GameObject heldItemGameObject;
+        protected GameObject heldItemGameObject;
 
         [HideInInspector]
         public UnityEvent<GameObject> OnHeldItemChanged;
@@ -39,8 +39,8 @@ namespace OutcastMayor
             get;
         }
 
-        int heldItemSlotID = 0;
-        Item heldItem;
+        protected int heldItemSlotID = 0;
+        protected Item heldItem;
         public Dictionary<int, (Item, GameObject)> heldItems;
 
         public Action<Character> OnStopSleeping;

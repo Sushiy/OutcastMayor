@@ -97,15 +97,15 @@ namespace OutcastMayor
 
             inputActions.Player.Item4.performed += OnItem4Key;
 
-            inputActions.Player.Position.performed += OnPosition;
-            inputActions.Player.Position.canceled += OnPositionCanceled;
+            inputActions.Player.CursorPosition.performed += OnPosition;
+            inputActions.Player.CursorPosition.canceled += OnPositionCanceled;
 
             inputActions.Player.Tertiary.performed += OnTertiary;
 
             inputActions.Player.Ctrl.performed += OnControlPerformed;
             inputActions.Player.Ctrl.canceled += OnControlCanceled;  
 
-            inputActions.Player.ToolMenu.performed += OnToolMenu;
+            inputActions.Player.BuildMenu.performed += OnToolMenu;
 
             //BuildMode specific stuff
             inputActions.BuildMode.Rotate.performed += OnRotate; 
@@ -147,15 +147,15 @@ namespace OutcastMayor
             
             inputActions.Player.Item4.performed -= OnItem4Key;
 
-            inputActions.Player.Position.performed -= OnPosition;
-            inputActions.Player.Position.canceled -= OnPositionCanceled;
+            inputActions.Player.CursorPosition.performed -= OnPosition;
+            inputActions.Player.CursorPosition.canceled -= OnPositionCanceled;
 
             inputActions.Player.Tertiary.performed -= OnTertiary;
 
             inputActions.Player.Ctrl.performed -= OnControlPerformed;
             inputActions.Player.Ctrl.canceled -= OnControlCanceled;
 
-            inputActions.Player.ToolMenu.performed -= OnToolMenu;
+            inputActions.Player.BuildMenu.performed -= OnToolMenu;
 
             //BuildMode specific stuff
             inputActions.BuildMode.Rotate.performed += OnRotate;
@@ -312,7 +312,7 @@ namespace OutcastMayor
         {
             if(value.performed)
             {
-                player.PlayerToolManager.ToolMenu();
+                player.ToggleBuildMode();
             }
         }
 

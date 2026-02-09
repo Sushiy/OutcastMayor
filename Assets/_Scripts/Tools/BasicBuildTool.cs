@@ -71,9 +71,8 @@ namespace OutcastMayor
 
         public override void OnUseToolSecondary(Character _parentCharacter)
         {
-            //buildingMode.ExitBuildMode();
             if(buildingMode)
-                UIManager.Instance.ToggleBuildingView(buildingMode);
+                buildingMode.ToggleBuildMenu();
         }
 
         public override void OnUseToolTertiary(Character _parentCharacter)

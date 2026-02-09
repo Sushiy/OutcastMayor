@@ -84,7 +84,7 @@ namespace OutcastMayor
             inputActions.Player.Secondary.performed += OnSecondary;
             inputActions.Player.Secondary.canceled += OnSecondaryRelease;
 
-            inputActions.Player.Position.performed += OnPosition;
+            inputActions.Player.CursorPosition.performed += OnPosition;
 
             inputActions.Player.Item1.performed += OnItem1Key;
             inputActions.Player.Item2.performed += OnItem2Key;

@@ -1,7 +1,7 @@
 fileFormatVersion: 2
 guid: eed284397e170784985b8ae488f04eb3
 ModelImporter:
-  serializedVersion: 22200
+  serializedVersion: 24200
   internalIDToNameTable:
   - first:
       74: -203655887218126122
@@ -19,8 +19,6 @@ ModelImporter:
     optimizeGameObjects: 0
     removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -68,7 +66,7 @@ ModelImporter:
       name: Jump_Start
       takeName: mixamo.com
       internalID: 4061839508520268033
-      firstFrame: 0
+      firstFrame: 20
       lastFrame: 32
       wrapMode: 0
       orientationOffsetY: 0
@@ -184,6 +182,9 @@ ModelImporter:
     maxBonesPerVertex: 4
     minBoneWeight: 0.001
     optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
     meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
