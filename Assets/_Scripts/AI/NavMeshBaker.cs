@@ -16,17 +16,16 @@ public class NavMeshBaker : MonoBehaviour
 
     public float updateInterval = 1.0f;
 
-    private void Awake()
+    void Awake()
     {
         boundPositions = new Queue<Vector3>();
         sources = new List<NavMeshBuildSource>();
     }
 
-    private void Start()
+    void Start()
     {
-        ShouldRebuild = true;
-        RebuildWholeMesh();
         StartCoroutine(ScheduleNavMesh());
+        ShouldRebuild = true;
     }
 
     public void SetNavMeshTileSize(int _tileSize)
@@ -38,7 +37,7 @@ public class NavMeshBaker : MonoBehaviour
         }
     }
 
-    public async Task RebuildWholeMesh()
+    private async Task RebuildWholeMesh()
     {
         for (int i = 0; i < navMeshSurfaces.Length; i++)
         {
@@ -46,7 +45,7 @@ public class NavMeshBaker : MonoBehaviour
         }
     }
 
-    public async Task BuildNavMesh()
+    private async Task BuildNavMesh()
     {
         Bounds worldBounds = new Bounds(boundPositions.Dequeue(), rebuildBoundSize);
         print($"Building Mesh around position {worldBounds.center}");
@@ -57,7 +56,7 @@ public class NavMeshBaker : MonoBehaviour
             NavMesh.AddNavMeshData(meshData);
         }
     }
-    public AsyncOperation UpdateNavMeshInBounds(NavMeshSurface _navMeshSurface, Bounds _worldBounds, NavMeshData navMeshData)
+    private AsyncOperation UpdateNavMeshInBounds(NavMeshSurface _navMeshSurface, Bounds _worldBounds, NavMeshData navMeshData)
     {
         sources.Clear();
         NavMeshBuilder.CollectSources(_worldBounds, _navMeshSurface.layerMask, _navMeshSurface.useGeometry, _navMeshSurface.defaultArea, new List<NavMeshBuildMarkup>(), sources);
@@ -73,7 +72,7 @@ public class NavMeshBaker : MonoBehaviour
         return NavMeshBuilder.UpdateNavMeshDataAsync(navMeshData, navMeshBuildSettings, sources, localBounds);
     }
 
-    public static bool ShouldRebuild = false;
+    private static bool ShouldRebuild = false;
 
     public static void SetNavMeshUpdate(Vector3 worldPosition)
     {
@@ -87,7 +86,7 @@ public class NavMeshBaker : MonoBehaviour
             if (ShouldRebuild || boundPositions.Count > 0)
             {
                 ShouldRebuild = false;
-                BuildNavMesh();
+                _ = BuildNavMesh();
             }
             yield return new WaitForSeconds(updateInterval);
         }

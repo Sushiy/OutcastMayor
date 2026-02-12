@@ -23,7 +23,8 @@ namespace OutcastMayor.UI
 
         void OnDestroy()
         {
-            buildingMode.onBuildRotationModeChanged -= BuildRotationModeChanged;            
+            if(buildingMode != null)
+                buildingMode.onBuildRotationModeChanged -= BuildRotationModeChanged;            
         }
 
         void BuildRotationModeChanged(BuildingMode.BuildRotationMode _buildRotationMode)

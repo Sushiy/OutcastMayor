@@ -9,11 +9,20 @@ namespace OutcastMayor.UI
     {
         public TMP_Text nameText;
         public TMP_Text actionText;
+        
+        private CanvasGroup canvasGroup;
+
+        void Awake()
+        {
+            canvasGroup = GetComponent<CanvasGroup>();
+            canvasGroup.alpha = 0;
+        }
 
         public void StartHover(Interactable i)
         {
             nameText.text = i.name;
-            actionText.text = "[E] " + i.interaction;
+            actionText.text = i.interaction;
+            canvasGroup.alpha = 1;
         }
 
         public void StartHover(Interactable i, string customNameTxt, string customActionTxt)
@@ -29,16 +38,18 @@ namespace OutcastMayor.UI
             }
             if(customActionTxt == "")
             {
-                actionText.text = "[E]" + i.interaction;
+                actionText.text = i.interaction;
             }
             else
             {
                 actionText.text = customActionTxt;
             }
+            canvasGroup.alpha = 1;
         }
 
         public void EndHover()
         {
+            canvasGroup.alpha = 0;
             nameText.text = "";
             actionText.text = "";
         }

@@ -226,6 +226,16 @@ namespace OutcastMayor.Building
             Destroy(GetComponent<Rigidbody>());
         }
 
+        public virtual void StartHover()
+        {
+            
+        }
+
+        public virtual void EndHover()
+        {
+            
+        }
+
         public virtual OverlapResult CheckRoomOverlap()
         {
             OverlapResult result;

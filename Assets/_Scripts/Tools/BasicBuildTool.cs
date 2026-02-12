@@ -86,7 +86,7 @@ namespace OutcastMayor
                     if(_parentCharacter.Interactor.hoveredInteractable == c)
                         _parentCharacter.Interactor.hoveredInteractable.OnEndHover(_parentCharacter.Interactor);
 
-                    c.Destroy();
+                    Destroy(b.gameObject);
                 }
             }
 

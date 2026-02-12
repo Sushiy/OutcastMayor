@@ -36,6 +36,7 @@ namespace OutcastMayor
         public State DefaultState;
         public State InteractingState;
         public State BuildingState;
+        public State DestructionState;
         public State ZoningState;
         public State PausedState;
 
@@ -62,6 +63,7 @@ namespace OutcastMayor
             DefaultState = new State(null, null, null, this, "Default State");
             InteractingState = new State(null, null, null, this, "Interacting State");
             BuildingState = new State(BuildingStateEnter, null, BuildingStateExit, this, "Building State");
+            DestructionState = new State(DestructionStateEnter, null, DestructionStateExit, this, "Destruction State");
             ZoningState = new State(null, null, null, this, "Zoning State");
             PausedState = new State(null, null, null, this, "Paused State");
 
@@ -119,6 +121,14 @@ namespace OutcastMayor
             {
                 EquipBuildTool();
             }
+        }
+        private void DestructionStateEnter()
+        {
+            playerInputManager.SetBuildMode(true);;
+        }
+        private void DestructionStateExit(State _nextState)
+        {
+            playerInputManager.SetBuildMode(false);
         }
 
         public override void Sleep()

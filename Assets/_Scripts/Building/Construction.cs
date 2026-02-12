@@ -139,8 +139,6 @@ namespace OutcastMayor.Building
 
         public void Complete()
         {
-            //blueprintObject.gameObject.SetActive(false);
-            //Destroy(blueprintObject.gameObject);
             finishedObject.OnBlueprintCompleted();
             if (completePS)
                 completePS.Play();
@@ -161,8 +159,6 @@ namespace OutcastMayor.Building
              */
             //Remove the finished object
             Destroy(finishedObject.gameObject);
-            //Remove the construction object
-            Destroy(blueprintObject.gameObject);
         }
 
         public bool IsNeeded(Item m)

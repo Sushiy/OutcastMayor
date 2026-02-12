@@ -38,6 +38,11 @@ public class NavMeshMovement : MonoBehaviour, IMovement
         OnPathComplete = new UnityEvent();
     }
 
+    void Start()
+    {
+        NavMeshBaker.SetNavMeshUpdate(transform.position);
+    }
+
     public bool CheckPositionReachable(Vector3 _targetPosition, out NavMeshPath _navMeshPath)
     {
         _navMeshPath = new NavMeshPath();

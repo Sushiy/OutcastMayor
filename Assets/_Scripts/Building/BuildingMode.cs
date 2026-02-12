@@ -323,6 +323,8 @@ namespace OutcastMayor.Building
                     indicator.transform.position = rayCastPosition;
                     indicator.transform.rotation = Quaternion.LookRotation(surfaceNormal.direction);
                     indicator.SetVisible(true);
+                    indicator.UpdateYRotation(buildAngle.y);
+                    indicator.UpdateXRotation(buildAngle.x);
                 }
             }
             else
@@ -351,11 +353,14 @@ namespace OutcastMayor.Building
                 {
                     buildAngle.y += angleDelta;
                     buildAngle.y %= 360;
+                   if(indicator)
+                        indicator.UpdateYRotation(buildAngle.y);
                 }
                 else if(!(ghostBuilding is Foundation))
                 {
-                    buildAngle.x += angleDelta;
-                    buildAngle.x %= 360;
+                    buildAngle.x = Mathf.Clamp(buildAngle.x - angleDelta, 0,90);
+                    if(indicator)
+                        indicator.UpdateXRotation(buildAngle.x);
                 }
                 buildRotation = Quaternion.Euler(0, (baseBuildAngleY + buildAngle.y)%360, buildAngle.x);
             }

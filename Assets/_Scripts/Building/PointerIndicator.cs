@@ -9,6 +9,11 @@ public class PointerIndicator : MonoBehaviour
 
     bool visible = false;
 
+    [SerializeField]
+    Shapes.Disc xRotationDisc;
+    [SerializeField]
+    Shapes.Disc xRotationEdge;
+
     private void Awake()
     {
         animator = GetComponent<Animator>();
@@ -21,6 +26,19 @@ public class PointerIndicator : MonoBehaviour
         {
             visible = value;
             animator.SetBool(hashActive, visible);
+            xRotationDisc.enabled = visible;
+            xRotationEdge.enabled = visible;
         }
+    }
+    
+    public void UpdateYRotation(float angle)
+    {
+        transform.localRotation = Quaternion.Euler(-90, angle, 0);
+    }
+
+    public void UpdateXRotation(float angle)
+    {
+        xRotationDisc.AngRadiansEnd = angle * Mathf.Deg2Rad;
+        xRotationEdge.AngRadiansEnd = angle * Mathf.Deg2Rad;
     }
 }
