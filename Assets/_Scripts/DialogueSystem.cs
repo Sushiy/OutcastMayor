@@ -21,12 +21,14 @@ namespace OutcastMayor.Dialogue
         {
             dialogueRunner.StartDialogue(node);
             CameraController.ChangeToDialogueCamera();
+            Player.Instance.ChangeState(Player.Instance.DialogueState);
             dialogueRunner.onDialogueComplete.AddListener(EndDialogue);
         }
 
         private static void EndDialogue()
         {
             CameraController.ChangeToStandardCamera();
+            Player.Instance.ChangeState(Player.Instance.DefaultState);
         }
         
         public void OnNewQuest(string characterName, int questIndex)

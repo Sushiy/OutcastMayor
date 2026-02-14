@@ -171,7 +171,7 @@ namespace OutcastMayor
         {
             if(!player.PlayerToolManager)
             {
-                print("NO playertoolmanager");
+                print("No playertoolmanager found");
                 return;
             }
             if(player.PlayerToolManager.OnToolRaycast(raycastOrigin.position, raycastOrigin.forward))
@@ -238,8 +238,10 @@ namespace OutcastMayor
         {
             if(c.performed)
             {
-                print("jump");
-                movement.Jump();
+                if(player.currentState != player.DialogueState)
+                {
+                    movement.Jump();                    
+                }
             }
         }
 
@@ -248,7 +250,6 @@ namespace OutcastMayor
             if(!value.performed) return;
             if (!UIManager.IsUIOpen)
             {
-                print("Interact performed");  
                 interactor.Interact();
             }
         }

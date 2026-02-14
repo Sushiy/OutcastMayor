@@ -35,6 +35,7 @@ namespace OutcastMayor
 
         public State DefaultState;
         public State InteractingState;
+        public State DialogueState;
         public State BuildingState;
         public State DestructionState;
         public State ZoningState;
@@ -62,6 +63,7 @@ namespace OutcastMayor
             //Setup states
             DefaultState = new State(null, null, null, this, "Default State");
             InteractingState = new State(null, null, null, this, "Interacting State");
+            DialogueState = new State(null, null, null, this, "Dialogue State");
             BuildingState = new State(BuildingStateEnter, null, BuildingStateExit, this, "Building State");
             DestructionState = new State(DestructionStateEnter, null, DestructionStateExit, this, "Destruction State");
             ZoningState = new State(null, null, null, this, "Zoning State");

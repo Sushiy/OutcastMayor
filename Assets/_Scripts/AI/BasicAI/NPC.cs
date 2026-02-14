@@ -1,4 +1,5 @@
 using OutcastMayor;
+using OutcastMayor.GameState;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -24,6 +25,7 @@ public class NPC : Character
     void Start()
     {        
         NPCManager.AddNPC(this);
+        GameManager.Instance.BeforePartStarted += BeforePartStarted;
     }
 
     public void GoTo(Transform _transform)
@@ -34,5 +36,15 @@ public class NPC : Character
     public void GoTo(Vector3 _targetPosition)
     {
         navhMeshMovement.TryMoveTo(_targetPosition, false, null);
+    }
+
+    void BeforePartStarted(GamePartBehaviour gamePartBehaviour)
+    {
+        Transform spawnPosition = gamePartBehaviour.GetSpawnLocation(CharacterName);
+        if(spawnPosition != null)
+        {
+            movement.TeleportTo(spawnPosition.position);
+            movement.SnapYRotation(spawnPosition.rotation);
+        }
     }
 }
